@@ -1,0 +1,378 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\ai\IEpathFinder.cpp" />
+    <ClCompile Include="Source\control\IEinputManager.cpp" />
+    <ClCompile Include="Source\control\IEinputProtocol.cpp" />
+    <ClCompile Include="Source\control\IEkeyboard.cpp" />
+    <ClCompile Include="Source\control\IEmouse.cpp" />
+    <ClCompile Include="Source\control\IEplayerNode.cpp" />
+    <ClCompile Include="Source\core\animation\IEanimation.cpp" />
+    <ClCompile Include="Source\core\animation\IEanimationNodeProtocol.cpp" />
+    <ClCompile Include="Source\core\animation\IEexecute.cpp" />
+    <ClCompile Include="Source\core\animation\IEmoveTo.cpp" />
+    <ClCompile Include="Source\core\animation\IEpathTo.cpp" />
+    <ClCompile Include="Source\core\animation\IEscaleBy.cpp" />
+    <ClCompile Include="Source\core\animation\IEsynchronizeAnimation.cpp" />
+    <ClCompile Include="Source\core\animation\IEwander.cpp" />
+    <ClCompile Include="Source\core\container\IEautoRelease.cpp" />
+    <ClCompile Include="Source\core\container\IEautoReleasePool.cpp" />
+    <ClCompile Include="Source\core\container\IEcontainer.cpp" />
+    <ClCompile Include="Source\core\container\IEdictionary.cpp" />
+    <ClCompile Include="Source\core\container\IEstack.cpp" />
+    <ClCompile Include="Source\core\element\IEelement.cpp" />
+    <ClCompile Include="Source\core\element\IEprocessBar.cpp" />
+    <ClCompile Include="Source\core\element\IEschizo.cpp" />
+    <ClCompile Include="Source\core\element\IEsprite.cpp" />
+    <ClCompile Include="Source\core\element\IEtext.cpp" />
+    <ClCompile Include="Source\core\IEcamera.cpp" />
+    <ClCompile Include="Source\core\IElayer.cpp" />
+    <ClCompile Include="Source\core\IEnode.cpp" />
+    <ClCompile Include="Source\core\IEnodeProtocol.cpp" />
+    <ClCompile Include="Source\core\IEobject.cpp" />
+    <ClCompile Include="Source\core\IEscene.cpp" />
+    <ClCompile Include="Source\core\particle\IEparticle.cpp" />
+    <ClCompile Include="Source\core\particle\IEparticleManager.cpp" />
+    <ClCompile Include="Source\core\particle\IEray.cpp" />
+    <ClCompile Include="Source\core\shader\IEshader.cpp" />
+    <ClCompile Include="Source\engine\action\IEattack.cpp" />
+    <ClCompile Include="Source\engine\action\IEcast.cpp" />
+    <ClCompile Include="Source\engine\action\IEdead.cpp" />
+    <ClCompile Include="Source\engine\action\IEdisplacement.cpp" />
+    <ClCompile Include="Source\engine\action\IEfollow.cpp" />
+    <ClCompile Include="Source\engine\action\IEinjured.cpp" />
+    <ClCompile Include="Source\engine\action\IEuseProp.cpp" />
+    <ClCompile Include="Source\engine\action\IEvertigo.cpp" />
+    <ClCompile Include="Source\engine\action\IEawait.cpp" />
+    <ClCompile Include="Source\engine\action\IEaction.cpp" />
+    <ClCompile Include="Source\engine\action\IEactionMachine.cpp" />
+    <ClCompile Include="Source\engine\action\IEwalk.cpp" />
+    <ClCompile Include="Source\engine\action\skill\IEskill.cpp" />
+    <ClCompile Include="Source\engine\action\skill\IESkillsManager.cpp" />
+    <ClCompile Include="Source\engine\atom\creature\IEcreaturesInfoManager.cpp" />
+    <ClCompile Include="Source\engine\atom\creature\IEplayer.cpp" />
+    <ClCompile Include="Source\engine\atom\IEatom.cpp" />
+    <ClCompile Include="Source\engine\atom\IEcreature.cpp" />
+    <ClCompile Include="Source\engine\atom\IEprop.cpp" />
+    <ClCompile Include="Source\engine\atom\IEstill.cpp" />
+    <ClCompile Include="Source\engine\atom\prop\IEdamageProp.cpp" />
+    <ClCompile Include="Source\engine\atom\prop\IEpickedProp.cpp" />
+    <ClCompile Include="Source\engine\atom\prop\IEpropsInfoManager.cpp" />
+    <ClCompile Include="Source\engine\atom\prop\IEpropPack.cpp" />
+    <ClCompile Include="Source\engine\atom\prop\IEusedProp.cpp" />
+    <ClCompile Include="Source\engine\IEresourcesManager.cpp" />
+    <ClCompile Include="Source\engine\scene\base\IEchunk.cpp" />
+    <ClCompile Include="Source\engine\scene\base\IEblock.cpp" />
+    <ClCompile Include="Source\engine\scene\base\IEarea.cpp" />
+    <ClCompile Include="Source\engine\scene\IEdrawScene.cpp" />
+    <ClCompile Include="Source\engine\scene\IEmap.cpp" />
+    <ClCompile Include="Source\engine\scene\IEtotalScene.cpp" />
+    <ClCompile Include="Source\engine\scene\marble\IEmarble.cpp" />
+    <ClCompile Include="Source\engine\scene\marble\IEmarbleBlock.cpp" />
+    <ClCompile Include="Source\engine\scene\marble\IEmarbleGrid.cpp" />
+    <ClCompile Include="Source\engine\scene\marble\IEmarblesInfoManager.cpp" />
+    <ClCompile Include="Source\engine\scene\path\IEpath.cpp" />
+    <ClCompile Include="Source\engine\scene\path\IEpathBlock.cpp" />
+    <ClCompile Include="Source\engine\scene\path\IEpathGrid.cpp" />
+    <ClCompile Include="Source\engine\scene\prop\IEpropLayer.cpp" />
+    <ClCompile Include="Source\engine\scene\terrain\IEterrain.cpp" />
+    <ClCompile Include="Source\engine\scene\terrain\IEterrainBlock.cpp" />
+    <ClCompile Include="Source\engine\scene\terrain\IEterrainGrid.cpp" />
+    <ClCompile Include="Source\engine\scene\terrain\IEterrainsInfoManager.cpp" />
+    <ClCompile Include="Source\engine\scene\terrain\items\IEwater.cpp" />
+    <ClCompile Include="Source\engine\scene\thing\IEthingArea.cpp" />
+    <ClCompile Include="Source\engine\scene\thing\IEthingChunk.cpp" />
+    <ClCompile Include="Source\engine\scene\thing\IEthingsInfoManager.cpp" />
+    <ClCompile Include="Source\engine\scene\thing\IEthing.cpp" />
+    <ClCompile Include="Source\engine\scene\thing\items\IEbesiegeThing.cpp" />
+    <ClCompile Include="Source\engine\scene\thing\items\IEdoor.cpp" />
+    <ClCompile Include="Source\engine\scene\thing\items\IEfire.cpp" />
+    <ClCompile Include="Source\engine\scene\thing\items\IEinteractionThing.cpp" />
+    <ClCompile Include="Source\engine\scene\thing\items\IEthingCreator.cpp" />
+    <ClCompile Include="Source\engine\script\IEluaCreature.cpp" />
+    <ClCompile Include="Source\engine\script\IEluaCollisionTrigger.cpp" />
+    <ClCompile Include="Source\engine\script\IEluaDamageProp.cpp" />
+    <ClCompile Include="Source\engine\script\IEluaNode.cpp" />
+    <ClCompile Include="Source\engine\script\IEluaPhysicCircle.cpp" />
+    <ClCompile Include="Source\engine\script\IEluaPhysicNode.cpp" />
+    <ClCompile Include="Source\engine\script\IEluaPhysicPolygon.cpp" />
+    <ClCompile Include="Source\engine\script\IEluaProp.cpp" />
+    <ClCompile Include="Source\engine\script\IEluaSprite.cpp" />
+    <ClCompile Include="Source\engine\script\IEluaThing.cpp" />
+    <ClCompile Include="Source\engine\state\IEState.cpp" />
+    <ClCompile Include="Source\engine\trigger\clock\IEclock.cpp" />
+    <ClCompile Include="Source\engine\trigger\clock\IEfrapClock.cpp" />
+    <ClCompile Include="Source\engine\trigger\clock\IEstrikeClock.cpp" />
+    <ClCompile Include="Source\engine\trigger\IEbesiegeTrigger.cpp" />
+    <ClCompile Include="Source\engine\trigger\IEcollisionTrigger.cpp" />
+    <ClCompile Include="Source\engine\trigger\IEinteractionTrigger.cpp" />
+    <ClCompile Include="Source\engine\trigger\IEtriggerManager.cpp" />
+    <ClCompile Include="Source\engine\trigger\IEtrigger.cpp" />
+    <ClCompile Include="Source\engine\ui\IEslot.cpp" />
+    <ClCompile Include="Source\engine\ui\IEslotButton.cpp" />
+    <ClCompile Include="Source\engine\ui\IEuiScene.cpp" />
+    <ClCompile Include="Source\global\IEfunctions.cpp" />
+    <ClCompile Include="Source\global\IEsituation.cpp" />
+    <ClCompile Include="Source\interface\cmd\IEapplication.cpp" />
+    <ClCompile Include="Source\interface\cmd\IEframe.cpp" />
+    <ClCompile Include="Source\interface\win32\IEWin32application.cpp" />
+    <ClCompile Include="Source\physic\IEphysicEdgeCollision.cpp" />
+    <ClCompile Include="Source\physic\IEphysicNode.cpp" />
+    <ClCompile Include="Source\physic\IEphysicWorld.cpp" />
+    <ClCompile Include="Source\physic\physicEdge\IEphysicCircle.cpp" />
+    <ClCompile Include="Source\physic\physicEdge\IEphysicEdge.cpp" />
+    <ClCompile Include="Source\physic\physicEdge\IEphysicPolygon.cpp" />
+    <ClCompile Include="Source\physic\physicEdge\IEphysicSector.cpp" />
+    <ClCompile Include="Source\thread\IEconsole.cpp" />
+    <ClCompile Include="Source\thread\IEthread.cpp" />
+    <ClCompile Include="Source\thread\IEthreadPool.cpp" />
+    <ClCompile Include="Source\tools\IEcmdAnalyse.cpp" />
+    <ClCompile Include="Source\tools\IEfile.cpp" />
+    <ClCompile Include="Source\tools\IEfontTexture.cpp" />
+    <ClCompile Include="Source\tools\IEfontTTF.cpp" />
+    <ClCompile Include="Source\tools\IEimage.cpp" />
+    <ClCompile Include="Source\tools\IEscript.cpp" />
+    <ClCompile Include="Source\tools\IEtexture.cpp" />
+    <ClCompile Include="Source\tools\IEtime.cpp" />
+    <ClCompile Include="Source\type\IEcolor.cpp" />
+    <ClCompile Include="Source\type\IEgrid.cpp" />
+    <ClCompile Include="Source\type\IEmatrix.cpp" />
+    <ClCompile Include="Source\type\IEstring.cpp" />
+    <ClCompile Include="Source\type\IEvector.cpp" />
+    <ClCompile Include="Source\ui\IEuiLayer.cpp" />
+    <ClCompile Include="Source\ui\IEwidget.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\ai\IEpathFinder.h" />
+    <ClInclude Include="Source\codes.h" />
+    <ClInclude Include="Source\control\IEinputManager.h" />
+    <ClInclude Include="Source\control\IEinputPortocol.h" />
+    <ClInclude Include="Source\control\IEkeyboard.h" />
+    <ClInclude Include="Source\control\IEmouse.h" />
+    <ClInclude Include="Source\control\IEplayerNode.h" />
+    <ClInclude Include="Source\core\animation\IEanimation.h" />
+    <ClInclude Include="Source\core\animation\IEanimationNodeProtocol.h" />
+    <ClInclude Include="Source\core\animation\IEexecute.h" />
+    <ClInclude Include="Source\core\animation\IEmoveTo.h" />
+    <ClInclude Include="Source\core\animation\IEpathTo.h" />
+    <ClInclude Include="Source\core\animation\IEscaleBy.h" />
+    <ClInclude Include="Source\core\animation\IEsynchronizeAnimation.h" />
+    <ClInclude Include="Source\core\animation\IEwander.h" />
+    <ClInclude Include="Source\core\container\IEautoRelease.h" />
+    <ClInclude Include="Source\core\container\IEautoReleasePool.h" />
+    <ClInclude Include="Source\core\container\IEcontianer.h" />
+    <ClInclude Include="Source\core\container\IEdictionary.h" />
+    <ClInclude Include="Source\core\container\IEstack.h" />
+    <ClInclude Include="Source\core\element\IEelement.h" />
+    <ClInclude Include="Source\core\element\IEprocessBar.h" />
+    <ClInclude Include="Source\core\element\IEschizo.h" />
+    <ClInclude Include="Source\core\element\IEsprite.h" />
+    <ClInclude Include="Source\core\element\IEtext.h" />
+    <ClInclude Include="Source\core\IEcamera.h" />
+    <ClInclude Include="Source\core\IElayer.h" />
+    <ClInclude Include="Source\core\IEnode.h" />
+    <ClInclude Include="Source\core\IEnodeProtocol.h" />
+    <ClInclude Include="Source\core\IEobject.h" />
+    <ClInclude Include="Source\core\IEscene.h" />
+    <ClInclude Include="Source\core\particle\IEparticle.h" />
+    <ClInclude Include="Source\core\particle\IEparticleManager.h" />
+    <ClInclude Include="Source\core\particle\IEray.h" />
+    <ClInclude Include="Source\core\shader\IEshader.h" />
+    <ClInclude Include="Source\engine\action\IEattack.h" />
+    <ClInclude Include="Source\engine\action\IEcast.h" />
+    <ClInclude Include="Source\engine\action\IEdead.h" />
+    <ClInclude Include="Source\engine\action\IEdisplacement.h" />
+    <ClInclude Include="Source\engine\action\IEfollow.h" />
+    <ClInclude Include="Source\engine\action\IEinjured.h" />
+    <ClInclude Include="Source\engine\action\IEuseProp.h" />
+    <ClInclude Include="Source\engine\action\IEvertigo.h" />
+    <ClInclude Include="Source\engine\action\IEawait.h" />
+    <ClInclude Include="Source\engine\action\IEaction.h" />
+    <ClInclude Include="Source\engine\action\IEactionMachine.h" />
+    <ClInclude Include="Source\engine\action\IEwalk.h" />
+    <ClInclude Include="Source\engine\action\skill\IEskill.h" />
+    <ClInclude Include="Source\engine\action\skill\IESkillsManager.h" />
+    <ClInclude Include="Source\engine\atom\creature\IEcreatureInfo.h" />
+    <ClInclude Include="Source\engine\atom\creature\IEcreaturesInfoManager.h" />
+    <ClInclude Include="Source\engine\atom\creature\IEplayer.h" />
+    <ClInclude Include="Source\engine\atom\IEatom.h" />
+    <ClInclude Include="Source\engine\atom\IEcreature.h" />
+    <ClInclude Include="Source\engine\atom\IEprop.h" />
+    <ClInclude Include="Source\engine\atom\IEstill.h" />
+    <ClInclude Include="Source\engine\atom\prop\IEdamageProp.h" />
+    <ClInclude Include="Source\engine\atom\prop\IEpickedProp.h" />
+    <ClInclude Include="Source\engine\atom\prop\IEpropsInfoManager.h" />
+    <ClInclude Include="Source\engine\atom\prop\IEpropPack.h" />
+    <ClInclude Include="Source\engine\atom\prop\IEusedProp.h" />
+    <ClInclude Include="Source\engine\IEresourcesManager.h" />
+    <ClInclude Include="Source\engine\scene\base\IEchunk.h" />
+    <ClInclude Include="Source\engine\scene\base\IEblock.h" />
+    <ClInclude Include="Source\engine\scene\base\IEarea.h" />
+    <ClInclude Include="Source\engine\scene\IEdrawScene.h" />
+    <ClInclude Include="Source\engine\scene\IEmap.h" />
+    <ClInclude Include="Source\engine\scene\IEtotalScene.h" />
+    <ClInclude Include="Source\engine\scene\marble\IEmarble.h" />
+    <ClInclude Include="Source\engine\scene\marble\IEmarbleBlock.h" />
+    <ClInclude Include="Source\engine\scene\marble\IEmarbleGrid.h" />
+    <ClInclude Include="Source\engine\scene\marble\IEmarblesInfoManager.h" />
+    <ClInclude Include="Source\engine\scene\path\IEpath.h" />
+    <ClInclude Include="Source\engine\scene\path\IEpathBlock.h" />
+    <ClInclude Include="Source\engine\scene\path\IEpathGrid.h" />
+    <ClInclude Include="Source\engine\scene\prop\IEpropLayer.h" />
+    <ClInclude Include="Source\engine\scene\terrain\IEterrain.h" />
+    <ClInclude Include="Source\engine\scene\terrain\IEterrainBlock.h" />
+    <ClInclude Include="Source\engine\scene\terrain\IEterrainGrid.h" />
+    <ClInclude Include="Source\engine\scene\terrain\IEterrainsInfoManager.h" />
+    <ClInclude Include="Source\engine\scene\terrain\items\IEwater.h" />
+    <ClInclude Include="Source\engine\scene\thing\IEthingArea.h" />
+    <ClInclude Include="Source\engine\scene\thing\IEthingChunk.h" />
+    <ClInclude Include="Source\engine\scene\thing\IEthingsInfoManager.h" />
+    <ClInclude Include="Source\engine\scene\thing\IEthing.h" />
+    <ClInclude Include="Source\engine\scene\thing\items\IEbesiegeThing.h" />
+    <ClInclude Include="Source\engine\scene\thing\items\IEdoor.h" />
+    <ClInclude Include="Source\engine\scene\thing\items\IEfire.h" />
+    <ClInclude Include="Source\engine\scene\thing\items\IEinteractionThing.h" />
+    <ClInclude Include="Source\engine\scene\thing\items\IEthingCreator.h" />
+    <ClInclude Include="Source\engine\script\IEluaCreature.h" />
+    <ClInclude Include="Source\engine\script\IEluaCollisionTrigger.h" />
+    <ClInclude Include="Source\engine\script\IEluaDamageProp.h" />
+    <ClInclude Include="Source\engine\script\IEluaNode.h" />
+    <ClInclude Include="Source\engine\script\IEluaPhysicCircle.h" />
+    <ClInclude Include="Source\engine\script\IEluaPhysicNode.h" />
+    <ClInclude Include="Source\engine\script\IEluaPhysicPolygon.h" />
+    <ClInclude Include="Source\engine\script\IEluaProp.h" />
+    <ClInclude Include="Source\engine\script\IEluaSprite.h" />
+    <ClInclude Include="Source\engine\script\IEluaThing.h" />
+    <ClInclude Include="Source\engine\state\IEState.h" />
+    <ClInclude Include="Source\engine\trigger\clock\IEclock.h" />
+    <ClInclude Include="Source\engine\trigger\clock\IEfrapClock.h" />
+    <ClInclude Include="Source\engine\trigger\clock\IEstrikeClock.h" />
+    <ClInclude Include="Source\engine\trigger\IEbesiegeTrigger.h" />
+    <ClInclude Include="Source\engine\trigger\IEcollisionTrigger.h" />
+    <ClInclude Include="Source\engine\trigger\IEinteractionTrigger.h" />
+    <ClInclude Include="Source\engine\trigger\IEtriggerManager.h" />
+    <ClInclude Include="Source\engine\trigger\IEtrigger.h" />
+    <ClInclude Include="Source\engine\ui\IEslot.h" />
+    <ClInclude Include="Source\engine\ui\IEslotButton.h" />
+    <ClInclude Include="Source\engine\ui\IEuiScene.h" />
+    <ClInclude Include="Source\global\IEfunctions.h" />
+    <ClInclude Include="Source\global\IEinclude.h" />
+    <ClInclude Include="Source\global\IEsituation.h" />
+    <ClInclude Include="Source\global\IEstdafx.h" />
+    <ClInclude Include="Source\global\IEvar.h" />
+    <ClInclude Include="Source\IE.h" />
+    <ClInclude Include="Source\interface\cmd\IEapplication.h" />
+    <ClInclude Include="Source\interface\cmd\IEframe.h" />
+    <ClInclude Include="Source\interface\win32\IEWin32application.h" />
+    <ClInclude Include="Source\physic\IEphysicEdgeCollision.h" />
+    <ClInclude Include="Source\physic\IEphysicNode.h" />
+    <ClInclude Include="Source\physic\IEphysicWorld.h" />
+    <ClInclude Include="Source\physic\physicEdge\IEphysicCircle.h" />
+    <ClInclude Include="Source\physic\physicEdge\IEphysicEdge.h" />
+    <ClInclude Include="Source\physic\physicEdge\IEphysicPolygon.h" />
+    <ClInclude Include="Source\physic\physicEdge\IEphysicSector.h" />
+    <ClInclude Include="Source\thread\IEconsole.h" />
+    <ClInclude Include="Source\thread\IEthread.h" />
+    <ClInclude Include="Source\thread\IEThreadPool.h" />
+    <ClInclude Include="Source\tools\IEcmdAnalyse.h" />
+    <ClInclude Include="Source\tools\IEcrc.h" />
+    <ClInclude Include="Source\tools\IEfile.h" />
+    <ClInclude Include="Source\tools\IEfontTexture.h" />
+    <ClInclude Include="Source\tools\IEfontTTF.h" />
+    <ClInclude Include="Source\tools\IEimage.h" />
+    <ClInclude Include="Source\tools\IEscript.h" />
+    <ClInclude Include="Source\tools\IEtexture.h" />
+    <ClInclude Include="Source\tools\IEtime.h" />
+    <ClInclude Include="Source\type\IEbaseType.h" />
+    <ClInclude Include="Source\type\IEcolor.h" />
+    <ClInclude Include="Source\type\IEgrid.h" />
+    <ClInclude Include="Source\type\IEmatrix.h" />
+    <ClInclude Include="Source\type\IEstring.h" />
+    <ClInclude Include="Source\type\IEvector.h" />
+    <ClInclude Include="Source\ui\IEuiLayer.h" />
+    <ClInclude Include="Source\ui\IEwidget.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\libs\lua\lua.vcxproj">
+      <Project>{3837d3c7-3520-4531-837c-585336b18327}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\libs\zlib\zlib.vcxproj">
+      <Project>{9abc4ac7-1f71-4f27-8cf1-114c51d068f0}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{9700F937-0586-4BB0-A14A-7977398190CE}</ProjectGuid>
+    <RootNamespace>IridescentEngine</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+    <CLRSupport>false</CLRSupport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalOptions>/D _CRT_SECURE_NO_WARNINGS %(AdditionalOptions)</AdditionalOptions>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <IgnoreSpecificDefaultLibraries>
+      </IgnoreSpecificDefaultLibraries>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalOptions>/D _CRT_SECURE_NO_WARNINGS %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalOptions>/SAFESEH:NO %(AdditionalOptions)</AdditionalOptions>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
