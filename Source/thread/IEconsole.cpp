@@ -62,10 +62,14 @@ void IEConsole::Thread()
 
 	char strCommand[256];
 	char chReturn;
+
+	strCommand;
+	chReturn;
+
 	while (true)
 	{
 		printf(">");
-		scanf("%[0-9a-zA-Z ]s", strCommand, &chReturn);
+		//scanf("%[0-9a-zA-Z ]s", strCommand, &chReturn);
 		fflush(stdin);
 		IECmdAnalyse::Share()->CommandAnalyse(strCommand);
 	}

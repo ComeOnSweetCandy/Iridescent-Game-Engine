@@ -38,4 +38,6 @@
 
 #define __IE_DEBUG__
 
+#pragma warning(disable:4477)
+
 #endif

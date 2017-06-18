@@ -13,10 +13,10 @@ int lua_creature_getFacer(lua_State * lua)
 	luaL_checktype(lua, 1, LUA_TUSERDATA);
 
 	IECreature * creature = *((IECreature**)lua_touserdata(lua, 1));
-	IEGrid faceDirection = creature->GetDirection();
+	int * faceDirection = creature->GetDirection();
 
-	lua_pushinteger(lua, faceDirection.m_x);
-	lua_pushinteger(lua, faceDirection.m_y);
+	lua_pushinteger(lua, faceDirection[0]);
+	lua_pushinteger(lua, faceDirection[1]);
 
 	return 2;
 }

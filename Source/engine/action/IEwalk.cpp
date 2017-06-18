@@ -82,7 +82,8 @@ bool IEWalk::Excute()
 	const float * translate = GetActionNode()->GetTranslate();
 
 	IEVector leftRoad = m_destination - IEVector(translate[0], translate[1]);
-	float speed = GetUnitInfo()->GetSpeed();
+	//float speed = GetUnitInfo()->GetSpeed();
+	float speed = GetUnitInfo()->_Speed;
 	if (leftRoad.Length() < (speed / 60.0f))
 	{
 		GetNextStep();

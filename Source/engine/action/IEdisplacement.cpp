@@ -19,8 +19,8 @@ void IEDisplacement::Initialization(float x, float y)
 {
 	SetDisplacement(x, y);
 
-	float abs_x = abs(x);
-	float abs_y = abs(y);
+	float abs_x = __IE_ABS__(x);
+	float abs_y = __IE_ABS__(y);
 
 	if (x > 0.0f)
 	{
@@ -103,7 +103,8 @@ void IEDisplacement::SetActionNodeDisplacement()
 
 void IEDisplacement::SetActionNodeFaceDirection()
 {
-	GetUnitInfo()->SetFacer(m_direction);
+	//GetUnitInfo()->SetFacer(m_direction.m_x, m_direction.m_y);
+	GetActionNode()->SetDirection(m_direction.m_x, m_direction.m_y);
 
 	SetTextureDirection();
 }

@@ -87,7 +87,7 @@ float * IENodeProtocol::GetSize()
 	return m_size;
 }
 
-char * IENodeProtocol::GetDirection()
+int * IENodeProtocol::GetDirection()
 {
 	return m_direction;
 }

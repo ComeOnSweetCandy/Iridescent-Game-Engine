@@ -35,7 +35,7 @@ public:
 
 	float * GetTranslate();
 	float * GetSize();
-	char * GetDirection();
+	int * GetDirection();
 	float& GetZIndex();
 
 	//display
@@ -56,7 +56,7 @@ protected:
 	float m_anchor[2];
 	float m_translate[2];
 	float m_size[2];
-	char m_direction[2];
+	int m_direction[2];
 
 	float m_matrix[16];
 	float m_zIndex;
