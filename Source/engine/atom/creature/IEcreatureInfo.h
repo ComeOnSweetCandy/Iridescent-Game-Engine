@@ -22,6 +22,7 @@ enum __IE_DLL__ IECreatureType
 	__creature_type_animal__,
 	__creature_type_machine__,
 	__creature_type_ghost__,
+	__creature_type_devil__,
 	__creature_type_monster__,
 	__creature_type_unknown__
 };
@@ -70,7 +71,6 @@ typedef struct ieUnitInfo
 
 typedef struct ieCreatureInfo
 {
-	unsigned int _CreatureID;
 	IECreatureType _CreatureType;
 	char _CreatureName[64];
 

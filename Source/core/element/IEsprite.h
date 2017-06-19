@@ -59,6 +59,7 @@ public:
 	
 	virtual void TemporaryTextureEnd();
 	virtual bool IsTriggerFrap();
+	virtual bool IsEndFrap();
 
 protected:
 	IETexture * m_texture;

@@ -7,8 +7,8 @@
 * remark   : none
 ************************************/
 
-#ifndef __IE_STATE__
-#define __IE_STATE__
+#ifndef __IE_ACTION__
+#define __IE_ACTION__
 
 #include "../atom/creature/IEcreatureInfo.h"
 #include "../../core/IEnode.h"

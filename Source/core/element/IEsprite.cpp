@@ -12,11 +12,8 @@ IESprite::IESprite()
 
 IESprite::~IESprite()
 {
-	if (m_textureState)
-	{
-		delete m_textureState;
-		m_textureState = NULL;
-	}
+	__IE_DELETE__(m_textureState);
+
 	RemoveTexture();
 }
 
@@ -61,13 +58,6 @@ void IESprite::DrawNode()
 	glTexCoord2f(1.0f, 0.0f); glVertex2f(m_size[0], 0);
 	glTexCoord2f(1.0f, 1.0f); glVertex2f(m_size[0], m_size[1]);
 	glTexCoord2f(0.0f, 1.0f); glVertex2f(0, m_size[1]);
-	glEnd();
-
-	glBegin(GL_QUADS);
-	glVertex2f(0, 0);
-	glVertex2f(m_size[0], 0);
-	glVertex2f(m_size[0], m_size[1]);
-	glVertex2f(0, m_size[1]);
 	glEnd();
 
 	glDisable(GL_BLEND);
@@ -161,6 +151,11 @@ void IESprite::RunTexture()
 bool IESprite::IsTriggerFrap()
 {
 	return m_textureState->m_triggerFrap;
+}
+
+bool IESprite::IsEndFrap()
+{
+	//return m_textureState->;
 }
 
 void IESprite::TemporaryTextureEnd()

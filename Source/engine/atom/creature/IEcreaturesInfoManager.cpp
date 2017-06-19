@@ -60,7 +60,8 @@ void IECreaturesInfoManager::LoadCreaturesInfo()
 	while (!feof(filePoint))
 	{
 		data = new IECreatureInfo();
-		fscanf(filePoint, "%d %s %d %d %d %f", &(data->m_creatureID), data->m_creatureClassName, &(data->m_creatureType), &(data->m_baseHealth), &(data->m_degressHealth), &(data->m_speed));
+		fscanf(filePoint, "%s %d %d %d %d %d %d %d %d %d", data->_CreatureName, &(data->_CreatureType), &(data->_BaseHealth), &(data->_GrowHealth),\
+			&(data->_BasePower), &(data->_GrowHealth), &(data->_BaseSpeed), &(data->_GrowSpeed), &(data->_BaseDamage), &(data->_GrowDamage));
 		m_creaturesInfoList[index] = data;
 
 		index++;
