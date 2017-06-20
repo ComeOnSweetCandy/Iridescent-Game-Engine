@@ -109,6 +109,7 @@
     <ClCompile Include="Source\engine\script\IEluaProp.cpp" />
     <ClCompile Include="Source\engine\script\IEluaSprite.cpp" />
     <ClCompile Include="Source\engine\script\IEluaThing.cpp" />
+    <ClCompile Include="Source\engine\state\IEstateMachine.cpp" />
     <ClCompile Include="Source\engine\state\IEState.cpp" />
     <ClCompile Include="Source\engine\trigger\clock\IEclock.cpp" />
     <ClCompile Include="Source\engine\trigger\clock\IEfrapClock.cpp" />
@@ -253,6 +254,7 @@
     <ClInclude Include="Source\engine\script\IEluaProp.h" />
     <ClInclude Include="Source\engine\script\IEluaSprite.h" />
     <ClInclude Include="Source\engine\script\IEluaThing.h" />
+    <ClInclude Include="Source\engine\state\IEstateMachine.h" />
     <ClInclude Include="Source\engine\state\IEState.h" />
     <ClInclude Include="Source\engine\trigger\clock\IEclock.h" />
     <ClInclude Include="Source\engine\trigger\clock\IEfrapClock.h" />

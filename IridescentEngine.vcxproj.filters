@@ -579,6 +579,9 @@
     <ClCompile Include="Source\engine\action\skill\IESkillsManager.cpp">
       <Filter>IridescentEngine\engine\action\skill</Filter>
     </ClCompile>
+    <ClCompile Include="Source\engine\state\IEstateMachine.cpp">
+      <Filter>IridescentEngine\engine\state</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\core\shader\IEshader.h">
@@ -1024,6 +1027,9 @@
     </ClInclude>
     <ClInclude Include="Source\engine\action\skill\IESkillsManager.h">
       <Filter>IridescentEngine\engine\action\skill</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\engine\state\IEstateMachine.h">
+      <Filter>IridescentEngine\engine\state</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

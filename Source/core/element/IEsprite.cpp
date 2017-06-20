@@ -156,6 +156,7 @@ bool IESprite::IsTriggerFrap()
 bool IESprite::IsEndFrap()
 {
 	//return m_textureState->;
+	return false;
 }
 
 void IESprite::TemporaryTextureEnd()

@@ -13,7 +13,7 @@ IE_BEGIN
 
 IEThingArea::IEThingArea()
 {
-	m_readyThingID = 1;
+	m_readyThingID = 0;
 	m_curOrder = 1;
 }
 
