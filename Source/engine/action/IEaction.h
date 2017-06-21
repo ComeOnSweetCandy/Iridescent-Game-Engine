@@ -1,7 +1,7 @@
 /***********************************
-* name     : IEstate.h
+* name     : IEactin.h
 * creater  : cosc
-* info     : state base
+* info     : action base
 * date     : 2017/1/13
 * version  : 1.0
 * remark   : none

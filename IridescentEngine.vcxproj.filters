@@ -148,14 +148,20 @@
     <Filter Include="IridescentEngine\engine\action\skill">
       <UniqueIdentifier>{3b8255e7-3967-495d-b107-7a04aa49d2d5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="IridescentEngine\engine\state">
-      <UniqueIdentifier>{febfc95c-6594-4931-9d2a-5844985ca6ba}</UniqueIdentifier>
-    </Filter>
     <Filter Include="IridescentEngine\engine\scene\creature">
       <UniqueIdentifier>{0a6b56b0-2df2-4b73-8768-257e9441120f}</UniqueIdentifier>
     </Filter>
     <Filter Include="IridescentEngine\engine\atom\creature">
       <UniqueIdentifier>{186745da-64e0-4b40-a116-5d0544a15772}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="IridescentEngine\engine\buff">
+      <UniqueIdentifier>{cb8b8b90-a2e5-48e4-948d-6efc0ffe77ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="IridescentEngine\engine\atom\creature\state">
+      <UniqueIdentifier>{c14c55db-5ac0-4751-9830-cefeb0c68aa7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="IridescentEngine\engine\atom\creature\action">
+      <UniqueIdentifier>{53166651-3377-417f-9791-e9397abc9ab4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -573,14 +579,14 @@
     <ClCompile Include="Source\engine\action\skill\IEskill.cpp">
       <Filter>IridescentEngine\engine\action\skill</Filter>
     </ClCompile>
-    <ClCompile Include="Source\engine\state\IEState.cpp">
-      <Filter>IridescentEngine\engine\state</Filter>
-    </ClCompile>
     <ClCompile Include="Source\engine\action\skill\IESkillsManager.cpp">
       <Filter>IridescentEngine\engine\action\skill</Filter>
     </ClCompile>
-    <ClCompile Include="Source\engine\state\IEstateMachine.cpp">
-      <Filter>IridescentEngine\engine\state</Filter>
+    <ClCompile Include="Source\engine\atom\creature\state\IEState.cpp">
+      <Filter>IridescentEngine\engine\atom\creature\state</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\engine\atom\creature\state\IEstateMachine.cpp">
+      <Filter>IridescentEngine\engine\atom\creature\state</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1022,14 +1028,14 @@
     <ClInclude Include="Source\engine\action\skill\IEskill.h">
       <Filter>IridescentEngine\engine\action\skill</Filter>
     </ClInclude>
-    <ClInclude Include="Source\engine\state\IEState.h">
-      <Filter>IridescentEngine\engine\state</Filter>
-    </ClInclude>
     <ClInclude Include="Source\engine\action\skill\IESkillsManager.h">
       <Filter>IridescentEngine\engine\action\skill</Filter>
     </ClInclude>
-    <ClInclude Include="Source\engine\state\IEstateMachine.h">
-      <Filter>IridescentEngine\engine\state</Filter>
+    <ClInclude Include="Source\engine\atom\creature\state\IEState.h">
+      <Filter>IridescentEngine\engine\atom\creature\state</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\engine\atom\creature\state\IEstateMachine.h">
+      <Filter>IridescentEngine\engine\atom\creature\state</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

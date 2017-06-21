@@ -61,6 +61,8 @@
     <ClCompile Include="Source\engine\action\skill\IESkillsManager.cpp" />
     <ClCompile Include="Source\engine\atom\creature\IEcreaturesInfoManager.cpp" />
     <ClCompile Include="Source\engine\atom\creature\IEplayer.cpp" />
+    <ClCompile Include="Source\engine\atom\creature\state\IEState.cpp" />
+    <ClCompile Include="Source\engine\atom\creature\state\IEstateMachine.cpp" />
     <ClCompile Include="Source\engine\atom\IEatom.cpp" />
     <ClCompile Include="Source\engine\atom\IEcreature.cpp" />
     <ClCompile Include="Source\engine\atom\IEprop.cpp" />
@@ -109,8 +111,6 @@
     <ClCompile Include="Source\engine\script\IEluaProp.cpp" />
     <ClCompile Include="Source\engine\script\IEluaSprite.cpp" />
     <ClCompile Include="Source\engine\script\IEluaThing.cpp" />
-    <ClCompile Include="Source\engine\state\IEstateMachine.cpp" />
-    <ClCompile Include="Source\engine\state\IEState.cpp" />
     <ClCompile Include="Source\engine\trigger\clock\IEclock.cpp" />
     <ClCompile Include="Source\engine\trigger\clock\IEfrapClock.cpp" />
     <ClCompile Include="Source\engine\trigger\clock\IEstrikeClock.cpp" />
@@ -206,6 +206,8 @@
     <ClInclude Include="Source\engine\atom\creature\IEcreatureInfo.h" />
     <ClInclude Include="Source\engine\atom\creature\IEcreaturesInfoManager.h" />
     <ClInclude Include="Source\engine\atom\creature\IEplayer.h" />
+    <ClInclude Include="Source\engine\atom\creature\state\IEState.h" />
+    <ClInclude Include="Source\engine\atom\creature\state\IEstateMachine.h" />
     <ClInclude Include="Source\engine\atom\IEatom.h" />
     <ClInclude Include="Source\engine\atom\IEcreature.h" />
     <ClInclude Include="Source\engine\atom\IEprop.h" />
@@ -254,8 +256,6 @@
     <ClInclude Include="Source\engine\script\IEluaProp.h" />
     <ClInclude Include="Source\engine\script\IEluaSprite.h" />
     <ClInclude Include="Source\engine\script\IEluaThing.h" />
-    <ClInclude Include="Source\engine\state\IEstateMachine.h" />
-    <ClInclude Include="Source\engine\state\IEState.h" />
     <ClInclude Include="Source\engine\trigger\clock\IEclock.h" />
     <ClInclude Include="Source\engine\trigger\clock\IEfrapClock.h" />
     <ClInclude Include="Source\engine\trigger\clock\IEstrikeClock.h" />
