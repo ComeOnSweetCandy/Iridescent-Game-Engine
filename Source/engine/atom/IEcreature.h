@@ -59,6 +59,10 @@ private:
 	IEContainer * FindCreatureAround();				//获取周围所有的人的句柄
 	void ArrangeInfo();								//处理一些 防止信息数值错误的操作
 
+	void RunState();								//运行状态
+	void RunGoal();									//运行目标
+	void RunAction();								//运行动作
+
 protected:
 	IECreatureInfo * m_creatureInfo;
 	IEUnitInfo * m_unitInfo;

@@ -140,6 +140,18 @@ bool IEVector::operator ==(const IEVector &vector)
 	}
 }
 
+float& IEVector::operator [](const int& value)
+{
+	if (value)
+	{
+		return m_y;
+	}
+	else
+	{
+		return m_x;
+	}
+}
+
 float IEVector::CrossProduct(IEVector &x, IEVector &y)
 {
 	return x.m_x * y.m_y - x.m_y * y.m_x;

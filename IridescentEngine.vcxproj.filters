@@ -157,11 +157,11 @@
     <Filter Include="IridescentEngine\engine\buff">
       <UniqueIdentifier>{cb8b8b90-a2e5-48e4-948d-6efc0ffe77ea}</UniqueIdentifier>
     </Filter>
-    <Filter Include="IridescentEngine\engine\atom\creature\state">
-      <UniqueIdentifier>{c14c55db-5ac0-4751-9830-cefeb0c68aa7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="IridescentEngine\engine\atom\creature\action">
       <UniqueIdentifier>{53166651-3377-417f-9791-e9397abc9ab4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="IridescentEngine\engine\atom\creature\goal">
+      <UniqueIdentifier>{abd5e0e2-0e24-45d9-87e8-254c2b680b1f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -322,9 +322,6 @@
       <Filter>IridescentEngine\engine\scene</Filter>
     </ClCompile>
     <ClCompile Include="Source\engine\action\IEawait.cpp">
-      <Filter>IridescentEngine\engine\action</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\engine\action\IEvertigo.cpp">
       <Filter>IridescentEngine\engine\action</Filter>
     </ClCompile>
     <ClCompile Include="Source\engine\action\IEwalk.cpp">
@@ -582,11 +579,14 @@
     <ClCompile Include="Source\engine\action\skill\IESkillsManager.cpp">
       <Filter>IridescentEngine\engine\action\skill</Filter>
     </ClCompile>
-    <ClCompile Include="Source\engine\atom\creature\state\IEState.cpp">
-      <Filter>IridescentEngine\engine\atom\creature\state</Filter>
+    <ClCompile Include="Source\engine\atom\creature\goal\IEGoal.cpp">
+      <Filter>IridescentEngine\engine\atom\creature\goal</Filter>
     </ClCompile>
-    <ClCompile Include="Source\engine\atom\creature\state\IEstateMachine.cpp">
-      <Filter>IridescentEngine\engine\atom\creature\state</Filter>
+    <ClCompile Include="Source\engine\atom\creature\goal\IEGoalMachine.cpp">
+      <Filter>IridescentEngine\engine\atom\creature\goal</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\engine\atom\creature\goal\IEGoalGo.cpp">
+      <Filter>IridescentEngine\engine\atom\creature\goal</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -762,9 +762,6 @@
       <Filter>IridescentEngine\engine\scene</Filter>
     </ClInclude>
     <ClInclude Include="Source\engine\action\IEawait.h">
-      <Filter>IridescentEngine\engine\action</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\engine\action\IEvertigo.h">
       <Filter>IridescentEngine\engine\action</Filter>
     </ClInclude>
     <ClInclude Include="Source\engine\action\IEwalk.h">
@@ -1031,11 +1028,14 @@
     <ClInclude Include="Source\engine\action\skill\IESkillsManager.h">
       <Filter>IridescentEngine\engine\action\skill</Filter>
     </ClInclude>
-    <ClInclude Include="Source\engine\atom\creature\state\IEState.h">
-      <Filter>IridescentEngine\engine\atom\creature\state</Filter>
+    <ClInclude Include="Source\engine\atom\creature\goal\IEGoal.h">
+      <Filter>IridescentEngine\engine\atom\creature\goal</Filter>
     </ClInclude>
-    <ClInclude Include="Source\engine\atom\creature\state\IEstateMachine.h">
-      <Filter>IridescentEngine\engine\atom\creature\state</Filter>
+    <ClInclude Include="Source\engine\atom\creature\goal\IEGoalMachine.h">
+      <Filter>IridescentEngine\engine\atom\creature\goal</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\engine\atom\creature\goal\IEGoalGo.h">
+      <Filter>IridescentEngine\engine\atom\creature\goal</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

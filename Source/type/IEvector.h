@@ -41,6 +41,7 @@ public:
 	void operator =(const IEVector &vector);
 	void operator =(const float &value);
 	bool operator ==(const IEVector &vector);
+	float& operator [](const int& value);
 
 	//grid
 	IEVector operator -(const IEGrid &grid) const;

@@ -70,7 +70,9 @@ void IECreature::Born()
 
 void IECreature::Live()
 {
-	m_actionMachine->ExcuteAction();
+	RunState();
+	RunGoal();
+	RunAction();
 }
 
 void IECreature::Die()
@@ -271,6 +273,23 @@ void IECreature::ArrangeInfo()
 	{
 		m_unitInfo->_CurHealth = m_unitInfo->_MaxHealth;
 	}
+}
+
+void IECreature::RunState()
+{
+	//检测当前应当有的状态信息
+
+
+}
+
+void IECreature::RunGoal()
+{
+
+}
+
+void IECreature::RunAction()
+{
+	m_actionMachine->ExcuteAction();
 }
 
 IE_END
