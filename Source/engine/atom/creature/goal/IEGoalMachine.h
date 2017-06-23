@@ -32,12 +32,13 @@ protected:
 	void ExcuteGoal();
 	bool CheckGoals();
 	void SwitchGoal(IEGoalType goalType, IEGoal * goal = NULL);
+	void FinishGoal(IEGoalType goalType);
 
 private:
 	IEGoal * m_goalList[__goal_count__];
 	IECreature * m_creature;
 
-	friend class IEState;
+	friend class IEGoal;
 };
 
 IE_END

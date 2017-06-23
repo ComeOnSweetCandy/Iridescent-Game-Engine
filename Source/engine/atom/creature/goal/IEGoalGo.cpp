@@ -5,6 +5,8 @@
 #include "../../../../interface/cmd/IEapplication.h"
 #include "../../../scene/IEmap.h"
 
+#include "../../../action/IEdisplacement.h"
+
 IE_BEGIN
 
 IEGoalGo::IEGoalGo()
@@ -36,19 +38,18 @@ void IEGoalGo::SetDestination(float x, float y)
 	m_destination[1] = y;
 }
 
-bool IEGoalGo::Begin()
+void IEGoalGo::GetNextStep()
 {
-
-}
-
-bool IEGoalGo::Excute()
-{
-
-}
-
-bool IEGoalGo::End()
-{
-
+	if (m_stepIndex >= 0)
+	{
+		IEObject ** objects = m_path->GetContainer();
+		m_destination = *((IEVector *)objects[m_stepIndex]);
+		m_stepIndex--;
+	}
+	else
+	{
+		m_stepIndex--;
+	}
 }
 
 void IEGoalGo::FindPath()
@@ -59,6 +60,49 @@ void IEGoalGo::FindPath()
 	m_path = IEApplication::Share()->GetCurrentActiveScene()->GetBindedMap()->FindPath(creature->GetPhysicNode(), startPosition, m_destination);
 	m_stepIndex = m_path->Count() - 1;
 	m_destination = startPosition;
+}
+
+void IEGoalGo::Begin()
+{
+	FindPath();
+
+	//ChangeActionTexture("walk");
+	//DeleteOtherActions();
+	//return true;
+}
+
+void IEGoalGo::Excute()
+{
+	if (m_stepIndex < -1)
+	{
+		IEGoal::FinishSelf();
+
+		return;
+	}
+
+	IECreature * creature = m_goalMachine->GetCreature();
+	IEActionMachine * actionMachine = creature->GetActionMachine();
+	const float * translate = creature->GetTranslate();
+
+	IEVector leftRoad = m_destination - IEVector(translate[0], translate[1]);
+	float speed = creature->GetUnitInfo()->_Speed;
+	if (leftRoad.Length() < (speed / 60.0f))
+	{
+		GetNextStep();
+	}
+	else
+	{
+		leftRoad.Normalize();
+		leftRoad = leftRoad * speed * IETime::Share()->GetLastFrapPassingTime();
+	}
+
+	IEDisplacement * action = IEDisplacement::Create(leftRoad.m_x, leftRoad.m_y);
+	actionMachine->ChangeAction(__action_displacement__, action);
+}
+
+void IEGoalGo::End()
+{
+	//DeleteAnimation(m_animation);
 }
 
 IE_END

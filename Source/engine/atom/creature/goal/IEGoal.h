@@ -34,15 +34,17 @@ public:
 	static IEGoal * Create();
 
 protected:
-	virtual bool Begin() = 0;
-	virtual bool Excute() = 0;
-	virtual bool End() = 0;
+	virtual void Begin() = 0;
+	virtual void Excute() = 0;
+	virtual void End() = 0;
+
+	void FinishSelf();
 
 private:
 	void SetGoalMachine(IEGoalMachine * stateMachine);
 
 protected:
-	IEGoalType m_stateType;
+	IEGoalType m_goalType;
 	IEGoalMachine * m_goalMachine;
 
 	friend class IEGoalMachine;

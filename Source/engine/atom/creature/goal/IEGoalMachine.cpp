@@ -47,41 +47,36 @@ void IEGoalMachine::ExcuteGoal()
 		if (m_goalList[index])
 		{
 			m_goalList[index]->Excute();
+
+			return;
 		}
 	}
+
+	//如果没有goal
+	//creature'state swtich to free.
 }
 
 void IEGoalMachine::SwitchGoal(IEGoalType goalType, IEGoal * goal)
 {
-	if (m_goalList[goalType])
-	{
-		delete m_goalList[goalType];
-		m_goalList[goalType] = NULL;
-	}
-
 	if (!goal)
 	{
-		switch (goalType)
-		{
-		case IridescentEngine::__goal_go__:
-			break;
-		case IridescentEngine::__goal_flee__:
-			break;
-		case IridescentEngine::__goal_follow__:
-			break;
-		case IridescentEngine::__goal_attack__:
-			break;
-		case IridescentEngine::__goal_count__:
-			break;
-		default:
-			break;
-		}
+		__IE_ERROR__("IEGaolMachine : error.\n");
+	}
 
-		m_goalList[goalType] = NULL;
+	//清空其它目标
+	for (int index = 0; index < __action_count__; index++)
+	{
+		if (m_goalList[index])
+		{
+			m_goalList[index]->End();
+			delete m_goalList[index];
+			m_goalList[index] = NULL;
+		}
 	}
 
 	m_goalList[goalType] = goal;
 	m_goalList[goalType]->SetGoalMachine(this);
+	m_goalList[goalType]->Begin();
 }
 
 bool IEGoalMachine::CheckGoals()
@@ -95,6 +90,16 @@ bool IEGoalMachine::CheckGoals()
 	}
 
 	return true;
+}
+
+void IEGoalMachine::FinishGoal(IEGoalType goalType)
+{
+	if (m_goalList[goalType])
+	{
+		m_goalList[goalType]->End();
+		delete m_goalList[goalType];
+		m_goalList[goalType] = NULL;
+	}
 }
 
 IE_END

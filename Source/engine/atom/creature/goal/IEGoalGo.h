@@ -26,12 +26,13 @@ public:
 	void SetDestination(float x, float y);
 
 protected:
-	virtual bool Begin();
-	virtual bool Excute();
-	virtual bool End();
+	virtual void Begin();
+	virtual void Excute();
+	virtual void End();
 
 private:
 	void FindPath();
+	void GetNextStep();
 
 private:
 	IEVector m_destination;
