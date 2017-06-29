@@ -102,4 +102,9 @@ void IEGoalMachine::FinishGoal(IEGoalType goalType)
 	}
 }
 
+IECreature * IEGoalMachine::GetCreatureByIndex(unsigned int index)
+{
+	return NULL;
+}
+
 IE_END

@@ -61,6 +61,7 @@
     <ClCompile Include="Source\engine\atom\creature\goal\IEGoal.cpp" />
     <ClCompile Include="Source\engine\atom\creature\goal\IEGoalGo.cpp" />
     <ClCompile Include="Source\engine\atom\creature\goal\IEGoalMachine.cpp" />
+    <ClCompile Include="Source\engine\atom\creature\goal\IEGoalTarget.cpp" />
     <ClCompile Include="Source\engine\atom\creature\IEcreaturesInfoManager.cpp" />
     <ClCompile Include="Source\engine\atom\creature\IEplayer.cpp" />
     <ClCompile Include="Source\engine\atom\IEatom.cpp" />
@@ -92,12 +93,12 @@
     <ClCompile Include="Source\engine\scene\terrain\IEterrainGrid.cpp" />
     <ClCompile Include="Source\engine\scene\terrain\IEterrainsInfoManager.cpp" />
     <ClCompile Include="Source\engine\scene\terrain\items\IEwater.cpp" />
+    <ClCompile Include="Source\engine\scene\thing\IEJoint.cpp" />
     <ClCompile Include="Source\engine\scene\thing\IEthingArea.cpp" />
     <ClCompile Include="Source\engine\scene\thing\IEthingChunk.cpp" />
     <ClCompile Include="Source\engine\scene\thing\IEthingsInfoManager.cpp" />
     <ClCompile Include="Source\engine\scene\thing\IEthing.cpp" />
     <ClCompile Include="Source\engine\scene\thing\items\IEbesiegeThing.cpp" />
-    <ClCompile Include="Source\engine\scene\thing\items\IEdoor.cpp" />
     <ClCompile Include="Source\engine\scene\thing\items\IEfire.cpp" />
     <ClCompile Include="Source\engine\scene\thing\items\IEinteractionThing.cpp" />
     <ClCompile Include="Source\engine\scene\thing\items\IEthingCreator.cpp" />
@@ -205,6 +206,7 @@
     <ClInclude Include="Source\engine\atom\creature\goal\IEGoal.h" />
     <ClInclude Include="Source\engine\atom\creature\goal\IEGoalGo.h" />
     <ClInclude Include="Source\engine\atom\creature\goal\IEGoalMachine.h" />
+    <ClInclude Include="Source\engine\atom\creature\goal\IEGoalTarget.h" />
     <ClInclude Include="Source\engine\atom\creature\IEcreatureInfo.h" />
     <ClInclude Include="Source\engine\atom\creature\IEcreaturesInfoManager.h" />
     <ClInclude Include="Source\engine\atom\creature\IEplayer.h" />
@@ -237,12 +239,12 @@
     <ClInclude Include="Source\engine\scene\terrain\IEterrainGrid.h" />
     <ClInclude Include="Source\engine\scene\terrain\IEterrainsInfoManager.h" />
     <ClInclude Include="Source\engine\scene\terrain\items\IEwater.h" />
+    <ClInclude Include="Source\engine\scene\thing\IEJoint.h" />
     <ClInclude Include="Source\engine\scene\thing\IEthingArea.h" />
     <ClInclude Include="Source\engine\scene\thing\IEthingChunk.h" />
     <ClInclude Include="Source\engine\scene\thing\IEthingsInfoManager.h" />
     <ClInclude Include="Source\engine\scene\thing\IEthing.h" />
     <ClInclude Include="Source\engine\scene\thing\items\IEbesiegeThing.h" />
-    <ClInclude Include="Source\engine\scene\thing\items\IEdoor.h" />
     <ClInclude Include="Source\engine\scene\thing\items\IEfire.h" />
     <ClInclude Include="Source\engine\scene\thing\items\IEinteractionThing.h" />
     <ClInclude Include="Source\engine\scene\thing\items\IEthingCreator.h" />

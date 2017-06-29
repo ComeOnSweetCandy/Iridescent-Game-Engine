@@ -91,6 +91,8 @@ private:
 	IEGrid m_mouseLocation;
 	IEGrid m_mouseTinyLocation;
 
+	bool m_regularization;			//添加新的thing时是否考虑归整化
+
 	friend class IEMap;
 };
 

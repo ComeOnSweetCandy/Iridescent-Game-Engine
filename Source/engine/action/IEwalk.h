@@ -2,8 +2,7 @@
 * name     : IEwalk.h
 * creater  : cosc
 * info     : action walk
-* c_date   : 2017/2/16
-* l_date   : 2017/2/16
+* date     : 2017/2/16
 * version  : 1.0
 * remark   : none
 ************************************/

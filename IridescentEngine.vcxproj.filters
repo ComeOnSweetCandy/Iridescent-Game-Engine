@@ -148,20 +148,17 @@
     <Filter Include="IridescentEngine\engine\action\skill">
       <UniqueIdentifier>{3b8255e7-3967-495d-b107-7a04aa49d2d5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="IridescentEngine\engine\scene\creature">
-      <UniqueIdentifier>{0a6b56b0-2df2-4b73-8768-257e9441120f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="IridescentEngine\engine\atom\creature">
       <UniqueIdentifier>{186745da-64e0-4b40-a116-5d0544a15772}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="IridescentEngine\engine\buff">
-      <UniqueIdentifier>{cb8b8b90-a2e5-48e4-948d-6efc0ffe77ea}</UniqueIdentifier>
     </Filter>
     <Filter Include="IridescentEngine\engine\atom\creature\action">
       <UniqueIdentifier>{53166651-3377-417f-9791-e9397abc9ab4}</UniqueIdentifier>
     </Filter>
     <Filter Include="IridescentEngine\engine\atom\creature\goal">
       <UniqueIdentifier>{abd5e0e2-0e24-45d9-87e8-254c2b680b1f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="IridescentEngine\engine\atom\creature\buff">
+      <UniqueIdentifier>{e89625ad-c17f-4cf6-8792-2f82f9d09a09}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -534,9 +531,6 @@
     <ClCompile Include="Source\tools\IEscript.cpp">
       <Filter>IridescentEngine\tools</Filter>
     </ClCompile>
-    <ClCompile Include="Source\engine\scene\thing\items\IEdoor.cpp">
-      <Filter>IridescentEngine\engine\scene\thing\items</Filter>
-    </ClCompile>
     <ClCompile Include="Source\engine\trigger\IEbesiegeTrigger.cpp">
       <Filter>IridescentEngine\engine\trigger</Filter>
     </ClCompile>
@@ -587,6 +581,12 @@
     </ClCompile>
     <ClCompile Include="Source\engine\atom\creature\goal\IEGoalGo.cpp">
       <Filter>IridescentEngine\engine\atom\creature\goal</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\engine\atom\creature\goal\IEGoalTarget.cpp">
+      <Filter>IridescentEngine\engine\atom\creature\goal</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\engine\scene\thing\IEJoint.cpp">
+      <Filter>IridescentEngine\engine\scene\thing</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -980,9 +980,6 @@
     <ClInclude Include="Source\tools\IEscript.h">
       <Filter>IridescentEngine\tools</Filter>
     </ClInclude>
-    <ClInclude Include="Source\engine\scene\thing\items\IEdoor.h">
-      <Filter>IridescentEngine\engine\scene\thing\items</Filter>
-    </ClInclude>
     <ClInclude Include="Source\engine\trigger\IEbesiegeTrigger.h">
       <Filter>IridescentEngine\engine\trigger</Filter>
     </ClInclude>
@@ -1036,6 +1033,12 @@
     </ClInclude>
     <ClInclude Include="Source\engine\atom\creature\goal\IEGoalGo.h">
       <Filter>IridescentEngine\engine\atom\creature\goal</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\engine\atom\creature\goal\IEGoalTarget.h">
+      <Filter>IridescentEngine\engine\atom\creature\goal</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\engine\scene\thing\IEJoint.h">
+      <Filter>IridescentEngine\engine\scene\thing</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,7 +1,7 @@
 /***********************************
 * name     : IEdrawScene.h
 * creater  : cosc
-* info     : only scene
+* info     : only scene 通过zIndex来决定渲染顺序
 * date     : 2017/3/28
 * version  : 1.0
 * remark   : none

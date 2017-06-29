@@ -15,6 +15,7 @@ IEThingArea::IEThingArea()
 {
 	m_readyThingID = 0;
 	m_curOrder = 1;
+	m_regularization = true;
 }
 
 IEThingArea::~IEThingArea()
@@ -279,7 +280,16 @@ void IEThingArea::MouseSuspension(float positionX, float positionY)
 	}
 
 	m_mouseLocation = IEGrid(revisePositionX, revisePositionY);
-	m_mouseTinyLocation = IEVector(positionX - (float)m_mouseLocation.m_x, positionY - (float)m_mouseLocation.m_y) / 0.25f;
+
+	//根据switch来决定是否归整化
+	if (m_regularization)
+	{
+		m_mouseTinyLocation = 0;
+	}
+	else
+	{
+		m_mouseTinyLocation = IEVector(positionX - (float)m_mouseLocation.m_x, positionY - (float)m_mouseLocation.m_y) / 0.25f;
+	}
 
 	if (m_mouseTinyLocation.m_x == 4)
 	{

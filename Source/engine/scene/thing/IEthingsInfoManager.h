@@ -52,6 +52,10 @@ public:
 	void LoadAdorningsInfo();
 	void SaveAdorningsInfo();
 
+	//添加一个新的
+	void AddAdorningInfo();
+	void DeleteAdorningInfo();
+
 	IEAdorningInfo * GetAdorningsInfoList();
 	unsigned int GetAdorningsInfoCount();
 

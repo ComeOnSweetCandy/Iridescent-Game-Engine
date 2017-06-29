@@ -11,6 +11,7 @@
 #define __IE_GOAL_MACHINE__
 
 #include "IEGoal.h"
+#include "../../../../core/container/IEstack.h"
 
 IE_BEGIN
 
@@ -33,6 +34,8 @@ protected:
 	bool CheckGoals();
 	void SwitchGoal(IEGoalType goalType, IEGoal * goal = NULL);
 	void FinishGoal(IEGoalType goalType);
+
+	IECreature * GetCreatureByIndex(unsigned int index);
 
 private:
 	IEGoal * m_goalList[__goal_count__];
