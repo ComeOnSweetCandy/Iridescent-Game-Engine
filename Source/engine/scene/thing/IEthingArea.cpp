@@ -30,10 +30,10 @@ void IEThingArea::Initialization(IEMap * map, int halfViewBlocks, int blockSize)
 	m_thingsInfo = IEAdorningsInfoManager::Share()->GetAdorningsInfoList();
 
 
-	m_suspensionThing = IESprite::Create("bucket/body.png");
-	m_suspensionThing->SetTranslate(1.0f, 1.0f);
-	m_suspensionThing->SetDisplay(false);
-	IENode::AddChild(m_suspensionThing);
+	//m_suspensionThing = IESprite::Create("bucket/body.png");
+	//m_suspensionThing->SetTranslate(1.0f, 1.0f);
+	//m_suspensionThing->SetDisplay(false);
+	//IENode::AddChild(m_suspensionThing);
 }
 
 IEThingArea * IEThingArea::Create(IEMap * map, int halfViewBlocks, int blockSize)
@@ -454,7 +454,7 @@ void IEThingArea::Visit()
 {
 	IEArea::Visit();
 
-	m_suspensionThing->Visit();
+	//m_suspensionThing->Visit();
 }
 
 bool IEThingArea::AllowChild(int locationX, int locationY, unsigned char tinyLocationX, unsigned char tinyLocationY)

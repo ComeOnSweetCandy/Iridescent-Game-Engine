@@ -69,6 +69,21 @@ public:
 }IEThingBlockFormat;
 #pragma pack(pop)
 
+typedef enum __ieSceneType
+{
+	__ie_scene_none__,
+	__ie_scene_terrain__,
+	__ie_scene_thing__,
+	__ie_scene_marble__
+}IESceneType;
+
+typedef enum __ieSceneEditMode
+{
+	__ie_sceneEdit_touch__,
+	__ie_sceneEdit_brush__,
+	__ie_sceneEdit_choose__
+}IESceneEditMode;
+
 class __IE_DLL__ IEMap:public IELayer
 {
 public:

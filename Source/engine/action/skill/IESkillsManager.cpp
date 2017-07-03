@@ -32,23 +32,23 @@ IESkillsManager * IESkillsManager::Share()
 
 void IESkillsManager::ReadSkills()
 {
-	FILE * fp = fopen("../Debug/data/skill.txt", "r");
-	IESkillInfo cache;
-	unsigned int count = 0;
-	while (!feof(fp))
-	{
-		fscanf(fp, "%d %d %s %s", &(cache._SkillID), &(cache._SkillType), cache._SkillName);
-		count++;
-	}
-	fseek(fp, 0, SEEK_SET);
+	//FILE * fp = fopen("../Debug/data/skill.txt", "r");
+	//IESkillInfo cache;
+	//unsigned int count = 0;
+	//while (!feof(fp))
+	//{
+	//	fscanf(fp, "%d %d %s %s", &(cache._SkillID), &(cache._SkillType), cache._SkillName);
+	//	count++;
+	//}
+	//fseek(fp, 0, SEEK_SET);
 
-	m_skillsList = new IESkillInfo[count];
-	for (unsigned int index = 0; index < count; index++)
-	{
-		fscanf(fp, "%d %d %s %s", &(m_skillsList[index]._SkillID), &(m_skillsList[index]._SkillType), m_skillsList[index]._SkillName);
-	}
+	//m_skillsList = new IESkillInfo[count];
+	//for (unsigned int index = 0; index < count; index++)
+	//{
+	//	fscanf(fp, "%d %d %s %s", &(m_skillsList[index]._SkillID), &(m_skillsList[index]._SkillType), m_skillsList[index]._SkillName);
+	//}
 
-	fclose(fp);
+	//fclose(fp);
 }
 
 IE_END

@@ -21,3 +21,8 @@ IESituation * IESituation::Share()
 	}
 	return m_StaticSituation;
 }
+
+void IESituation::Release()
+{
+	delete this;
+}

@@ -59,7 +59,9 @@ public:
 	IEObject **GetContainer();
 
 	/* IENode unique */
-	void Sorting(int offset = -1);		//按内存中偏移位置的值来进行排序
+	void SetAsc(bool asc);				//设定排序的大小
+	void SetCompareOffset(int offset);	//设定排序时比较大小的数据的位置
+	void Sorting();		//按内存中偏移位置的值来进行排序
 	void Merge(IENode ** sourceArr, IENode ** tempArr, int startIndex, int midIndex, int endIndex);
 	void MergeSort(IENode ** sourceArr, IENode ** tempArr, int startIndex, int endIndex);
 
@@ -73,6 +75,7 @@ private:
 	IEObject ** m_objectsContainer;
 
 	int m_sortingOffset;	//进行特殊排序时所用
+	bool m_sortingAsc;		//进行排序的顺序
 
 	friend class IEAutoReleasePool;
 };

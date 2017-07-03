@@ -48,8 +48,8 @@ public:
 	virtual void LoadChilds(IETerrainBlockFormat * blocks, int chunkLocationX, int chunkLocationY);
 
 
-	virtual void RollbackAlter(){};													//回滚一次操作
-	virtual void RollbackAllAlters(){};												//回滚所有的操作
+	virtual void RollbackAlter();													//回滚一次操作
+	virtual void RollbackAllAlters();												//回滚所有的操作
 
 	void SetReadyTerrain(unsigned int terrainID, IETerrainMode terrainMode);		//设定准备的terrain		
 	virtual void MouseMove(float x, float y);										//鼠标的移动

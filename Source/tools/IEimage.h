@@ -79,7 +79,7 @@ public:
 	void LoadPNG(const char * szFileName, GLint * iWidth, GLint * iHeight, GLint * iComponents, GLenum * eFormat);
 	void SavePNG(const char * fileName);
 
-private:
+public:
 	unsigned char * m_imgData;
 	int m_imgWidth;
 	int m_imgHeight;

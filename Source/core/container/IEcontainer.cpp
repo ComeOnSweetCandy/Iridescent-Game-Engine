@@ -9,6 +9,7 @@ IEContainer::IEContainer()
 	m_objectsCount = 0;
 	m_maxCapacity = 0;
 	m_sortingOffset = -1;
+	m_sortingAsc = true;
 	m_objectsContainer = NULL;
 	m_isChanged = false;
 }
@@ -442,11 +443,20 @@ void IEContainer::Merge(IENode ** sourceArr, IENode ** tempArr, int startIndex, 
 	int i = startIndex, j = midIndex + 1, k = startIndex;
 	while (i != midIndex + 1 && j != endIndex + 1)
 	{
+		int left, right;
 		if (m_sortingOffset > 0)
 		{
-			int left = *(int *)((char *)(sourceArr[i]) + m_sortingOffset);
-			int right = *(int *)((char *)(sourceArr[j]) + m_sortingOffset);
+			left = *(int *)((char *)(sourceArr[i]) + m_sortingOffset);
+			right = *(int *)((char *)(sourceArr[j]) + m_sortingOffset);
+		}
+		else
+		{
+			left = sourceArr[i]->GetZIndex();
+			right = sourceArr[j]->GetZIndex();
+		}
 
+		if (m_sortingAsc)
+		{
 			if (left < right)
 			{
 				tempArr[k++] = sourceArr[j++];
@@ -458,7 +468,7 @@ void IEContainer::Merge(IENode ** sourceArr, IENode ** tempArr, int startIndex, 
 		}
 		else
 		{
-			if (sourceArr[i]->GetZIndex() < sourceArr[j]->GetZIndex())
+			if (left > right)
 			{
 				tempArr[k++] = sourceArr[j++];
 			}
@@ -467,6 +477,7 @@ void IEContainer::Merge(IENode ** sourceArr, IENode ** tempArr, int startIndex, 
 				tempArr[k++] = sourceArr[i++];
 			}
 		}
+
 	}
 	while (i != midIndex + 1)
 	{
@@ -494,18 +505,26 @@ void IEContainer::MergeSort(IENode ** sourceArr, IENode ** tempArr, int startInd
 	}
 }
 
-void IEContainer::Sorting(int offset)
+void IEContainer::Sorting()
 {
 	if (m_isChanged && m_objectsCount > 0)
 	{
-		m_sortingOffset = offset;
-
 		IENode ** tempObjectsContainer = new IENode *[m_objectsCount];
 		MergeSort((IENode **)m_objectsContainer, (IENode **)tempObjectsContainer, 0, m_objectsCount-1);
 		delete[] tempObjectsContainer;
 
 		m_isChanged = false;
 	}
+}
+
+void IEContainer::SetAsc(bool asc)
+{
+	m_sortingAsc = asc;
+}
+
+void IEContainer::SetCompareOffset(int offset)
+{
+	m_sortingOffset = offset;
 }
 
 void IEContainer::EmptyContainer()

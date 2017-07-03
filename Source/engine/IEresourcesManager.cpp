@@ -31,6 +31,7 @@ IEResourcesManager::~IEResourcesManager()
 
 	//系统资源
 	IESettingDictionary::Share()->Release();				//系统设定资源
+	IESituation::Share()->Release();						//删除环境变量
 	IEInputManager::Share()->Release();						//操作功能释放
 	IETime::Share()->Release();								//时间释放
 }

@@ -187,14 +187,14 @@ void IECreature::InitCreatureScript()
 
 void IECreature::InitCreatureTab()
 {
-	m_healthDisplay = IEProcessBar::Create(1.0f);
-	m_healthDisplay->SetTranslate(0.0f, -0.2f);
-	m_healthDisplay->SetSize(1.0f, 0.05f);
-	IENode::AddChild(m_healthDisplay);
+	//m_healthDisplay = IEProcessBar::Create(1.0f);
+	//m_healthDisplay->SetTranslate(0.0f, -0.2f);
+	//m_healthDisplay->SetSize(1.0f, 0.05f);
+	//IENode::AddChild(m_healthDisplay);
 
-	m_nameDisplay = IEText::Create("default");
-	m_nameDisplay->SetTranslate(0.0f, 1.2f);
-	IENode::AddChild(m_nameDisplay);
+	//m_nameDisplay = IEText::Create("default");
+	//m_nameDisplay->SetTranslate(0.0f, 1.2f);
+	//IENode::AddChild(m_nameDisplay);
 }
 
 void IECreature::Cured(int cureValue)

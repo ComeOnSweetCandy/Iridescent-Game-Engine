@@ -19,6 +19,7 @@ public:
 	IESituation();
 	~IESituation();
 	static IESituation * Share();
+	void Release();
 
 public:
 	static IESituation * m_StaticSituation;

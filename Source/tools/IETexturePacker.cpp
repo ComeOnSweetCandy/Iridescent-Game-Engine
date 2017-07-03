@@ -21,7 +21,11 @@ void IETexturePacker::Initialization(const char * textureName)
 	m_textureName = textureName;
 
 	m_textureContainer = IEContainer::CreateAndRetain();
+	m_textureContainer->SetCompareOffset((int)&(((IETexturePackerElement *)0)->_Size));
+
 	m_pointsContainer = IEContainer::CreateAndRetain();
+	m_pointsContainer->SetAsc(false);
+	m_pointsContainer->SetCompareOffset((int)&(((IEGrid *)0)->m_y));
 }
 
 IETexturePacker * IETexturePacker::Create(const char * textureName)
@@ -44,7 +48,7 @@ void IETexturePacker::SortTexture(unsigned int index)
 	IEGrid ** grids = (IEGrid **)(m_pointsContainer->GetContainer());
 	unsigned int gridsCount = m_pointsContainer->Count();
 
-	for (unsigned int gridIndex = gridsCount - 1; gridIndex >= 0; gridIndex--)
+	for (unsigned int gridIndex = 0; gridIndex < gridsCount; gridIndex++)
 	{
 		IEGrid * grid = grids[gridIndex];
 
@@ -117,8 +121,17 @@ void IETexturePacker::SortTexture(unsigned int index)
 			//删除用掉的point 并且清理掉
 			m_pointsContainer->PopWithClean(grid);
 
-			int offset = (int)&(((IEGrid *)0)->m_y);
-			m_pointsContainer->Sorting(offset);
+			//进行排序
+			//m_pointsContainer->Sorting();
+			SortPoints();
+
+			//IEGrid ** gridss = (IEGrid **)(m_pointsContainer->GetContainer());
+			//unsigned int gridssCount = m_pointsContainer->Count();
+			//for (unsigned ii = 0; ii < gridssCount; ii++)
+			//{
+			//	printf("%d %d\t", gridss[ii]->m_x, gridss[ii]->m_y);
+			//}
+			//printf("\n");
 
 			SortTexture(index + 1);
 
@@ -131,11 +144,56 @@ void IETexturePacker::SortTexture(unsigned int index)
 	SortTexture(index);
 }
 
+void IETexturePacker::SortPoints()
+{
+	IEGrid ** gridss = (IEGrid **)(m_pointsContainer->GetContainer());
+	unsigned int gridssCount = m_pointsContainer->Count();
+	IEGrid cache;
+
+	for (unsigned int xx = 0; xx < gridssCount; xx++)
+	{
+		for (unsigned int yy = xx + 1; yy < gridssCount; yy++)
+		{
+			if (gridss[xx]->m_y > gridss[yy]->m_y)
+			{
+				//两者交换位置
+				cache.m_x = gridss[xx]->m_x;
+				cache.m_y = gridss[xx]->m_y;
+
+				gridss[xx]->m_x = gridss[yy]->m_x;
+				gridss[xx]->m_y = gridss[yy]->m_y;
+
+				gridss[yy]->m_x = cache.m_x;
+				gridss[yy]->m_y = cache.m_y;
+			}
+			else if (gridss[xx]->m_y == gridss[yy]->m_y)
+			{
+				//如果两者相等 那么比较第二个数 X数
+				if (gridss[yy]->m_x < gridss[xx]->m_x)
+				{
+					//X的值越低的话
+					cache.m_x = gridss[xx]->m_x;
+					cache.m_y = gridss[xx]->m_y;
+
+					gridss[xx]->m_x = gridss[yy]->m_x;
+					gridss[xx]->m_y = gridss[yy]->m_y;
+
+					gridss[yy]->m_x = cache.m_x;
+					gridss[yy]->m_y = cache.m_y;
+				}
+			}
+			else
+			{
+				//那么什么也不做
+			}
+		}
+	}
+}
+
 IEContainer * IETexturePacker::Run()
 {
 	//首先按照size大小排序好
-	int offset = (int)&(((IETexturePackerElement *)0)->_Size);
-	m_textureContainer->Sorting(offset);
+	m_textureContainer->Sorting();
 
 	//最首先将0 0这个点放入
 	IEGrid * grid = new IEGrid(0);
@@ -144,6 +202,65 @@ IEContainer * IETexturePacker::Run()
 	SortTexture(0);
 
 	return m_textureContainer;
+}
+
+void IETexturePacker::Save()
+{
+	//首先对每张贴图 读取image数据 这个需要重新读取
+	IETexturePackerElement ** textures = (IETexturePackerElement **)(m_textureContainer->GetContainer());
+	unsigned int count = m_textureContainer->Count();
+
+	//首先申请一片新的空间出来 用于存放贴图数据
+	int pass = 4;
+	unsigned char * data = new unsigned char[m_width * m_height * pass];
+	memset(data, 0, m_width*m_height*pass);
+
+	//一行的空间大小
+	unsigned hrSize = m_width * pass;
+
+	for (unsigned int index = 0; index < count; index++)
+	{
+		IETexturePackerElement * texture = textures[index];
+		IEImage * image = texture->_Image;
+		unsigned char * imageData = image->m_imgData;
+		unsigned int textureHrSize = image->m_imgWidth * pass;
+
+		if (texture->_Image->m_imgComponents != 4)
+		{
+			continue;
+		}
+
+		//这张图的高度有多高 就得进行多少次循环
+		for (unsigned int curHeight = 0; curHeight < texture->_Height; curHeight++)
+		{
+			memcpy(data + curHeight * hrSize + texture->_X * pass, imageData + curHeight * textureHrSize, texture->_Width * pass);
+		}
+	}
+
+	//for (unsigned int index = 0; index < m_height; index++)
+	//{
+	//	*(data + index) = 0;
+	//}
+
+	IEImage * newImage = new IEImage();
+	newImage->m_imgData = data;
+	newImage->m_imgWidth = m_width;
+	newImage->m_imgHeight = m_height;
+	newImage->SavePNG("../Debug/data/test/test_0.png");
+}
+
+void IETexturePacker::AddImage(IEImage * image)
+{
+	IETexturePackerElement * element = new IETexturePackerElement();
+
+	element->_Width = image->m_imgWidth;
+	element->_Height = image->m_imgHeight;
+	element->_Image = image;
+	element->_Size = element->_Width * element->_Height;
+	element->_X = -1;
+	element->_Y = -1;
+
+	m_textureContainer->Push(element);
 }
 
 void IETexturePacker::AddTexture(IETexture * texture)
@@ -172,4 +289,4 @@ void IETexturePacker::AutoEnlarge()
 	}
 }
 
-IE_END
+ IE_END

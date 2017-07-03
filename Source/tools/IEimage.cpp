@@ -211,7 +211,7 @@ void IEImage::LoadPNG(const char *szFileName, GLint *iWidth, GLint *iHeight, GLi
 			switch (colorType)
 			{
 			case 2:
-				*eFormat = GL_RGB;
+				*eFormat = GL_BGR_EXT;
 				*iComponents = 3;
 				pass = 3;
 				break;
@@ -357,34 +357,31 @@ void IEImage::LoadPNG(const char *szFileName, GLint *iWidth, GLint *iHeight, GLi
 
 void IEImage::SavePNG(const char * fileName)
 {
-	FILE * pFile;
-	//GLubyte bitDepth;
-	//GLubyte colorType;
-	//GLubyte pass;
+	FILE * pFile = fopen(fileName, "wb");
 	bool isWriting = true;
-
-	//*iWidth = 0;
-	//*iHeight = 0;
-	//*eFormat = GL_BGR_EXT;
-	//*iComponents = GL_RGB8;
-
-	pFile = fopen(fileName, "wb+");
-
 
 	GLubyte byte[8] = { 0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A };
 	fwrite(byte, sizeof(GLint)* 2, 1, pFile);
 
-
-
 	//WRITE IHDR
 	PNGCHUNK ihdr_chunk;
 	unsigned char ihdr_head[4] = { 0x49, 0x48, 0x44, 0x52 };
-	unsigned char ihdr_data[13] = { 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00, 0x02, 0x08, 0x02, 0x00, 0x00, 0x00 };
-	unsigned char in[17] = { 0x49, 0x48, 0x44, 0x52, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00, 0x02, 0x08, 0x02, 0x00, 0x00, 0x00 };
+	unsigned char ihdr_data[13] = { 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00, 0x02, 0x08, 0x06, 0x00, 0x00, 0x00 };
+	unsigned char in[17] = { 0x49, 0x48, 0x44, 0x52, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00, 0x02, 0x08, 0x06, 0x00, 0x00, 0x00 };
 
 	ihdr_chunk.chunkLength = __IE_INTREVERSE__(13);
 	ihdr_chunk.chunkType = CHUNK_IHDR;
 	ihdr_chunk.chunkData = ihdr_data;
+
+	//修改宽度和高度
+	int * ww = (int *)in + 1;
+	int * hh = (int *)in + 2;
+	*ww = __IE_INTREVERSE__(m_imgWidth);
+	*hh = __IE_INTREVERSE__(m_imgHeight);
+	ww = (int *)ihdr_data;
+	hh = (int *)ihdr_data + 1;
+	*ww = __IE_INTREVERSE__(m_imgWidth);
+	*hh = __IE_INTREVERSE__(m_imgHeight);
 	ihdr_chunk.chunkCRC = __IE_INTREVERSE__(crc(in, 17));
 
 	fwrite(&ihdr_chunk, 8, 1, pFile);
@@ -400,24 +397,36 @@ void IEImage::SavePNG(const char * fileName)
 	idat_chunk.chunkData = NULL;
 
 
-
 	
-	int srcSize = (m_imgWidth * m_imgHeight) * pass + m_imgHeight;
+	//这里采用滤波方式0
+	int srcSize = (m_imgWidth * m_imgHeight) * pass + m_imgHeight + 4;
+	GLubyte * dataStart = NULL;
 	idat_chunk.chunkData = new unsigned char[srcSize];
+	dataStart = idat_chunk.chunkData + 4;
 
 	for (int index = 0; index < m_imgHeight; index++)
 	{
-		*(idat_chunk.chunkData + index * (m_imgWidth) * pass + index) = 0;
-		memcpy(idat_chunk.chunkData + index * (m_imgWidth)* pass + index + 1, m_imgData + index * (m_imgWidth)* pass, m_imgWidth * pass);
+		*(dataStart + index * (m_imgWidth) * pass + index) = 0;
+		memcpy(dataStart + index * (m_imgWidth)* pass + index + 1, m_imgData + index * (m_imgWidth)* pass, m_imgWidth * pass);
 	}
 
+	GLulong len_dest;
+	GLulong len_src = 1;
+	GLubyte * resultData = new unsigned char[srcSize * 2 + 4];
+	compress(resultData + 4, &len_dest, dataStart, srcSize - 4);
 
+	GLuint * type = (GLuint *)resultData;
+	*type = CHUNK_IDAT;
+
+	idat_chunk.chunkLength = __IE_INTREVERSE__(len_dest);			//???
+	idat_chunk.chunkCRC = __IE_INTREVERSE__(crc(resultData, len_dest + 4));	//???
 
 	//idat_chunk.chunkLength = __IE_INTREVERSE__(13);			//???
-	//idat_chunk.chunkCRC = __IE_INTREVERSE__(crc(in, 17));	//???
+	//idat_chunk.chunkCRC = __IE_INTREVERSE__(crc(idat_chunk.chunkData, srcSize));	//???
 
 	fwrite(&idat_chunk, 8, 1, pFile);
-
+	fwrite(resultData + 4, 1, len_dest, pFile);
+	fwrite(&(idat_chunk.chunkCRC), 1, 4, pFile);
 
 
 	//WRITE END

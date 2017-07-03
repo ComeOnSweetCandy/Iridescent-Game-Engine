@@ -82,22 +82,22 @@ void IETerrain::LoadChilds(IETerrainBlockFormat * blocks, int chunkLocationX, in
 	}
 
 	//在修改列表中 是否有当前block的更新
-	unsigned int count = m_alters->Count();
-	IETerrainAlter ** alters = (IETerrainAlter **)(m_alters->GetContainer());
-	for (index = 0; index < count; index++)
-	{
-		if (alters[index]->_chunkLocationX == chunkLocationX && alters[index]->_chunkLocationY == chunkLocationY)
-		{
-			if (alters[index]->_TerrainInfo._TerrainMode == __terrain_body_mode__)
-			{
-				LoadBody(block, alters[index]->_explicitBlockLocationX, alters[index]->_explicitBlockLocationY, alters[index]->_TerrainInfo._TerrainID, alters[index]->_TerrainInfo._Order);
-			}
-			else if (alters[index]->_TerrainInfo._TerrainMode == __terrain_none_mode__)
-			{
-				LoadNone(block, alters[index]->_explicitBlockLocationX, alters[index]->_explicitBlockLocationY, 0, 0);
-			}
-		}
-	}
+	//unsigned int count = m_alters->Count();
+	//IETerrainAlter ** alters = (IETerrainAlter **)(m_alters->GetContainer());
+	//for (index = 0; index < count; index++)
+	//{
+	//	if (alters[index]->_chunkLocationX == chunkLocationX && alters[index]->_chunkLocationY == chunkLocationY)
+	//	{
+	//		if (alters[index]->_TerrainInfo._TerrainMode == __terrain_body_mode__)
+	//		{
+	//			LoadBody(block, alters[index]->_explicitBlockLocationX, alters[index]->_explicitBlockLocationY, alters[index]->_TerrainInfo._TerrainID, alters[index]->_TerrainInfo._Order);
+	//		}
+	//		else if (alters[index]->_TerrainInfo._TerrainMode == __terrain_none_mode__)
+	//		{
+	//			LoadNone(block, alters[index]->_explicitBlockLocationX, alters[index]->_explicitBlockLocationY, 0, 0);
+	//		}
+	//	}
+	//}
 
 	//设置border sprite
 	IEBlock *** gridArrays = block->GetBlocksMatrix();
@@ -204,19 +204,19 @@ void IETerrain::AddChild(int blockLocationX, int blockLocationY)
 	m_alter->_TerrainInfo._Order = m_curOrder++;
 	m_alters->Push(m_alter);
 
-	switch (terrainMODE)
+	switch (m_readyTerrainMode)
 	{
 	case __terrain_body_mode__:
-		AddBody(terrainID, terrainMODE, m_curOrder, blockLocationX, blockLocationY);
+		AddBody(m_readyTerrainID, m_readyTerrainMode, m_curOrder, blockLocationX, blockLocationY);
 		break;
 	case __terrain_bevel_mode__:
-		ApplyBevel(terrainID, terrainMODE, m_curOrder, blockLocationX, blockLocationY);
+		ApplyBevel(m_readyTerrainID, m_readyTerrainMode, m_curOrder, blockLocationX, blockLocationY);
 		break;
 	case __terrain_piece_mode__:
-		ApplyPiece(terrainID, terrainMODE, m_curOrder, blockLocationX, blockLocationY);
+		ApplyPiece(m_readyTerrainID, m_readyTerrainMode, m_curOrder, blockLocationX, blockLocationY);
 		break;
 	case __terrain_none_mode__:
-		ApplyNone(terrainID, terrainMODE, m_curOrder, blockLocationX, blockLocationY);
+		ApplyNone(m_readyTerrainID, m_readyTerrainMode, m_curOrder, blockLocationX, blockLocationY);
 		break;
 	default:
 		break;
@@ -225,7 +225,7 @@ void IETerrain::AddChild(int blockLocationX, int blockLocationY)
 
 void IETerrain::RemoveChild(int blockLocationX, int blockLocationY)
 {
-	AddChild(0, __terrain_none_mode__, blockLocationX, blockLocationY);
+	AddChild(blockLocationX, blockLocationY);
 }
 
 void IETerrain::AddBody(unsigned int terrainID, IETerrainMode terrainMODE, unsigned int createdOrder, int blockLocationX, int blockLocationY)
