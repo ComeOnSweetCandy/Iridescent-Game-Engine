@@ -1,7 +1,7 @@
 /***********************************
-* name     : IEchunk.h
+* name     : IEChunk.h
 * creater  : cosc
-* info     : big block = chunk
+* info     : chunk
 * date     : 2016/12/12
 * version  : 1.0
 * remark   : none
@@ -10,8 +10,8 @@
 #ifndef __IE_CHUNK__
 #define __IE_CHUNK__
 
-#include "../../../core/IElayer.h"
-#include "IEblock.h"
+#include "../../core/IElayer.h"
+#include "IEBlock.h"
 
 IE_BEGIN
 
@@ -49,9 +49,9 @@ protected:
 
 protected:
 	IEArea * m_area;
-	int m_sideLength;
+	int m_chunkLength;
 	IEGrid m_location;
-	IEBlock *** m_blocksMatrix;
+	IEBlock *** m_chunksIndexMatrix;
 
 	friend class IEArea;
 };

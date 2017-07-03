@@ -1,5 +1,5 @@
 #define __IE_DLL_EXPORTS__
-#include "IEGoalGo.h"
+#include "IEGoalTarget.h"
 
 #include "IEGoalMachine.h"
 #include "../../../../interface/cmd/IEapplication.h"
@@ -9,69 +9,69 @@
 
 IE_BEGIN
 
-IEGoalGo::IEGoalGo()
+IEGoalTarget::IEGoalTarget()
 {
 	m_path = NULL;
 	m_stepIndex = 0;
 }
 
-IEGoalGo::~IEGoalGo()
+IEGoalTarget::~IEGoalTarget()
 {
 
 }
 
-void IEGoalGo::Initialization(float x, float y)
+void IEGoalTarget::Initialization(unsigned int targetIndex)
 {
-	SetDestination(x, y);
+	//SetDestination(x, y);
 }
 
-IEGoalGo * IEGoalGo::Create(float x, float y)
+IEGoalTarget * IEGoalTarget::Create(unsigned int targetIndex)
 {
-	IEGoalGo * goal = new IEGoalGo();
-	goal->Initialization(x, y);
+	IEGoalTarget * goal = new IEGoalTarget();
+	goal->Initialization(targetIndex);
 	return goal;
 }
 
-void IEGoalGo::SetDestination(float x, float y)
-{
-	m_destination[0] = x;
-	m_destination[1] = y;
-}
+//void IEGoalTarget::SetDestination(float x, float y)
+//{
+//	m_destination[0] = x;
+//	m_destination[1] = y;
+//}
+//
+//void IEGoalTarget::GetNextStep()
+//{
+//	if (m_stepIndex >= 0)
+//	{
+//		IEObject ** objects = m_path->GetContainer();
+//		m_destination = *((IEVector *)objects[m_stepIndex]);
+//		m_stepIndex--;
+//	}
+//	else
+//	{
+//		m_stepIndex--;
+//	}
+//}
 
-void IEGoalGo::GetNextStep()
-{
-	if (m_stepIndex >= 0)
-	{
-		IEObject ** objects = m_path->GetContainer();
-		m_destination = *((IEVector *)objects[m_stepIndex]);
-		m_stepIndex--;
-	}
-	else
-	{
-		m_stepIndex--;
-	}
-}
+//void IEGoalTarget::FindPath()
+//{
+//	IECreature * creature = m_goalMachine->GetCreature();
+//	const float * translate = creature->GetTranslate();
+//	IEVector startPosition(translate[0], translate[1]);
+//	m_path = IEApplication::Share()->GetCurrentActiveScene()->GetBindedMap()->FindPath(creature->GetPhysicNode(), startPosition, m_destination);
+//	m_stepIndex = m_path->Count() - 1;
+//	m_destination = startPosition;
+//}
 
-void IEGoalGo::FindPath()
+void IEGoalTarget::Begin()
 {
-	IECreature * creature = m_goalMachine->GetCreature();
-	const float * translate = creature->GetTranslate();
-	IEVector startPosition(translate[0], translate[1]);
-	m_path = IEApplication::Share()->GetCurrentActiveScene()->GetBindedMap()->FindPath(creature->GetPhysicNode(), startPosition, m_destination);
-	m_stepIndex = m_path->Count() - 1;
-	m_destination = startPosition;
-}
-
-void IEGoalGo::Begin()
-{
-	FindPath();
+	//FindPath();
 
 	//ChangeActionTexture("walk");
 	//DeleteOtherActions();
 	//return true;
 }
 
-void IEGoalGo::Excute()
+void IEGoalTarget::Excute()
 {
 	//必须检测一次 目标是否存在
 	//第二检测目标的位置是否有过引动 所以需要一个单位存储目标的位置
@@ -91,7 +91,7 @@ void IEGoalGo::Excute()
 	float speed = creature->GetUnitInfo()->_Speed;
 	if (leftRoad.Length() < (speed / 60.0f))
 	{
-		GetNextStep();
+		//GetNextStep();
 	}
 	else
 	{
@@ -103,7 +103,7 @@ void IEGoalGo::Excute()
 	actionMachine->ChangeAction(__action_displacement__, action);
 }
 
-void IEGoalGo::End()
+void IEGoalTarget::End()
 {
 	//DeleteAnimation(m_animation);
 }

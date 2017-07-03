@@ -30,7 +30,7 @@ void IEJoint::Initialization(unsigned int thingID)
 
 IEJoint * IEJoint::Create(unsigned int thingID)
 {
-
+	return NULL;
 }
 
 void IEJoint::SetRound(unsigned char roundIndex, unsigned int thingID)

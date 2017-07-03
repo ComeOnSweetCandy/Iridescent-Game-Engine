@@ -62,14 +62,14 @@ IEThing * IEThingChunk::GetChild(int explicitLocationX, int explicitLocationY, i
 
 void IEThingChunk::InitThingsMatrix()
 {
-	m_thingsMatrix = new IEThing ***[m_sideLength];
-	for (int index = 0; index < m_sideLength; index++)
+	m_thingsMatrix = new IEThing ***[m_chunkLength];
+	for (int index = 0; index < m_chunkLength; index++)
 	{
-		m_thingsMatrix[index] = new IEThing **[m_sideLength];
+		m_thingsMatrix[index] = new IEThing **[m_chunkLength];
 	}
-	for (int mx = 0; mx < m_sideLength; mx++)
+	for (int mx = 0; mx < m_chunkLength; mx++)
 	{
-		for (int my = 0; my < m_sideLength; my++)
+		for (int my = 0; my < m_chunkLength; my++)
 		{
 			m_thingsMatrix[mx][my] = new IEThing *[16];
 
@@ -83,9 +83,9 @@ void IEThingChunk::InitThingsMatrix()
 
 void IEThingChunk::ResetThingMatrix()
 {
-	for (int mx = 0; mx < m_sideLength; mx++)
+	for (int mx = 0; mx < m_chunkLength; mx++)
 	{
-		for (int my = 0; my < m_sideLength; my++)
+		for (int my = 0; my < m_chunkLength; my++)
 		{
 			for (int mz = 0; mz < 16; mz++)
 			{

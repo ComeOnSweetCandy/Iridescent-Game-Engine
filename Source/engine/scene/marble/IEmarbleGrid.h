@@ -10,7 +10,7 @@
 #ifndef __IE_MARBLE_GRID__
 #define __IE_MARBLE_GRID__
 
-#include "../base/IEblock.h"
+#include "../IEBlock.h"
 
 IE_BEGIN
 

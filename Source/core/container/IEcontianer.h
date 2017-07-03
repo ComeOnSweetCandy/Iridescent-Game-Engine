@@ -59,7 +59,7 @@ public:
 	IEObject **GetContainer();
 
 	/* IENode unique */
-	void Sorting();
+	void Sorting(int offset = -1);		//按内存中偏移位置的值来进行排序
 	void Merge(IENode ** sourceArr, IENode ** tempArr, int startIndex, int midIndex, int endIndex);
 	void MergeSort(IENode ** sourceArr, IENode ** tempArr, int startIndex, int endIndex);
 
@@ -71,6 +71,8 @@ private:
 	int m_maxCapacity;
 	bool m_isChanged;
 	IEObject ** m_objectsContainer;
+
+	int m_sortingOffset;	//进行特殊排序时所用
 
 	friend class IEAutoReleasePool;
 };

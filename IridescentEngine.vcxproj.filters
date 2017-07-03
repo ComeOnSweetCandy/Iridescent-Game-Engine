@@ -88,9 +88,6 @@
     <Filter Include="IridescentEngine\engine\scene\terrain">
       <UniqueIdentifier>{5d368bc3-abcf-44ac-8e41-ff07d4821126}</UniqueIdentifier>
     </Filter>
-    <Filter Include="IridescentEngine\engine\scene\base">
-      <UniqueIdentifier>{8fb8696e-248e-47df-bd1f-6924edde44e5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="IridescentEngine\engine\script">
       <UniqueIdentifier>{1ce46f0e-6523-49ca-a5de-d6c587df01c4}</UniqueIdentifier>
     </Filter>
@@ -315,9 +312,6 @@
     <ClCompile Include="Source\physic\IEphysicWorld.cpp">
       <Filter>IridescentEngine\physic</Filter>
     </ClCompile>
-    <ClCompile Include="Source\engine\scene\IEmap.cpp">
-      <Filter>IridescentEngine\engine\scene</Filter>
-    </ClCompile>
     <ClCompile Include="Source\engine\action\IEawait.cpp">
       <Filter>IridescentEngine\engine\action</Filter>
     </ClCompile>
@@ -383,9 +377,6 @@
     </ClCompile>
     <ClCompile Include="Source\engine\script\IEluaProp.cpp">
       <Filter>IridescentEngine\engine\script\atom\prop</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\engine\scene\IEtotalScene.cpp">
-      <Filter>IridescentEngine\engine\scene</Filter>
     </ClCompile>
     <ClCompile Include="Source\engine\script\IEluaDamageProp.cpp">
       <Filter>IridescentEngine\engine\script\atom\prop</Filter>
@@ -483,18 +474,6 @@
     <ClCompile Include="Source\engine\scene\path\IEpathGrid.cpp">
       <Filter>IridescentEngine\engine\scene\path</Filter>
     </ClCompile>
-    <ClCompile Include="Source\engine\scene\terrain\IEterrain.cpp">
-      <Filter>IridescentEngine\engine\scene\terrain</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\engine\scene\terrain\IEterrainBlock.cpp">
-      <Filter>IridescentEngine\engine\scene\terrain</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\engine\scene\terrain\IEterrainGrid.cpp">
-      <Filter>IridescentEngine\engine\scene\terrain</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\engine\scene\terrain\IEterrainsInfoManager.cpp">
-      <Filter>IridescentEngine\engine\scene\terrain</Filter>
-    </ClCompile>
     <ClCompile Include="Source\engine\scene\prop\IEpropLayer.cpp">
       <Filter>IridescentEngine\engine\scene\prop</Filter>
     </ClCompile>
@@ -509,9 +488,6 @@
     </ClCompile>
     <ClCompile Include="Source\core\particle\IEray.cpp">
       <Filter>IridescentEngine\core\particle</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\engine\scene\IEdrawScene.cpp">
-      <Filter>IridescentEngine\engine\scene</Filter>
     </ClCompile>
     <ClCompile Include="Source\engine\scene\terrain\items\IEwater.cpp">
       <Filter>IridescentEngine\engine\scene\terrain\items</Filter>
@@ -542,15 +518,6 @@
     </ClCompile>
     <ClCompile Include="Source\engine\scene\thing\items\IEthingCreator.cpp">
       <Filter>IridescentEngine\engine\scene\thing\items</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\engine\scene\base\IEarea.cpp">
-      <Filter>IridescentEngine\engine\scene\base</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\engine\scene\base\IEchunk.cpp">
-      <Filter>IridescentEngine\engine\scene\base</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\engine\scene\base\IEblock.cpp">
-      <Filter>IridescentEngine\engine\scene\base</Filter>
     </ClCompile>
     <ClCompile Include="Source\engine\scene\thing\IEthingArea.cpp">
       <Filter>IridescentEngine\engine\scene\thing</Filter>
@@ -587,6 +554,39 @@
     </ClCompile>
     <ClCompile Include="Source\engine\scene\thing\IEJoint.cpp">
       <Filter>IridescentEngine\engine\scene\thing</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\tools\IETexturePacker.cpp">
+      <Filter>IridescentEngine\tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\engine\scene\IEArea.cpp">
+      <Filter>IridescentEngine\engine\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\engine\scene\IEBlock.cpp">
+      <Filter>IridescentEngine\engine\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\engine\scene\IEChunk.cpp">
+      <Filter>IridescentEngine\engine\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\engine\scene\IEDrawScene.cpp">
+      <Filter>IridescentEngine\engine\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\engine\scene\IEMap.cpp">
+      <Filter>IridescentEngine\engine\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\engine\scene\IETotalScene.cpp">
+      <Filter>IridescentEngine\engine\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\engine\scene\terrain\IETerrain.cpp">
+      <Filter>IridescentEngine\engine\scene\terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\engine\scene\terrain\IETerrainsInfoManager.cpp">
+      <Filter>IridescentEngine\engine\scene\terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\engine\scene\terrain\IETerrainBlock.cpp">
+      <Filter>IridescentEngine\engine\scene\terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\engine\scene\terrain\IETerrainChunk..cpp">
+      <Filter>IridescentEngine\engine\scene\terrain</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -758,9 +758,6 @@
     <ClInclude Include="Source\physic\IEphysicWorld.h">
       <Filter>IridescentEngine\physic</Filter>
     </ClInclude>
-    <ClInclude Include="Source\engine\scene\IEmap.h">
-      <Filter>IridescentEngine\engine\scene</Filter>
-    </ClInclude>
     <ClInclude Include="Source\engine\action\IEawait.h">
       <Filter>IridescentEngine\engine\action</Filter>
     </ClInclude>
@@ -829,9 +826,6 @@
     </ClInclude>
     <ClInclude Include="Source\engine\script\IEluaProp.h">
       <Filter>IridescentEngine\engine\script\atom\prop</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\engine\scene\IEtotalScene.h">
-      <Filter>IridescentEngine\engine\scene</Filter>
     </ClInclude>
     <ClInclude Include="Source\engine\script\IEluaDamageProp.h">
       <Filter>IridescentEngine\engine\script\atom\prop</Filter>
@@ -932,18 +926,6 @@
     <ClInclude Include="Source\engine\scene\path\IEpathGrid.h">
       <Filter>IridescentEngine\engine\scene\path</Filter>
     </ClInclude>
-    <ClInclude Include="Source\engine\scene\terrain\IEterrain.h">
-      <Filter>IridescentEngine\engine\scene\terrain</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\engine\scene\terrain\IEterrainBlock.h">
-      <Filter>IridescentEngine\engine\scene\terrain</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\engine\scene\terrain\IEterrainGrid.h">
-      <Filter>IridescentEngine\engine\scene\terrain</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\engine\scene\terrain\IEterrainsInfoManager.h">
-      <Filter>IridescentEngine\engine\scene\terrain</Filter>
-    </ClInclude>
     <ClInclude Include="Source\engine\scene\prop\IEpropLayer.h">
       <Filter>IridescentEngine\engine\scene\prop</Filter>
     </ClInclude>
@@ -958,9 +940,6 @@
     </ClInclude>
     <ClInclude Include="Source\core\particle\IEray.h">
       <Filter>IridescentEngine\core\particle</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\engine\scene\IEdrawScene.h">
-      <Filter>IridescentEngine\engine\scene</Filter>
     </ClInclude>
     <ClInclude Include="Source\engine\scene\terrain\items\IEwater.h">
       <Filter>IridescentEngine\engine\scene\terrain\items</Filter>
@@ -994,15 +973,6 @@
     </ClInclude>
     <ClInclude Include="Source\engine\scene\thing\items\IEthingCreator.h">
       <Filter>IridescentEngine\engine\scene\thing\items</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\engine\scene\base\IEarea.h">
-      <Filter>IridescentEngine\engine\scene\base</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\engine\scene\base\IEchunk.h">
-      <Filter>IridescentEngine\engine\scene\base</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\engine\scene\base\IEblock.h">
-      <Filter>IridescentEngine\engine\scene\base</Filter>
     </ClInclude>
     <ClInclude Include="Source\engine\scene\thing\IEthingArea.h">
       <Filter>IridescentEngine\engine\scene\thing</Filter>
@@ -1039,6 +1009,39 @@
     </ClInclude>
     <ClInclude Include="Source\engine\scene\thing\IEJoint.h">
       <Filter>IridescentEngine\engine\scene\thing</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\tools\IETexturePacker.h">
+      <Filter>IridescentEngine\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\engine\scene\IEArea.h">
+      <Filter>IridescentEngine\engine\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\engine\scene\IEBlock.h">
+      <Filter>IridescentEngine\engine\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\engine\scene\IEChunk.h">
+      <Filter>IridescentEngine\engine\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\engine\scene\IEDrawScene.h">
+      <Filter>IridescentEngine\engine\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\engine\scene\IEMap.h">
+      <Filter>IridescentEngine\engine\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\engine\scene\IETotalScene.h">
+      <Filter>IridescentEngine\engine\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\engine\scene\terrain\IETerrain.h">
+      <Filter>IridescentEngine\engine\scene\terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\engine\scene\terrain\IETerrainsInfoManager.h">
+      <Filter>IridescentEngine\engine\scene\terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\engine\scene\terrain\IETerrainBlock.h">
+      <Filter>IridescentEngine\engine\scene\terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\engine\scene\terrain\IETerrainChunk.h">
+      <Filter>IridescentEngine\engine\scene\terrain</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

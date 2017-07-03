@@ -10,7 +10,7 @@
 #ifndef __IE_MARBLE__
 #define __IE_MARBLE__
 
-#include "../base/IEarea.h"
+#include "../IEArea.h"
 #include "IEmarbleBlock.h"
 #include "IEmarblesInfoManager.h"
 

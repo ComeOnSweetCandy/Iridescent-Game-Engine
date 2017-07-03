@@ -10,11 +10,11 @@
 #ifndef __IE_WATER__
 #define __IE_WATER__
 
-#include "../IEterrainGrid.h"
+#include "../IETerrainBlock.h"
 
 IE_BEGIN
 
-class __IE_DLL__ IEWater :public IETerrainGrid
+class __IE_DLL__ IEWater :public IETerrainBlock
 {
 public:
 	IEWater();

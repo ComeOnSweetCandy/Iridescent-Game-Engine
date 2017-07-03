@@ -27,7 +27,7 @@ public:
 	void SetRound(unsigned char roundIndex ,unsigned int thingID);
 
 protected:
-	virtual void DrawNode();
+	virtual void DrawNode(){};
 
 private:
 	//初始化头顶的sprite

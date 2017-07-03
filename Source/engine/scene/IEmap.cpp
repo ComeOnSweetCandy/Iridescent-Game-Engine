@@ -1,12 +1,14 @@
 #define __IE_DLL_EXPORTS__
-#include "IEmap.h"
+#include "IEMap.h"
 
 #include "terrain/IEterrain.h"
 #include "thing/IEthingArea.h"
 #include "marble/IEmarble.h"
 #include "path/IEpath.h"
 #include "../../ai/IEpathFinder.h"
+
 #include "../../core/IEcamera.h"
+#include "../../control/IEmouse.h"
 
 IE_BEGIN
 
@@ -16,6 +18,8 @@ IEMap::IEMap()
 	m_visibleRadius = 0;
 	m_unitChunkBlockCount = m_chunkSideLength * m_chunkSideLength;
 
+	m_activeSceneType = __ie_scene_none__;
+	m_sceneEditMode = __ie_sceneEdit_choose__;
 	m_curTerrain = NULL;
 	m_curMarble = NULL;
 	m_curThing = NULL;
@@ -153,9 +157,50 @@ void IEMap::Update()
 	IEVector cameraPosition = IECamera::Share()->GetCameraPosi();
 	IEGrid cameraGrid = cameraPosition;
 
-	m_curTerrain->SetCenterBlockLocation(cameraGrid);
+	m_curTerrain->SetCenterBlockLocation(cameraGrid.m_x, cameraGrid.m_y);
 	//m_curMarble->SetCenterBlockLocation(cameraGrid);
-	m_curThing->SetCenterBlockLocation(cameraGrid);
+	m_curThing->SetCenterBlockLocation(cameraGrid.m_x, cameraGrid.m_y);
+
+	//先对当前选择的场景进行判定
+	IEArea * activeArea = NULL;
+	switch (m_activeSceneType)
+	{
+	case __ie_scene_none__:activeArea = NULL; break;
+	case __ie_scene_terrain__:activeArea = m_curTerrain; break;
+	case __ie_scene_marble__:activeArea = m_curMarble; break;
+	case __ie_scene_thing__:activeArea = m_curThing; break;
+	default: break;
+	}
+
+	if (activeArea)
+	{
+		activeArea->MouseMove(cameraGrid.m_x, cameraGrid.m_y);
+
+		//当按下鼠标的时候
+		if (IEMouse::Share()->IsButtonTouch(0))
+		{
+			if (m_sceneEditMode == __ie_sceneEdit_choose__)
+			{
+				activeArea->MouseChoose();
+			}
+			else if (m_sceneEditMode == __ie_sceneEdit_touch__)
+			{
+				activeArea->MouseClick();
+			}
+		}
+		if (IEMouse::Share()->IsButtonDown(0))
+		{
+			if (m_sceneEditMode == __ie_sceneEdit_brush__)
+			{
+				activeArea->MouseClick();
+			}
+		}
+		if (IEMouse::Share()->IsButtonTouch(1))
+		{
+			//取消选中的内容
+
+		}
+	}
 }
 
 IEPath * IEMap::GetPath()
@@ -200,11 +245,17 @@ void IEMap::SaveTerrain()
 	//然后写入改变的东西
 	while (IETerrainAlter * controll = (IETerrainAlter *)(terrainAlters->PopTop()))
 	{
-		IEGrid blockLocation = IEGrid(controll->_X, controll->_Y);
-		IEGrid chunkLocation = IEGrid(0, 0);
-		IEGrid explicitBlockLocation = IEGrid(0, 0);
+		//IEGrid blockLocation = IEGrid(controll->_X, controll->_Y);
+		//IEGrid chunkLocation = IEGrid(0, 0);
+		//IEGrid explicitBlockLocation = IEGrid(0, 0);
 
-		m_curTerrain->LocationTranslate(blockLocation, chunkLocation, explicitBlockLocation);
+		//m_curTerrain->LocationTranslate(blockLocation, chunkLocation, explicitBlockLocation);
+
+		static int chunkLocationX, chunkLocationY, explicitBlockLocationX, explicitBlockLocationY;
+		IEGrid chunkLocation = IEGrid(chunkLocationX, chunkLocationY);
+		IEGrid explicitBlockLocation = IEGrid(explicitBlockLocationX, explicitBlockLocationY);
+
+		m_curThing->LocationTranslate(controll->_X, controll->_Y, chunkLocationX, chunkLocationY, explicitBlockLocationX, explicitBlockLocationY);
 
 		int existTerrainChunkIndex = -1;
 		for (unsigned int terrainIndex = 0; terrainIndex < m_terrainIndexCount; terrainIndex++)
@@ -323,11 +374,11 @@ void IEMap::LoadTerrainChunk(int blockX, int blockY)
 		fseek(m_terrainFile, m_unitChunkBlockCount * m_terrainBlockSize * existTerrainChunkIndex, SEEK_SET);
 		fread(m_terrainBlocksList, sizeof(IETerrainBlockFormat), m_unitChunkBlockCount, m_terrainFile);
 		
-		m_curTerrain->LoadChild(blockX, blockY, m_terrainBlocksList);
+		m_curTerrain->LoadChilds(m_terrainBlocksList, blockX, blockY);
 	}
 	else
 	{
-		m_curTerrain->LoadChild(blockX, blockY, NULL);
+		m_curTerrain->LoadChilds(NULL, blockX, blockY);
 	}
 }
 
@@ -499,10 +550,13 @@ void IEMap::SaveThing()
 	while (IEThingAlter * controll = (IEThingAlter *)(thingAlters->PopTop()))
 	{
 		IEGrid blockLocation = IEGrid(controll->_X, controll->_Y);
-		IEGrid chunkLocation = IEGrid(0, 0);
-		IEGrid explicitBlockLocation = IEGrid(0, 0);
 
-		m_curThing->LocationTranslate(blockLocation, chunkLocation, explicitBlockLocation);
+		static int chunkLocationX, chunkLocationY, explicitBlockLocationX, explicitBlockLocationY;
+		IEGrid chunkLocation = IEGrid(chunkLocationX, chunkLocationY);
+		IEGrid explicitBlockLocation = IEGrid(explicitBlockLocationX, explicitBlockLocationY);
+
+		m_curThing->LocationTranslate(controll->_X, controll->_Y, chunkLocationX, chunkLocationY, explicitBlockLocationX, explicitBlockLocationY);
+		//m_curThing->LocationTranslate(blockLocation, chunkLocation, explicitBlockLocation);
 
 		sprintf(str, "%d_%d", chunkLocation.m_x, chunkLocation.m_y);
 		IEThingChunkIndex * chunkIndex = (IEThingChunkIndex *)RESOURCE[str];

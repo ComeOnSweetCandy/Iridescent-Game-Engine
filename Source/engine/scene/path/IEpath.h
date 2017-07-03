@@ -10,7 +10,7 @@
 #ifndef __IE_PATH__
 #define __IE_PATH__
 
-#include "../base/IEarea.h"
+#include "../IEArea.h"
 #include "IEpathBlock.h"
 
 IE_BEGIN

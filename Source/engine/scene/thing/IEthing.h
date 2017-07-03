@@ -10,7 +10,7 @@
 #ifndef __IE_THING__
 #define __IE_THING__
 
-#include "../base/IEblock.h"
+#include "../IEBlock.h"
 
 IE_BEGIN
 

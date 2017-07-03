@@ -10,7 +10,7 @@
 #ifndef __IE_THING_CHUNK__
 #define __IE_THING_CHUNK__
 
-#include "../base/IEchunk.h"
+#include "../IEChunk.h"
 #include "IEthing.h"
 
 IE_BEGIN

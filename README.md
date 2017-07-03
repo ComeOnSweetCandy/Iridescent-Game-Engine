@@ -11,6 +11,7 @@
 # texture list				---		17/05/28	#
 # big texture				---		17/05/28	#
 # terrain及其他代码整理		---		17/05/14	#
+# sprite list				---		17/07/03	#
 # adorning制造机			###		17/05/23	#
 # lua physic vertexs优化	###		17/05/23	#
 # terrain地形优化到最佳		###		17/05/11	#

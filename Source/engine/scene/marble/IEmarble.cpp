@@ -31,7 +31,7 @@ IEMarble * IEMarble::Create(IEMap * map, int halfViewBlocks, int blockSize)
 
 IEChunk * IEMarble::CreateChunk()
 {
-	return IEMarbleBlock::Create(m_sideLength);
+	return IEMarbleBlock::Create(m_chunkLength);
 }
 
 void IEMarble::LoadChunk(int blockX, int blockY)
@@ -247,16 +247,16 @@ void IEMarble::ApplyCorner(IEMarbleGrid * grid, unsigned int marbleID, int gridX
 
 void IEMarble::RemoveChild(int gridX, int gridY)
 {
-	//IETerrainGrid * grid = (IETerrainGrid *)GetGrid(gridX, gridY);
+	//IETerrainBlock * grid = (IETerrainBlock *)GetGrid(gridX, gridY);
 	//if (grid != NULL)
 	//{
 	//	RemoveChild(gridX, gridY);
 
-	//	IETerrainGrid * grids[4];
-	//	grids[0] = (IETerrainGrid *)GetGrid(gridX, gridY - 1);
-	//	grids[1] = (IETerrainGrid *)GetGrid(gridX + 1, gridY);
-	//	grids[2] = (IETerrainGrid *)GetGrid(gridX, gridY + 1);
-	//	grids[3] = (IETerrainGrid *)GetGrid(gridX - 1, gridY);
+	//	IETerrainBlock * grids[4];
+	//	grids[0] = (IETerrainBlock *)GetGrid(gridX, gridY - 1);
+	//	grids[1] = (IETerrainBlock *)GetGrid(gridX + 1, gridY);
+	//	grids[2] = (IETerrainBlock *)GetGrid(gridX, gridY + 1);
+	//	grids[3] = (IETerrainBlock *)GetGrid(gridX - 1, gridY);
 	//	for (int index = 0; index < 4; index++)
 	//	{
 	//		if (grids[index] != NULL && grids[index]->ValidateTerrainGridMode(__terrain_body_mode__))

@@ -10,7 +10,7 @@
 #ifndef __IE_PATH_BLOCK__
 #define __IE_PATH_BLOCK__
 
-#include "../base/IEchunk.h"
+#include "../IEChunk.h"
 #include "IEpathGrid.h"
 
 IE_BEGIN

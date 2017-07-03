@@ -32,6 +32,7 @@ void IEThingArea::Initialization(IEMap * map, int halfViewBlocks, int blockSize)
 
 	m_suspensionThing = IESprite::Create("bucket/body.png");
 	m_suspensionThing->SetTranslate(1.0f, 1.0f);
+	m_suspensionThing->SetDisplay(false);
 	IENode::AddChild(m_suspensionThing);
 }
 
@@ -206,21 +207,22 @@ void IEThingArea::RemoveChild()
 
 IEThing * IEThingArea::ChooseThing(int locationX, int locationY, unsigned char tinyLocationX, unsigned char tinyLocationY)
 {
-	IEGrid chunkLocation;
-	IEGrid explicitBlockLocation;
+	return NULL;
+	//IEGrid chunkLocation;
+	//IEGrid explicitBlockLocation;
 
-	LocationTranslate(IEGrid(locationX, locationY), chunkLocation, explicitBlockLocation);
-	IEGrid offset = chunkLocation - m_centerChunkLocation;
+	//LocationTranslate(IEGrid(locationX, locationY), chunkLocation, explicitBlockLocation);
+	//IEGrid offset = chunkLocation - m_centerChunkLocation;
 
-	if (!legalRange(offset))
-	{
-		return NULL;
-	}
+	//if (!legalRange(offset))
+	//{
+	//	return NULL;
+	//}
 
-	IEThingChunk * chunk = (IEThingChunk *)m_blocksMatrix[m_visibleRadius + offset.m_x][m_visibleRadius + offset.m_y]->_Chunk;
-	IEThing * thing = chunk->GetChild(explicitBlockLocation.m_x, explicitBlockLocation.m_y, tinyLocationX, tinyLocationY);
+	//IEThingChunk * chunk = (IEThingChunk *)m_chunksIndexMatrix[m_visibleRadius + offset.m_x][m_visibleRadius + offset.m_y]->_Chunk;
+	//IEThing * thing = chunk->GetChild(explicitBlockLocation.m_x, explicitBlockLocation.m_y, tinyLocationX, tinyLocationY);
 
-	return thing;
+	//return thing;
 }
 
 void IEThingArea::RollbackControll()
@@ -357,7 +359,7 @@ void IEThingArea::LoadChild(int blockX, int blockY, IEThingBlockFormat * alters)
 		return;
 	}
 
-	unsigned int size = m_sideLength * m_sideLength;
+	unsigned int size = m_chunkLength * m_chunkLength;
 	for (unsigned int index = 0; index < size; index++)
 	{
 		if (alters[index]._ThingID)
@@ -423,9 +425,9 @@ IEThing * IEThingArea::CreateThing(unsigned thingID)
 
 IEThing * IEThingArea::FindThingByOrder(unsigned int thingOrder)
 {
-	for (int index = 0; index < m_maxBlocksCount; index++)
+	for (int index = 0; index < m_visibleChunksCount; index++)
 	{
-		IEChunk * block = m_blocksIndex[index]->_Chunk;
+		IEChunk * block = m_chunks[index]->_Chunk;
 
 		IEContainer * childs = block->GetChilds();
 		IEThing ** things = (IEThing **)(childs->GetContainer());
@@ -445,7 +447,7 @@ IEThing * IEThingArea::FindThingByOrder(unsigned int thingOrder)
 
 IEChunk * IEThingArea::CreateChunk()
 {
-	return IEThingChunk::Create(m_sideLength);
+	return IEThingChunk::Create(m_chunkLength);
 }
 
 void IEThingArea::Visit()
@@ -501,75 +503,75 @@ bool IEThingArea::AllowChild(int locationX, int locationY, unsigned char tinyLoc
 	return true;
 }
 
-void IEThingArea::AddThing(IEThing * thing, int locationX, int locationY, unsigned char tinyLocationX, unsigned char tinyLocationY)
-{
-	IEGrid chunkLocation;
-	IEGrid explicitBlockLocation;
-
-	LocationTranslate(IEGrid(locationX, locationY), chunkLocation, explicitBlockLocation);
-	IEGrid offset = chunkLocation - m_centerChunkLocation;
-
-	if (!legalRange(offset))
-	{
-		return;
-	}
-
-	IEThingChunk * chunk = (IEThingChunk *)m_blocksMatrix[m_visibleRadius + offset.m_x][m_visibleRadius + offset.m_y]->_Chunk;
-	chunk->AddChild(thing, explicitBlockLocation.m_x, explicitBlockLocation.m_y, tinyLocationX, tinyLocationY);
-	thing->SetTranslate(explicitBlockLocation.m_x + tinyLocationX * 0.25f, explicitBlockLocation.m_y + tinyLocationY * 0.25f);
-}
-
-void IEThingArea::HoldThing(IEThing * thing, int locationX, int locationY, unsigned char tinyLocationX, unsigned char tinyLocationY)
-{
-	IEGrid chunkLocation;
-	IEGrid explicitBlockLocation;
-
-	LocationTranslate(IEGrid(locationX, locationY), chunkLocation, explicitBlockLocation);
-	IEGrid offset = chunkLocation - m_centerChunkLocation;
-
-	if (!legalRange(offset))
-	{
-		thing->SetExpress(false);
-
-		return;
-	}
-
-	IEThingChunk * chunk = (IEThingChunk *)m_blocksMatrix[m_visibleRadius + offset.m_x][m_visibleRadius + offset.m_y]->_Chunk;
-	chunk->StanceChild(thing, explicitBlockLocation.m_x, explicitBlockLocation.m_y, tinyLocationX, tinyLocationY);
-}
-
-void IEThingArea::EraseThing(int locationX, int locationY, unsigned char tinyLocationX, unsigned char tinyLocationY)
-{
-	IEGrid chunkLocation;
-	IEGrid explicitBlockLocation;
-
-	LocationTranslate(IEGrid(locationX, locationY), chunkLocation, explicitBlockLocation);
-	IEGrid offset = chunkLocation - m_centerChunkLocation;
-
-	if (!legalRange(offset))
-	{
-		return;
-	}
-
-	IEThingChunk * chunk = (IEThingChunk *)m_blocksMatrix[m_visibleRadius + offset.m_x][m_visibleRadius + offset.m_y]->_Chunk;
-	chunk->EraseChild(explicitBlockLocation.m_x, explicitBlockLocation.m_y, tinyLocationX, tinyLocationY);
-}
-
-void IEThingArea::RemoveThing(int locationX, int locationY, unsigned char tinyLocationX, unsigned char tinyLocationY)
-{
-	IEGrid chunkLocation;
-	IEGrid explicitBlockLocation;
-
-	LocationTranslate(IEGrid(locationX, locationY), chunkLocation, explicitBlockLocation);
-	IEGrid offset = chunkLocation - m_centerChunkLocation;
-
-	if (!legalRange(offset))
-	{
-		return;
-	}
-
-	IEThingChunk * chunk = (IEThingChunk *)m_blocksMatrix[m_visibleRadius + offset.m_x][m_visibleRadius + offset.m_y]->_Chunk;
-	chunk->RemoveChild(explicitBlockLocation.m_x, explicitBlockLocation.m_y, tinyLocationX, tinyLocationY);
-}
+//void IEThingArea::AddThing(IEThing * thing, int locationX, int locationY, unsigned char tinyLocationX, unsigned char tinyLocationY)
+//{
+//	IEGrid chunkLocation;
+//	IEGrid explicitBlockLocation;
+//
+//	LocationTranslate(IEGrid(locationX, locationY), chunkLocation, explicitBlockLocation);
+//	IEGrid offset = chunkLocation - m_centerChunkLocation;
+//
+//	if (!legalRange(offset))
+//	{
+//		return;
+//	}
+//
+//	IEThingChunk * chunk = (IEThingChunk *)m_chunksIndexMatrix[m_visibleRadius + offset.m_x][m_visibleRadius + offset.m_y]->_Chunk;
+//	chunk->AddChild(thing, explicitBlockLocation.m_x, explicitBlockLocation.m_y, tinyLocationX, tinyLocationY);
+//	thing->SetTranslate(explicitBlockLocation.m_x + tinyLocationX * 0.25f, explicitBlockLocation.m_y + tinyLocationY * 0.25f);
+//}
+//
+//void IEThingArea::HoldThing(IEThing * thing, int locationX, int locationY, unsigned char tinyLocationX, unsigned char tinyLocationY)
+//{
+//	IEGrid chunkLocation;
+//	IEGrid explicitBlockLocation;
+//
+//	LocationTranslate(IEGrid(locationX, locationY), chunkLocation, explicitBlockLocation);
+//	IEGrid offset = chunkLocation - m_centerChunkLocation;
+//
+//	if (!legalRange(offset))
+//	{
+//		thing->SetExpress(false);
+//
+//		return;
+//	}
+//
+//	IEThingChunk * chunk = (IEThingChunk *)m_chunksIndexMatrix[m_visibleRadius + offset.m_x][m_visibleRadius + offset.m_y]->_Chunk;
+//	chunk->StanceChild(thing, explicitBlockLocation.m_x, explicitBlockLocation.m_y, tinyLocationX, tinyLocationY);
+//}
+//
+//void IEThingArea::EraseThing(int locationX, int locationY, unsigned char tinyLocationX, unsigned char tinyLocationY)
+//{
+//	IEGrid chunkLocation;
+//	IEGrid explicitBlockLocation;
+//
+//	LocationTranslate(IEGrid(locationX, locationY), chunkLocation, explicitBlockLocation);
+//	IEGrid offset = chunkLocation - m_centerChunkLocation;
+//
+//	if (!legalRange(offset))
+//	{
+//		return;
+//	}
+//
+//	IEThingChunk * chunk = (IEThingChunk *)m_chunksIndexMatrix[m_visibleRadius + offset.m_x][m_visibleRadius + offset.m_y]->_Chunk;
+//	chunk->EraseChild(explicitBlockLocation.m_x, explicitBlockLocation.m_y, tinyLocationX, tinyLocationY);
+//}
+//
+//void IEThingArea::RemoveThing(int locationX, int locationY, unsigned char tinyLocationX, unsigned char tinyLocationY)
+//{
+//	IEGrid chunkLocation;
+//	IEGrid explicitBlockLocation;
+//
+//	LocationTranslate(IEGrid(locationX, locationY), chunkLocation, explicitBlockLocation);
+//	IEGrid offset = chunkLocation - m_centerChunkLocation;
+//
+//	if (!legalRange(offset))
+//	{
+//		return;
+//	}
+//
+//	IEThingChunk * chunk = (IEThingChunk *)m_chunksIndexMatrix[m_visibleRadius + offset.m_x][m_visibleRadius + offset.m_y]->_Chunk;
+//	chunk->RemoveChild(explicitBlockLocation.m_x, explicitBlockLocation.m_y, tinyLocationX, tinyLocationY);
+//}
 
 IE_END

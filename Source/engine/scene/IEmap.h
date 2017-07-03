@@ -109,6 +109,9 @@ private:
 	void InitAreaFile(IEString &fileName);
 
 private:
+	IESceneType m_activeSceneType;		//当前激活的scene type
+	IESceneEditMode m_sceneEditMode;	//当前scene的修改方式
+
 	int m_chunkSideLength;				//一个chunk的长度
 	int m_unitChunkBlockCount;			//一个chunk中包含有多少个block
 	int m_visibleRadius;				//最大的可视半径

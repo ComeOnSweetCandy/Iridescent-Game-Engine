@@ -1,12 +1,15 @@
 #define __IE_DLL_EXPORTS__
-#include "IEterrain.h"
+#include "IETerrain.h"
 
 IE_BEGIN
 
 IETerrain::IETerrain()
 {
+	m_sceneType = __ie_scene_terrain__;
 	m_map = NULL;
 	m_alter = NULL;
+	m_readyTerrainID = 0;
+	m_readyTerrainMode = __terrain_none_mode__;
 
 	strcpy(stringBody, "/body_");
 	strcpy(stringBorder, "/border_");
@@ -19,23 +22,23 @@ IETerrain::~IETerrain()
 
 }
 
-void IETerrain::Initialization(IEMap * map, int halfViewBlocks, int blockSize)
+void IETerrain::Initialization(IEMap * map, int visibleRadius, int sideLength)
 {
-	IEArea::Initialization(map, halfViewBlocks, blockSize);
+	IEArea::Initialization(map, visibleRadius, sideLength);
 
 	m_terrainsInfo = IETerrainsInfoManager::Share()->GetTerrainsInfoList();
 }
 
-IETerrain * IETerrain::Create(IEMap * map, int halfViewBlocks, int blockSize)
+IETerrain * IETerrain::Create(IEMap * map, int visibleRadius, int sideLength)
 {
 	IETerrain * terrain = new IETerrain();
-	terrain->Initialization(map, halfViewBlocks, blockSize);
+	terrain->Initialization(map, visibleRadius, sideLength);
 	return terrain;
 }
 
 IEChunk * IETerrain::CreateChunk()
 {
-	return IETerrainBlock::Create(m_sideLength);
+	return IETerrainChunk::Create(m_chunkLength);
 }
 
 void IETerrain::LoadChunk(int blockX, int blockY)
@@ -43,20 +46,20 @@ void IETerrain::LoadChunk(int blockX, int blockY)
 	m_map->LoadTerrainChunk(blockX, blockY);
 }
 
-void IETerrain::LoadChild(int chunkLocationX, int chunkLocationY, IETerrainBlockFormat * blocks)
+void IETerrain::LoadChilds(IETerrainBlockFormat * blocks, int chunkLocationX, int chunkLocationY)
 {
-	IETerrainBlock * block = (IETerrainBlock *)GetChunk(chunkLocationX, chunkLocationY);
+	IETerrainChunk * block = (IETerrainChunk *)GetChunk(chunkLocationX, chunkLocationY);
 	block->ResetCache();
 
 	m_loadString[0];
 	m_loadString[1] = stringBody;
 	m_loadString[2] = stringNumber;
 	m_loadString[3] = stringPNG;
-
+	
 	unsigned int index = 0;
-	for (int x = 0; x < m_sideLength; x++)
+	for (int x = 0; x < m_chunkLength; x++)
 	{
-		for (int y = 0; y < m_sideLength; y++)
+		for (int y = 0; y < m_chunkLength; y++)
 		{
 			if (blocks)
 			{
@@ -103,11 +106,11 @@ void IETerrain::LoadChild(int chunkLocationX, int chunkLocationY, IETerrainBlock
 	m_loadString[2] = stringNumber;
 	m_loadString[3] = stringPNG;
 	
-	for (int x = 0; x < m_sideLength; x++)
+	for (int x = 0; x < m_chunkLength; x++)
 	{
-		for (int y = 0; y < m_sideLength; y++)
+		for (int y = 0; y < m_chunkLength; y++)
 		{
-			IETerrainGrid * grid = (IETerrainGrid *)gridArrays[x][y];
+			IETerrainBlock * grid = (IETerrainBlock *)gridArrays[x][y];
 			if (grid->IsDisplayBorder())
 			{
 				index = rand() % m_terrainsInfo[grid->GetTerrainID()]._BorderC;
@@ -134,7 +137,7 @@ void IETerrain::LoadChild(int chunkLocationX, int chunkLocationY, IETerrainBlock
 	}
 }
 
-void IETerrain::LoadBody(IETerrainBlock * block, int explicitGridPositionX, int explicitGridPositionY, unsigned int terrainID, unsigned int createdOrder)
+void IETerrain::LoadBody(IETerrainChunk * chunk, int explicitGridPositionX, int explicitGridPositionY, unsigned int terrainID, unsigned int createdOrder)
 {
 	int randIndex;
 
@@ -142,7 +145,7 @@ void IETerrain::LoadBody(IETerrainBlock * block, int explicitGridPositionX, int 
 	{
 		randIndex = rand() % m_terrainsInfo[terrainID]._BodyC;
 
-		IETerrainGrid * grid = (IETerrainGrid *)block->GetBlock(explicitGridPositionX, explicitGridPositionY);
+		IETerrainBlock * grid = (IETerrainBlock *)chunk->GetBlock(explicitGridPositionX, explicitGridPositionY);
 		grid->Reload(terrainID, __terrain_body_mode__, createdOrder); 
 
 		m_loadString[0] = m_terrainsInfo[terrainID]._TerrainName;
@@ -165,48 +168,41 @@ void IETerrain::LoadBody(IETerrainBlock * block, int explicitGridPositionX, int 
 
 		if (m_terrainsInfo[terrainID]._BorderC)
 		{
-			IETerrainGrid * grids[4];
-			grids[0] = (IETerrainGrid *)block->GetBlock(explicitGridPositionX, explicitGridPositionY - 1);
-			grids[1] = (IETerrainGrid *)block->GetBlock(explicitGridPositionX + 1, explicitGridPositionY);
-			grids[2] = (IETerrainGrid *)block->GetBlock(explicitGridPositionX, explicitGridPositionY + 1);
-			grids[3] = (IETerrainGrid *)block->GetBlock(explicitGridPositionX - 1, explicitGridPositionY);
+			IETerrainBlock * grids[4];
+			grids[0] = (IETerrainBlock *)chunk->GetBlock(explicitGridPositionX, explicitGridPositionY - 1);
+			grids[1] = (IETerrainBlock *)chunk->GetBlock(explicitGridPositionX + 1, explicitGridPositionY);
+			grids[2] = (IETerrainBlock *)chunk->GetBlock(explicitGridPositionX, explicitGridPositionY + 1);
+			grids[3] = (IETerrainBlock *)chunk->GetBlock(explicitGridPositionX - 1, explicitGridPositionY);
 
 			grid->AddNewCalBorder(grids);
 		}
 	}
 }
 
-void IETerrain::LoadNone(IETerrainBlock * block, int explicitGridPositionX, int explicitGridPositionY, unsigned int terrainID, unsigned int createdOrder)
+void IETerrain::LoadNone(IETerrainChunk * chunk, int explicitGridPositionX, int explicitGridPositionY, unsigned int terrainID, unsigned int createdOrder)
 {
-	IETerrainGrid * grid = (IETerrainGrid *)block->GetBlock(explicitGridPositionX, explicitGridPositionY);
-	IETerrainGrid * grids[4];
+	IETerrainBlock * grid = (IETerrainBlock *)chunk->GetBlock(explicitGridPositionX, explicitGridPositionY);
+	IETerrainBlock * grids[4];
 
-	grids[0] = (IETerrainGrid *)block->GetBlock(explicitGridPositionX, explicitGridPositionY - 1);
-	grids[1] = (IETerrainGrid *)block->GetBlock(explicitGridPositionX + 1, explicitGridPositionY);
-	grids[2] = (IETerrainGrid *)block->GetBlock(explicitGridPositionX, explicitGridPositionY + 1);
-	grids[3] = (IETerrainGrid *)block->GetBlock(explicitGridPositionX - 1, explicitGridPositionY);
+	grids[0] = (IETerrainBlock *)chunk->GetBlock(explicitGridPositionX, explicitGridPositionY - 1);
+	grids[1] = (IETerrainBlock *)chunk->GetBlock(explicitGridPositionX + 1, explicitGridPositionY);
+	grids[2] = (IETerrainBlock *)chunk->GetBlock(explicitGridPositionX, explicitGridPositionY + 1);
+	grids[3] = (IETerrainBlock *)chunk->GetBlock(explicitGridPositionX - 1, explicitGridPositionY);
 
 	grid->DelOldCalBorder(grids);
 	grid->SetTerrainID(0);
 	grid->SetDisplay(false);
 }
 
-void IETerrain::AddChild(unsigned int terrainID, IETerrainMode terrainMODE, int blockLocationX, int blockLocationY)
+void IETerrain::AddChild(int blockLocationX, int blockLocationY)
 {
-	if (blockLocationX == 15 && blockLocationY == 14)
-	{
-		int i = 1;
-	}
-
 	m_alter = new IETerrainAlter();
 	m_alter->_X = blockLocationX;
 	m_alter->_Y = blockLocationY;
-	m_alter->_TerrainInfo._TerrainID = terrainID;
-	m_alter->_TerrainInfo._TerrainMode = terrainMODE;
+	m_alter->_TerrainInfo._TerrainID = m_readyTerrainID;
+	m_alter->_TerrainInfo._TerrainMode = m_readyTerrainMode;
 	m_alter->_TerrainInfo._Order = m_curOrder++;
 	m_alters->Push(m_alter);
-
-	LocationTranslate(blockLocationX, blockLocationY, m_alter->_chunkLocationX, m_alter->_chunkLocationY, m_alter->_explicitBlockLocationX, m_alter->_explicitBlockLocationY);
 
 	switch (terrainMODE)
 	{
@@ -240,7 +236,7 @@ void IETerrain::AddBody(unsigned int terrainID, IETerrainMode terrainMODE, unsig
 	if (terrainsInfo[terrainID]._BodyC)
 	{
 		int randIndex = rand() % terrainsInfo[terrainID]._BodyC;
-		IETerrainGrid * grid = (IETerrainGrid *)GetBlock(blockLocationX, blockLocationY);
+		IETerrainBlock * grid = (IETerrainBlock *)GetBlock(blockLocationX, blockLocationY);
 		if (grid != NULL)
 		{
 			m_alter->_TerrainInfoOld._Order = grid->GetOrder();
@@ -256,7 +252,7 @@ void IETerrain::AddBody(unsigned int terrainID, IETerrainMode terrainMODE, unsig
 
 			m_alter->_TerrainInfoOld._TerrainMode = __terrain_none_mode__;
 
-			grid = IETerrainGrid::Create(terrainID, __terrain_body_mode__, createdOrder);			//*** lua script 1400 ***//
+			grid = IETerrainBlock::Create(terrainID, __terrain_body_mode__, createdOrder);			//*** lua script 1400 ***//
 			IEArea::AddChild(grid, blockLocationX, blockLocationY);
 		}
 
@@ -266,11 +262,11 @@ void IETerrain::AddBody(unsigned int terrainID, IETerrainMode terrainMODE, unsig
 		if (terrainsInfo[terrainID]._BorderC)
 		{
 			randIndex = rand() % terrainsInfo[terrainID]._BorderC;
-			IETerrainGrid * grids[4];
-			grids[0] = (IETerrainGrid *)GetBlock(blockLocationX, blockLocationY - 1);
-			grids[1] = (IETerrainGrid *)GetBlock(blockLocationX + 1, blockLocationY);
-			grids[2] = (IETerrainGrid *)GetBlock(blockLocationX, blockLocationY + 1);
-			grids[3] = (IETerrainGrid *)GetBlock(blockLocationX - 1, blockLocationY);
+			IETerrainBlock * grids[4];
+			grids[0] = (IETerrainBlock *)GetBlock(blockLocationX, blockLocationY - 1);
+			grids[1] = (IETerrainBlock *)GetBlock(blockLocationX + 1, blockLocationY);
+			grids[2] = (IETerrainBlock *)GetBlock(blockLocationX, blockLocationY + 1);
+			grids[3] = (IETerrainBlock *)GetBlock(blockLocationX - 1, blockLocationY);
 			bool isBorderExits = false;
 			for (int index = 0; index < 4; index++)
 			{
@@ -331,11 +327,11 @@ void IETerrain::ApplyBevel(unsigned int terrainID, IETerrainMode terrainMODE, un
 	IEString s = IEString("texture/") + terrainsInfo[terrainID]._TerrainName;
 	const char * terrainTextureName = s.GetString();
 
-	IETerrainGrid * grids[4];
-	grids[0] = (IETerrainGrid *)GetBlock(blockLocationX, blockLocationY - 1);
-	grids[1] = (IETerrainGrid *)GetBlock(blockLocationX + 1, blockLocationY);
-	grids[2] = (IETerrainGrid *)GetBlock(blockLocationX, blockLocationY + 1);
-	grids[3] = (IETerrainGrid *)GetBlock(blockLocationX - 1, blockLocationY);
+	IETerrainBlock * grids[4];
+	grids[0] = (IETerrainBlock *)GetBlock(blockLocationX, blockLocationY - 1);
+	grids[1] = (IETerrainBlock *)GetBlock(blockLocationX + 1, blockLocationY);
+	grids[2] = (IETerrainBlock *)GetBlock(blockLocationX, blockLocationY + 1);
+	grids[3] = (IETerrainBlock *)GetBlock(blockLocationX - 1, blockLocationY);
 
 	bool allowSet = false;
 	int surroundCount = 0;
@@ -362,21 +358,21 @@ void IETerrain::ApplyBevel(unsigned int terrainID, IETerrainMode terrainMODE, un
 
 	if (surroundCount == 2 && surroundGridIndex!=-1)
 	{
-		IETerrainGrid * grid = (IETerrainGrid *)GetBlock(blockLocationX, blockLocationY);
+		IETerrainBlock * grid = (IETerrainBlock *)GetBlock(blockLocationX, blockLocationY);
 		if (grid != NULL)
 		{
 			RemoveChild(blockLocationX, blockLocationY);
 		}
 
 		IEString stringTexture = IEString(terrainTextureName) + "/bevel_" + (rand() % terrainsInfo[terrainID]._BevelC) + ".tga";
-		grid = IETerrainGrid::Create(terrainID, terrainMODE, m_alter->_TerrainInfo._Order);
+		grid = IETerrainBlock::Create(terrainID, terrainMODE, m_alter->_TerrainInfo._Order);
 		IEArea::AddChild(grid, blockLocationX, blockLocationY);
 
-		IETerrainGrid * grids[4];
-		grids[0] = (IETerrainGrid *)GetBlock(blockLocationX, blockLocationY - 1);
-		grids[1] = (IETerrainGrid *)GetBlock(blockLocationX + 1, blockLocationY);
-		grids[2] = (IETerrainGrid *)GetBlock(blockLocationX, blockLocationY + 1);
-		grids[3] = (IETerrainGrid *)GetBlock(blockLocationX - 1, blockLocationY);
+		IETerrainBlock * grids[4];
+		grids[0] = (IETerrainBlock *)GetBlock(blockLocationX, blockLocationY - 1);
+		grids[1] = (IETerrainBlock *)GetBlock(blockLocationX + 1, blockLocationY);
+		grids[2] = (IETerrainBlock *)GetBlock(blockLocationX, blockLocationY + 1);
+		grids[3] = (IETerrainBlock *)GetBlock(blockLocationX - 1, blockLocationY);
 
 		for (int index = 0; index < 4; index++)
 		{
@@ -403,7 +399,7 @@ void IETerrain::ApplyPiece(unsigned int terrainID, IETerrainMode terrainMODE, un
 	IEString s = IEString("texture/") + terrainsInfo[terrainID]._TerrainName;
 	const char * terrainTextureName = s.GetString();
 
-	IETerrainGrid * grid = (IETerrainGrid *)GetBlock(blockLocationX, blockLocationY);
+	IETerrainBlock * grid = (IETerrainBlock *)GetBlock(blockLocationX, blockLocationY);
 	if (grid != NULL && !grid->ValidateTerrainID(terrainID))
 	{
 		IEString stringTexture = IEString(terrainTextureName) + "/piece_" + (rand() % terrainsInfo[terrainID]._PieceC) + ".tga";
@@ -414,7 +410,7 @@ void IETerrain::ApplyPiece(unsigned int terrainID, IETerrainMode terrainMODE, un
 void IETerrain::ApplyNone(unsigned int terrainID, IETerrainMode terrainMODE, unsigned int gridOrder, int blockLocationX, int blockLocationY)
 {
 	IETerrainInfo * terrainsInfo = IETerrainsInfoManager::Share()->GetTerrainsInfoList();
-	IETerrainGrid * grid = (IETerrainGrid *)GetBlock(blockLocationX, blockLocationY);
+	IETerrainBlock * grid = (IETerrainBlock *)GetBlock(blockLocationX, blockLocationY);
 	if (grid == NULL)
 	{
 		m_curOrder--;
@@ -431,11 +427,11 @@ void IETerrain::ApplyNone(unsigned int terrainID, IETerrainMode terrainMODE, uns
 	}
 
 	//判定周围是否有需要复原的border
-	IETerrainGrid * grids[4];
-	grids[0] = (IETerrainGrid *)GetBlock(blockLocationX, blockLocationY - 1);
-	grids[1] = (IETerrainGrid *)GetBlock(blockLocationX + 1, blockLocationY);
-	grids[2] = (IETerrainGrid *)GetBlock(blockLocationX, blockLocationY + 1);
-	grids[3] = (IETerrainGrid *)GetBlock(blockLocationX - 1, blockLocationY);
+	IETerrainBlock * grids[4];
+	grids[0] = (IETerrainBlock *)GetBlock(blockLocationX, blockLocationY - 1);
+	grids[1] = (IETerrainBlock *)GetBlock(blockLocationX + 1, blockLocationY);
+	grids[2] = (IETerrainBlock *)GetBlock(blockLocationX, blockLocationY + 1);
+	grids[3] = (IETerrainBlock *)GetBlock(blockLocationX - 1, blockLocationY);
 	for (int index = 0; index < 4; index++)
 	{
 		if (grids[index] != NULL && grids[index]->ValidateTerrainGridMode(__terrain_body_mode__))
@@ -450,7 +446,7 @@ void IETerrain::ApplyNone(unsigned int terrainID, IETerrainMode terrainMODE, uns
 	}
 }
 
-void IETerrain::RollbackAlters()
+void IETerrain::RollbackAllAlters()
 {
 	while (IETerrainAlter * alter = (IETerrainAlter *)(m_alters->PopTop()))
 	{
@@ -490,6 +486,32 @@ void IETerrain::RollbackAlter()
 	default:
 		break;
 	}
+}
+
+void IETerrain::MouseMove(float x, float y)
+{
+
+}
+
+void IETerrain::MouseChoose()
+{
+
+}
+
+void IETerrain::MouseCancel()
+{
+
+}
+
+void IETerrain::MouseClick()
+{
+
+}
+
+void IETerrain::SetReadyTerrain(unsigned int terrainID, IETerrainMode terrainMode)
+{
+	m_readyTerrainID = terrainID;
+	m_readyTerrainMode = terrainMode;
 }
 
 IE_END

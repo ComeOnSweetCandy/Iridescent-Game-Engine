@@ -10,7 +10,7 @@
 #ifndef __IE_MARBLE_BLOCK__
 #define __IE_MARBLE_BLOCK__
 
-#include "../base/IEchunk.h"
+#include "../IEChunk.h"
 #include "IEmarbleGrid.h"
 
 IE_BEGIN

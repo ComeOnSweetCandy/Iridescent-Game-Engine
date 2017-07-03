@@ -10,7 +10,7 @@
 #ifndef __IE_PATH_GRID__
 #define __IE_PATH_GRID__
 
-#include "../base/IEblock.h"
+#include "../IEBlock.h"
 
 #define PATH_PRECISION 4
 

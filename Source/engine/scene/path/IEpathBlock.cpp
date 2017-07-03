@@ -5,8 +5,8 @@ IE_BEGIN
 
 IEPathBlock::IEPathBlock()
 {
-	m_blocksMatrix = NULL;
-	m_sideLength = 0;
+	m_chunksIndexMatrix = NULL;
+	m_chunkLength = 0;
 }
 
 IEPathBlock::~IEPathBlock()
@@ -30,9 +30,9 @@ IEPathBlock * IEPathBlock::Create(int blockSize)
 
 void IEPathBlock::ResetPathGrid()
 {
-	for (int x = 0; x < m_sideLength; x++)
+	for (int x = 0; x < m_chunkLength; x++)
 	{
-		for (int y = 0; y < m_sideLength; y++)
+		for (int y = 0; y < m_chunkLength; y++)
 		{
 			IEPathGrid * grid = IEPathGrid::Create();
 			grid->SetGridGrid(x, y);

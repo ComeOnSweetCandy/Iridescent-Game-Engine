@@ -1,5 +1,5 @@
 #define __IE_DLL_EXPORTS__
-#include "IEblock.h"
+#include "IEBlock.h"
 
 IE_BEGIN
 

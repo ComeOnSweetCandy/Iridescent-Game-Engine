@@ -36,7 +36,7 @@ void IEPath::Visit()
 
 IEChunk * IEPath::CreateChunk()
 {
-	return IEPathBlock::Create(m_sideLength);
+	return IEPathBlock::Create(m_chunkLength);
 }
 
 void IEPath::ReckonPath(IEPhysicNode * physicNode)

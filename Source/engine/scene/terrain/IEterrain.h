@@ -1,5 +1,5 @@
 /***********************************
-* name     : IEterrain.h
+* name     : IETerrain.h
 * creater  : cosc
 * info     : terrain
 * date     : 2016/12/18
@@ -10,9 +10,9 @@
 #ifndef __IE_TERRAIN__
 #define __IE_TERRAIN__
 
-#include "../base/IEarea.h"
-#include "IEterrainBlock.h"
-#include "IEterrainsInfoManager.h"
+#include "../IEArea.h"
+#include "IETerrainChunk.h"
+#include "IETerrainsInfoManager.h"
 
 IE_BEGIN
 
@@ -29,11 +29,6 @@ public:
 	int _X;
 	int _Y;
 
-	int _chunkLocationX;
-	int _chunkLocationY;
-	int _explicitBlockLocationX;
-	int _explicitBlockLocationY;
-
 	IETerrainAlterInfo _TerrainInfo;
 	IETerrainAlterInfo _TerrainInfoOld;
 };
@@ -43,24 +38,31 @@ class __IE_DLL__ IETerrain :public IEArea
 public:
 	IETerrain();
 	virtual ~IETerrain();
-	virtual void Initialization(IEMap * map, int halfViewBlocks, int blockSize);
-	static IETerrain * Create(IEMap * map, int halfViewBlocks, int blockSize);
+	virtual void Initialization(IEMap * map, int visibleRadius, int sideLength);
+	static IETerrain * Create(IEMap * map, int visibleRadius, int sideLength);
 
 public:
-	virtual void AddChild(unsigned int terrainID, IETerrainMode terrainMODE, int blockLocationX, int blockLocationY);
-	virtual void RemoveChild(int posiWorldX, int posiWorldY);
+	virtual void AddChild(int blockLocationX, int blockLocationY);
+	virtual void RemoveChild(int blockLocationX, int blockLocationY);
 
-	virtual void LoadChild(int chunkLocationX, int chunkLocationY, IETerrainBlockFormat * blocks);
+	virtual void LoadChilds(IETerrainBlockFormat * blocks, int chunkLocationX, int chunkLocationY);
 
-	virtual void RollbackAlters();
-	virtual void RollbackAlter();
+
+	virtual void RollbackAlter(){};													//回滚一次操作
+	virtual void RollbackAllAlters(){};												//回滚所有的操作
+
+	void SetReadyTerrain(unsigned int terrainID, IETerrainMode terrainMode);		//设定准备的terrain		
+	virtual void MouseMove(float x, float y);										//鼠标的移动
+	virtual void MouseChoose();
+	virtual void MouseCancel();
+	virtual void MouseClick();
 
 private:
 	virtual IEChunk * CreateChunk();
 	virtual void LoadChunk(int blockX, int blockY);
 
-	void LoadBody(IETerrainBlock * block, int explicitGridPositionX, int explicitGridPositionY, unsigned int terrainID, unsigned int createdOrder);
-	void LoadNone(IETerrainBlock * block, int explicitGridPositionX, int explicitGridPositionY, unsigned int terrainID, unsigned int createdOrder);
+	void LoadBody(IETerrainChunk * chunk, int explicitGridPositionX, int explicitGridPositionY, unsigned int terrainID, unsigned int createdOrder);
+	void LoadNone(IETerrainChunk * chunk, int explicitGridPositionX, int explicitGridPositionY, unsigned int terrainID, unsigned int createdOrder);
 
 	void AddBody(unsigned int terrainID, IETerrainMode terrainMODE, unsigned int createdOrder, int blockLocationX, int blockLocationY);
 	void ApplyBevel(unsigned int terrainID, IETerrainMode terrainMODE, unsigned int createdOrder, int blockLocationX, int blockLocationY);
@@ -71,8 +73,9 @@ private:
 	IETerrainInfo * m_terrainsInfo;
 	IETerrainAlter * m_alter;
 
-	unsigned int m_choosedTerrainID;
-	IETerrainMode m_choosedTerrainMODE;
+	unsigned int m_choosedTerrainOrder;
+	unsigned int m_readyTerrainID;
+	IETerrainMode m_readyTerrainMode;
 
 	//避免字符串拼接所带来的开销
 	char * m_loadString[4];

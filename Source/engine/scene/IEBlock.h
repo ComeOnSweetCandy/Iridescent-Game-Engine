@@ -1,5 +1,5 @@
 /***********************************
-* name     : IEblock
+* name     : IEBlock
 * creater  : cosc
 * info     : block
 * date     : 2016/12/18
@@ -10,7 +10,7 @@
 #ifndef __IE_BLOCK__
 #define __IE_BLOCK__
 
-#include "../../atom/IEstill.h"
+#include "../atom/IEstill.h"
 
 IE_BEGIN
 

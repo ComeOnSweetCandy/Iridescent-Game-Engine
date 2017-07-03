@@ -8,6 +8,7 @@
 #include "tools/IEtime.h"
 #include "tools/IEfontTTF.h"
 #include "tools/IEfile.h"
+#include "tools/IETexturePacker.h"
 
 //type
 #include "type/IEstring.h"

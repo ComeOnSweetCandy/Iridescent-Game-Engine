@@ -10,7 +10,7 @@
 #ifndef __IE_THING_AREA__
 #define __IE_THING_AREA__
 
-#include "../base/IEarea.h"
+#include "../IEArea.h"
 #include "IEthingChunk.h"
 #include "IEthingsInfoManager.h"
 
@@ -64,10 +64,10 @@ public:
 	IEThing * FindThingByOrder(unsigned int thingOrder);
 
 private:
-	void AddThing(IEThing * thing, int locationX, int locationY, unsigned char tinyLocationX, unsigned char tinyLocationY);
-	void HoldThing(IEThing * thing, int locationX, int locationY, unsigned char tinyLocationX, unsigned char tinyLocationY);
-	void EraseThing(int locationX, int locationY, unsigned char tinyLocationX, unsigned char tinyLocationY);
-	void RemoveThing(int locationX, int locationY, unsigned char tinyLocationX, unsigned char tinyLocationY);
+	void AddThing(IEThing * thing, int locationX, int locationY, unsigned char tinyLocationX, unsigned char tinyLocationY){};
+	void HoldThing(IEThing * thing, int locationX, int locationY, unsigned char tinyLocationX, unsigned char tinyLocationY){};
+	void EraseThing(int locationX, int locationY, unsigned char tinyLocationX, unsigned char tinyLocationY){};
+	void RemoveThing(int locationX, int locationY, unsigned char tinyLocationX, unsigned char tinyLocationY){};
 
 	virtual IEChunk * CreateChunk();
 
