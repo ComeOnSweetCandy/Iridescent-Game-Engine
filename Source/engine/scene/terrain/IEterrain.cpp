@@ -50,6 +50,9 @@ IETerrain * IETerrain::Create(unsigned int terrainID, IETerrainMode terrainMODE,
 
 void IETerrain::Reload(unsigned int terrainID, IETerrainMode terrainMODE, unsigned int createdOrder)
 {
+	//首先清理旧的数据
+
+
 	IETerrain::SetTerrainID(terrainID);
 	IETerrain::SetTerrainMODE(terrainMODE);
 	IETerrain::SetOrder(createdOrder);
@@ -58,6 +61,11 @@ void IETerrain::Reload(unsigned int terrainID, IETerrainMode terrainMODE, unsign
 
 void IETerrain::LoadScript()
 {
+	if (m_terrainID == 0)
+	{
+		return;
+	}
+
 	IETerrainInfo * terrainsInfo = IETerrainsInfoManager::Share()->GetTerrainsInfoList(); 
 	lua_State * luaScript = terrainsInfo[m_terrainID]._LuaScript;
 
