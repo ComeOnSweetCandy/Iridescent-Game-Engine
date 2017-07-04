@@ -247,16 +247,16 @@ void IEMarble::ApplyCorner(IEMarbleGrid * grid, unsigned int marbleID, int gridX
 
 void IEMarble::RemoveChild(int gridX, int gridY)
 {
-	//IETerrainBlock * grid = (IETerrainBlock *)GetGrid(gridX, gridY);
+	//IETerrain * grid = (IETerrain *)GetGrid(gridX, gridY);
 	//if (grid != NULL)
 	//{
 	//	RemoveChild(gridX, gridY);
 
-	//	IETerrainBlock * grids[4];
-	//	grids[0] = (IETerrainBlock *)GetGrid(gridX, gridY - 1);
-	//	grids[1] = (IETerrainBlock *)GetGrid(gridX + 1, gridY);
-	//	grids[2] = (IETerrainBlock *)GetGrid(gridX, gridY + 1);
-	//	grids[3] = (IETerrainBlock *)GetGrid(gridX - 1, gridY);
+	//	IETerrain * grids[4];
+	//	grids[0] = (IETerrain *)GetGrid(gridX, gridY - 1);
+	//	grids[1] = (IETerrain *)GetGrid(gridX + 1, gridY);
+	//	grids[2] = (IETerrain *)GetGrid(gridX, gridY + 1);
+	//	grids[3] = (IETerrain *)GetGrid(gridX - 1, gridY);
 	//	for (int index = 0; index < 4; index++)
 	//	{
 	//		if (grids[index] != NULL && grids[index]->ValidateTerrainGridMode(__terrain_body_mode__))

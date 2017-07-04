@@ -14,17 +14,17 @@ IETerrainChunk::~IETerrainChunk()
 
 }
 
-void IETerrainChunk::Initialization(int blockSize)
+void IETerrainChunk::Initialization(unsigned int sideLength)
 {
-	IEChunk::Initialization(blockSize);
+	IEChunk::Initialization(sideLength);
 
 	FillCache();
 }
 
-IETerrainChunk * IETerrainChunk::Create(int blockSize)
+IETerrainChunk * IETerrainChunk::Create(unsigned int sideLength)
 {
 	IETerrainChunk * object = new IETerrainChunk();
-	object->Initialization(blockSize);
+	object->Initialization(sideLength);
 	return object;
 }
 
@@ -34,9 +34,7 @@ void IETerrainChunk::FillCache()
 	{
 		for (int y = 0; y < m_chunkLength; y++)
 		{
-			IETerrainBlock * empty = IETerrainBlock::Create(0, __terrain_none_mode__, 0);
-			empty->SetDisplay(false);
-
+			IETerrain * empty = IETerrain::Create(0, __terrain_none_mode__, 0);
 			AddChild(empty, x, y);
 		}
 	}
@@ -50,10 +48,8 @@ void IETerrainChunk::ResetCache()
 		{
 			if (m_chunksIndexMatrix[x][y])
 			{
-				IETerrainBlock * block = (IETerrainBlock *)m_chunksIndexMatrix[x][y];
-
+				IETerrain * block = (IETerrain *)m_chunksIndexMatrix[x][y];
 				block->SetTerrainID(0);
-				block->SetDisplay(false);
 			}
 		}
 	}

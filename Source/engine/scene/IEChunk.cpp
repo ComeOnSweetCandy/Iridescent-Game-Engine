@@ -26,8 +26,8 @@ void IEChunk::Initialization(unsigned int sideLength)
 {
 	IELayer::Initialization();
 
-	InitSideLength(sideLength);
-	InitBlocksMatrix();
+	IEChunk::InitSideLength(sideLength);
+	IEChunk::InitBlocksMatrix();
 }
 
 IEChunk * IEChunk::Create(unsigned int sideLength)
@@ -185,25 +185,25 @@ IEBlock * IEChunk::GetBlock(int explicitX, int explicitY)
 		int blockX = m_location.m_x;
 		int blockY = m_location.m_y;
 
-		if (explicitX < 0)
+		while (explicitX < 0)
 		{
 			blockX--;
-			explicitX = m_chunkLength - 1;
+			explicitX = explicitX + m_chunkLength;
 		}
-		if (explicitY < 0)
+		while (explicitY < 0)
 		{
 			blockY--;
-			explicitY = m_chunkLength - 1;
+			explicitY = explicitX + m_chunkLength;
 		}
-		if (explicitX >= m_chunkLength)
+		while (explicitX >= m_chunkLength)
 		{
 			blockX++;
-			explicitX = 0;
+			explicitX = explicitX - m_chunkLength;
 		}
-		if (explicitY >= m_chunkLength)
+		while (explicitY >= m_chunkLength)
 		{
 			blockY++;
-			explicitY = 0;
+			explicitY = explicitY - m_chunkLength;
 		}
 
 		IEChunk * chunk = m_area->GetChunk(blockX, blockY);

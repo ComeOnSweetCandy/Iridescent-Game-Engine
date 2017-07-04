@@ -72,3 +72,30 @@
 
 //IEPlayer * player = IEPlayer::Create(0);
 //scene->AddChild(player);
+
+//IEImage * images[8];
+//for (int i = 0; i < 8; i++)
+//{
+//	images[i] = IEImage::Create();
+//}
+//images[0]->LoadImageData(IEString("../Debug/data/texture/color/red_0.png"));
+//images[1]->LoadImageData(IEString("../Debug/data/texture/color/grey_0.png"));
+//images[2]->LoadImageData(IEString("../Debug/data/texture/color/blue_0.png"));
+//images[3]->LoadImageData(IEString("../Debug/data/texture/color/origin_0.png"));
+//images[4]->LoadImageData(IEString("../Debug/data/texture/color/red_0.png"));
+//images[5]->LoadImageData(IEString("../Debug/data/texture/color/red_0.png"));
+//images[6]->LoadImageData(IEString("../Debug/data/texture/color/red_0.png"));
+//images[7]->LoadImageData(IEString("../Debug/data/texture/color/red_0.png"));
+//
+//IETexturePacker * packer = IETexturePacker::Create("nothing");
+//packer->AddImage(images[0]);
+//packer->AddImage(images[1]);
+//packer->AddImage(images[2]);
+//packer->AddImage(images[3]);
+//packer->AddImage(images[4]);
+//packer->AddImage(images[5]);
+//packer->AddImage(images[6]);
+//packer->AddImage(images[7]);
+//
+//IEContainer * aarray = packer->Run();
+//packer->Save();

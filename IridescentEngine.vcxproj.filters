@@ -576,16 +576,16 @@
     <ClCompile Include="Source\engine\scene\IETotalScene.cpp">
       <Filter>IridescentEngine\engine\scene</Filter>
     </ClCompile>
-    <ClCompile Include="Source\engine\scene\terrain\IETerrain.cpp">
-      <Filter>IridescentEngine\engine\scene\terrain</Filter>
-    </ClCompile>
     <ClCompile Include="Source\engine\scene\terrain\IETerrainsInfoManager.cpp">
       <Filter>IridescentEngine\engine\scene\terrain</Filter>
     </ClCompile>
-    <ClCompile Include="Source\engine\scene\terrain\IETerrainBlock.cpp">
+    <ClCompile Include="Source\engine\scene\terrain\IETerrainChunk..cpp">
       <Filter>IridescentEngine\engine\scene\terrain</Filter>
     </ClCompile>
-    <ClCompile Include="Source\engine\scene\terrain\IETerrainChunk..cpp">
+    <ClCompile Include="Source\engine\scene\terrain\IETerrainArea.cpp">
+      <Filter>IridescentEngine\engine\scene\terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\engine\scene\terrain\IETerrain.cpp">
       <Filter>IridescentEngine\engine\scene\terrain</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1031,16 +1031,16 @@
     <ClInclude Include="Source\engine\scene\IETotalScene.h">
       <Filter>IridescentEngine\engine\scene</Filter>
     </ClInclude>
-    <ClInclude Include="Source\engine\scene\terrain\IETerrain.h">
-      <Filter>IridescentEngine\engine\scene\terrain</Filter>
-    </ClInclude>
     <ClInclude Include="Source\engine\scene\terrain\IETerrainsInfoManager.h">
       <Filter>IridescentEngine\engine\scene\terrain</Filter>
     </ClInclude>
-    <ClInclude Include="Source\engine\scene\terrain\IETerrainBlock.h">
+    <ClInclude Include="Source\engine\scene\terrain\IETerrainChunk.h">
       <Filter>IridescentEngine\engine\scene\terrain</Filter>
     </ClInclude>
-    <ClInclude Include="Source\engine\scene\terrain\IETerrainChunk.h">
+    <ClInclude Include="Source\engine\scene\terrain\IETerrainArea.h">
+      <Filter>IridescentEngine\engine\scene\terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\engine\scene\terrain\IETerrain.h">
       <Filter>IridescentEngine\engine\scene\terrain</Filter>
     </ClInclude>
   </ItemGroup>

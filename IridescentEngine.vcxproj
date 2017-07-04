@@ -89,7 +89,7 @@
     <ClCompile Include="Source\engine\scene\path\IEpathGrid.cpp" />
     <ClCompile Include="Source\engine\scene\prop\IEpropLayer.cpp" />
     <ClCompile Include="Source\engine\scene\terrain\IETerrain.cpp" />
-    <ClCompile Include="Source\engine\scene\terrain\IETerrainBlock.cpp" />
+    <ClCompile Include="Source\engine\scene\terrain\IETerrainArea.cpp" />
     <ClCompile Include="Source\engine\scene\terrain\IETerrainChunk..cpp" />
     <ClCompile Include="Source\engine\scene\terrain\IETerrainsInfoManager.cpp" />
     <ClCompile Include="Source\engine\scene\terrain\items\IEwater.cpp" />
@@ -236,7 +236,7 @@
     <ClInclude Include="Source\engine\scene\path\IEpathGrid.h" />
     <ClInclude Include="Source\engine\scene\prop\IEpropLayer.h" />
     <ClInclude Include="Source\engine\scene\terrain\IETerrain.h" />
-    <ClInclude Include="Source\engine\scene\terrain\IETerrainBlock.h" />
+    <ClInclude Include="Source\engine\scene\terrain\IETerrainArea.h" />
     <ClInclude Include="Source\engine\scene\terrain\IETerrainChunk.h" />
     <ClInclude Include="Source\engine\scene\terrain\IETerrainsInfoManager.h" />
     <ClInclude Include="Source\engine\scene\terrain\items\IEwater.h" />
@@ -325,7 +325,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
     <CLRSupport>false</CLRSupport>
   </PropertyGroup>

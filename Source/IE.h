@@ -55,7 +55,7 @@
 #include "physic/IEphysicEdgeCollision.h"
 
 //engine
-#include "engine/scene/terrain/IEterrain.h"
+#include "engine/scene/terrain/IETerrainArea.h"
 #include "engine/scene/thing/IEthingArea.h"
 #include "engine/scene/marble/IEmarble.h"
 

@@ -1,7 +1,7 @@
 #define __IE_DLL_EXPORTS__
 #include "IEMap.h"
 
-#include "terrain/IEterrain.h"
+#include "terrain/IEterrainArea.h"
 #include "thing/IEthingArea.h"
 #include "marble/IEmarble.h"
 #include "path/IEpath.h"
@@ -60,9 +60,9 @@ void IEMap::Initialization(char * sceneName)
 
 	//地图
 	m_curPath = IEPath::Create(this, m_visibleRadius, m_chunkSideLength);
-	m_curTerrain = IETerrain::Create(this, m_visibleRadius, m_chunkSideLength);
+	m_curTerrain = IETerrainArea::Create(this, m_visibleRadius, m_chunkSideLength);
 	//m_curMarble = IEMarble::Create(this, m_visibleRadius, m_chunkSideLength);
-	m_curThing = IEThingArea::Create(this, m_visibleRadius, m_chunkSideLength);
+	//m_curThing = IEThingArea::Create(this, m_visibleRadius, m_chunkSideLength);
 
 	//寻路算法
 	m_pathFinder = IEPathFinder::Create(m_curPath);
@@ -71,7 +71,7 @@ void IEMap::Initialization(char * sceneName)
 	IENode::AddChild(m_curPath);
 	IENode::AddChild(m_curTerrain);
 	//IENode::AddChild(m_curMarble);
-	IENode::AddChild(m_curThing);
+	//IENode::AddChild(m_curThing);
 
 	PreloadMap();
 	LoadMap();
@@ -141,14 +141,14 @@ void IEMap::SaveMap()
 {
 	SaveTerrain();
 	//SaveMarble();
-	SaveThing();
+	//SaveThing();
 }
 
 void IEMap::LoadMap()
 {
 	m_curTerrain->LoadChunks();
 	//m_curMarble->LoadChunks();
-	m_curThing->LoadChunks();
+	//m_curThing->LoadChunks();
 	m_curPath->LoadChunks();
 }
 
@@ -159,7 +159,7 @@ void IEMap::Update()
 
 	m_curTerrain->SetCenterBlockLocation(cameraGrid.m_x, cameraGrid.m_y);
 	//m_curMarble->SetCenterBlockLocation(cameraGrid);
-	m_curThing->SetCenterBlockLocation(cameraGrid.m_x, cameraGrid.m_y);
+	//m_curThing->SetCenterBlockLocation(cameraGrid.m_x, cameraGrid.m_y);
 
 	//先对当前选择的场景进行判定
 	IEArea * activeArea = NULL;
@@ -208,7 +208,7 @@ IEPath * IEMap::GetPath()
 	return m_curPath;
 }
 
-IETerrain * IEMap::GetTerrain()
+IETerrainArea * IEMap::GetTerrain()
 { 
 	return m_curTerrain;
 }

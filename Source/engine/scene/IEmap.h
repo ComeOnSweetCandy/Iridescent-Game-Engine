@@ -15,7 +15,7 @@
 
 IE_BEGIN
 
-class IETerrain;
+class IETerrainArea;
 class IEMarble;
 class IEThingArea;
 class IEPath;
@@ -110,7 +110,7 @@ public:
 	void LoadThingChunk(int chunkLocationX, int chunkLocationY);
 
 	IEPath * GetPath();
-	IETerrain * GetTerrain();
+	IETerrainArea * GetTerrain();
 	IEMarble * GetMarble();
 	IEThingArea * GetThing();
 
@@ -134,7 +134,7 @@ private:
 	int m_marbleBlockSize;				//在地图存储文件中 一个marble block占据的大小
 	int m_thingBlockSize;				//在地图存储文件中 一个thing block占据的大小
 
-	IETerrain * m_curTerrain;
+	IETerrainArea * m_curTerrain;
 	IEChunkIndex * m_terrainChunksIndex;
 	unsigned int m_terrainIndexCount;
 	unsigned int m_terrainOrder;

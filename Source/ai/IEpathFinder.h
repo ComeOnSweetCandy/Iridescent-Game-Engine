@@ -15,8 +15,8 @@
 IE_BEGIN
 
 class IEPath;
+class IETerrainArea;
 class IETerrain;
-class IETerrainBlock;
 
 class __IE_DLL__ IEPathNode :public IEObject
 {

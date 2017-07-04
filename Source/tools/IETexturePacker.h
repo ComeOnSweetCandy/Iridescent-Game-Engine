@@ -29,7 +29,6 @@ public:
 
 	//存在于的动作组
 	unsigned char _Group;
-
 };
 
 class IEContainer;
@@ -44,7 +43,6 @@ public:
 
 public:
 	void AddImage(IEImage * image);
-	void AddTexture(IETexture * texture);
 	IEContainer * Run();
 	void Save();							//生成新的贴图并且存储于本地 同时生成plist文件
 

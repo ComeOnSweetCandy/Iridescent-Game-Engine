@@ -125,45 +125,32 @@ void IETexture::LoadTexture()
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
+		if (m_image[index]->m_imgComponents == 3)
+		{
+			int size = m_image[index]->m_imgWidth * m_image[index]->m_imgHeight * 4;
+			unsigned char * newData = new unsigned char[size];
+
+			for (int iii = 0; iii < m_image[index]->m_imgWidth * m_image[index]->m_imgHeight; iii++)
+			{
+				memcpy(newData + iii * 4, m_image[index]->m_imgData + iii * 3, 3);
+				*(newData + iii * 4 + 3) = 0xFF;
+			}
+
+			delete[]m_image[index]->m_imgData;
+			m_image[index]->m_imgData = newData;
+
+			m_image[index]->m_imgComponents = 4;
+			m_image[index]->m_imgFormat = GL_RGBA;
+		}
+
 		if (m_image[index]->m_imgWidth == m_image[index]->m_imgHeight)
 		{
-			//int size = m_image[index]->m_imgWidth * m_image[index]->m_imgHeight * 3;
-			//unsigned char * d = new unsigned char[size];
-
-			//for (int iii = 0; iii < m_image[index]->m_imgWidth * m_image[index]->m_imgHeight; iii++)
-			//{
-			//	memcpy(d + iii * 3, m_image[index]->m_imgData + iii * 3, 3);
-			//	*(d + iii * 4 + 3) = 0xFF;
-			//}
-			//glTexImage2D(GL_TEXTURE_2D, 0, 4, m_image[index]->m_imgWidth, m_image[index]->m_imgHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, d);
-
-			glTexImage2D(GL_TEXTURE_2D, m_image[index]->m_imgComponents, m_image[index]->m_imgWidth, m_image[index]->m_imgWidth, m_image[index]->m_imgHeight, 0, m_image[index]->m_imgFormat, GL_UNSIGNED_BYTE, m_image[index]->m_imgData);
+			glTexImage2D(GL_TEXTURE_2D, 0, m_image[index]->m_imgComponents, m_image[index]->m_imgWidth, m_image[index]->m_imgHeight, 0, m_image[index]->m_imgFormat, GL_UNSIGNED_BYTE, m_image[index]->m_imgData);
 		}
 		else
 		{
-			if (m_image[index]->m_imgComponents == 3)
-			{
-				int size = m_image[index]->m_imgWidth * m_image[index]->m_imgHeight * 4;
-				unsigned char * d = new unsigned char[size];
-
-				for (int iii = 0; iii < m_image[index]->m_imgWidth * m_image[index]->m_imgHeight; iii++)
-				{
-					memcpy(d + iii * 4, m_image[index]->m_imgData + iii * 3, 3);
-					*(d + iii * 4 + 3) = 0xFF;
-				}
-				//glTexImage2D(GL_TEXTURE_2D, 0, 4, m_image[index]->m_imgWidth, m_image[index]->m_imgHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, d);
-
-				m_image[index]->m_imgComponents = 4;
-				m_image[index]->m_imgFormat = GL_RGBA;
-
-				glTexImage2D(GL_TEXTURE_2D, 0, m_image[index]->m_imgComponents, m_image[index]->m_imgWidth, m_image[index]->m_imgHeight, 0, m_image[index]->m_imgFormat, GL_UNSIGNED_BYTE, NULL);
-				glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, m_image[index]->m_imgWidth, m_image[index]->m_imgHeight, m_image[index]->m_imgFormat, GL_UNSIGNED_BYTE, d);
-			}
-			else
-			{
-				glTexImage2D(GL_TEXTURE_2D, 0, m_image[index]->m_imgComponents, m_image[index]->m_imgWidth, m_image[index]->m_imgHeight, 0, m_image[index]->m_imgFormat, GL_UNSIGNED_BYTE, NULL);
-				glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, m_image[index]->m_imgWidth, m_image[index]->m_imgHeight, m_image[index]->m_imgFormat, GL_UNSIGNED_BYTE, m_image[index]->m_imgData);
-			}
+			glTexImage2D(GL_TEXTURE_2D, 0, m_image[index]->m_imgComponents, m_image[index]->m_imgWidth, m_image[index]->m_imgHeight, 0, m_image[index]->m_imgFormat, GL_UNSIGNED_BYTE, NULL);
+			glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, m_image[index]->m_imgWidth, m_image[index]->m_imgHeight, m_image[index]->m_imgFormat, GL_UNSIGNED_BYTE, m_image[index]->m_imgData);
 		}
 		glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 		

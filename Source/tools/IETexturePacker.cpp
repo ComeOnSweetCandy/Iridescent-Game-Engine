@@ -8,7 +8,7 @@ IE_BEGIN
 IETexturePacker::IETexturePacker()
 {
 	m_textureContainer = NULL;
-	m_width = m_height = 512;
+	m_width = m_height = 128;
 }
 
 IETexturePacker::~IETexturePacker()
@@ -125,14 +125,6 @@ void IETexturePacker::SortTexture(unsigned int index)
 			//m_pointsContainer->Sorting();
 			SortPoints();
 
-			//IEGrid ** gridss = (IEGrid **)(m_pointsContainer->GetContainer());
-			//unsigned int gridssCount = m_pointsContainer->Count();
-			//for (unsigned ii = 0; ii < gridssCount; ii++)
-			//{
-			//	printf("%d %d\t", gridss[ii]->m_x, gridss[ii]->m_y);
-			//}
-			//printf("\n");
-
 			SortTexture(index + 1);
 
 			return;
@@ -199,9 +191,41 @@ IEContainer * IETexturePacker::Run()
 	IEGrid * grid = new IEGrid(0);
 	m_pointsContainer->Push(grid);
 
+	//递归的方法去处理
 	SortTexture(0);
 
 	return m_textureContainer;
+}
+
+void WriteToXml(FILE * file, const char * content)
+{
+	static int level = 0;
+
+	if (*(content + 1) == '/')
+	{
+		level--;
+	}
+	for (int index = 0; index < level; index++)
+	{
+		fprintf(file, "\t");
+	}
+
+	fprintf(file, content);
+
+	if (*(content + 1) != '/')
+	{
+		level++;
+
+		//检测是否有开合和闭合
+		IEString str(content);
+		int count = str.DetectedChar('<');
+		if (count == 2)
+		{
+			level--;
+		}
+	}
+
+	fprintf(file, "\n");
 }
 
 void IETexturePacker::Save()
@@ -218,6 +242,10 @@ void IETexturePacker::Save()
 	//一行的空间大小
 	unsigned hrSize = m_width * pass;
 
+	//打开一个新的xml文件
+	FILE * p = fopen("../Debug/data/test/test.xml", "wb");
+	WriteToXml(p, "<list>");
+
 	for (unsigned int index = 0; index < count; index++)
 	{
 		IETexturePackerElement * texture = textures[index];
@@ -225,22 +253,38 @@ void IETexturePacker::Save()
 		unsigned char * imageData = image->m_imgData;
 		unsigned int textureHrSize = image->m_imgWidth * pass;
 
-		if (texture->_Image->m_imgComponents != 4)
-		{
-			continue;
-		}
-
 		//这张图的高度有多高 就得进行多少次循环
 		for (unsigned int curHeight = 0; curHeight < texture->_Height; curHeight++)
 		{
-			memcpy(data + curHeight * hrSize + texture->_X * pass, imageData + curHeight * textureHrSize, texture->_Width * pass);
+			memcpy(data + (curHeight + texture->_Y)* hrSize + texture->_X * pass, imageData + (texture->_Height - 1 - curHeight) * textureHrSize, texture->_Width * pass);
 		}
+
+		//写入xml文件
+		WriteToXml(p, "<group>");
+		//写入名字
+		IEString name = IEString("<name>") + (int)index + "</name>";
+		WriteToXml(p, name.GetString());
+		//起始点
+		IEString x = IEString("<x>") + (int)texture->_X + "</x>";
+		WriteToXml(p, x.GetString());
+		IEString y = IEString("<y>") + (int)texture->_Y + "</y>";
+		WriteToXml(p, y.GetString());
+		//写入宽度和高度
+		int newW = (int)(texture->_Width);
+		int newH = (int)(texture->_Height);
+		IEString wwidth = IEString("<width>") + newW + "</width>";
+		WriteToXml(p, wwidth.GetString());
+		IEString hheight = IEString("<height>") + newH + "</height>";
+		WriteToXml(p, hheight.GetString());
+		//frap
+		IEString frapCount = IEString("<frapsCount>") + 0 + "</frapsCount>";
+		WriteToXml(p, frapCount.GetString());
+		//结束一个group
+		WriteToXml(p, "</group>");
 	}
 
-	//for (unsigned int index = 0; index < m_height; index++)
-	//{
-	//	*(data + index) = 0;
-	//}
+	WriteToXml(p, "</list>");
+	fclose(p);
 
 	IEImage * newImage = new IEImage();
 	newImage->m_imgData = data;
@@ -256,20 +300,6 @@ void IETexturePacker::AddImage(IEImage * image)
 	element->_Width = image->m_imgWidth;
 	element->_Height = image->m_imgHeight;
 	element->_Image = image;
-	element->_Size = element->_Width * element->_Height;
-	element->_X = -1;
-	element->_Y = -1;
-
-	m_textureContainer->Push(element);
-}
-
-void IETexturePacker::AddTexture(IETexture * texture)
-{
-	IETexturePackerElement * element = new IETexturePackerElement();
-
-	element->_Width = texture->m_textureSize->m_x;
-	element->_Height = texture->m_textureSize->m_y;
-	element->_Texture = texture;
 	element->_Size = element->_Width * element->_Height;
 	element->_X = -1;
 	element->_Y = -1;

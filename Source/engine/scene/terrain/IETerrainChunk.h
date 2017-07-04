@@ -11,7 +11,7 @@
 #define __IE_TERRAIN_CHUNK__
 
 #include "../IEChunk.h"
-#include "IETerrainBlock.h"
+#include "IETerrain.h"
 
 IE_BEGIN
 
@@ -20,14 +20,12 @@ class __IE_DLL__ IETerrainChunk :public IEChunk
 public:
 	IETerrainChunk();
 	virtual ~IETerrainChunk();
-	virtual void Initialization(int blockSize);
-	static IETerrainChunk * Create(int blockSize);
+	virtual void Initialization(unsigned int sideLength);
+	static IETerrainChunk * Create(unsigned int sideLength);
 
 public:
-	void ResetCache();
-	void FillCache();
-
-private:
+	void ResetCache();			//重置所有的block IE为0
+	void FillCache();			//为了在加载不同chunk的时候能够快速加载 所有位置的block都会预先被填写满 直接更换block的ID和MODE即可
 };
 
 IE_END

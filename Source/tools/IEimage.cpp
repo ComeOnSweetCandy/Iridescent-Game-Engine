@@ -278,6 +278,13 @@ void IEImage::LoadPNG(const char *szFileName, GLint *iWidth, GLint *iHeight, GLi
 				{
 					if (index != 0)
 					{
+						//先处理位于第一个位置的数值
+						GLubyte * ptr = basePtr;
+						for (int tunnel = 0; tunnel < pass; tunnel++)
+						{
+							*(ptr + tunnel) = (*(ptr + tunnel + (*iWidth) * pass) + 0) / 2 + *(ptr + tunnel);
+						}
+
 						for (int pixelIndex = pass; pixelIndex < (*iWidth)*pass; pixelIndex = pixelIndex + pass)
 						{
 							GLubyte * ptr = basePtr + pixelIndex;

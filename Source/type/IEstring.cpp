@@ -142,15 +142,16 @@ IEString IEString::operator +(const int &i) const
 		n = -n;
 	}
 
-	int c2, c1;
-	char c0 = i - 1 + '1';
-	while (n>=10)
+	int c1;
+	char c0;
+	while (n >= 10)
 	{
-		c2 = n / 10;
 		c1 = n % 10;
-		c0 = c1 - 1 + '1';
+		n = n / 10;
+		c0 = '0' + c1;
 		addString = addString + c0;
 	}
+	c0 = '0' + n;
 	addString = addString + c0;
 	if (i < 0)
 	{
