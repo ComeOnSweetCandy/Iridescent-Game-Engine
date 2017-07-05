@@ -159,7 +159,10 @@ void IENode::RemoveFromParent()
 void IENode::RemoveAllChilds()
 {
 	//__IE_RELEASE__(m_childs);
-	m_childs->EmptyContainer();
+	if (m_childs)
+	{
+		m_childs->EmptyContainer();
+	}
 }
 
 bool IENode::HasChild(IENode * node)
