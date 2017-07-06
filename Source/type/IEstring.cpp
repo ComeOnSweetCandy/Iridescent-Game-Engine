@@ -332,24 +332,43 @@ IEContainer * IEString::SplitBy(char beginC, char endC, int &splitCount)
 	IEContainer * labelsArray = IEContainer::Create();
 	labelsArray->AutoRelease();
 	IEString * label = NULL;
+	IEString * value = NULL;
 	for (int index = 0; index < length; index++)
 	{
 		//检查嵌套
 
 		if (m_string[index] == beginC)
 		{
+			if (value)
+			{
+				labelsArray->Push(value);
+				value = NULL;
+			}
+
 			label = IEString::Create();
 		}
 		else if (m_string[index] == endC)
 		{
-			labelsArray->Push(label);
-			label = NULL;
+			if (label)
+			{
+				labelsArray->Push(label);
+				label = NULL;
+			}
 		}
 		else
 		{
 			if (label)
 			{
 				*label = *label + m_string[index];
+			}
+			else
+			{
+				if (value == NULL)
+				{
+					value = IEString::Create();
+					*value = *value + '|';			//首位加上一个标志 标记为中间部分的内容
+				}
+				*value = *value + m_string[index];
 			}
 		}
 	}
@@ -537,6 +556,11 @@ int IEString::DetectedType()
 {
 	int type = STRING_TO_INT;
 	int length = this->Length();
+	if (length == 0)
+	{
+		return STRING_NONE;
+	}
+
 	for (int index = 0; index < length; index++)
 	{
 		if (m_string[index] >= '0' && m_string[index] <= '9')

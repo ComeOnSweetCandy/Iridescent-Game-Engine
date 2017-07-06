@@ -36,6 +36,37 @@ IETerrainArea * IETerrainArea::Create(IEMap * map, int visibleRadius, int sideLe
 	return terrain;
 }
 
+void IETerrainArea::AddChild(int blockLocationX, int blockLocationY)
+{
+	m_alter = new IETerrainAlter();
+	m_alters->Push(m_alter);
+
+	//先记载入新的信息
+	m_alter->_X = blockLocationX;
+	m_alter->_Y = blockLocationY;
+	m_alter->_Terrain._TerrainID = m_readyTerrainID;
+	m_alter->_Terrain._TerrainMode = m_readyTerrainMode;
+	m_alter->_Terrain._Order = m_curOrder++;
+
+	//放入旧的信息
+	IETerrain * pastTerrain = (IETerrain *)(GetBlock(blockLocationX, blockLocationY));
+	m_alter->_TerrainPast._TerrainID = pastTerrain->GetTerrainID();
+	m_alter->_TerrainPast._TerrainMode = pastTerrain->GetTerrainMODE();
+	m_alter->_TerrainPast._Order = pastTerrain->GetOrder();
+
+	switch (m_readyTerrainMode)
+	{
+	case __terrain_none_mode__:
+		ChangeNone(blockLocationX, blockLocationY);
+		break;
+	case __terrain_body_mode__:
+		ChangeBody(blockLocationX, blockLocationY);
+		break;
+	default:
+		break;
+	}
+}
+
 IEChunk * IETerrainArea::CreateChunk()
 {
 	return IETerrainChunk::Create(m_chunkLength);
@@ -88,11 +119,11 @@ void IETerrainArea::LoadChilds(IETerrainBlockFormat * blocks, int chunkLocationX
 	//{
 	//	if (alters[index]->_chunkLocationX == chunkLocationX && alters[index]->_chunkLocationY == chunkLocationY)
 	//	{
-	//		if (alters[index]->_TerrainInfo._TerrainMode == __terrain_body_mode__)
+	//		if (alters[index]->_Terrain._TerrainMode == __terrain_body_mode__)
 	//		{
-	//			LoadBody(block, alters[index]->_explicitBlockLocationX, alters[index]->_explicitBlockLocationY, alters[index]->_TerrainInfo._TerrainID, alters[index]->_TerrainInfo._Order);
+	//			LoadBody(block, alters[index]->_explicitBlockLocationX, alters[index]->_explicitBlockLocationY, alters[index]->_Terrain._TerrainID, alters[index]->_Terrain._Order);
 	//		}
-	//		else if (alters[index]->_TerrainInfo._TerrainMode == __terrain_none_mode__)
+	//		else if (alters[index]->_Terrain._TerrainMode == __terrain_none_mode__)
 	//		{
 	//			LoadNone(block, alters[index]->_explicitBlockLocationX, alters[index]->_explicitBlockLocationY, 0, 0);
 	//		}
@@ -194,74 +225,29 @@ void IETerrainArea::LoadNone(IETerrainChunk * chunk, int explicitGridPositionX, 
 	grid->SetDisplay(false);
 }
 
-void IETerrainArea::AddChild(int blockLocationX, int blockLocationY)
+void IETerrainArea::ChangeBody(int blockLocationX, int blockLocationY)
 {
-	m_alter = new IETerrainAlter();
-	m_alter->_X = blockLocationX;
-	m_alter->_Y = blockLocationY;
-	m_alter->_TerrainInfo._TerrainID = m_readyTerrainID;
-	m_alter->_TerrainInfo._TerrainMode = m_readyTerrainMode;
-	m_alter->_TerrainInfo._Order = m_curOrder++;
-	m_alters->Push(m_alter);
+	IETerrainAlterInfo &_terrain = m_alter->_Terrain;
+	IETerrainAlterInfo &_terrainPast = m_alter->_TerrainPast;
 
-	switch (m_readyTerrainMode)
-	{
-	case __terrain_body_mode__:
-		AddBody(m_readyTerrainID, m_readyTerrainMode, m_curOrder, blockLocationX, blockLocationY);
-		break;
-	case __terrain_bevel_mode__:
-		ApplyBevel(m_readyTerrainID, m_readyTerrainMode, m_curOrder, blockLocationX, blockLocationY);
-		break;
-	case __terrain_piece_mode__:
-		ApplyPiece(m_readyTerrainID, m_readyTerrainMode, m_curOrder, blockLocationX, blockLocationY);
-		break;
-	case __terrain_none_mode__:
-		ApplyNone(m_readyTerrainID, m_readyTerrainMode, m_curOrder, blockLocationX, blockLocationY);
-		break;
-	default:
-		break;
-	}
-}
-
-void IETerrainArea::RemoveChild(int blockLocationX, int blockLocationY)
-{
-	AddChild(blockLocationX, blockLocationY);
-}
-
-void IETerrainArea::AddBody(unsigned int terrainID, IETerrainMode terrainMODE, unsigned int createdOrder, int blockLocationX, int blockLocationY)
-{
 	IETerrainInfo * terrainsInfo = IETerrainsInfoManager::Share()->GetTerrainsInfoList();
-	IEString textureGroupName = IEString(terrainsInfo[terrainID]._TerrainName);
+	IEString textureGroupName = IEString(terrainsInfo[_terrain._TerrainID]._TerrainName);
 
-	if (terrainsInfo[terrainID]._BodyC)
+	if (terrainsInfo[_terrain._TerrainID]._BodyC)
 	{
-		int randIndex = rand() % terrainsInfo[terrainID]._BodyC;
+		int randIndex = rand() % terrainsInfo[_terrain._TerrainID]._BodyC;
 		IETerrain * grid = (IETerrain *)GetBlock(blockLocationX, blockLocationY);
 		if (grid != NULL)
 		{
-			m_alter->_TerrainInfoOld._Order = grid->GetOrder();
-			m_alter->_TerrainInfoOld._TerrainID = grid->GetTerrainID();
-			m_alter->_TerrainInfoOld._TerrainMode = grid->GetTerrainMODE();
-
-			//RemoveChild(blockLocationX, blockLocationY);
-			grid->Reload(terrainID, __terrain_body_mode__, createdOrder);
-		}
-		else if (grid == NULL)
-		{
-			return;
-
-			m_alter->_TerrainInfoOld._TerrainMode = __terrain_none_mode__;
-
-			grid = IETerrain::Create(terrainID, __terrain_body_mode__, createdOrder);			//*** lua script 1400 ***//
-			IEArea::AddChild(grid, blockLocationX, blockLocationY);
+			grid->Reload(_terrain._TerrainID, __terrain_body_mode__, _terrain._Order);
 		}
 
 		grid->ChangeTexture((textureGroupName + "/body_" + randIndex + ".png").GetString());	//*** glTexImage2D 40000 ***//
 
 		//border part
-		if (terrainsInfo[terrainID]._BorderC)
+		if (terrainsInfo[_terrain._TerrainID]._BorderC)
 		{
-			randIndex = rand() % terrainsInfo[terrainID]._BorderC;
+			randIndex = rand() % terrainsInfo[_terrain._TerrainID]._BorderC;
 			IETerrain * grids[4];
 			grids[0] = (IETerrain *)GetBlock(blockLocationX, blockLocationY - 1);
 			grids[1] = (IETerrain *)GetBlock(blockLocationX + 1, blockLocationY);
@@ -288,7 +274,7 @@ void IETerrainArea::AddBody(unsigned int terrainID, IETerrainMode terrainMODE, u
 					}
 					else
 					{
-						if (grids[index]->GetTerrainID() != terrainID)
+						if (grids[index]->GetTerrainID() != _terrain._TerrainID)
 						{
 							//必须创建的顺序大于隔壁(主要针对于map存储状况下的解决办法)
 							if (grid->GetOrder() > grids[index]->GetOrder())
@@ -309,7 +295,7 @@ void IETerrainArea::AddBody(unsigned int terrainID, IETerrainMode terrainMODE, u
 					}
 				}
 			}
-			if (isBorderExits && terrainsInfo[terrainID]._BorderC)
+			if (isBorderExits && terrainsInfo[_terrain._TerrainID]._BorderC)
 			{
 				grid->SetBorderTextureFile((textureGroupName + "/border_" + randIndex + ".png").GetString());
 			}
@@ -365,7 +351,7 @@ void IETerrainArea::ApplyBevel(unsigned int terrainID, IETerrainMode terrainMODE
 		}
 
 		IEString stringTexture = IEString(terrainTextureName) + "/bevel_" + (rand() % terrainsInfo[terrainID]._BevelC) + ".tga";
-		grid = IETerrain::Create(terrainID, terrainMODE, m_alter->_TerrainInfo._Order);
+		grid = IETerrain::Create(terrainID, terrainMODE, m_alter->_Terrain._Order);
 		IEArea::AddChild(grid, blockLocationX, blockLocationY);
 
 		IETerrain * grids[4];
@@ -419,9 +405,9 @@ void IETerrainArea::ApplyNone(unsigned int terrainID, IETerrainMode terrainMODE,
 	}
 	else
 	{
-		m_alter->_TerrainInfoOld._Order = grid->GetOrder();
-		m_alter->_TerrainInfoOld._TerrainID = grid->GetTerrainID();
-		m_alter->_TerrainInfoOld._TerrainMode = grid->GetTerrainMODE();
+		m_alter->_TerrainPast._Order = grid->GetOrder();
+		m_alter->_TerrainPast._TerrainID = grid->GetTerrainID();
+		m_alter->_TerrainPast._TerrainMode = grid->GetTerrainMODE();
 
 		RemoveChild(blockLocationX, blockLocationY);
 	}
@@ -463,22 +449,16 @@ void IETerrainArea::RollbackAlter()
 		return;
 	}
 
-	unsigned int terrainID = m_alter->_TerrainInfoOld._TerrainID;
-	IETerrainMode terrainMODE = m_alter->_TerrainInfoOld._TerrainMode;
-	unsigned int createdOrder = m_alter->_TerrainInfoOld._Order;
+	unsigned int terrainID = m_alter->_TerrainPast._TerrainID;
+	IETerrainMode terrainMODE = m_alter->_TerrainPast._TerrainMode;
+	unsigned int createdOrder = m_alter->_TerrainPast._Order;
 	int blockLocationX = m_alter->_X;
 	int blockLocationY = m_alter->_Y;
 
-	switch (m_alter->_TerrainInfoOld._TerrainMode)
+	switch (m_alter->_TerrainPast._TerrainMode)
 	{
 	case __terrain_body_mode__:
 		AddBody(terrainID, terrainMODE, createdOrder, blockLocationX, blockLocationY);
-		break;
-	case __terrain_bevel_mode__:
-		ApplyBevel(terrainID, terrainMODE, createdOrder, blockLocationX, blockLocationY);
-		break;
-	case __terrain_piece_mode__:
-		ApplyPiece(terrainID, terrainMODE, createdOrder, blockLocationX, blockLocationY);
 		break;
 	case __terrain_none_mode__:
 		ApplyNone(terrainID, terrainMODE, createdOrder, blockLocationX, blockLocationY);

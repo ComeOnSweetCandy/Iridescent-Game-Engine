@@ -143,7 +143,7 @@ IEChunk * IEArea::GetChunk(int chunkLocationX, int chunkLocationY)
 	}
 	else
 	{
-		__IE_WARNING__("IEArea : GetChunk : out of range.\n");
+		//__IE_WARNING__("IEArea : GetChunk : out of range.\n");
 		return NULL;
 	}
 }

@@ -14,6 +14,7 @@
 
 IE_BEGIN
 
+#define STRING_TO_NONE		0
 #define STRING_TO_INT		1
 #define STRING_TO_FLOAT		2
 #define STRING_TO_STRING	3

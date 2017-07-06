@@ -2,7 +2,7 @@
 #include "IEMap.h"
 
 #include "terrain/IEterrainArea.h"
-#include "thing/IEthingArea.h"
+#include "thing/IEThingArea.h"
 #include "marble/IEmarble.h"
 #include "path/IEpath.h"
 #include "../../ai/IEpathFinder.h"
@@ -275,7 +275,7 @@ void IEMap::SaveTerrain()
 			fseek(m_terrainFile, (explicitBlockLocation.m_x * m_chunkSideLength + explicitBlockLocation.m_y) * m_terrainBlockSize, SEEK_CUR);
 
 			//直接覆盖
-			fwrite(&(controll->_TerrainInfo), m_terrainBlockSize, 1, m_terrainFile);
+			fwrite(&(controll->_Terrain), m_terrainBlockSize, 1, m_terrainFile);
 			fseek(m_terrainFile, 0, SEEK_SET);
 		}
 		else
@@ -308,9 +308,9 @@ void IEMap::SaveTerrain()
 			fseek(m_terrainFile, (explicitBlockLocation.m_x * m_chunkSideLength + explicitBlockLocation.m_y) * m_terrainBlockSize, SEEK_CUR);
 
 			//直接覆盖
-			zero._TerrainID = controll->_TerrainInfo._TerrainID;
-			zero._TerrainMode = controll->_TerrainInfo._TerrainMode;
-			zero._Order = controll->_TerrainInfo._Order;
+			zero._TerrainID = controll->_Terrain._TerrainID;
+			zero._TerrainMode = controll->_Terrain._TerrainMode;
+			zero._Order = controll->_Terrain._Order;
 
 			fwrite(&zero, m_terrainBlockSize, 1, m_terrainFile);
 			fseek(m_terrainFile, 0, SEEK_SET);

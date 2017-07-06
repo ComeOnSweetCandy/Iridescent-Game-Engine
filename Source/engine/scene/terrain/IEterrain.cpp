@@ -50,12 +50,10 @@ IETerrain * IETerrain::Create(unsigned int terrainID, IETerrainMode terrainMODE,
 
 void IETerrain::Reload(unsigned int terrainID, IETerrainMode terrainMODE, unsigned int createdOrder)
 {
-	//首先清理旧的数据
-
-
 	IETerrain::SetTerrainID(terrainID);
 	IETerrain::SetTerrainMODE(terrainMODE);
 	IETerrain::SetOrder(createdOrder);
+
 	IETerrain::LoadScript();
 }
 
@@ -121,7 +119,14 @@ void IETerrain::LoadScript()
 
 void IETerrain::SetTerrainMODE(IETerrainMode mode)
 {
-	m_terrainMODE = mode;
+	if (m_terrainID == 0)
+	{
+		m_terrainMODE = __terrain_none_mode__;
+	}
+	else
+	{
+		m_terrainMODE = mode;
+	}
 }
 
 IETerrainMode IETerrain::GetTerrainMODE()

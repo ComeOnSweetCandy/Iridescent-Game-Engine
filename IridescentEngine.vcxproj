@@ -147,6 +147,7 @@
     <ClCompile Include="Source\tools\IEtexture.cpp" />
     <ClCompile Include="Source\tools\IETexturePacker.cpp" />
     <ClCompile Include="Source\tools\IEtime.cpp" />
+    <ClCompile Include="Source\tools\IEXml.cpp" />
     <ClCompile Include="Source\type\IEcolor.cpp" />
     <ClCompile Include="Source\type\IEgrid.cpp" />
     <ClCompile Include="Source\type\IEmatrix.cpp" />
@@ -299,6 +300,7 @@
     <ClInclude Include="Source\tools\IEtexture.h" />
     <ClInclude Include="Source\tools\IETexturePacker.h" />
     <ClInclude Include="Source\tools\IEtime.h" />
+    <ClInclude Include="Source\tools\IEXml.h" />
     <ClInclude Include="Source\type\IEbaseType.h" />
     <ClInclude Include="Source\type\IEcolor.h" />
     <ClInclude Include="Source\type\IEgrid.h" />
@@ -325,7 +327,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
     <CLRSupport>false</CLRSupport>
   </PropertyGroup>

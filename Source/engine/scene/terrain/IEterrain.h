@@ -18,9 +18,9 @@ typedef enum
 {
 	__terrain_none_mode__,
 	__terrain_body_mode__,
-	__terrain_bevel_mode__,
-	__terrain_piece_mode__,
-	__terrain_border_mode__,
+	//__terrain_bevel_mode__,
+	//__terrain_piece_mode__,
+	//__terrain_border_mode__,
 }IETerrainMode;
 
 class __IE_DLL__ IETerrain :public IEBlock
@@ -67,8 +67,8 @@ private:
 
 	IESprite * m_terrainBorder;
 	IESprite * m_terrainPiece;
+	IESprite * m_terrainBevel;
 	bool m_displayExtraTerrain[5];
-	bool m_displayExtraMask;
 };
 
 IE_END

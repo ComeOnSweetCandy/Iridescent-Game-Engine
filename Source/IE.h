@@ -9,6 +9,7 @@
 #include "tools/IEfontTTF.h"
 #include "tools/IEfile.h"
 #include "tools/IETexturePacker.h"
+#include "tools/IEXml.h"
 
 //type
 #include "type/IEstring.h"

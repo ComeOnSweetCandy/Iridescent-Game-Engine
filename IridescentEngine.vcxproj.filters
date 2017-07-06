@@ -588,6 +588,9 @@
     <ClCompile Include="Source\engine\scene\terrain\IETerrain.cpp">
       <Filter>IridescentEngine\engine\scene\terrain</Filter>
     </ClCompile>
+    <ClCompile Include="Source\tools\IEXml.cpp">
+      <Filter>IridescentEngine\tools</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\core\shader\IEshader.h">
@@ -1042,6 +1045,9 @@
     </ClInclude>
     <ClInclude Include="Source\engine\scene\terrain\IETerrain.h">
       <Filter>IridescentEngine\engine\scene\terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\tools\IEXml.h">
+      <Filter>IridescentEngine\tools</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
