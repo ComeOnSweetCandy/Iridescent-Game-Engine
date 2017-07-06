@@ -12,6 +12,7 @@
 #define __IE_XML__
 
 #include "../core/IEobject.h"
+#include "../type/IEstring.h"
 
 IE_BEGIN
 
@@ -48,9 +49,9 @@ public:
 
 protected:
 	void AddNone();
-	void AddInt();
-	void AddFloat();
-	void AddString();
+	void AddInt(int value);
+	void AddFloat(float value);
+	void AddString(const char * value);
 	void AddChild(IEXml * xml);
 
 private:

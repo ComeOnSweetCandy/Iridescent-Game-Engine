@@ -2,12 +2,12 @@
 #include "IEXml.h"
 
 #include "../core/container/IEcontianer.h"
-#include "../type/IEstring.h"
 
 IE_BEGIN
 
 IEXml::IEXml()
 {
+	m_value = NULL;
 	m_valueType = __xml_value_none__;
 }
 
@@ -59,10 +59,13 @@ void IEXml::ReadXML(char * file)
 		IEString * string = (IEString *)(arrays->Find(index));
 		const char * strs = string->GetString();
 
+		printf("%s\n", strs);
+
 		if (strs[0] == '/')			//闭合标签
 		{
 			//首先检测整个栈，直接找到与该闭合标签对应的实例 理论上肯定在栈顶
-			if (stackTop->_Xml->m_key == strs)
+			const char * strsBody = strs + 1;
+			if (stackTop->_Xml->m_key == strsBody)
 			{
 				IEXmlStack * deleted = stackTop;
 				stackTop = stackTop->_Next;
@@ -83,10 +86,13 @@ void IEXml::ReadXML(char * file)
 				xml->AddNone();
 				break;
 			case STRING_TO_INT:
+				xml->AddInt(string->transToInt());
 				break;
 			case STRING_TO_FLOAT:
+				xml->AddFloat(string->transToFloat());
 				break;
 			case STRING_TO_STRING:
+				xml->AddString(string->GetString());
 				break;
 			}
 		}
@@ -119,21 +125,23 @@ void IEXml::AddNone()
 	m_value = NULL;
 }
 
-void IEXml::AddInt()
+void IEXml::AddInt(int value)
 {
 	m_valueType = __xml_value_int__;
+	m_value = new int(value);
 }
 
-void IEXml::AddFloat()
+void IEXml::AddFloat(float value)
 {
 	m_valueType = __xml_value_float__;
+	m_value = new float(value);
 }
 
-void IEXml::AddString()
+void IEXml::AddString(const char * value)
 {
 	m_valueType = __xml_value_string__;
+	m_value = IEString::Create(value);
 }
-
 
 void IEXml::AddChild(IEXml * xml)
 {
@@ -147,12 +155,11 @@ void IEXml::AddChild(IEXml * xml)
 		m_value = m_childs;
 	}
 
-	IEXmlStack * m_childs = (IEXmlStack *)m_childs;
 	IEXmlStack * newElement = new IEXmlStack();
 	newElement->_Next = NULL;
 	newElement->_Xml = xml;
 
-	IEXmlStack * endElement = m_childs;
+	IEXmlStack * endElement = (IEXmlStack *)m_value;
 	while (endElement->_Next)
 	{
 		endElement = endElement->_Next;
