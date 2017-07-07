@@ -48,8 +48,9 @@ void IEUiScene::AnalyzeHTML(char * html)
 	IEString htmlString = html;
 	htmlString.DeleteChar('\t');
 	htmlString.DeleteChar('\n');
-	int splitCount = 0;
-	IEArray * labelsArray = htmlString.SplitBy('<', '>', splitCount);
+
+	IEArray * labelsArray = htmlString.SplitBy('<', '>');
+	int splitCount = labelsArray->Count();
 	IEString ** label = (IEString **)(labelsArray->GetContainer());
 
 	for (int index = 0; index < labelsArray->Count(); index++)

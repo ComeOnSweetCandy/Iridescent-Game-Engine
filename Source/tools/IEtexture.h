@@ -1,5 +1,5 @@
 /***********************************
-* name     : IEtexture.h
+* name     : IETexture.h
 * creater  : cosc
 * info     : 2d texture
 * date     : 2016/11/22

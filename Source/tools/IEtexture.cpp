@@ -1,5 +1,5 @@
 #define __IE_DLL_EXPORTS__
-#include "IEtexture.h"
+#include "IETexture.h"
 
 #include "../core/container/IEdictionary.h"
 

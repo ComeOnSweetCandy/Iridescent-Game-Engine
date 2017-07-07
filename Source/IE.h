@@ -10,6 +10,7 @@
 #include "tools/IEfile.h"
 #include "tools/IETexturePacker.h"
 #include "tools/IEXml.h"
+#include "tools/IEPackerTexture.h"
 
 //type
 #include "type/IEstring.h"

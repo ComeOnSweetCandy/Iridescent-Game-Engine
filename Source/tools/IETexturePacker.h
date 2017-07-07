@@ -10,7 +10,7 @@
 #ifndef __IE_TEXTURE_PACKER__
 #define __IE_TEXTURE_PACKER__
 
-#include "IEtexture.h"
+#include "IETexture.h"
 
 IE_BEGIN
 

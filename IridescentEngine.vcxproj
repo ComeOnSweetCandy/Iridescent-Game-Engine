@@ -143,8 +143,9 @@
     <ClCompile Include="Source\tools\IEfontTexture.cpp" />
     <ClCompile Include="Source\tools\IEfontTTF.cpp" />
     <ClCompile Include="Source\tools\IEimage.cpp" />
+    <ClCompile Include="Source\tools\IEPackerTexture.cpp" />
     <ClCompile Include="Source\tools\IEscript.cpp" />
-    <ClCompile Include="Source\tools\IEtexture.cpp" />
+    <ClCompile Include="Source\tools\IETexture.cpp" />
     <ClCompile Include="Source\tools\IETexturePacker.cpp" />
     <ClCompile Include="Source\tools\IEtime.cpp" />
     <ClCompile Include="Source\tools\IEXml.cpp" />
@@ -296,8 +297,9 @@
     <ClInclude Include="Source\tools\IEfontTexture.h" />
     <ClInclude Include="Source\tools\IEfontTTF.h" />
     <ClInclude Include="Source\tools\IEimage.h" />
+    <ClInclude Include="Source\tools\IEPackerTexture.h" />
     <ClInclude Include="Source\tools\IEscript.h" />
-    <ClInclude Include="Source\tools\IEtexture.h" />
+    <ClInclude Include="Source\tools\IETexture.h" />
     <ClInclude Include="Source\tools\IETexturePacker.h" />
     <ClInclude Include="Source\tools\IEtime.h" />
     <ClInclude Include="Source\tools\IEXml.h" />
@@ -327,7 +329,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
     <CLRSupport>false</CLRSupport>
   </PropertyGroup>

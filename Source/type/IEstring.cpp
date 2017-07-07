@@ -84,15 +84,15 @@ unsigned int IEString::Size() const
 	return unsigned int(strlen(this->m_string) + 1);
 }
 
-IEString IEString::operator +(const IEString &str) const
+IEString IEString::operator +(const IEString &string) const
 {
 	unsigned int length_1 = this->Length();
-	unsigned int length_2 = str.Length();
+	unsigned int length_2 = string.Length();
 	unsigned int size = length_1 + length_2 + 1;
 	
 	char * newStr = new char[size];
 	strcpy(newStr, this->m_string);
-	strcat(newStr, str.GetString());
+	strcat(newStr, string.GetString());
 
 	IEString newString = IEString(newStr);
 	delete [] newStr;
@@ -100,15 +100,15 @@ IEString IEString::operator +(const IEString &str) const
 	return newString;
 }
 
-IEString IEString::operator +(const char *str) const
+IEString IEString::operator +(const char * string) const
 {
 	unsigned int length_1 = this->Length();
-	unsigned int length_2 = strlen(str);
+	unsigned int length_2 = strlen(string);
 	unsigned int size = length_1 + length_2 + 1;
 
 	char * newStr = new char[size];
 	strcpy(newStr, this->m_string);
-	strcat(newStr, str);
+	strcat(newStr, string);
 
 	IEString newString = IEString(newStr);
 	delete[] newStr;
@@ -116,7 +116,7 @@ IEString IEString::operator +(const char *str) const
 	return newString;
 }
 
-IEString IEString::operator +(const char &str) const
+IEString IEString::operator +(const char &c) const
 {
 	unsigned int length_1 = this->Length();
 	unsigned int length_2 = 1;
@@ -124,7 +124,7 @@ IEString IEString::operator +(const char &str) const
 
 	char * newStr = new char[size];
 	strcpy(newStr, this->m_string);
-	newStr[length_1] = str;
+	newStr[length_1] = c;
 	newStr[length_1 + 1] = '\0';
 
 	IEString newString = IEString(newStr);
@@ -223,6 +223,95 @@ char & IEString::operator[](unsigned short int index)
 	return m_string[index];
 }
 
+IEString& IEString::operator <<(const IEString &string)
+{
+	unsigned int length_1 = this->Length();
+	unsigned int length_2 = string.Length();
+	unsigned int size = length_1 + length_2 + 1;
+
+	char * newStr = new char[size];
+	strcpy(newStr, this->m_string);
+	strcat(newStr, string.GetString());
+
+	delete[]m_string;
+	m_string = newStr;
+
+	return *this;
+}
+
+IEString& IEString::operator <<(const char * string)
+{
+	unsigned int length_1 = this->Length();
+	unsigned int length_2 = strlen(string);
+	unsigned int size = length_1 + length_2 + 1;
+
+	char * newStr = new char[size];
+	strcpy(newStr, this->m_string);
+	strcat(newStr, string);
+
+	delete[]m_string;
+	m_string = newStr;
+
+	return *this;
+}
+
+IEString& IEString::operator <<(const char &c)
+{
+	unsigned int length_1 = this->Length();
+	unsigned int length_2 = 1;
+	unsigned int size = length_1 + length_2 + 1;
+
+	char * newStr = new char[size];
+	strcpy(newStr, this->m_string);
+	newStr[length_1] = c;
+	newStr[length_1 + 1] = '\0';
+
+	delete[]m_string;
+	m_string = newStr;
+
+	return *this;
+}
+
+IEString& IEString::operator <<(const int &i)
+{
+	IEString addString = "";
+	int n = i;
+	if (n < 0)
+	{
+		n = -n;
+	}
+
+	int c1;
+	char c0;
+	while (n >= 10)
+	{
+		c1 = n % 10;
+		n = n / 10;
+		c0 = '0' + c1;
+		addString = addString + c0;
+	}
+	c0 = '0' + n;
+	addString = addString + c0;
+	if (i < 0)
+	{
+		addString = addString + '-';
+	}
+	addString.OverthrowString();
+
+	unsigned int length_1 = this->Length();
+	unsigned int length_2 = addString.Length();
+	unsigned int size = length_1 + length_2 + 1;
+
+	char * newStr = new char[size];
+	strcpy(newStr, this->m_string);
+	strcat(newStr, addString.GetString());
+
+	delete[]m_string;
+	m_string = newStr;
+
+	return *this;
+}
+
 const char * IEString::GetString() const
 {
 	return m_string;
@@ -288,19 +377,21 @@ IEContainer * IEString::SplitBy(char c, int &splitCount)
 	return stringArray;
 }
 
-IEContainer * IEString::SplitBy(char beginC, char endC, int &splitCount)
+IEContainer * IEString::SplitBy(char beginC, char endC)
 {
-	int length = this->Length();
+	int length = Length();
+
+#ifdef __IE_CHECK__
 	if (length < 2)
 	{
 		//不正确的格式
 		return NULL;
 	}
-	//if (m_string[0] != beginC || m_string[length - 1] != endC)
-	//{
-	//	//不正确的格式
-	//	return NULL;
-	//}
+	if (m_string[0] != beginC || m_string[length - 1] != endC)
+	{
+		//不正确的格式
+		return NULL;
+	}
 
 	//检查嵌套和是否数量匹配
 	int mark = 0;
@@ -328,11 +419,14 @@ IEContainer * IEString::SplitBy(char beginC, char endC, int &splitCount)
 		//数量不匹配 格式不正确
 		return NULL;
 	}
+#endif
 
 	IEContainer * labelsArray = IEContainer::Create();
 	labelsArray->AutoRelease();
+
 	IEString * label = NULL;
 	IEString * value = NULL;
+	
 	for (int index = 0; index < length; index++)
 	{
 		//检查嵌套
@@ -359,16 +453,16 @@ IEContainer * IEString::SplitBy(char beginC, char endC, int &splitCount)
 		{
 			if (label)
 			{
-				*label = *label + m_string[index];
+				(*label)<<m_string[index];
 			}
 			else
 			{
 				if (value == NULL)
 				{
 					value = IEString::Create();
-					*value = *value + '|';			//首位加上一个标志 标记为中间部分的内容
+					(*value)<<'|';			//首位加上一个标志 标记为中间部分的内容
 				}
-				*value = *value + m_string[index];
+				(*value)<<m_string[index];
 			}
 		}
 	}

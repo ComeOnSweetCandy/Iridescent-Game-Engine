@@ -43,7 +43,13 @@ public:
 	static IEXml * Create(char * key);
 
 public:
-	void SetKey(const char * key);
+	IEContainer * FindChilds(const char * key);
+	IEXml * FindChild(const char * key);
+
+	int ValueInt();
+	float ValueFloat();
+	const char * ValueString();
+
 	void ReadXML(char * file);
 	void SaveXML(char * fileName);
 

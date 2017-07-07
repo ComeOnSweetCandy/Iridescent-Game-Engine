@@ -97,7 +97,7 @@ void IEFrame::ChangeSize(int w, int h)
 	SETTING.DeleteEntry("ScreenSize");
 	SETTING.DeleteEntry("PixelLength");
 	SETTING["ScreenSize"] = IEGrid::Create(w, h);
-	SETTING["PixelLength"] = new IEBaseType<float>(windowHeight * 2 / h);;
+	SETTING["PixelLength"] = new IEBaseType<float>(windowHeight * 2 / h);
 
 	glViewport(0, 0, w, h);
 

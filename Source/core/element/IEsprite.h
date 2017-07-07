@@ -11,7 +11,7 @@
 #define __IE_SPRITE__
 
 #include "IEelement.h"
-#include "../../tools/IEtexture.h"
+#include "../../tools/IETexture.h"
 
 IE_BEGIN
 

@@ -222,9 +222,6 @@
     <ClCompile Include="Source\tools\IEimage.cpp">
       <Filter>IridescentEngine\tools</Filter>
     </ClCompile>
-    <ClCompile Include="Source\tools\IEtexture.cpp">
-      <Filter>IridescentEngine\tools</Filter>
-    </ClCompile>
     <ClCompile Include="Source\tools\IEtime.cpp">
       <Filter>IridescentEngine\tools</Filter>
     </ClCompile>
@@ -591,6 +588,12 @@
     <ClCompile Include="Source\tools\IEXml.cpp">
       <Filter>IridescentEngine\tools</Filter>
     </ClCompile>
+    <ClCompile Include="Source\tools\IEPackerTexture.cpp">
+      <Filter>IridescentEngine\tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\tools\IETexture.cpp">
+      <Filter>IridescentEngine\tools</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\core\shader\IEshader.h">
@@ -669,9 +672,6 @@
       <Filter>IridescentEngine\tools</Filter>
     </ClInclude>
     <ClInclude Include="Source\tools\IEimage.h">
-      <Filter>IridescentEngine\tools</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\tools\IEtexture.h">
       <Filter>IridescentEngine\tools</Filter>
     </ClInclude>
     <ClInclude Include="Source\tools\IEtime.h">
@@ -1047,6 +1047,12 @@
       <Filter>IridescentEngine\engine\scene\terrain</Filter>
     </ClInclude>
     <ClInclude Include="Source\tools\IEXml.h">
+      <Filter>IridescentEngine\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\tools\IEPackerTexture.h">
+      <Filter>IridescentEngine\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\tools\IETexture.h">
       <Filter>IridescentEngine\tools</Filter>
     </ClInclude>
   </ItemGroup>

@@ -3,6 +3,8 @@
 
 #include "../core/container/IEcontianer.h"
 
+#include "../tools/IEtime.h"
+
 IE_BEGIN
 
 IEXml::IEXml()
@@ -28,6 +30,56 @@ IEXml * IEXml::Create()
 	return xml;
 }
 
+IEContainer * IEXml::FindChilds(const char * key)
+{
+	IEContainer * arrays = IEContainer::Create();
+	arrays->AutoRelease();
+
+	IEXmlStack * endElement = (IEXmlStack *)m_value;
+	IEXml * resultXml = NULL;
+	while (endElement->_Xml)
+	{
+		if (endElement->_Xml->m_key == key)
+		{
+			arrays->Push(endElement->_Xml);
+		}
+		endElement = endElement->_Next;
+	}
+
+	return NULL;
+}
+
+IEXml * IEXml::FindChild(const char * key)
+{
+	IEXmlStack * endElement = (IEXmlStack *)m_value;
+	IEXml * resultXml = NULL;
+	while (endElement->_Xml)
+	{
+		if (endElement->_Xml->m_key == key)
+		{
+			return endElement->_Xml;
+		}
+		endElement = endElement->_Next;
+	}
+
+	return NULL;
+}
+
+int IEXml::ValueInt()
+{
+	return *((int *)m_value);
+}
+
+float IEXml::ValueFloat()
+{
+	return *((float *)m_value);
+}
+
+const char * IEXml::ValueString()
+{
+	return ((IEString *)m_value)->GetString();
+}
+
 void IEXml::ReadXML(char * file)
 {
 	//打开文件
@@ -39,14 +91,12 @@ void IEXml::ReadXML(char * file)
 	while (!feof(fp))
 	{
 		fscanf(fp, "%s", hrContent);
-		content = content + hrContent;
+		content<<hrContent;
 	}
 
-	int count = 0;
-	IEContainer * arrays = content.SplitBy('<', '>', count);
-	count = arrays->Count();
+	IEContainer * arrays = content.SplitBy('<', '>');
 
-	//建立一个零时栈
+	//建立一个临时栈
 	IEXmlStack * stackTop = new IEXmlStack();
 	stackTop->_Next = NULL;
 
@@ -59,20 +109,14 @@ void IEXml::ReadXML(char * file)
 		IEString * string = (IEString *)(arrays->Find(index));
 		const char * strs = string->GetString();
 
-		printf("%s\n", strs);
-
 		if (strs[0] == '/')			//闭合标签
 		{
 			//首先检测整个栈，直接找到与该闭合标签对应的实例 理论上肯定在栈顶
-			const char * strsBody = strs + 1;
-			if (stackTop->_Xml->m_key == strsBody)
-			{
-				IEXmlStack * deleted = stackTop;
-				stackTop = stackTop->_Next;
+			IEXmlStack * deleted = stackTop;
+			stackTop = stackTop->_Next;
 
-				deleted->_Next = NULL;
-				delete deleted;
-			}
+			deleted->_Next = NULL;
+			delete deleted;
 		}
 		else if (strs[0] == '|')	//数据段
 		{
@@ -150,21 +194,23 @@ void IEXml::AddChild(IEXml * xml)
 		m_valueType = __xml_value_xml__;
 
 		IEXmlStack * m_childs = new IEXmlStack();
-		m_childs->_Xml = this;
+		m_childs->_Xml = xml;
 		m_childs->_Next = NULL;
 		m_value = m_childs;
 	}
-
-	IEXmlStack * newElement = new IEXmlStack();
-	newElement->_Next = NULL;
-	newElement->_Xml = xml;
-
-	IEXmlStack * endElement = (IEXmlStack *)m_value;
-	while (endElement->_Next)
+	else
 	{
-		endElement = endElement->_Next;
+		IEXmlStack * newElement = new IEXmlStack();
+		newElement->_Next = NULL;
+		newElement->_Xml = xml;
+
+		IEXmlStack * endElement = (IEXmlStack *)m_value;
+		while (endElement->_Next)
+		{
+			endElement = endElement->_Next;
+		}
+		endElement->_Next = newElement;
 	}
-	endElement->_Next = newElement;
 }
 
 IE_END

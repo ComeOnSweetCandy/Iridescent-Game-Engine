@@ -46,7 +46,7 @@ public:
 	void EmptyString();
 
 	IEString operator +(const IEString &string) const;
-	IEString operator +(const char *string) const;
+	IEString operator +(const char * string) const;
 	IEString operator +(const char &c) const;
 	IEString operator +(const int &i) const;
 
@@ -63,6 +63,11 @@ public:
 
 	char & operator[](unsigned short int index);
 
+	IEString& operator <<(const IEString &string);
+	IEString& operator <<(const char * string);
+	IEString& operator <<(const char &c);
+	IEString& operator <<(const int &i);
+
 	const char * GetString() const;
 	
 public:
@@ -73,7 +78,7 @@ public:
 
 public:
 	IEContainer * SplitBy(char c, int &splitCount);						//按某个字符串,分割
-	IEContainer * SplitBy(char beginC, char endC, int &splitCount);		//分割字符串 有开头和结尾的方式
+	IEContainer * SplitBy(char beginC, char endC);						//分割字符串 有开头和结尾的方式
 	int PushSeveralChar(char c);										//向前推进几个字符
 	int DetectedChar(char c);											//检测某个字符出现的次数
 	int FindCharFromIndex(char c, int beginIndex, int findIndex);		//查询从beginIndex位置起的第findIndex个字符是否存在，及存在的index
