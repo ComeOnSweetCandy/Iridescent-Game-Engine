@@ -17,7 +17,6 @@ IE_BEGIN
 
 struct IETextureFrap
 {
-	int _Index;
 	int _X;
 	int _Y;
 	int _Width;
@@ -32,6 +31,23 @@ struct IETextureGroup
 	IETextureFrap *_Fraps;
 };
 
+struct IETextureUnitState
+{
+	unsigned char _GroupIndex;
+	unsigned char _FrapIndex;
+	float _CurTime;
+
+	int _X;
+	int _Y;
+	int _Width;
+	int _Height;
+
+	float _BeginX;
+	float _BeginY;
+	float _SizeX;
+	float _SizeY;
+};
+
 class __IE_DLL__ IEPackerTexture:public IEObject
 {
 public:
@@ -41,11 +57,12 @@ public:
 	static IEPackerTexture * Create(IEXml * xml);
 
 public:
-	GLuint * GetTexture(float& beginX, float& beginY, float& sizeX, float& sizeY);
+	GLuint * GetTexture(IETextureUnitState * unitState);
 
 private:
 	const char * LoadXML(IEXml * xml);
 	void LoadTexture(const char * textureName);
+	void FillTextureFrap(IETextureFrap& textureFrap, IEXml * xml);
 
 public:
 	GLuint * m_textureId;

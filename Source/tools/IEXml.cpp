@@ -37,7 +37,7 @@ IEContainer * IEXml::FindChilds(const char * key)
 
 	IEXmlStack * endElement = (IEXmlStack *)m_value;
 	IEXml * resultXml = NULL;
-	while (endElement->_Xml)
+	while (endElement)
 	{
 		if (endElement->_Xml->m_key == key)
 		{
@@ -46,14 +46,13 @@ IEContainer * IEXml::FindChilds(const char * key)
 		endElement = endElement->_Next;
 	}
 
-	return NULL;
+	return arrays;
 }
 
 IEXml * IEXml::FindChild(const char * key)
 {
 	IEXmlStack * endElement = (IEXmlStack *)m_value;
-	IEXml * resultXml = NULL;
-	while (endElement->_Xml)
+	while (endElement)
 	{
 		if (endElement->_Xml->m_key == key)
 		{
