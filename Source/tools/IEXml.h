@@ -43,15 +43,14 @@ public:
 	static IEXml * Create(char * key);
 
 public:
-	IEContainer * FindChilds(const char * key);
-	IEXml * FindChild(const char * key);
+	void ReadXML(char * file);
+	void SaveXML(char * fileName);
 
 	int ValueInt();
 	float ValueFloat();
 	const char * ValueString();
-
-	void ReadXML(char * file);
-	void SaveXML(char * fileName);
+	IEXml * FindChild(const char * key);
+	IEContainer * FindChilds(const char * key);
 
 protected:
 	void AddNone();
@@ -61,10 +60,12 @@ protected:
 	void AddChild(IEXml * xml);
 
 private:
+	void ClearSelf();
+
+private:
 	IEString m_key;					//键
 	void * m_value;					//值
 	IEXmlValueType m_valueType;		//值的类型
-	//IEXmlStack * m_childs;			//所有的子节点
 };
 
 IE_END

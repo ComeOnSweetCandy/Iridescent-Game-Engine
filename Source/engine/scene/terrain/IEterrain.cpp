@@ -233,7 +233,8 @@ void IETerrain::SetBorderTextureFile(const char * textureFile)
 
 void IETerrain::SetBorderTexture(IETexture * texture)
 {
-	m_terrainBorder->ChangeTexture(texture);
+	//m_terrainBorder->changeg(texture);
+	m_terrainBorder->ChangeGroup("border");
 }
 
 IESprite * IETerrain::GetBorderSprite()

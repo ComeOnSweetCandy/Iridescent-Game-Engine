@@ -183,7 +183,7 @@ void IETerrainArea::LoadBody(IETerrainChunk * chunk, int explicitGridPositionX, 
 		m_loadString[2][0] = '0' + randIndex;
 
 		RESOURCE.InsertKeyStrings(m_loadString, 4);
-		IETexture * texture = (IETexture *)(RESOURCE.GetCufFind());
+		IEPackerTexture * texture = (IEPackerTexture *)(RESOURCE.GetCufFind());
 
 		if (texture)
 		{

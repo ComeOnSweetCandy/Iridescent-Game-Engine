@@ -94,11 +94,13 @@ void IEAction::ChangeActionTexture(char * actionSuffix, int playTimes)
 
 	if (playTimes == 0)
 	{
-		creature->ChangeTexture((body + ".png").GetString());
+		//creature->ChangeTexture((body + ".png").GetString());
+		creature->ChangeGroup(actionSuffix);
 	}
 	else
 	{
-		creature->ChangeTextureOnce((body + ".png").GetString());
+		//creature->ChangeTextureOnce((body + ".png").GetString());
+		creature->ChangeGroup(actionSuffix, 1);
 	}
 }
 

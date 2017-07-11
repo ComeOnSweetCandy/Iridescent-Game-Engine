@@ -15,7 +15,7 @@ IEXml::IEXml()
 
 IEXml::~IEXml()
 {
-
+	ClearSelf();
 }
 
 void IEXml::Initialization()
@@ -84,7 +84,7 @@ void IEXml::ReadXML(char * file)
 	//打开文件
 	FILE * fp = fopen(file, "r");
 	IEString content;
-	char hrContent[256];
+	char hrContent[1024];
 
 	//首先读取进入所有的字符串
 	while (!feof(fp))
@@ -209,6 +209,23 @@ void IEXml::AddChild(IEXml * xml)
 			endElement = endElement->_Next;
 		}
 		endElement->_Next = newElement;
+	}
+}
+
+void IEXml::ClearSelf()
+{
+	IEXmlStack * nextElement = (IEXmlStack *)m_value;
+	IEXmlStack * deletedElement;
+
+	while (nextElement)
+	{
+		if (nextElement->_Xml)
+		{
+			deletedElement = nextElement;
+			nextElement = nextElement->_Next;
+
+			delete deletedElement;
+		}
 	}
 }
 

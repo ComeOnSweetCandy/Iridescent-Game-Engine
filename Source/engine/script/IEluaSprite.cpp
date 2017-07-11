@@ -15,7 +15,7 @@ int lua_sprite_changeTextureOnce(lua_State * luaScript)
 
 	IESprite * sprite = *((IESprite**)lua_touserdata(luaScript, 1));
 	const char * textureNmae = (const char *)lua_tostring(luaScript, 2);
-	sprite->ChangeTextureOnce(textureNmae);
+	//sprite->ChangeTextureOnce(textureNmae);
 	
 	return 0;
 }
