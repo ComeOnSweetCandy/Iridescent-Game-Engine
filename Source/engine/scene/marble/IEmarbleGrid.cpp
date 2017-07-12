@@ -325,8 +325,8 @@ void IEMarbleGrid::SetMarbleSize()
 {
 	//m_marbleSizeX = m_texture->m_textureSize[0].m_x / m_unitPixels;
 	//m_marbleSizeY = m_texture->m_textureSize[0].m_y / m_unitPixels;
-	m_marbleSizeX = m_tex->m_textureWidth / m_unitPixels;
-	m_marbleSizeY = m_tex->m_textureHeight / m_unitPixels;
+	m_marbleSizeX = m_texture->m_textureWidth / m_unitPixels;
+	m_marbleSizeY = m_texture->m_textureHeight / m_unitPixels;
 }
 
 IEGrid IEMarbleGrid::GetMarbleSize()

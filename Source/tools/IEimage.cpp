@@ -24,11 +24,6 @@ IEImage::~IEImage()
 	m_imgData = NULL;
 }
 
-void IEImage::Release()
-{
-	delete this;
-}
-
 void IEImage::Initialization()
 {
 
@@ -402,8 +397,6 @@ void IEImage::SavePNG(const char * fileName)
 
 	idat_chunk.chunkType = CHUNK_IDAT;
 	idat_chunk.chunkData = NULL;
-
-
 	
 	//这里采用滤波方式0
 	int srcSize = (m_imgWidth * m_imgHeight) * pass + m_imgHeight + 4;
@@ -428,13 +421,9 @@ void IEImage::SavePNG(const char * fileName)
 	idat_chunk.chunkLength = __IE_INTREVERSE__(len_dest);			//???
 	idat_chunk.chunkCRC = __IE_INTREVERSE__(crc(resultData, len_dest + 4));	//???
 
-	//idat_chunk.chunkLength = __IE_INTREVERSE__(13);			//???
-	//idat_chunk.chunkCRC = __IE_INTREVERSE__(crc(idat_chunk.chunkData, srcSize));	//???
-
 	fwrite(&idat_chunk, 8, 1, pFile);
 	fwrite(resultData + 4, 1, len_dest, pFile);
 	fwrite(&(idat_chunk.chunkCRC), 1, 4, pFile);
-
 
 	//WRITE END
 	PNGCHUNK iend_chunk;

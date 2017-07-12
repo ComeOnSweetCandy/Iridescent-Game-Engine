@@ -2,6 +2,7 @@
 #include "IEXml.h"
 
 #include "../core/container/IEcontianer.h"
+#include "../core/container/IEdictionary.h"
 
 #include "../tools/IEtime.h"
 
@@ -23,10 +24,22 @@ void IEXml::Initialization()
 
 }
 
+void IEXml::Initialization(const char * fileName)
+{
+	IEXml::ReadXML(fileName);
+}
+
 IEXml * IEXml::Create()
 {
 	IEXml * xml = new IEXml();
 	xml->Initialization();
+	return xml;
+}
+
+IEXml * IEXml::Create(const char * fileName)
+{
+	IEXml * xml = new IEXml();
+	xml->Initialization(fileName);
 	return xml;
 }
 
@@ -66,12 +79,14 @@ IEXml * IEXml::FindChild(const char * key)
 
 int IEXml::ValueInt()
 {
-	return *((int *)m_value);
+	IEString * valueString = (IEString *)m_value;
+	return valueString->transToInt();
 }
 
 float IEXml::ValueFloat()
 {
-	return *((float *)m_value);
+	IEString * valueString = (IEString *)m_value;
+	return valueString->transToFloat();
 }
 
 const char * IEXml::ValueString()
@@ -79,10 +94,15 @@ const char * IEXml::ValueString()
 	return ((IEString *)m_value)->GetString();
 }
 
-void IEXml::ReadXML(char * file)
+void IEXml::ReadXML(const char * fileName)
 {
+	IEString * baseDir = (IEString *)(SETTING["xmlDir"]);
+	IEString fileDir = *baseDir + fileName;
+
 	//打开文件
-	FILE * fp = fopen(file, "r");
+	FILE * fp = fopen(fileDir.GetString(), "r");
+	if (fp == NULL) return;
+
 	IEString content;
 	char hrContent[1024];
 
@@ -103,7 +123,7 @@ void IEXml::ReadXML(char * file)
 	stackTop->_Xml = this;
 	stackTop->_Xml->m_key = ((IEString *)(arrays->Find(0)))->GetString();
 
-	for (int index = 1; index < arrays->Count() - 1; index++)
+	for (int index = 1; index < arrays->Count(); index++)
 	{
 		IEString * string = (IEString *)(arrays->Find(index));
 		const char * strs = string->GetString();
@@ -120,24 +140,10 @@ void IEXml::ReadXML(char * file)
 		else if (strs[0] == '|')	//数据段
 		{
 			IEXml * xml = stackTop->_Xml;
+			IEString * value = IEString::Create(string->GetString() + 1);
 
-			string->DeleteChar('|');
-			int result = string->DetectedType();
-			switch (result)
-			{
-			case STRING_TO_NONE:
-				xml->AddNone();
-				break;
-			case STRING_TO_INT:
-				xml->AddInt(string->transToInt());
-				break;
-			case STRING_TO_FLOAT:
-				xml->AddFloat(string->transToFloat());
-				break;
-			case STRING_TO_STRING:
-				xml->AddString(string->GetString());
-				break;
-			}
+			xml->m_value = value;
+			xml->m_valueType = __xml_value_string__;
 		}
 		else						//开始区间
 		{
@@ -155,35 +161,13 @@ void IEXml::ReadXML(char * file)
 			stackTop = newStack;
 		}
 	}
+
+	fclose(fp);
 }
 
-void IEXml::SaveXML(char * fileName)
+void IEXml::SaveXML(const char * fileName)
 {
 
-}
-
-void IEXml::AddNone()
-{
-	m_valueType = __xml_value_none__;
-	m_value = NULL;
-}
-
-void IEXml::AddInt(int value)
-{
-	m_valueType = __xml_value_int__;
-	m_value = new int(value);
-}
-
-void IEXml::AddFloat(float value)
-{
-	m_valueType = __xml_value_float__;
-	m_value = new float(value);
-}
-
-void IEXml::AddString(const char * value)
-{
-	m_valueType = __xml_value_string__;
-	m_value = IEString::Create(value);
 }
 
 void IEXml::AddChild(IEXml * xml)
@@ -214,19 +198,35 @@ void IEXml::AddChild(IEXml * xml)
 
 void IEXml::ClearSelf()
 {
-	IEXmlStack * nextElement = (IEXmlStack *)m_value;
-	IEXmlStack * deletedElement;
-
-	while (nextElement)
+	if (m_valueType == __xml_value_xml__)
 	{
-		if (nextElement->_Xml)
-		{
-			deletedElement = nextElement;
-			nextElement = nextElement->_Next;
+		IEXmlStack * nextElement = (IEXmlStack *)m_value;
+		IEXmlStack * deletedElement;
 
-			delete deletedElement;
+		while (nextElement)
+		{
+			if (nextElement->_Xml)
+			{
+				deletedElement = nextElement;
+				nextElement = nextElement->_Next;
+
+				deletedElement->_Xml->ReleaseDisreference();
+				delete deletedElement;
+				deletedElement = NULL;
+			}
 		}
 	}
+	else if (m_valueType == __xml_value_string__)
+	{
+		IEString * deletedString = (IEString *)m_value;
+		deletedString->ReleaseDisreference();
+	}
+	else
+	{
+		__IE_WARNING__("IEXml : ClearSelf() : error.\n");
+	}
+
+	m_value = NULL;
 }
 
 IE_END

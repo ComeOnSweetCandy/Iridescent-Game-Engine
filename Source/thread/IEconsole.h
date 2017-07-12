@@ -16,7 +16,7 @@
 
 IE_BEGIN
 
-class IEConsole :public IEThreadProtocol,public IEtoolsProtocol
+class __IE_DLL__ IEConsole :public IEThreadProtocol,public IEtoolsProtocol
 {
 public:
 	IEConsole();

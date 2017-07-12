@@ -242,7 +242,7 @@ void IETerrainArea::ChangeBody(int blockLocationX, int blockLocationY)
 			grid->Reload(_terrain._TerrainID, __terrain_body_mode__, _terrain._Order);
 		}
 
-		grid->ChangeTexture((textureGroupName + "/body_" + randIndex + ".png").GetString());	//*** glTexImage2D 40000 ***//
+		//grid->ChangeTexture((textureGroupName + "/body_" + randIndex + ".png").GetString());	//*** glTexImage2D 40000 ***//
 
 		//border part
 		if (terrainsInfo[_terrain._TerrainID]._BorderC)

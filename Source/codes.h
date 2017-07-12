@@ -99,3 +99,17 @@
 //
 //IEContainer * aarray = packer->Run();
 //packer->Save();
+
+////
+//IEXml * xml = IEXml::Create("terrain/soil.xml");
+//IEXml * textureXML = xml->FindChild("texture");
+//const char * textureName = textureXML->FindChild("tex")->ValueString();
+//
+//IETime::Share()->ReckonBegin();
+//IEPackerTexture * texture = IEPackerTexture::Create(textureXML);
+//
+//IESprite * sprite = IESprite::Create();
+//sprite->SetScale(0.4);
+//scene->GetBindedMap()->AddChild(sprite);
+//
+//sprite->ChangeTexture(texture);

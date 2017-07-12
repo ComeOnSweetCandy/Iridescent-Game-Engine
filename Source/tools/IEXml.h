@@ -39,12 +39,13 @@ public:
 	IEXml();
 	~IEXml();
 	void Initialization();
+	void Initialization(const char * fileName);
 	static IEXml * Create();
-	static IEXml * Create(char * key);
+	static IEXml * Create(const char * fileName);
 
 public:
-	void ReadXML(char * file);
-	void SaveXML(char * fileName);
+	void ReadXML(const char * fileName);
+	void SaveXML(const char * fileName);
 
 	int ValueInt();
 	float ValueFloat();
@@ -53,10 +54,6 @@ public:
 	IEContainer * FindChilds(const char * key);
 
 protected:
-	void AddNone();
-	void AddInt(int value);
-	void AddFloat(float value);
-	void AddString(const char * value);
 	void AddChild(IEXml * xml);
 
 private:

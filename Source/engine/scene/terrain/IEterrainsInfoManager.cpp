@@ -70,14 +70,14 @@ void IETerrainsInfoManager::LoadTerrainsInfo()
 	unsigned int index = 0;
 	while (!feof(fp))
 	{
-		IETerrainInfo &info = m_terrainsInfoList[index];
+		fscanf(fp, "%d %s", &(m_terrainsInfoList[index]._TerrainID), m_terrainsInfoList[index]._TerrainName);
+
+		IEString fileDir = IEString(m_terrainsInfoList[index]._TerrainName) << ".xml";
+
 		m_terrainsInfoList[index]._LuaScript = NULL;
-
-		fscanf(fp, "%d %d %d %d %d %s", &(info._TerrainID), &(info._BodyC), &(info._BevelC), &(info._PieceC), &(info._BorderC), info._TerrainName);
-
-		index++;
+		m_terrainsInfoList[index++]._Xml = IEXml::Create(fileDir.GetString());
 	}
-
+	
 	fclose(fp);
 }
 

@@ -12,25 +12,32 @@
 
 #include "../global/IEstdafx.h"
 
+#include "../tools/IEimage.h"
+
 IE_BEGIN
 
-class IEThreadProtocol
+class __IE_DLL__ IEThreadProtocol
 {
 public:
 	IEThreadProtocol();
 	~IEThreadProtocol();
 	virtual void Initialization();
 	static IEThreadProtocol * Create();
+	static IEThreadProtocol * Share();
 
 public:
-	static DWORD WINAPI ThreadProc(LPVOID lpParam);
 	virtual void Thread();
+	static DWORD WINAPI ThreadProc(LPVOID lpParam);
+
+	void ThreadLoadImage(IEImage * image);
 
 private:
+	IEContainer * m_jobs;			//待处理事务
 
+	static IEThreadProtocol * m_staticThread;
 };
 
-class IEtoolsProtocol
+class __IE_DLL__ IEtoolsProtocol
 {
 public:
 	IEtoolsProtocol();

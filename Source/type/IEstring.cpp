@@ -723,6 +723,7 @@ float IEString::transToFloat()
 	if (spliteCount != 2)
 	{
 		__IE_WARNING__("IEString : error. transToFloat.\n");
+		return 0.0f;
 	}
 
 	IEString ** strs = (IEString **)(spliteArray->GetContainer());

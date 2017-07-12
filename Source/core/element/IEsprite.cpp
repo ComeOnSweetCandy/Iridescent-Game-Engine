@@ -6,22 +6,22 @@ IE_BEGIN
 IESprite::IESprite()
 {
 	m_shader = NULL;
-	m_tex = NULL;
-	m_texUnitState = NULL;
+	m_texture = NULL;
+	m_textureUnit = NULL;
 }
 
 IESprite::~IESprite()
 {
 	RemoveTexture();
 
-	__IE_DELETE__(m_texUnitState);
+	__IE_DELETE__(m_textureUnit);
 }
 
 void IESprite::Initialization(const char * textureName)
 {
 	IEElement::Initialization();
 
-	m_texUnitState = new IETextureUnitState();
+	m_textureUnit = new IETextureUnitState();
 	IESprite::ChangeTexture(textureName);
 }
 
@@ -37,6 +37,13 @@ IESprite * IESprite::Create(const char * textureName)
 	return sprite;
 }
 
+void IESprite::PreVisit()
+{
+	GLuint * textureID = m_texture->GetTexture(m_textureUnit);
+
+	ReckonSize();
+}
+
 void IESprite::DrawNode()
 {
 	RunTexture();
@@ -45,9 +52,9 @@ void IESprite::DrawNode()
 	{
 		glUseProgram(m_shader->GetShaderProgram());
 	}
-	if (m_tex)
+	if (m_texture)
 	{
-		GLuint * textureID = m_tex->GetTexture(m_texUnitState);
+		GLuint * textureID = m_texture->GetTexture(m_textureUnit);
 		glBindTexture(GL_TEXTURE_2D, *textureID);
 	}
 
@@ -56,10 +63,10 @@ void IESprite::DrawNode()
 
 	glColor4f(m_backColor[0], m_backColor[1], m_backColor[2], m_backColor[3]);
 	glBegin(GL_QUADS);
-	glTexCoord2f(m_texUnitState->_BeginX, m_texUnitState->_BeginY); glVertex2f(0, 0);
-	glTexCoord2f(m_texUnitState->_EndX, m_texUnitState->_BeginY); glVertex2f(m_size[0], 0);
-	glTexCoord2f(m_texUnitState->_EndX, m_texUnitState->_EndY); glVertex2f(m_size[0], m_size[1]);
-	glTexCoord2f(m_texUnitState->_BeginX, m_texUnitState->_EndY); glVertex2f(0, m_size[1]);
+	glTexCoord2f(m_textureUnit->_BeginX, m_textureUnit->_BeginY); glVertex2f(0, 0);
+	glTexCoord2f(m_textureUnit->_EndX, m_textureUnit->_BeginY); glVertex2f(m_size[0], 0);
+	glTexCoord2f(m_textureUnit->_EndX, m_textureUnit->_EndY); glVertex2f(m_size[0], m_size[1]);
+	glTexCoord2f(m_textureUnit->_BeginX, m_textureUnit->_EndY); glVertex2f(0, m_size[1]);
 	glEnd();
 
 	glDisable(GL_BLEND);
@@ -69,8 +76,10 @@ void IESprite::DrawNode()
 
 void IESprite::ReckonSize()
 {
-	m_size[0] = float(m_tex->m_textureWidth) / m_unitPixels;
-	m_size[1] = float(m_tex->m_textureHeight) / m_unitPixels;
+	//m_size[0] = float(m_texture->m_textureWidth) / m_unitPixels;
+	//m_size[1] = float(m_texture->m_textureHeight) / m_unitPixels;
+	m_size[0] = float(m_textureUnit->_Width) / m_unitPixels;
+	m_size[1] = float(m_textureUnit->_Height) / m_unitPixels;
 }
 
 void IESprite::ChangeTexture(const char * textureName)
@@ -82,9 +91,9 @@ void IESprite::ChangeTexture(const char * textureName)
 
 	RemoveTexture();
 
-	m_tex = IEPackerTexture::Create(textureName);
-	m_tex->Retain();
-	m_tex->ChangeGroup(m_texUnitState, "default");
+	m_texture = IEPackerTexture::Create(textureName);
+	m_texture->Retain();
+	ChangeGroup("default");
 
 	ReckonSize();
 }
@@ -98,29 +107,27 @@ void IESprite::ChangeTexture(IEPackerTexture * packerTexture)
 
 	RemoveTexture();
 
-	m_tex = packerTexture;
-	m_tex->Retain();
-	m_tex->ChangeGroup(m_texUnitState, "f");
+	m_texture = packerTexture;
+	m_texture->Retain();
+	ChangeGroup("default");
 
 	ReckonSize();
 }
 
-void IESprite::ChangeGroup(const char * textureName, unsigned int times)
+void IESprite::ChangeGroup(const char * groupName, unsigned int times)
 {
-	//ChangeTexture(textureName);
-	//m_textureState->m_temporaryRun = true;
-	if (m_tex)
+	if (m_texture)
 	{
-		m_tex->ChangeGroup(m_texUnitState, textureName);
+		m_texture->ChangeGroup(m_textureUnit, groupName);
 	}
 }
 
 void IESprite::RemoveTexture()
 {
-	if (m_tex)
+	if (m_texture)
 	{
-		m_tex->Discard();
-		m_tex = NULL;
+		m_texture->Discard();
+		m_texture = NULL;
 	}
 }
 

@@ -46,15 +46,16 @@ public:
 	static IESprite * Create(const char * textureName);
 
 protected:
+	virtual void PreVisit();
 	virtual void DrawNode();
-
 	virtual void ReckonSize();
+
 	void RunTexture();
 
 public:
 	void ChangeTexture(const char * textureName);							//直接更换贴图
 	void ChangeTexture(IEPackerTexture * packerTexture);					//直接更换贴图
-	void ChangeGroup(const char * textureName, unsigned int times = 0);		//更换贴图组
+	void ChangeGroup(const char * groupName, unsigned int times = 0);		//更换贴图组
 	void RemoveTexture();
 	
 	virtual void TemporaryTextureEnd();
@@ -62,8 +63,8 @@ public:
 	virtual bool IsEndFrap();
 
 protected:
-	IEPackerTexture * m_tex;
-	IETextureUnitState * m_texUnitState;
+	IEPackerTexture * m_texture;
+	IETextureUnitState * m_textureUnit;
 };
 
 IE_END

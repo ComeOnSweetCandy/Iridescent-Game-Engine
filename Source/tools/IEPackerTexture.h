@@ -55,12 +55,12 @@ public:
 	virtual ~IEPackerTexture();
 	virtual void Initialization(IEXml * xml);
 	virtual void Initialization(const char * textureName);
-	static IEPackerTexture * Create(IEXml * xml);
-	static IEPackerTexture * Create(const char * textureName);
+	static IEPackerTexture * Create(IEXml * xml);				//当前方式加载的贴图会被资源管理器记录
+	static IEPackerTexture * Create(const char * textureName);	//
 
 public:
-	void ChangeGroup(IETextureUnitState * textureUnitState, const char * groupName);					//修改当前激活的贴图组
 	GLuint * GetTexture(IETextureUnitState * unitState);
+	void ChangeGroup(IETextureUnitState * textureUnitState, const char * groupName);					//修改当前激活的贴图组
 
 private:
 	const char * LoadXML(IEXml * xml);							//读取xml

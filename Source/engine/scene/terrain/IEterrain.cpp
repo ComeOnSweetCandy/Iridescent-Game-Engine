@@ -5,9 +5,6 @@
 
 #include "../../../tools/IEscript.h"
 #include "../../script/IEluaNode.h"
-#include "../../script/IEluaPhysicPolygon.h"
-#include "../../script/IEluaPhysicCircle.h"
-#include "../../script/IEluaPhysicNode.h"
 
 IE_BEGIN
 
@@ -36,6 +33,8 @@ void IETerrain::Initialization(unsigned int terrainID, IETerrainMode terrainMODE
 	IETerrain::SetTerrainID(terrainID);
 	IETerrain::SetTerrainMODE(terrainMODE);
 	IETerrain::SetOrder(createdOrder);
+
+	IETerrain::LoadXML();
 	IETerrain::LoadScript();
 
 	m_terrainBorder = IESprite::Create();
@@ -54,7 +53,33 @@ void IETerrain::Reload(unsigned int terrainID, IETerrainMode terrainMODE, unsign
 	IETerrain::SetTerrainMODE(terrainMODE);
 	IETerrain::SetOrder(createdOrder);
 
+	IETerrain::LoadXML();
 	IETerrain::LoadScript();
+}
+
+void IETerrain::LoadXML()
+{
+	if (m_terrainID == 0) return;
+
+	IETerrainInfo * terrainsInfo = IETerrainsInfoManager::Share()->GetTerrainsInfoList();
+	IEXml * xml = terrainsInfo[m_terrainID]._Xml;
+
+	//load physic
+	IEPhysicNode * physicNode = NULL;
+	IEXml * physicXML = xml->FindChild("physic");
+	const char * physicType = physicXML->FindChild("type")->ValueString();
+	if (strcmp(physicType, "none") == 0)
+	{
+		physicNode = NULL;
+	}
+	BindPhysicNode(physicNode);
+
+	//load texture
+	IEXml * textureXML = xml->FindChild("texture");
+	const char * textureName = textureXML->FindChild("tex")->ValueString();
+	
+	IEPackerTexture * texture = IEPackerTexture::Create(textureXML);
+	ChangeTexture(texture);
 }
 
 void IETerrain::LoadScript()
@@ -78,9 +103,6 @@ void IETerrain::LoadScript()
 		luaL_Reg lua_reg_libs[] =
 		{
 			{ "base", luaopen_base },
-			{ "IEPhysicPolygon", luaopen_physicPolygon },
-			{ "IEPhysicCircle", luaopen_physicCircle },
-			{ "IEPhysicNode", luaopen_physicNode },
 			{ NULL, NULL }
 		};
 
@@ -92,28 +114,10 @@ void IETerrain::LoadScript()
 
 		if (luaL_dofile(luaScript, scriptName) != 0)
 		{
-			__IE_WARNING__("IEAttack : can not find luaScript file.\n");
+			__IE_WARNING__("IETerrain : can not find luaScript file.\n");
 		}
 
 		terrainsInfo[m_terrainID]._LuaScript = luaScript;
-	}
-
-	if (lua_getglobal(luaScript, "CreatePhysic"))
-	{
-		lua_call(luaScript, 0, 0);
-
-		//绑定物理节点
-		IEPhysicNode * physicNode = (IEPhysicNode *)GetLuaUserdataElement(luaScript, "terrainPhysicNode");
-		if (physicNode)
-		{
-			BindPhysicNode(physicNode);
-		}
-	}
-	else
-	{
-		lua_pop(luaScript, 1);
-
-		BindPhysicNode(NULL);
 	}
 }
 

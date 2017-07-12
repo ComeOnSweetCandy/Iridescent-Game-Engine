@@ -3,7 +3,9 @@
 
 #include "../core/container/IEcontianer.h"
 #include "../core/container/IEdictionary.h"
+
 #include "IEtime.h"
+#include "../thread/IEthread.h"
 
 IE_BEGIN
 
@@ -34,16 +36,35 @@ void IEPackerTexture::Initialization(const char * textureName)
 
 IEPackerTexture * IEPackerTexture::Create(IEXml * xml)
 {
-	IEPackerTexture * texture = new IEPackerTexture();
-	texture->Initialization(xml);
-	return texture;
+	const char * textureName = xml->FindChild("tex")->ValueString();
+	IEObject * resource = RESOURCE[textureName];
+	if (resource == NULL)
+	{
+		IEPackerTexture * texture = new IEPackerTexture();
+		texture->Initialization(xml);
+		RESOURCE[textureName] = texture;
+		return texture;
+	}
+	else
+	{
+		return (IEPackerTexture *)resource;
+	}
 }
 
 IEPackerTexture * IEPackerTexture::Create(const char * textureName)
 {
-	IEPackerTexture * texture = new IEPackerTexture();
-	texture->Initialization(textureName);
-	return texture;
+	IEObject * resource = RESOURCE[textureName];
+	if (resource == NULL)
+	{
+		IEPackerTexture * texture = new IEPackerTexture();
+		texture->Initialization(textureName);
+		RESOURCE[textureName] = texture;
+		return texture;
+	}
+	else
+	{
+		return (IEPackerTexture *)resource;
+	}
 }
 
 GLuint * IEPackerTexture::GetTexture(IETextureUnitState * unitState)
@@ -173,6 +194,10 @@ void IEPackerTexture::LoadTexture(const char * textureName)
 	IEImage * m_image = new IEImage();
 	m_image->LoadImageData(textureFileDir);
 
+	//释放前一些信息记录的保存
+	m_textureWidth = m_image->m_imgWidth;
+	m_textureHeight = m_image->m_imgHeight;
+
 	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 	glGenTextures(1, m_textureId);
 
@@ -200,6 +225,8 @@ void IEPackerTexture::LoadTexture(const char * textureName)
 		m_image->m_imgFormat = GL_RGBA;
 	}
 
+	//IEThreadProtocol::Share()->ThreadLoadImage(m_image);
+
 	if (m_image->m_imgWidth == m_image->m_imgHeight)
 	{
 		glTexImage2D(GL_TEXTURE_2D, 0, m_image->m_imgComponents, m_image->m_imgWidth, m_image->m_imgHeight, 0, m_image->m_imgFormat, GL_UNSIGNED_BYTE, m_image->m_imgData);
@@ -210,10 +237,6 @@ void IEPackerTexture::LoadTexture(const char * textureName)
 		glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, m_image->m_imgWidth, m_image->m_imgHeight, m_image->m_imgFormat, GL_UNSIGNED_BYTE, m_image->m_imgData);
 	}
 	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-
-	//释放前一些信息记录的保存
-	m_textureWidth = m_image->m_imgWidth;
-	m_textureHeight = m_image->m_imgHeight;
 
 	m_image->Release();
 }

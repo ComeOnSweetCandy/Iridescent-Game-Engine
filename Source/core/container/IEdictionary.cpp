@@ -48,7 +48,7 @@ IEDictionary * IEDictionary::CreateAndRetain()
 	return object;
 }
 
-IEObject* &IEDictionary::operator[](const char * keyString)
+IEObject*& IEDictionary::operator[](const char * keyString)
 {
 	IEEntry * entry = FindEntry2(keyString);
 	if (entry)
@@ -436,7 +436,7 @@ void IESettingDictionary::Initialization()
 void IESettingDictionary::LoadSettings()
 {
 	IEString baseDir = IEString("../Debug/data/");
-	IEString settingFileDir = baseDir + "setting";
+	IEString settingFileDir = baseDir + "setting.txt";
 
 	FILE * p = fopen(settingFileDir.GetString(), "r");
 	char setting[256];

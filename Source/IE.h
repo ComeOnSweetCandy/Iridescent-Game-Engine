@@ -4,7 +4,10 @@
 //global
 #include "global/IEstdafx.h"
 
-//tools 
+//thread
+#include "thread/IEthread.h"
+
+//tools
 #include "tools/IEtime.h"
 #include "tools/IEfontTTF.h"
 #include "tools/IEfile.h"

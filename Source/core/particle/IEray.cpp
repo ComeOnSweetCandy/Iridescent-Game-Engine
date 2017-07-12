@@ -52,9 +52,9 @@ void IERay::DrawNode()
 	{
 		glUseProgram(m_shader->GetShaderProgram());
 	}
-	if (m_tex)
+	if (m_texture)
 	{
-		GLuint * textureID = m_tex->GetTexture(m_texUnitState);
+		GLuint * textureID = m_texture->GetTexture(m_textureUnit);
 		glBindTexture(GL_TEXTURE_2D, *textureID);
 	}
 

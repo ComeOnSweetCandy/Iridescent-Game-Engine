@@ -54,6 +54,7 @@ protected:
 
 private:
 	void LoadScript();
+	void LoadXML();
 	void DrawBorder();
 	void DrawTopBorder();
 	void DrawDownBorder();

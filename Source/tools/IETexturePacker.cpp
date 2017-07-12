@@ -243,7 +243,7 @@ void IETexturePacker::Save()
 	unsigned hrSize = m_width * pass;
 
 	//打开一个新的xml文件
-	FILE * p = fopen("../Debug/data/test/test.xml", "wb");
+	FILE * p = fopen("../Debug/data/xml/test.xml", "w+");
 	WriteToXml(p, "<list>");
 
 	for (unsigned int index = 0; index < count; index++)
@@ -290,7 +290,7 @@ void IETexturePacker::Save()
 	newImage->m_imgData = data;
 	newImage->m_imgWidth = m_width;
 	newImage->m_imgHeight = m_height;
-	newImage->SavePNG("../Debug/data/test/test_0.png");
+	newImage->SavePNG("../Debug/data/texture/test_0.png");
 }
 
 void IETexturePacker::AddImage(IEImage * image)

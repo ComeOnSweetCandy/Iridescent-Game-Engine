@@ -60,14 +60,13 @@ typedef struct
 #define CHUNK_IDAT ((0x49)|(0x44<<8)|(0x41<<16)|(0x54<<24))
 #define CHUNK_IEND ((0x49)|(0x45<<8)|(0x4e<<16)|(0x44<<24))
 
-class __IE_DLL__ IEImage
+class __IE_DLL__ IEImage:public IEObject
 {
 public:
 	IEImage();
 	~IEImage();
 	static IEImage * Create();
 	static IEImage * Create(unsigned int x, unsigned int y);
-	void Release();
 	void Initialization();
 
 public:

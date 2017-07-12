@@ -47,9 +47,9 @@ void IEWater::DrawNode()
 		GLint borderValue2 = glGetUniformLocation(m_shader->GetShaderProgram(), "_Time");
 		glUniform1f(borderValue2, ia);
 	}
-	if (m_tex)
+	if (m_texture)
 	{
-		GLuint * textureID = m_tex->GetTexture(m_texUnitState);
+		GLuint * textureID = m_texture->GetTexture(m_textureUnit);
 		glBindTexture(GL_TEXTURE_2D, *textureID);
 	}
 	glEnable(GL_BLEND);
