@@ -14,14 +14,14 @@
 
 IE_BEGIN
 
-typedef struct __ieTextureGroup
+typedef struct __ieTexturePackerGroup
 {
 	unsigned short _GroupIndex;
 	char * _GroupName;
 	unsigned short _FrapsCount;
 	
-	__ieTextureGroup * _Next;
-}IETextureGroup;
+	__ieTexturePackerGroup * _Next;
+}IETexturePackerGroup;
 
 class IETexturePackerElement:public IEObject
 {
@@ -56,18 +56,18 @@ public:
 	void AddImage(IEImage * image);
 	void AddImage(IEImage * image, const char * groupName);		//放入image的数据时，也填充group
 	IEContainer * Run();
-	void Save();							//生成新的贴图并且存储于本地 同时生成plist文件
+	void Save();												//生成新的贴图并且存储于本地 同时生成plist文件
 
 private:
 	void AutoEnlarge();
 	void SortTexture(unsigned int index);
-	void SortPoints();						//对于点进行特殊的排序 首先将Y轴越低的放前面 Y轴相同 X轴越低的放前面
+	void SortPoints();											//对于点进行特殊的排序 首先将Y轴越低的放前面 Y轴相同 X轴越低的放前面
 
 public:
 	IEString m_textureName;
 	IEContainer * m_textureContainer;
 	IEContainer * m_pointsContainer;
-	IETextureGroup * m_textureGroupHead;
+	IETexturePackerGroup * m_textureGroupHead;
 
 	unsigned int m_width;
 	unsigned int m_height;
