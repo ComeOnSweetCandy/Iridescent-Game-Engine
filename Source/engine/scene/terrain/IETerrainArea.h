@@ -47,7 +47,6 @@ public:
 
 	void SetReadyTerrain(unsigned int terrainID, IETerrainMode terrainMode);		//设定准备的terrain
 	virtual void MouseMove(float x, float y);										//鼠标的移动
-	virtual void MouseChoose();														//鼠标的选择
 	virtual void MouseCancel();														//鼠标的右键取消
 	virtual void MouseClick();														//有ready物下的一次点击
 	virtual void RollbackAlter();													//回滚一次操作

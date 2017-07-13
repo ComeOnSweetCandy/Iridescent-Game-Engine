@@ -66,7 +66,7 @@ void IECamera::SetCameraPosi(IEVector posi)
 	m_cameraPosi = posi;
 }
 
-IEVector IECamera::GetCameraPosi()
+IEVector IECamera::GetGameraPosition()
 {
 	return m_cameraPosi;
 }

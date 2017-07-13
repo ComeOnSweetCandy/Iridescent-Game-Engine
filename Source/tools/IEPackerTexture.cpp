@@ -13,13 +13,23 @@ IEPackerTexture::IEPackerTexture()
 {
 	m_groupCount = 0;
 	m_textureId = NULL;
+	m_textureGroups = NULL;
 	m_textureWidth = 0;
 	m_textureHeight = 0;
 }
 
 IEPackerTexture::~IEPackerTexture()
 {
-	delete[] m_textureId;
+	if (m_textureGroups)
+	{
+		for (unsigned char index = 0; index < m_groupCount; index++)
+		{
+			delete[]m_textureGroups[index]._Name;
+			delete[]m_textureGroups[index]._Fraps;
+		}
+		delete[]m_textureGroups;
+	}
+	delete[]m_textureId;
 }
 
 void IEPackerTexture::Initialization(IEXml * xml)
@@ -67,7 +77,7 @@ IEPackerTexture * IEPackerTexture::Create(const char * textureName)
 	}
 }
 
-GLuint * IEPackerTexture::GetTexture(IETextureUnitState * unitState)
+void IEPackerTexture::GetTexture(IETextureUnitState * unitState)
 {
 	unitState->_CurTime += IETime::Share()->GetLastFrapPassingTime();
 	unsigned char groupIndex = unitState->_GroupIndex;
@@ -84,6 +94,7 @@ GLuint * IEPackerTexture::GetTexture(IETextureUnitState * unitState)
 		}
 	}
 
+	unitState->_TextureID = m_textureId;
 	unitState->_FrapIndex = frapIndex;
 	unitState->_X = m_textureGroups[groupIndex]._Fraps[frapIndex]._X;
 	unitState->_Y = m_textureGroups[groupIndex]._Fraps[frapIndex]._Y;
@@ -94,8 +105,6 @@ GLuint * IEPackerTexture::GetTexture(IETextureUnitState * unitState)
 	unitState->_BeginY = ((float)unitState->_Y) / ((float)m_textureHeight);
 	unitState->_EndX = ((float)unitState->_X + (float)unitState->_Width) / ((float)m_textureWidth);
 	unitState->_EndY = ((float)unitState->_Y + (float)unitState->_Height) / ((float)m_textureHeight);
-
-	return m_textureId;
 }
 
 const char * IEPackerTexture::LoadXML(IEXml * xml)
@@ -103,6 +112,7 @@ const char * IEPackerTexture::LoadXML(IEXml * xml)
 	const char * textureName = xml->FindChild("tex")->ValueString();
 	m_textureWidth = xml->FindChild("width")->ValueInt();
 	m_textureHeight = xml->FindChild("height")->ValueInt();
+	
 	IEContainer * arrays = xml->FindChilds("group");
 	IEXml ** xmls = (IEXml **)(arrays->GetContainer());
 	m_groupCount = arrays->Count();
@@ -238,7 +248,7 @@ void IEPackerTexture::LoadTexture(const char * textureName)
 	}
 	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
-	m_image->Release();
+	m_image->ReleaseDisreference();
 }
 
 IE_END

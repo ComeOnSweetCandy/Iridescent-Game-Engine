@@ -39,7 +39,10 @@ IESprite * IESprite::Create(const char * textureName)
 
 void IESprite::PreVisit()
 {
-	GLuint * textureID = m_texture->GetTexture(m_textureUnit);
+	if (m_texture)
+	{
+		m_texture->GetTexture(m_textureUnit);
+	}
 
 	ReckonSize();
 }
@@ -52,12 +55,8 @@ void IESprite::DrawNode()
 	{
 		glUseProgram(m_shader->GetShaderProgram());
 	}
-	if (m_texture)
-	{
-		GLuint * textureID = m_texture->GetTexture(m_textureUnit);
-		glBindTexture(GL_TEXTURE_2D, *textureID);
-	}
 
+	glBindTexture(GL_TEXTURE_2D, *(m_textureUnit->_TextureID));
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -120,6 +119,11 @@ void IESprite::ChangeGroup(const char * groupName, unsigned int times)
 	{
 		m_texture->ChangeGroup(m_textureUnit, groupName);
 	}
+}
+
+IEPackerTexture * IESprite::GetTexture()
+{
+	return m_texture;
 }
 
 void IESprite::RemoveTexture()

@@ -33,6 +33,7 @@ struct IETextureGroup
 
 struct IETextureUnitState
 {
+	GLuint * _TextureID;
 	unsigned char _GroupIndex;
 	unsigned char _FrapIndex;
 	float _CurTime;
@@ -59,7 +60,7 @@ public:
 	static IEPackerTexture * Create(const char * textureName);	//
 
 public:
-	GLuint * GetTexture(IETextureUnitState * unitState);
+	void GetTexture(IETextureUnitState * unitState);
 	void ChangeGroup(IETextureUnitState * textureUnitState, const char * groupName);					//修改当前激活的贴图组
 
 private:

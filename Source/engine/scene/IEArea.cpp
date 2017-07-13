@@ -14,7 +14,7 @@ IEArea::IEArea()
 	m_chunks = NULL;
 
 	m_alters = NULL;
-	m_moveThing = NULL;
+	m_suspension = NULL;
 
 	m_centerChunkLocation = IEGrid(0, 0);
 }
@@ -35,7 +35,11 @@ void IEArea::Initialization(IEMap * map, int visibleRadius, int chunkLength)
 	m_chunkLength = chunkLength;
 	m_visibleLength = m_visibleRadius * 2 + 1;
 	m_visibleChunksCount = m_visibleLength * m_visibleLength;
+
 	m_alters = IEContainer::CreateAndRetain();
+	m_suspension = IESprite::Create();
+
+	IENode::AddChild(m_suspension);
 
 	IEArea::InitChunks();
 	IEArea::SetCenterChunkLocation(0, 0);
@@ -278,12 +282,6 @@ void IEArea::SetCurOrder(unsigned int order)
 unsigned int IEArea::GetCurOrder()
 {
 	return m_curOrder;
-}
-
-void IEArea::MouseMove(float x, float y)
-{
-	//在这里计算鼠标所指向的位置 chunk block都会被记录下来
-
 }
 
 void IEArea::LocationTranslate(int blockLocationX, int blockLocationY, int& chunkLocationX, int& chunkLocationY, int& explicitLocationX, int& explicitLocationY)

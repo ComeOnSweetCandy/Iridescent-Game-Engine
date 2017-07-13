@@ -307,6 +307,52 @@ void IETexturePacker::AddImage(IEImage * image)
 	m_textureContainer->Push(element);
 }
 
+void IETexturePacker::AddImage(IEImage * image, const char * groupName)
+{
+	IETexturePackerElement * element = new IETexturePackerElement();
+
+	element->_Width = image->m_imgWidth;
+	element->_Height = image->m_imgHeight;
+	element->_Image = image;
+	element->_Size = element->_Width * element->_Height;
+	element->_X = -1;
+	element->_Y = -1;
+
+	m_textureContainer->Push(element);
+
+	//进行group的处理
+	//首先检测 该groupName是否存在
+
+	bool result = false;
+	IETextureGroup * group = m_textureGroupHead;
+	while (group)
+	{
+		if (strcmp(group->_GroupName, groupName) == 0)
+		{
+			//将此贴图放入该group内
+			//unsigned short _GroupIndex;
+			//unsigned short _FrapIndex;
+			//float _EndTime;
+
+			element->_GroupIndex = group->_GroupIndex;
+			element->_FrapIndex = group->_FrapsCount++;
+
+			result = true;
+			break;
+		}
+
+		group->_Next;
+	}
+
+	//如果没有找到
+	if (result == false)
+	{
+		//xuyao
+		group->_GroupName;
+		group->_Next;
+	}
+}
+
 void IETexturePacker::AutoEnlarge()
 {
 	if (m_width == m_height)

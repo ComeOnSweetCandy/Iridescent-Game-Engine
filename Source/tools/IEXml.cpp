@@ -141,7 +141,7 @@ void IEXml::ReadXML(const char * fileName)
 		{
 			IEXml * xml = stackTop->_Xml;
 			IEString * value = IEString::Create(string->GetString() + 1);
-
+			
 			xml->m_value = value;
 			xml->m_valueType = __xml_value_string__;
 		}
@@ -172,6 +172,8 @@ void IEXml::SaveXML(const char * fileName)
 
 void IEXml::AddChild(IEXml * xml)
 {
+	xml->Retain();
+
 	if (m_value == NULL)
 	{
 		m_valueType = __xml_value_xml__;
@@ -210,7 +212,7 @@ void IEXml::ClearSelf()
 				deletedElement = nextElement;
 				nextElement = nextElement->_Next;
 
-				deletedElement->_Xml->ReleaseDisreference();
+				deletedElement->_Xml->Release();
 				delete deletedElement;
 				deletedElement = NULL;
 			}

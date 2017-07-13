@@ -56,6 +56,7 @@ public:
 	void ChangeTexture(const char * textureName);							//直接更换贴图
 	void ChangeTexture(IEPackerTexture * packerTexture);					//直接更换贴图
 	void ChangeGroup(const char * groupName, unsigned int times = 0);		//更换贴图组
+	IEPackerTexture * GetTexture();											//获取贴图
 	void RemoveTexture();
 	
 	virtual void TemporaryTextureEnd();

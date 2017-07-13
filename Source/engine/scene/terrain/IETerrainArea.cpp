@@ -49,10 +49,18 @@ void IETerrainArea::AddChild(int blockLocationX, int blockLocationY)
 	m_alter->_Terrain._Order = m_curOrder++;
 
 	//放入旧的信息
-	IETerrain * pastTerrain = (IETerrain *)(GetBlock(blockLocationX, blockLocationY));
-	m_alter->_TerrainPast._TerrainID = pastTerrain->GetTerrainID();
-	m_alter->_TerrainPast._TerrainMode = pastTerrain->GetTerrainMODE();
-	m_alter->_TerrainPast._Order = pastTerrain->GetOrder();
+	if (IETerrain * pastTerrain = (IETerrain *)(GetBlock(blockLocationX, blockLocationY)))
+	{
+		m_alter->_TerrainPast._TerrainID = pastTerrain->GetTerrainID();
+		m_alter->_TerrainPast._TerrainMode = pastTerrain->GetTerrainMODE();
+		m_alter->_TerrainPast._Order = pastTerrain->GetOrder();
+	}
+	else
+	{
+		m_alter->_TerrainPast._TerrainID = 0;
+		m_alter->_TerrainPast._TerrainMode = __terrain_none_mode__;
+		m_alter->_TerrainPast._Order = 0;
+	}
 
 	switch (m_readyTerrainMode)
 	{
@@ -79,8 +87,8 @@ void IETerrainArea::LoadChunk(int blockX, int blockY)
 
 void IETerrainArea::LoadChilds(IETerrainBlockFormat * blocks, int chunkLocationX, int chunkLocationY)
 {
-	IETerrainChunk * block = (IETerrainChunk *)GetChunk(chunkLocationX, chunkLocationY);
-	block->ResetCache();
+	IETerrainChunk * chunk = (IETerrainChunk *)GetChunk(chunkLocationX, chunkLocationY);
+	chunk->ResetCache();
 
 	m_loadString[0];
 	m_loadString[1] = stringBody;
@@ -96,18 +104,18 @@ void IETerrainArea::LoadChilds(IETerrainBlockFormat * blocks, int chunkLocationX
 			{
 				if (blocks[index]._TerrainMode == __terrain_body_mode__)
 				{
-					LoadBody(block, x, y, blocks[index]._TerrainID, blocks[index]._Order);
+					LoadBody(chunk, x, y, blocks[index]._TerrainID, blocks[index]._Order);
 				}
 				else if (blocks[index]._TerrainMode == __terrain_none_mode__)
 				{
-					LoadNone(block, x, y, 0, 0);
+					LoadNone(chunk, x, y, 0, 0);
 				}
 
 				index++;
 			}
 			else
 			{
-				LoadNone(block, x, y, 0, 0);
+				LoadNone(chunk, x, y, 0, 0);
 			}
 		}
 	}
@@ -131,7 +139,7 @@ void IETerrainArea::LoadChilds(IETerrainBlockFormat * blocks, int chunkLocationX
 	//}
 
 	//设置border sprite
-	IEBlock *** gridArrays = block->GetBlocksMatrix();
+	IEBlock *** gridArrays = chunk->GetBlocksMatrix();
 	m_loadString[0];
 	m_loadString[1] = stringBorder;
 	m_loadString[2] = stringNumber;
@@ -470,28 +478,76 @@ void IETerrainArea::RollbackAlter()
 
 void IETerrainArea::MouseMove(float x, float y)
 {
+	//首先计算鼠标所指向的格子和小格子
+	float revisePositionX = IESituation::Share()->_MousePositionX;
+	float revisePositionY = IESituation::Share()->_MousePositionY;
+	if (revisePositionX < 0.0f)
+	{
+		revisePositionX = revisePositionX - 1.0f;
+	}
+	if (revisePositionY < 0.0f)
+	{
+		revisePositionY = revisePositionY - 1.0f;
+	}
+	m_mouseLocation = IEGrid(revisePositionX, revisePositionY);
 
-}
-
-void IETerrainArea::MouseChoose()
-{
-
+	//在这里计算鼠标所指向的位置 chunk block都会被记录下来
+	if (m_readyTerrainID != 0 && m_readyTerrainMode != __terrain_none_mode__)
+	{
+		//说明已经选择了ReadyID
+		m_suspension->SetTranslate(m_mouseLocation.m_x, m_mouseLocation.m_y);
+		//m_suspension->Visit();
+	}
+	else
+	{
+		//说明没有选择ReadyID 那么就以当前地面为显示的元素
+		if (IETerrain * terrain = (IETerrain *)GetBlock(m_mouseLocation.m_x, m_mouseLocation.m_y))
+		{
+			IEPackerTexture * texture = terrain->GetTexture();
+			m_suspension->ChangeTexture(texture);
+			m_suspension->ChangeGroup("body");
+			m_suspension->SetTranslate(x, y);
+		}
+		else
+		{
+			m_suspension->RemoveTexture();
+		}
+	}
 }
 
 void IETerrainArea::MouseCancel()
 {
-
+	m_readyTerrainID = 0;
+	m_readyTerrainMode = __terrain_none_mode__;
 }
 
 void IETerrainArea::MouseClick()
 {
+	//首先查看当前的模式
+	if (m_readyTerrainID == 0)
+	{
+		//选择模式 对当前位置进行选择
+		m_choosen = GetBlock(m_mouseLocation.m_x, m_mouseLocation.m_y);
 
+		//会在一片地区显示choosen的所有的信息 编辑器下会显示
+	}
+	else
+	{
+		AddChild(m_mouseLocation.m_x, m_mouseLocation.m_y);
+	}
 }
 
 void IETerrainArea::SetReadyTerrain(unsigned int terrainID, IETerrainMode terrainMode)
 {
 	m_readyTerrainID = terrainID;
 	m_readyTerrainMode = terrainMode;
+
+	if (m_readyTerrainID != 0 && m_readyTerrainMode != __terrain_none_mode__)
+	{
+		IEPackerTexture * texture = IEPackerTexture::Create(m_terrainsInfo[m_readyTerrainID]._Xml->FindChild("texture"));
+		m_suspension->ChangeTexture(texture);
+		m_suspension->ChangeGroup("body");
+	}
 }
 
 IE_END

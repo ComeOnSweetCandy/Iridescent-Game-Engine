@@ -14,6 +14,15 @@
 
 IE_BEGIN
 
+typedef struct __ieTextureGroup
+{
+	unsigned short _GroupIndex;
+	char * _GroupName;
+	unsigned short _FrapsCount;
+	
+	__ieTextureGroup * _Next;
+}IETextureGroup;
+
 class IETexturePackerElement:public IEObject
 {
 public:
@@ -28,7 +37,9 @@ public:
 	unsigned int _Y;
 
 	//存在于的动作组
-	unsigned char _Group;
+	unsigned short _GroupIndex;
+	unsigned short _FrapIndex;
+	float _EndTime;
 };
 
 class IEContainer;
@@ -43,6 +54,7 @@ public:
 
 public:
 	void AddImage(IEImage * image);
+	void AddImage(IEImage * image, const char * groupName);		//放入image的数据时，也填充group
 	IEContainer * Run();
 	void Save();							//生成新的贴图并且存储于本地 同时生成plist文件
 
@@ -55,6 +67,7 @@ public:
 	IEString m_textureName;
 	IEContainer * m_textureContainer;
 	IEContainer * m_pointsContainer;
+	IETextureGroup * m_textureGroupHead;
 
 	unsigned int m_width;
 	unsigned int m_height;

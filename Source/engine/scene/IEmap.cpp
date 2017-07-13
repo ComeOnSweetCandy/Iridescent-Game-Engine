@@ -9,6 +9,7 @@
 
 #include "../../core/IEcamera.h"
 #include "../../control/IEmouse.h"
+#include "../../control/IEkeyboard.h"
 
 IE_BEGIN
 
@@ -18,7 +19,7 @@ IEMap::IEMap()
 	m_visibleRadius = 0;
 	m_unitChunkBlockCount = m_chunkSideLength * m_chunkSideLength;
 
-	m_activeSceneType = __ie_scene_none__;
+	m_activeSceneType = __ie_scene_terrain__;
 	m_sceneEditMode = __ie_sceneEdit_choose__;
 	m_curTerrain = NULL;
 	m_curMarble = NULL;
@@ -154,7 +155,7 @@ void IEMap::LoadMap()
 
 void IEMap::Update()
 {
-	IEVector cameraPosition = IECamera::Share()->GetCameraPosi();
+	IEVector cameraPosition = IECamera::Share()->GetGameraPosition();
 	IEGrid cameraGrid = cameraPosition;
 
 	m_curTerrain->SetCenterBlockLocation(cameraGrid.m_x, cameraGrid.m_y);
@@ -165,40 +166,30 @@ void IEMap::Update()
 	IEArea * activeArea = NULL;
 	switch (m_activeSceneType)
 	{
-	case __ie_scene_none__:activeArea = NULL; break;
-	case __ie_scene_terrain__:activeArea = m_curTerrain; break;
-	case __ie_scene_marble__:activeArea = m_curMarble; break;
-	case __ie_scene_thing__:activeArea = m_curThing; break;
-	default: break;
+		case __ie_scene_none__:activeArea = NULL; break;
+		case __ie_scene_terrain__:activeArea = m_curTerrain; break;
+		case __ie_scene_marble__:activeArea = m_curMarble; break;
+		case __ie_scene_thing__:activeArea = m_curThing; break;
+		default: break;
 	}
 
 	if (activeArea)
 	{
-		activeArea->MouseMove(cameraGrid.m_x, cameraGrid.m_y);
+		activeArea->MouseMove(IESituation::Share()->_MousePositionX, IESituation::Share()->_MousePositionY);
 
 		//当按下鼠标的时候
 		if (IEMouse::Share()->IsButtonTouch(0))
 		{
-			if (m_sceneEditMode == __ie_sceneEdit_choose__)
-			{
-				activeArea->MouseChoose();
-			}
-			else if (m_sceneEditMode == __ie_sceneEdit_touch__)
-			{
-				activeArea->MouseClick();
-			}
+			activeArea->MouseClick();
 		}
-		if (IEMouse::Share()->IsButtonDown(0))
+		if (IEKeyboard::Share()->IsKeyDown(DIK_LCONTROL) && IEMouse::Share()->IsButtonDown(0))
 		{
-			if (m_sceneEditMode == __ie_sceneEdit_brush__)
-			{
-				activeArea->MouseClick();
-			}
+			activeArea->MouseClick();
 		}
 		if (IEMouse::Share()->IsButtonTouch(1))
 		{
-			//取消选中的内容
-
+			//取消选中的内容 包括ReadyID和选中的物品都会进行清除
+			activeArea->MouseCancel();
 		}
 	}
 }

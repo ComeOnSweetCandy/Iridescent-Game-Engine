@@ -34,7 +34,7 @@ public:
 public:
 	void SetCameraPosi(const float &x, const float &y);
 	void SetCameraPosi(IEVector posi);
-	IEVector GetCameraPosi();
+	IEVector GetGameraPosition();
 	void MoveLeftCamera(float x);
 	void MoveRightCamera(float x);
 	void MoveByCamera(float hor, float ver);

@@ -18,7 +18,7 @@ IE_BEGIN
 typedef struct _ieTerrainInfo
 {
 	_ieTerrainInfo(){};
-	~_ieTerrainInfo(){ __IE_LUA_RELEASE__(_LuaScript); };
+	~_ieTerrainInfo(){ __IE_LUA_RELEASE__(_LuaScript); __IE_RELEASE_DIF__(_Xml); };
 
 	unsigned int _TerrainID;
 	unsigned char _BodyC;

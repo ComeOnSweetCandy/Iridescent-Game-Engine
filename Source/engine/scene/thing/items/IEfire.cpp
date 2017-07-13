@@ -105,8 +105,8 @@ void IEFire::DrawFire()
 
 	if (m_texture)
 	{
-		GLuint * textureID = m_texture->GetTexture(m_textureUnit);
-		glBindTexture(GL_TEXTURE_2D, *textureID);
+		m_texture->GetTexture(m_textureUnit);
+		glBindTexture(GL_TEXTURE_2D, *(m_textureUnit->_TextureID));
 	}
 
 	glEnable(GL_BLEND);

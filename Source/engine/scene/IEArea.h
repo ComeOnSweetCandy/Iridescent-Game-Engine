@@ -42,11 +42,11 @@ public:
 	void SetCurOrder(unsigned int order);											//设定当前的编号
 	unsigned int GetCurOrder();														//取得编号
 
+	//所有对于area的修改的接口
 	virtual void RollbackAlter(){};													//回滚一次操作
 	virtual void RollbackAllAlters(){};												//回滚所有的操作
 
-	virtual void MouseMove(float x, float y);										//鼠标的移动 这个时候显示ready的block
-	virtual void MouseChoose(){};
+	virtual void MouseMove(float x, float y){};										//鼠标的移动 这个时候显示ready的block
 	virtual void MouseCancel(){};
 	virtual void MouseClick(){};
 
@@ -81,9 +81,10 @@ protected:
 
 	//以下数据都是编辑模式下会用到的内容
 	IEContainer * m_alters;								//对于当前area的所有修改都会被记录下来
-	static unsigned char m_edit_active_scene;			//当前的激活的场景的编号 0为未选择任何场景
-	static unsigned char m_edit_mode;					//当前的场景修改模式 0点击 1笔刷 2选择模式
-	IESprite * m_moveThing;								//悬浮在鼠标上端的sprite
+	IESprite * m_suspension;							//悬浮在鼠标上端的sprite
+	IEBlock * m_choosen;								//选择了的block
+
+	IEGrid m_mouseLocation;								//记录当前鼠标所位于的格子
 
 	friend class IEPathAnticipate;
 	friend class IEMap;
