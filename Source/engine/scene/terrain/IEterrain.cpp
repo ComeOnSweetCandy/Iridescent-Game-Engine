@@ -64,7 +64,13 @@ void IETerrain::Load(unsigned int terrainID, unsigned int order)
 
 void IETerrain::ChangeBodyIndex(unsigned int terrainID, unsigned char bodyIndex)
 {
+	if (bodyIndex == 0)
+	{
+		IETerrainInfo * infos = IETerrainsInfoManager::Share()->GetTerrainsInfoList();
+		bodyIndex = bodyIndex % infos[terrainID]._BodyC;
+	}
 
+	m_texture->ChangeGroup(m_textureUnit, "body", bodyIndex);
 }
 
 void IETerrain::ChangeBevelIndex(unsigned int terrainID, unsigned char bevelIndex)

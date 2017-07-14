@@ -107,6 +107,36 @@ void IEPackerTexture::GetTexture(IETextureUnitState * unitState)
 	unitState->_EndY = ((float)unitState->_Y + (float)unitState->_Height) / ((float)m_textureHeight);
 }
 
+void IEPackerTexture::ChangeGroup(IETextureUnitState * textureUnitState, const char * groupName, unsigned char sameIndex)
+{
+	textureUnitState->_GroupIndex = 0;
+
+	if (m_groupCount == 1)
+	{
+		textureUnitState->_GroupIndex = 0;
+	}
+	else
+	{
+		int resCount = 0;
+		for (unsigned char index = 0; index < m_groupCount; index++)
+		{
+			int res = strcmp(m_textureGroups[index]._Name, groupName);
+			if (res == 0)
+			{
+				if (resCount == sameIndex)
+				{
+					//如果两者相等
+					textureUnitState->_GroupIndex = index;
+				}
+				resCount++;
+			}
+		}
+	}
+
+	textureUnitState->_FrapIndex = 0;
+	textureUnitState->_CurTime = 0.0f;
+}
+
 const char * IEPackerTexture::LoadXML(IEXml * xml)
 {
 	const char * textureName = xml->FindChild("tex")->ValueString();
@@ -168,31 +198,6 @@ void IEPackerTexture::FillTextureFrap(IETextureFrap& textureFrap, IEXml * xml)
 
 	//图片翻转
 	textureFrap._Y = m_textureHeight - textureFrap._Y - textureFrap._Height;
-}
-
-void IEPackerTexture::ChangeGroup(IETextureUnitState * textureUnitState, const char * groupName)
-{
-	textureUnitState->_GroupIndex = 0;
-
-	if (m_groupCount == 1)
-	{
-		textureUnitState->_GroupIndex = 0;
-	}
-	else
-	{
-		for (unsigned char index = 0; index < m_groupCount; index++)
-		{
-			int res = strcmp(m_textureGroups[index]._Name, groupName);
-			if (res == 0)
-			{	
-				//如果两者相等
-				textureUnitState->_GroupIndex = index;
-			}
-		}
-	}
-
-	textureUnitState->_FrapIndex = 0;
-	textureUnitState->_CurTime = 0.0f;
 }
 
 void IEPackerTexture::LoadTexture(const char * textureName)

@@ -67,8 +67,8 @@ private:
 	//通过这四个方式创建的 index都是随机的
 	void ChangeNone(int blockLocationX, int blockLocationY);
 	void ChangeBody(int blockLocationX, int blockLocationY);
-	void ChangeBevel(int blockLocationX, int blockLocationY);
-	void ChangePiece(int blockLocationX, int blockLocationY);
+	void ChangeBevel(int blockLocationX, int blockLocationY) {};
+	void ChangePiece(int blockLocationX, int blockLocationY) {};
 
 private:
 	IETerrainInfo * m_terrainsInfo;

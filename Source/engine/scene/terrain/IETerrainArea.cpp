@@ -64,9 +64,9 @@ void IETerrainArea::AddChild(int blockLocationX, int blockLocationY)
 
 	switch (m_readyTerrainMode)
 	{
-	case __terrain_none_mode__:
-		ChangeNone(blockLocationX, blockLocationY);
-		break;
+	//case __terrain_none_mode__:
+	//	ChangeNone(blockLocationX, blockLocationY);
+	//	break;
 	case __terrain_body_mode__:
 		ChangeBody(blockLocationX, blockLocationY);
 		break;
@@ -247,82 +247,76 @@ void IETerrainArea::ChangeNone(int blockLocationX, int blockLocationY)
 void IETerrainArea::ChangeBody(int blockLocationX, int blockLocationY)
 {
 	IETerrainAlterInfo &_terrain = m_alter->_Terrain;
-	//IETerrainAlterInfo &_terrainPast = m_alter->_TerrainPast;
-
 	IETerrainInfo * terrainsInfo = IETerrainsInfoManager::Share()->GetTerrainsInfoList();
-	//IEString textureGroupName = IEString(terrainsInfo[_terrain._TerrainID]._TerrainName);
 
 	if (terrainsInfo[_terrain._TerrainID]._BodyC)
 	{
-		int randIndex = rand() % terrainsInfo[_terrain._TerrainID]._BodyC;
 		IETerrain * grid = (IETerrain *)GetBlock(blockLocationX, blockLocationY);
 		if (grid != NULL)
 		{
 			grid->Reload(_terrain._TerrainID, __terrain_body_mode__, _terrain._Order);
-
-			
+			grid->ChangeBodyIndex(_terrain._TerrainID);
 		}
 
 		//border part
-		if (terrainsInfo[_terrain._TerrainID]._BorderC)
-		{
-			randIndex = rand() % terrainsInfo[_terrain._TerrainID]._BorderC;
-			IETerrain * grids[4];
-			grids[0] = (IETerrain *)GetBlock(blockLocationX, blockLocationY - 1);
-			grids[1] = (IETerrain *)GetBlock(blockLocationX + 1, blockLocationY);
-			grids[2] = (IETerrain *)GetBlock(blockLocationX, blockLocationY + 1);
-			grids[3] = (IETerrain *)GetBlock(blockLocationX - 1, blockLocationY);
-			bool isBorderExits = false;
-			for (int index = 0; index < 4; index++)
-			{
-				if (randIndex == -1)
-				{
-					grid->SetDisplayTerrainBorder(index, false);
-				}
-				if (grids[index] == NULL)
-				{
-					isBorderExits = true;
-					grid->SetDisplayTerrainBorder(index, true);
-				}
-				else
-				{
-					if (grids[index]->GetTerrainMODE() == __terrain_none_mode__)
-					{
-						isBorderExits = true;
-						grid->SetDisplayTerrainBorder(index, true);
-					}
-					else
-					{
-						if (grids[index]->GetTerrainID() != _terrain._TerrainID)
-						{
-							//必须创建的顺序大于隔壁(主要针对于map存储状况下的解决办法)
-							if (grid->GetOrder() > grids[index]->GetOrder())
-							{
-								isBorderExits = true;
-								grid->SetDisplayTerrainBorder(index, true);
-								grids[index]->SetDisplayTerrainBorder((index + 2) % 4, false);
-							}
-							else
-							{
-								grid->SetDisplayTerrainBorder(index, false);
-							}
-						}
-						else
-						{
-							grid->SetDisplayTerrainBorder(index, false);
-						}
-					}
-				}
-			}
-			if (isBorderExits && terrainsInfo[_terrain._TerrainID]._BorderC)
-			{
-				grid->SetBorderTextureFile((textureGroupName + "/border_" + randIndex + ".png").GetString());
-			}
-			else
-			{
-				grid->SetBorderTexture(NULL);
-			}
-		}
+		//if (terrainsInfo[_terrain._TerrainID]._BorderC)
+		//{
+		//	IETerrain * grids[4];
+		//	grids[0] = (IETerrain *)GetBlock(blockLocationX, blockLocationY - 1);
+		//	grids[1] = (IETerrain *)GetBlock(blockLocationX + 1, blockLocationY);
+		//	grids[2] = (IETerrain *)GetBlock(blockLocationX, blockLocationY + 1);
+		//	grids[3] = (IETerrain *)GetBlock(blockLocationX - 1, blockLocationY);
+		//	bool isBorderExits = false;
+		//	for (int index = 0; index < 4; index++)
+		//	{
+		//		if (randIndex == -1)
+		//		{
+		//			grid->SetDisplayTerrainBorder(index, false);
+		//		}
+		//		if (grids[index] == NULL)
+		//		{
+		//			isBorderExits = true;
+		//			grid->SetDisplayTerrainBorder(index, true);
+		//		}
+		//		else
+		//		{
+		//			if (grids[index]->GetTerrainMODE() == __terrain_none_mode__)
+		//			{
+		//				isBorderExits = true;
+		//				grid->SetDisplayTerrainBorder(index, true);
+		//			}
+		//			else
+		//			{
+		//				if (grids[index]->GetTerrainID() != _terrain._TerrainID)
+		//				{
+		//					//必须创建的顺序大于隔壁(主要针对于map存储状况下的解决办法)
+		//					if (grid->GetOrder() > grids[index]->GetOrder())
+		//					{
+		//						isBorderExits = true;
+		//						grid->SetDisplayTerrainBorder(index, true);
+		//						grids[index]->SetDisplayTerrainBorder((index + 2) % 4, false);
+		//					}
+		//					else
+		//					{
+		//						grid->SetDisplayTerrainBorder(index, false);
+		//					}
+		//				}
+		//				else
+		//				{
+		//					grid->SetDisplayTerrainBorder(index, false);
+		//				}
+		//			}
+		//		}
+		//	}
+		//	if (isBorderExits && terrainsInfo[_terrain._TerrainID]._BorderC)
+		//	{
+		//		grid->SetBorderTextureFile((textureGroupName + "/border_" + randIndex + ".png").GetString());
+		//	}
+		//	else
+		//	{
+		//		grid->SetBorderTexture(NULL);
+			//}
+		//}
 	}
 }
 
@@ -477,7 +471,7 @@ void IETerrainArea::RollbackAlter()
 	switch (m_alter->_TerrainPast._TerrainMode)
 	{
 	case __terrain_body_mode__:
-		AddBody(terrainID, terrainMODE, createdOrder, blockLocationX, blockLocationY);
+		//AddBody(terrainID, terrainMODE, createdOrder, blockLocationX, blockLocationY);
 		break;
 	case __terrain_none_mode__:
 		ApplyNone(terrainID, terrainMODE, createdOrder, blockLocationX, blockLocationY);

@@ -61,7 +61,7 @@ public:
 
 public:
 	void GetTexture(IETextureUnitState * unitState);
-	void ChangeGroup(IETextureUnitState * textureUnitState, const char * groupName);					//修改当前激活的贴图组
+	void ChangeGroup(IETextureUnitState * textureUnitState, const char * groupName, unsigned char sameIndex = 0);					//修改当前激活的贴图组
 
 private:
 	const char * LoadXML(IEXml * xml);							//读取xml

@@ -49,9 +49,8 @@ public:
 	void SetPieceSprite(const char * textureFile);
 	IESprite * GetBorderSprite();
 
-	void ChangeBodyIndex(unsigned int terrainID, unsigned char bodyIndex);
+	void ChangeBodyIndex(unsigned int terrainID, unsigned char bodyIndex = 0);
 	void ChangePieceIndex(unsigned int terrainID, unsigned char pieceIndex);
-
 	void ChangeBevelIndex(unsigned int terrainID, unsigned char bevelIndex);
 	void ChangeBorderIndex(unsigned int terrainID, unsigned char borderIndex[4]);
 
