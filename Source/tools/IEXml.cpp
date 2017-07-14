@@ -225,10 +225,41 @@ void IEXml::ClearSelf()
 	}
 	else
 	{
-		__IE_WARNING__("IEXml : ClearSelf() : error.\n");
+		//__IE_WARNING__("IEXml : ClearSelf() : error.\n");
 	}
 
 	m_value = NULL;
+}
+
+void WriteToXml(FILE * file, const char * content)
+{
+	static int level = 0;
+
+	if (*(content + 1) == '/')
+	{
+		level--;
+	}
+	for (int index = 0; index < level; index++)
+	{
+		fprintf(file, "\t");
+	}
+
+	fprintf(file, content);
+
+	if (*(content + 1) != '/')
+	{
+		level++;
+
+		//检测是否有开合和闭合
+		IEString str(content);
+		int count = str.DetectedChar('<');
+		if (count == 2)
+		{
+			level--;
+		}
+	}
+
+	fprintf(file, "\n");
 }
 
 IE_END

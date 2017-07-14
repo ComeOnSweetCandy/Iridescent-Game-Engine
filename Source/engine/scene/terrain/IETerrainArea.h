@@ -45,12 +45,12 @@ public:
 	virtual void AddChild(int blockLocationX, int blockLocationY);										//添加一个新的child
 	virtual void LoadChilds(IETerrainBlockFormat * blocks, int chunkLocationX, int chunkLocationY);		//最多一次传递过来最大快速的数据块量
 
-	void SetReadyTerrain(unsigned int terrainID, IETerrainMode terrainMode);		//设定准备的terrain
-	virtual void MouseMove(float x, float y);										//鼠标的移动
-	virtual void MouseCancel();														//鼠标的右键取消
-	virtual void MouseClick();														//有ready物下的一次点击
-	virtual void RollbackAlter();													//回滚一次操作
-	virtual void RollbackAllAlters();												//回滚所有的操作
+	virtual void MouseMove(float x, float y);															//鼠标的移动
+	virtual void MouseCancel();																			//鼠标的右键取消
+	virtual void MouseClick();																			//有ready物下的一次点击
+	virtual void RollbackAlter();																		//回滚一次操作
+	virtual void RollbackAllAlters();																	//回滚所有的操作
+	virtual void SetReadyTerrain(unsigned int terrainID, IETerrainMode terrainMode);					//设定准备的terrain
 
 private:
 	virtual IEChunk * CreateChunk();
@@ -59,17 +59,16 @@ private:
 	void LoadBody(IETerrainChunk * chunk, int explicitGridPositionX, int explicitGridPositionY, unsigned int terrainID, unsigned int createdOrder);
 	void LoadNone(IETerrainChunk * chunk, int explicitGridPositionX, int explicitGridPositionY, unsigned int terrainID, unsigned int createdOrder);
 
-	void AddBody(unsigned int terrainID, IETerrainMode terrainMODE, unsigned int createdOrder, int blockLocationX, int blockLocationY){};
+	//void AddBody(unsigned int terrainID, IETerrainMode terrainMODE, unsigned int createdOrder, int blockLocationX, int blockLocationY){};
 	void ApplyBevel(unsigned int terrainID, IETerrainMode terrainMODE, unsigned int createdOrder, int blockLocationX, int blockLocationY);
 	void ApplyPiece(unsigned int terrainID, IETerrainMode terrainMODE, unsigned int createdOrder, int blockLocationX, int blockLocationY);
 	void ApplyNone(unsigned int terrainID, IETerrainMode terrainMODE, unsigned int createdOrder, int blockLocationX, int blockLocationY);
 
-	void ChangeNone(int blockLocationX, int blockLocationY){};
+	//通过这四个方式创建的 index都是随机的
+	void ChangeNone(int blockLocationX, int blockLocationY);
 	void ChangeBody(int blockLocationX, int blockLocationY);
-
 	void ChangeBevel(int blockLocationX, int blockLocationY);
-	void ChangePiece(unsigned int terrainID, int blockLocationX, int blockLocationY);
-	void ChangeBorder(int blockLocationX, int blockLocationY, unsigned char whichBorder, unsigned char borderIndex);
+	void ChangePiece(int blockLocationX, int blockLocationY);
 
 private:
 	IETerrainInfo * m_terrainsInfo;

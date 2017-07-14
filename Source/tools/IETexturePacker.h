@@ -14,19 +14,22 @@
 
 IE_BEGIN
 
-typedef struct __ieTexturePackerGroup
+typedef struct __iePackedGroup
 {
 	unsigned short _GroupIndex;
 	char * _GroupName;
 	unsigned short _FrapsCount;
 	
-	__ieTexturePackerGroup * _Next;
-}IETexturePackerGroup;
+	__iePackedGroup * _Next;
+}IEPackedGroup;
 
-class IETexturePackerElement:public IEObject
+class IEPackedImage:public IEObject
 {
 public:
-	IETexture * _Texture;
+	IEPackedImage(){};
+	~IEPackedImage(){ _Image->ReleaseDisreference(); }
+
+public:
 	IEImage * _Image;
 	unsigned int _Width;
 	unsigned int _Height;
@@ -53,12 +56,11 @@ public:
 	static IETexturePacker * Create(const char * textureName);
 
 public:
-	void AddImage(IEImage * image);
-	void AddImage(IEImage * image, const char * groupName);		//放入image的数据时，也填充group
-	IEContainer * Run();
-	void Save();												//生成新的贴图并且存储于本地 同时生成plist文件
+	void AddImage(IEImage * image, const char * groupName, float endTime = 0.0f);		//放入image的数据时，也填充group
+	void SaveTexture();											//生成新的贴图并且存储于本地 同时生成plist文件
 
 private:
+	IEContainer * Recombine();									//生成贴图组的存放的各种数据信息
 	void AutoEnlarge();
 	void SortTexture(unsigned int index);
 	void SortPoints();											//对于点进行特殊的排序 首先将Y轴越低的放前面 Y轴相同 X轴越低的放前面
@@ -67,7 +69,7 @@ public:
 	IEString m_textureName;
 	IEContainer * m_textureContainer;
 	IEContainer * m_pointsContainer;
-	IETexturePackerGroup * m_textureGroupHead;
+	IEPackedGroup * m_textureGroupHead;
 
 	unsigned int m_width;
 	unsigned int m_height;

@@ -65,6 +65,8 @@ private:
 	IEXmlValueType m_valueType;		//值的类型
 };
 
+void WriteToXml(FILE * file, const char * content);
+
 IE_END
 
 #endif

@@ -49,6 +49,7 @@ public:
 	IEString operator +(const char * string) const;
 	IEString operator +(const char &c) const;
 	IEString operator +(const int &i) const;
+	IEString operator +(const float &f) const;
 
 	void operator =(const IEString &string);
 	void operator =(const char *string);

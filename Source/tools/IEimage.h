@@ -70,6 +70,7 @@ public:
 	void Initialization();
 
 public:
+	void LoadImageData(const char * file);
 	void LoadImageData(IEString &file);
 	void CheckType(IEString &file);
 

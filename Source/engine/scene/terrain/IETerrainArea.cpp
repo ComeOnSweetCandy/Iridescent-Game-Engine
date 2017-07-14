@@ -70,19 +70,15 @@ void IETerrainArea::AddChild(int blockLocationX, int blockLocationY)
 	case __terrain_body_mode__:
 		ChangeBody(blockLocationX, blockLocationY);
 		break;
+	case __terrain_bevel_mode__:
+		ChangeBevel(blockLocationX, blockLocationY);
+		break;
+	case __terrain_piece_mode__:
+		ChangePiece(blockLocationX, blockLocationY);
+		break;
 	default:
 		break;
 	}
-}
-
-IEChunk * IETerrainArea::CreateChunk()
-{
-	return IETerrainChunk::Create(m_chunkLength);
-}
-
-void IETerrainArea::LoadChunk(int blockX, int blockY)
-{
-	m_map->LoadTerrainChunk(blockX, blockY);
 }
 
 void IETerrainArea::LoadChilds(IETerrainBlockFormat * blocks, int chunkLocationX, int chunkLocationY)
@@ -94,7 +90,7 @@ void IETerrainArea::LoadChilds(IETerrainBlockFormat * blocks, int chunkLocationX
 	m_loadString[1] = stringBody;
 	m_loadString[2] = stringNumber;
 	m_loadString[3] = stringPNG;
-	
+
 	unsigned int index = 0;
 	for (int x = 0; x < m_chunkLength; x++)
 	{
@@ -144,7 +140,7 @@ void IETerrainArea::LoadChilds(IETerrainBlockFormat * blocks, int chunkLocationX
 	m_loadString[1] = stringBorder;
 	m_loadString[2] = stringNumber;
 	m_loadString[3] = stringPNG;
-	
+
 	for (int x = 0; x < m_chunkLength; x++)
 	{
 		for (int y = 0; y < m_chunkLength; y++)
@@ -174,6 +170,16 @@ void IETerrainArea::LoadChilds(IETerrainBlockFormat * blocks, int chunkLocationX
 			}
 		}
 	}
+}
+
+IEChunk * IETerrainArea::CreateChunk()
+{
+	return IETerrainChunk::Create(m_chunkLength);
+}
+
+void IETerrainArea::LoadChunk(int blockX, int blockY)
+{
+	m_map->LoadTerrainChunk(blockX, blockY);
 }
 
 void IETerrainArea::LoadBody(IETerrainChunk * chunk, int explicitGridPositionX, int explicitGridPositionY, unsigned int terrainID, unsigned int createdOrder)
@@ -233,13 +239,18 @@ void IETerrainArea::LoadNone(IETerrainChunk * chunk, int explicitGridPositionX, 
 	grid->SetDisplay(false);
 }
 
+void IETerrainArea::ChangeNone(int blockLocationX, int blockLocationY)
+{
+
+}
+
 void IETerrainArea::ChangeBody(int blockLocationX, int blockLocationY)
 {
 	IETerrainAlterInfo &_terrain = m_alter->_Terrain;
-	IETerrainAlterInfo &_terrainPast = m_alter->_TerrainPast;
+	//IETerrainAlterInfo &_terrainPast = m_alter->_TerrainPast;
 
 	IETerrainInfo * terrainsInfo = IETerrainsInfoManager::Share()->GetTerrainsInfoList();
-	IEString textureGroupName = IEString(terrainsInfo[_terrain._TerrainID]._TerrainName);
+	//IEString textureGroupName = IEString(terrainsInfo[_terrain._TerrainID]._TerrainName);
 
 	if (terrainsInfo[_terrain._TerrainID]._BodyC)
 	{
@@ -248,9 +259,9 @@ void IETerrainArea::ChangeBody(int blockLocationX, int blockLocationY)
 		if (grid != NULL)
 		{
 			grid->Reload(_terrain._TerrainID, __terrain_body_mode__, _terrain._Order);
-		}
 
-		//grid->ChangeTexture((textureGroupName + "/body_" + randIndex + ".png").GetString());	//*** glTexImage2D 40000 ***//
+			
+		}
 
 		//border part
 		if (terrainsInfo[_terrain._TerrainID]._BorderC)

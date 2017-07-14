@@ -2,6 +2,9 @@
 #include "IETexturePacker.h"
 
 #include "../core/container/IEcontianer.h"
+#include "../core/container/IEdictionary.h"
+
+#include "IEXml.h"
 
 IE_BEGIN
 
@@ -14,6 +17,17 @@ IETexturePacker::IETexturePacker()
 IETexturePacker::~IETexturePacker()
 {
 	__IE_RELEASE__(m_textureContainer);
+	__IE_RELEASE__(m_pointsContainer);
+
+	IEPackedGroup * group = m_textureGroupHead;
+	while (group)
+	{
+		IEPackedGroup * deletedGroup = group;
+		group = group->_Next;
+
+		delete[]deletedGroup->_GroupName;
+		delete deletedGroup;
+	}
 }
 
 void IETexturePacker::Initialization(const char * textureName)
@@ -21,7 +35,7 @@ void IETexturePacker::Initialization(const char * textureName)
 	m_textureName = textureName;
 
 	m_textureContainer = IEContainer::CreateAndRetain();
-	m_textureContainer->SetCompareOffset((int)&(((IETexturePackerElement *)0)->_Size));
+	m_textureContainer->SetCompareOffset((int)&(((IEPackedImage *)0)->_Size));
 
 	m_pointsContainer = IEContainer::CreateAndRetain();
 	m_pointsContainer->SetAsc(false);
@@ -35,10 +49,194 @@ IETexturePacker * IETexturePacker::Create(const char * textureName)
 	return texturePacker;
 }
 
+void IETexturePacker::AddImage(IEImage * image, const char * groupName, float endTime)
+{
+	IEPackedImage * element = new IEPackedImage();
+
+	element->_Width = image->m_imgWidth;
+	element->_Height = image->m_imgHeight;
+	element->_Image = image;
+	element->_Size = element->_Width * element->_Height;
+	element->_X = -1;
+	element->_Y = -1;
+
+	m_textureContainer->Push(element);
+
+	//进行group的处理
+	//首先检测 该groupName是否存在
+
+	bool result = false;
+	IEPackedGroup * group = m_textureGroupHead;
+	IEPackedGroup * lastGroup = group;
+	while (group)
+	{
+		if (strcmp(group->_GroupName, groupName) == 0)
+		{
+			//将此贴图放入该group内
+			element->_GroupIndex = group->_GroupIndex;
+			element->_FrapIndex = group->_FrapsCount++;
+			element->_EndTime = endTime;
+
+			result = true;
+			break;
+		}
+
+		lastGroup = group;
+		group = group->_Next;
+	}
+
+	//如果没有找到
+	if (result == false)
+	{
+		int strLen = strlen(groupName) + 1;
+
+		IEPackedGroup * newGroup = new IEPackedGroup();
+		newGroup->_FrapsCount = 0;
+		if (lastGroup)
+		{
+			newGroup->_GroupIndex = lastGroup->_GroupIndex + 1;
+			lastGroup->_Next = newGroup;
+		}
+		else
+		{
+			newGroup->_GroupIndex = 0;
+			m_textureGroupHead = newGroup;
+		}
+		newGroup->_GroupName = new char[strLen];
+		strcpy(newGroup->_GroupName, groupName);
+		newGroup->_Next = NULL;
+
+		element->_GroupIndex = newGroup->_GroupIndex;
+		element->_FrapIndex = newGroup->_FrapsCount++;
+		element->_EndTime = 0.0f;						//伪造
+	}
+}
+
+void IETexturePacker::SaveTexture()
+{
+	//进行xml信息的填充
+	Recombine();
+
+	//首先对每张贴图 读取image数据 这个需要重新读取
+	IEPackedImage ** textures = (IEPackedImage **)(m_textureContainer->GetContainer());
+	unsigned int count = m_textureContainer->Count();
+
+	//首先申请一片新的空间出来 用于存放贴图数据
+	int pass = 4;
+	unsigned char * data = new unsigned char[m_width * m_height * pass];
+	memset(data, 0, m_width*m_height*pass);
+
+	//一行的空间大小
+	unsigned hrSize = m_width * pass;
+
+	//打开一个新的xml文件
+	IEString * baseXmlDirection = (IEString *)(SETTING["xmlDir"]);
+	IEString xmlFileDirection = *baseXmlDirection + m_textureName.GetString() + ".tex.xml";
+
+	FILE * p = fopen(xmlFileDirection.GetString(), "w+");
+	WriteToXml(p, "<texture>");
+	//写入贴图名字
+	IEString textrueName = IEString("<tex>") + m_textureName.GetString() + "</tex>";
+	WriteToXml(p, textrueName.GetString());
+	//写入大小
+	IEString textureWidth = IEString("<width>") + (int)m_width + "</width>";
+	WriteToXml(p, textureWidth.GetString());
+	IEString textureHeight = IEString("<height>") + (int)m_height + "</height>";
+	WriteToXml(p, textureHeight.GetString());
+
+	//遍历所有的group组 慢慢填充
+	IEPackedGroup * group = m_textureGroupHead;
+	while (group)
+	{
+		//写入xml文件
+		WriteToXml(p, "<group>");
+		//写入名字
+		IEString groupIndex = IEString("<name>") + (int)group->_GroupIndex + "</name>";
+		WriteToXml(p, groupIndex.GetString());
+		//写入frapsCount
+		IEString frapCount = IEString("<frapsCount>") + (int)group->_FrapsCount + "</frapsCount>";
+		WriteToXml(p, frapCount.GetString());
+
+		for (unsigned int index = 0; index < count; index++)
+		{
+			if (group->_GroupIndex == textures[index]->_GroupIndex)
+			{
+				IEPackedImage * texture = textures[index];
+				IEImage * image = texture->_Image;
+				unsigned char * imageData = image->m_imgData;
+				unsigned int textureHrSize = image->m_imgWidth * pass;
+
+				//这张图的高度有多高 就得进行多少次循环
+				for (unsigned int curHeight = 0; curHeight < texture->_Height; curHeight++)
+				{
+					memcpy(data + (curHeight + texture->_Y)* hrSize + texture->_X * pass, imageData + (texture->_Height - 1 - curHeight) * textureHrSize, texture->_Width * pass);
+				}
+
+				//写入frap开头
+				WriteToXml(p, "<frap>");
+				//写入index
+				IEString index = IEString("<index>") + (int)texture->_FrapIndex + "</index>";
+				WriteToXml(p, index.GetString());
+				//写入帧的一些信息
+				IEString x = IEString("<x>") + (int)texture->_X + "</x>";
+				WriteToXml(p, x.GetString());
+				IEString y = IEString("<y>") + (int)texture->_Y + "</y>";
+				WriteToXml(p, y.GetString());
+				//写入宽度和高度
+				int newW = (int)(texture->_Width);
+				int newH = (int)(texture->_Height);
+				IEString wwidth = IEString("<width>") + newW + "</width>";
+				WriteToXml(p, wwidth.GetString());
+				IEString hheight = IEString("<height>") + newH + "</height>";
+				WriteToXml(p, hheight.GetString());
+				//写入frap的结束时间
+				IEString end = IEString("<end>") + texture->_EndTime + "</end>";
+				WriteToXml(p, end.GetString());
+				//写入frap结尾
+				WriteToXml(p, "</frap>");
+			}
+		}
+
+		//结束一个group
+		WriteToXml(p, "</group>");
+
+		group = group->_Next;
+	}
+
+	WriteToXml(p, "</texture>");
+	fclose(p);
+
+	//构造地址
+	IEString * baseImgDirection = (IEString *)(SETTING["TexDir"]);
+	IEString imgFileDirection = *baseImgDirection + m_textureName.GetString() + ".png";
+
+	IEImage * newImage = new IEImage();
+	newImage->m_imgData = data;
+	newImage->m_imgWidth = m_width;
+	newImage->m_imgHeight = m_height;
+	newImage->SavePNG(imgFileDirection.GetString());
+	newImage->ReleaseDisreference();
+}
+
+IEContainer * IETexturePacker::Recombine()
+{
+	//首先按照size大小排序好
+	m_textureContainer->Sorting();
+
+	//最首先将0 0这个点放入
+	IEGrid * grid = new IEGrid(0);
+	m_pointsContainer->Push(grid);
+
+	//递归的方法去处理
+	SortTexture(0);
+
+	return m_textureContainer;
+}
+
 void IETexturePacker::SortTexture(unsigned int index)
 {
 	//首先提取当前顶部的最大的块
-	IETexturePackerElement * element = (IETexturePackerElement *)(m_textureContainer->Find(index));
+	IEPackedImage * element = (IEPackedImage *)(m_textureContainer->Find(index));
 	if (element == NULL)
 	{
 		return;
@@ -66,7 +264,7 @@ void IETexturePacker::SortTexture(unsigned int index)
 
 		for (unsigned int elementIndex = 0; elementIndex < elementsCount; elementIndex++)
 		{
-			IETexturePackerElement * ele = (IETexturePackerElement *)(elements[elementIndex]);
+			IEPackedImage * ele = (IEPackedImage *)(elements[elementIndex]);
 
 			if (ele->_X != -1 && ele->_Y != -1)
 			{
@@ -179,247 +377,6 @@ void IETexturePacker::SortPoints()
 				//那么什么也不做
 			}
 		}
-	}
-}
-
-IEContainer * IETexturePacker::Run()
-{
-	//首先按照size大小排序好
-	m_textureContainer->Sorting();
-
-	//最首先将0 0这个点放入
-	IEGrid * grid = new IEGrid(0);
-	m_pointsContainer->Push(grid);
-
-	//递归的方法去处理
-	SortTexture(0);
-
-	return m_textureContainer;
-}
-
-void WriteToXml(FILE * file, const char * content)
-{
-	static int level = 0;
-
-	if (*(content + 1) == '/')
-	{
-		level--;
-	}
-	for (int index = 0; index < level; index++)
-	{
-		fprintf(file, "\t");
-	}
-
-	fprintf(file, content);
-
-	if (*(content + 1) != '/')
-	{
-		level++;
-
-		//检测是否有开合和闭合
-		IEString str(content);
-		int count = str.DetectedChar('<');
-		if (count == 2)
-		{
-			level--;
-		}
-	}
-
-	fprintf(file, "\n");
-}
-
-void IETexturePacker::Save()
-{
-	//首先对每张贴图 读取image数据 这个需要重新读取
-	IETexturePackerElement ** textures = (IETexturePackerElement **)(m_textureContainer->GetContainer());
-	unsigned int count = m_textureContainer->Count();
-
-	//首先申请一片新的空间出来 用于存放贴图数据
-	int pass = 4;
-	unsigned char * data = new unsigned char[m_width * m_height * pass];
-	memset(data, 0, m_width*m_height*pass);
-
-	//一行的空间大小
-	unsigned hrSize = m_width * pass;
-
-	//打开一个新的xml文件
-	FILE * p = fopen("../Debug/data/xml/test.xml", "w+");
-	WriteToXml(p, "<texture>");
-
-	//遍历所有的group组 慢慢填充
-	IETexturePackerGroup * group = m_textureGroupHead;
-	while (group)
-	{
-		for (unsigned int index = 0; index < count; index++)
-		{
-			if (group->_GroupIndex == textures[index]->_GroupIndex)
-			{
-				IETexturePackerElement * texture = textures[index];
-				IEImage * image = texture->_Image;
-				unsigned char * imageData = image->m_imgData;
-				unsigned int textureHrSize = image->m_imgWidth * pass;
-
-				//这张图的高度有多高 就得进行多少次循环
-				for (unsigned int curHeight = 0; curHeight < texture->_Height; curHeight++)
-				{
-					memcpy(data + (curHeight + texture->_Y)* hrSize + texture->_X * pass, imageData + (texture->_Height - 1 - curHeight) * textureHrSize, texture->_Width * pass);
-				}
-
-				//写入xml文件
-				WriteToXml(p, "<group>");
-				//写入名字
-				IEString name = IEString("<name>") + (int)index + "</name>";
-				WriteToXml(p, name.GetString());
-				////贴图组一共有几帧
-				//IEString x = IEString("<frapsCount>") + (int)texture->_ + "</frapsCount>";
-				//WriteToXml(p, x.GetString());
-				//起始点
-				IEString x = IEString("<x>") + (int)texture->_X + "</x>";
-				WriteToXml(p, x.GetString());
-				IEString y = IEString("<y>") + (int)texture->_Y + "</y>";
-				WriteToXml(p, y.GetString());
-				//写入宽度和高度
-				int newW = (int)(texture->_Width);
-				int newH = (int)(texture->_Height);
-				IEString wwidth = IEString("<width>") + newW + "</width>";
-				WriteToXml(p, wwidth.GetString());
-				IEString hheight = IEString("<height>") + newH + "</height>";
-				WriteToXml(p, hheight.GetString());
-				//frap
-				IEString frapCount = IEString("<frapsCount>") + 0 + "</frapsCount>";
-				WriteToXml(p, frapCount.GetString());
-				//结束一个group
-				WriteToXml(p, "</group>");
-			}
-		}
-
-		group = group->_Next;
-	}
-
-	//for (unsigned int index = 0; index < count; index++)
-	//{
-	//	IETexturePackerElement * texture = textures[index];
-	//	IEImage * image = texture->_Image;
-	//	unsigned char * imageData = image->m_imgData;
-	//	unsigned int textureHrSize = image->m_imgWidth * pass;
-
-	//	//这张图的高度有多高 就得进行多少次循环
-	//	for (unsigned int curHeight = 0; curHeight < texture->_Height; curHeight++)
-	//	{
-	//		memcpy(data + (curHeight + texture->_Y)* hrSize + texture->_X * pass, imageData + (texture->_Height - 1 - curHeight) * textureHrSize, texture->_Width * pass);
-	//	}
-
-	//	//写入xml文件
-	//	WriteToXml(p, "<group>");
-	//	//写入名字
-	//	IEString name = IEString("<name>") + (int)index + "</name>";
-	//	WriteToXml(p, name.GetString());
-	//	////贴图组一共有几帧
-	//	//IEString x = IEString("<frapsCount>") + (int)texture->_ + "</frapsCount>";
-	//	//WriteToXml(p, x.GetString());
-	//	//起始点
-	//	IEString x = IEString("<x>") + (int)texture->_X + "</x>";
-	//	WriteToXml(p, x.GetString());
-	//	IEString y = IEString("<y>") + (int)texture->_Y + "</y>";
-	//	WriteToXml(p, y.GetString());
-	//	//写入宽度和高度
-	//	int newW = (int)(texture->_Width);
-	//	int newH = (int)(texture->_Height);
-	//	IEString wwidth = IEString("<width>") + newW + "</width>";
-	//	WriteToXml(p, wwidth.GetString());
-	//	IEString hheight = IEString("<height>") + newH + "</height>";
-	//	WriteToXml(p, hheight.GetString());
-	//	//frap
-	//	IEString frapCount = IEString("<frapsCount>") + 0 + "</frapsCount>";
-	//	WriteToXml(p, frapCount.GetString());
-	//	//结束一个group
-	//	WriteToXml(p, "</group>");
-	//}
-
-	WriteToXml(p, "</texture>");
-	fclose(p);
-
-	IEImage * newImage = new IEImage();
-	newImage->m_imgData = data;
-	newImage->m_imgWidth = m_width;
-	newImage->m_imgHeight = m_height;
-	newImage->SavePNG("../Debug/data/texture/test_0.png");
-}
-
-void IETexturePacker::AddImage(IEImage * image)
-{
-	IETexturePackerElement * element = new IETexturePackerElement();
-
-	element->_Width = image->m_imgWidth;
-	element->_Height = image->m_imgHeight;
-	element->_Image = image;
-	element->_Size = element->_Width * element->_Height;
-	element->_X = -1;
-	element->_Y = -1;
-
-	m_textureContainer->Push(element);
-}
-
-void IETexturePacker::AddImage(IEImage * image, const char * groupName)
-{
-	IETexturePackerElement * element = new IETexturePackerElement();
-
-	element->_Width = image->m_imgWidth;
-	element->_Height = image->m_imgHeight;
-	element->_Image = image;
-	element->_Size = element->_Width * element->_Height;
-	element->_X = -1;
-	element->_Y = -1;
-
-	m_textureContainer->Push(element);
-
-	//进行group的处理
-	//首先检测 该groupName是否存在
-
-	bool result = false;
-	IETexturePackerGroup * group = m_textureGroupHead;
-	IETexturePackerGroup * lastGroup = group;
-	while (group)
-	{
-		if (strcmp(group->_GroupName, groupName) == 0)
-		{
-			//将此贴图放入该group内
-			element->_GroupIndex = group->_GroupIndex;
-			element->_FrapIndex = group->_FrapsCount++;
-			element->_EndTime = 0.0f;						//伪造
-
-			result = true;
-			break;
-		}
-
-		lastGroup = group;
-		group = group->_Next;
-	}
-
-	//如果没有找到
-	if (result == false)
-	{
-		int strLen = strlen(groupName) + 1;
-
-		IETexturePackerGroup * newGroup = new IETexturePackerGroup();
-		newGroup->_FrapsCount = 1;
-		if (lastGroup)
-		{
-			newGroup->_GroupIndex = lastGroup->_GroupIndex + 1;
-			lastGroup->_Next = newGroup;
-		}
-		else
-		{
-			newGroup->_GroupIndex = 0;
-			m_textureGroupHead = newGroup;
-		}
-		newGroup->_GroupName = new char[strLen];
-		strcpy(newGroup->_GroupName, groupName);
-		newGroup->_Next = NULL;
-
-		element->_GroupIndex = newGroup->_GroupIndex;
-		element->_FrapIndex = newGroup->_FrapsCount;
-		element->_EndTime = 0.0f;						//伪造
 	}
 }
 

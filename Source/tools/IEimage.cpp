@@ -43,6 +43,11 @@ IEImage * IEImage::Create(unsigned int x, unsigned int y)
 	return object;
 }
 
+void IEImage::LoadImageData(const char * file)
+{
+	this->CheckType(IEString(file));
+}
+
 void IEImage::LoadImageData(IEString &file)
 {
 	this->CheckType(file);
@@ -424,6 +429,10 @@ void IEImage::SavePNG(const char * fileName)
 	fwrite(&idat_chunk, 8, 1, pFile);
 	fwrite(resultData + 4, 1, len_dest, pFile);
 	fwrite(&(idat_chunk.chunkCRC), 1, 4, pFile);
+
+	//清理空间
+	delete[]idat_chunk.chunkData;
+	delete[]resultData;
 
 	//WRITE END
 	PNGCHUNK iend_chunk;

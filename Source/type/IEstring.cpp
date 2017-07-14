@@ -162,6 +162,14 @@ IEString IEString::operator +(const int &i) const
 	return newString;
 }
 
+IEString IEString::operator +(const float &f) const
+{
+	char buf[100];
+	sprintf(buf, "%f", f);
+	IEString newString = IEString(m_string) + buf;
+	return newString;
+}
+
 void IEString::operator =(const IEString &str)
 {
 	this->EmptyString();

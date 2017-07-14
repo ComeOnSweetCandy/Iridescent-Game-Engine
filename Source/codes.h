@@ -73,32 +73,27 @@
 //IEPlayer * player = IEPlayer::Create(0);
 //scene->AddChild(player);
 
-//IEImage * images[8];
-//for (int i = 0; i < 8; i++)
+//IEImage * images[6];
+//for (int i = 0; i < 6; i++)
 //{
 //	images[i] = IEImage::Create();
 //}
-//images[0]->LoadImageData(IEString("../Debug/data/texture/color/red_0.png"));
-//images[1]->LoadImageData(IEString("../Debug/data/texture/color/grey_0.png"));
-//images[2]->LoadImageData(IEString("../Debug/data/texture/color/blue_0.png"));
-//images[3]->LoadImageData(IEString("../Debug/data/texture/color/origin_0.png"));
-//images[4]->LoadImageData(IEString("../Debug/data/texture/color/red_0.png"));
-//images[5]->LoadImageData(IEString("../Debug/data/texture/color/red_0.png"));
-//images[6]->LoadImageData(IEString("../Debug/data/texture/color/red_0.png"));
-//images[7]->LoadImageData(IEString("../Debug/data/texture/color/red_0.png"));
+//images[0]->LoadImageData("../Debug/data/texture/other/fire/body_0.png");
+//images[1]->LoadImageData("../Debug/data/texture/other/fire/body_1.png");
+//images[2]->LoadImageData("../Debug/data/texture/other/fire/body_2.png");
+//images[3]->LoadImageData("../Debug/data/texture/other/fire/body_3.png");
+//images[4]->LoadImageData("../Debug/data/texture/other/fire/icon_0.png");
+//images[5]->LoadImageData("../Debug/data/texture/other/fire/picked_0.png");
 //
-//IETexturePacker * packer = IETexturePacker::Create("nothing");
-//packer->AddImage(images[0]);
-//packer->AddImage(images[1]);
-//packer->AddImage(images[2]);
-//packer->AddImage(images[3]);
-//packer->AddImage(images[4]);
-//packer->AddImage(images[5]);
-//packer->AddImage(images[6]);
-//packer->AddImage(images[7]);
-//
-//IEContainer * aarray = packer->Run();
-//packer->Save();
+//IETexturePacker * packer = IETexturePacker::Create("torch");
+//packer->AddImage(images[0], "body", 0.2f);
+//packer->AddImage(images[1], "body", 0.5f);
+//packer->AddImage(images[2], "body", 0.7f);
+//packer->AddImage(images[3], "body", 1.0f);
+//packer->AddImage(images[4], "icon", 2.0f);
+//packer->AddImage(images[5], "picked", 2.0f);
+//packer->SaveTexture();
+//packer->ReleaseDisreference();
 
 ////
 //IEXml * xml = IEXml::Create("terrain/soil.xml");

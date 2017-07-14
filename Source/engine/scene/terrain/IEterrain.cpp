@@ -57,6 +57,31 @@ void IETerrain::Reload(unsigned int terrainID, IETerrainMode terrainMODE, unsign
 	IETerrain::LoadScript();
 }
 
+void IETerrain::Load(unsigned int terrainID, unsigned int order)
+{
+
+}
+
+void IETerrain::ChangeBodyIndex(unsigned int terrainID, unsigned char bodyIndex)
+{
+
+}
+
+void IETerrain::ChangeBevelIndex(unsigned int terrainID, unsigned char bevelIndex)
+{
+
+}
+
+void IETerrain::ChangePieceIndex(unsigned int terrainID, unsigned char pieceIndex)
+{
+
+}
+
+void IETerrain::ChangeBorderIndex(unsigned int terrainID, unsigned char borderIndex[4])
+{
+	
+}
+
 void IETerrain::LoadXML()
 {
 	if (m_terrainID == 0) return;

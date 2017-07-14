@@ -18,9 +18,8 @@ typedef enum
 {
 	__terrain_none_mode__,
 	__terrain_body_mode__,
-	//__terrain_bevel_mode__,
-	//__terrain_piece_mode__,
-	//__terrain_border_mode__,
+	__terrain_bevel_mode__,
+	__terrain_piece_mode__,
 }IETerrainMode;
 
 class __IE_DLL__ IETerrain :public IEBlock
@@ -33,6 +32,7 @@ public:
 
 public:
 	void Reload(unsigned int terrainID, IETerrainMode terrainMODE, unsigned int createdOrder);
+	void Load(unsigned int terrainID, unsigned int order);
 
 	void SetTerrainMODE(IETerrainMode mode);
 	IETerrainMode GetTerrainMODE();
@@ -49,6 +49,12 @@ public:
 	void SetPieceSprite(const char * textureFile);
 	IESprite * GetBorderSprite();
 
+	void ChangeBodyIndex(unsigned int terrainID, unsigned char bodyIndex);
+	void ChangePieceIndex(unsigned int terrainID, unsigned char pieceIndex);
+
+	void ChangeBevelIndex(unsigned int terrainID, unsigned char bevelIndex);
+	void ChangeBorderIndex(unsigned int terrainID, unsigned char borderIndex[4]);
+
 protected:
 	virtual void DrawNode();
 
@@ -63,6 +69,9 @@ private:
 	void DrawCenterPiece();
 
 private:
+	//index=>body,bevel,piece,border1,border2,border3,border4
+	unsigned int m_partsIndex[7];
+
 	unsigned int m_terrainID;
 	IETerrainMode m_terrainMODE;
 
