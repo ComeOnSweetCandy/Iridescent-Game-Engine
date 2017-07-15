@@ -59,16 +59,11 @@ private:
 	void LoadBody(IETerrainChunk * chunk, int explicitGridPositionX, int explicitGridPositionY, unsigned int terrainID, unsigned int createdOrder);
 	void LoadNone(IETerrainChunk * chunk, int explicitGridPositionX, int explicitGridPositionY, unsigned int terrainID, unsigned int createdOrder);
 
-	//void AddBody(unsigned int terrainID, IETerrainMode terrainMODE, unsigned int createdOrder, int blockLocationX, int blockLocationY){};
-	void ApplyBevel(unsigned int terrainID, IETerrainMode terrainMODE, unsigned int createdOrder, int blockLocationX, int blockLocationY);
-	void ApplyPiece(unsigned int terrainID, IETerrainMode terrainMODE, unsigned int createdOrder, int blockLocationX, int blockLocationY);
-	void ApplyNone(unsigned int terrainID, IETerrainMode terrainMODE, unsigned int createdOrder, int blockLocationX, int blockLocationY);
-
 	//通过这四个方式创建的 index都是随机的
 	void ChangeNone(int blockLocationX, int blockLocationY);
 	void ChangeBody(int blockLocationX, int blockLocationY);
-	void ChangeBevel(int blockLocationX, int blockLocationY) {};
-	void ChangePiece(int blockLocationX, int blockLocationY) {};
+	void ChangeBevel(int blockLocationX, int blockLocationY);
+	void ChangePiece(int blockLocationX, int blockLocationY);
 
 private:
 	IETerrainInfo * m_terrainsInfo;

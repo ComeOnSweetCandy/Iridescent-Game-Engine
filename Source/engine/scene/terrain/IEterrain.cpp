@@ -2,9 +2,12 @@
 #include "IETerrain.h"
 
 #include "IEterrainsInfoManager.h"
+#include "IETerrainArea.h"
 
 #include "../../../tools/IEscript.h"
 #include "../../script/IEluaNode.h"
+
+#include "../../../interface/cmd/IEapplication.h"
 
 IE_BEGIN
 
@@ -13,84 +16,190 @@ IETerrain::IETerrain()
 	m_terrainID = 0;
 	m_unitPixels = 32;
 	m_terrainMODE = __terrain_none_mode__;
-	m_terrainBorder = NULL;
-	m_terrainPiece = NULL;
+	m_piece = NULL;
 }
 
 IETerrain::~IETerrain()
 {
-	SetBorderTexture(NULL);
-	SetPieceSprite(NULL);
-
-	__IE_RELEASE_DIF__(m_terrainBorder);
-	__IE_RELEASE_DIF__(m_terrainPiece);
+	__IE_RELEASE_DIF__(m_piece);
+	__IE_RELEASE_DIF__(m_bevel);
+	__IE_RELEASES_DIF__(m_border, 4);
 }
 
-void IETerrain::Initialization(unsigned int terrainID, IETerrainMode terrainMODE, unsigned int createdOrder)
+void IETerrain::Initialization(unsigned int terrainID, unsigned int createdOrder)
 {
 	IESprite::Initialization(NULL);
-
-	IETerrain::SetTerrainID(terrainID);
-	IETerrain::SetTerrainMODE(terrainMODE);
-	IETerrain::SetOrder(createdOrder);
-
-	IETerrain::LoadXML();
-	IETerrain::LoadScript();
-
-	m_terrainBorder = IESprite::Create();
+	IETerrain::Reload(terrainID, createdOrder);
 }
 
-IETerrain * IETerrain::Create(unsigned int terrainID, IETerrainMode terrainMODE, unsigned int createdOrder)
+IETerrain * IETerrain::Create(unsigned int terrainID, unsigned int createdOrder)
 {
 	IETerrain * terrainGrid = new IETerrain();
-	terrainGrid->Initialization(terrainID, terrainMODE, createdOrder);
+	terrainGrid->Initialization(terrainID, createdOrder);
 	return terrainGrid;
 }
 
-void IETerrain::Reload(unsigned int terrainID, IETerrainMode terrainMODE, unsigned int createdOrder)
+void IETerrain::Reload(unsigned int terrainID, unsigned int createdOrder)
 {
 	IETerrain::SetTerrainID(terrainID);
-	IETerrain::SetTerrainMODE(terrainMODE);
 	IETerrain::SetOrder(createdOrder);
 
 	IETerrain::LoadXML();
 	IETerrain::LoadScript();
 }
 
-void IETerrain::Load(unsigned int terrainID, unsigned int order)
+void IETerrain::SetBlockPostion(int x, int y)
 {
-
+	m_blockPositionX = x;
+	m_blockPositionY = y;
 }
 
 void IETerrain::ChangeBodyIndex(unsigned int terrainID, unsigned char bodyIndex)
 {
-	if (bodyIndex == 0)
+	m_terrainID = terrainID;
+
+	//如果为零 采取以下动作
+	if (m_terrainID == 0)
 	{
-		IETerrainInfo * infos = IETerrainsInfoManager::Share()->GetTerrainsInfoList();
-		bodyIndex = bodyIndex % infos[terrainID]._BodyC;
+		m_terrainMODE = __terrain_none_mode__;
+		SetDisplay(false);
+
+		__IE_RELEASE_DIF__(m_piece);
+		__IE_RELEASE_DIF__(m_bevel);
+		__IE_RELEASES_DIF__(m_border, 4);
+	}
+	else
+	{
+		m_terrainMODE = __terrain_body_mode__;
+		SetDisplay(true);
+
+		if (bodyIndex == 0)
+		{
+			IETerrainInfo * infos = IETerrainsInfoManager::Share()->GetTerrainsInfoList();
+			bodyIndex = bodyIndex % infos[m_terrainID]._BodyC;
+		}
+
+		ChangeGroup("body", bodyIndex);
 	}
 
-	m_texture->ChangeGroup(m_textureUnit, "body", bodyIndex);
+	//判定border的显示与否
+	ChangeBorderDisplay();
 }
 
 void IETerrain::ChangeBevelIndex(unsigned int terrainID, unsigned char bevelIndex)
 {
-
+	
 }
 
 void IETerrain::ChangePieceIndex(unsigned int terrainID, unsigned char pieceIndex)
 {
+	if (m_terrainID != 0 && terrainID != 0)
+	{
+		//如果要添加piece 必须制定terrain的id非零
+		__IE_RELEASE_DIF__(m_piece);
+		m_piece = IESprite::Create();
 
+		if (pieceIndex == 0)
+		{
+			IETerrainInfo * infos = IETerrainsInfoManager::Share()->GetTerrainsInfoList();
+			pieceIndex = pieceIndex % infos[terrainID]._PieceC;
+		}
+		m_piece->ChangeTexture(GetTexture());
+		m_piece->ChangeGroup("piece", pieceIndex);
+	}
+	else
+	{
+		__IE_RELEASE_DIF__(m_piece);
+	}
 }
 
-void IETerrain::ChangeBorderIndex(unsigned int terrainID, unsigned char borderIndex[4])
+void IETerrain::ChangeBorderIndex(unsigned int terrainID, unsigned char * bordersIndex)
 {
-	
+	if (bordersIndex == NULL)
+	{
+		IETerrainInfo * infos = IETerrainsInfoManager::Share()->GetTerrainsInfoList();
+
+		unsigned char borders[4] = { rand() % infos[m_terrainID]._PieceC, rand() % infos[m_terrainID]._PieceC, rand() % infos[m_terrainID]._PieceC, rand() % infos[m_terrainID]._PieceC };
+		bordersIndex = borders;
+	}
+
+	for (unsigned char index = 0; index < 4; index++)
+	{
+		if (m_border[index])
+		{
+			m_border[index]->ChangeGroup("border", bordersIndex[index]);
+		}
+	}
+}
+
+void IETerrain::ChangeBorderDisplay()
+{
+	unsigned int _terrainID = m_terrainID;
+	IETerrainMode _terrainMode = m_terrainMODE;
+
+	IETerrain * grids[4];
+	static IETerrainArea * area = IEApplication::Share()->GetCurrentActiveScene()->GetBindedMap()->GetTerrain();
+
+	grids[0] = (IETerrain *)area->GetBlock(m_blockPositionX, m_blockPositionY - 1);
+	grids[1] = (IETerrain *)area->GetBlock(m_blockPositionX + 1, m_blockPositionY);
+	grids[2] = (IETerrain *)area->GetBlock(m_blockPositionX, m_blockPositionY + 1);
+	grids[3] = (IETerrain *)area->GetBlock(m_blockPositionX - 1, m_blockPositionY);
+
+	for (int index = 0; index < 4; index++)
+	{
+		if (grids[index]->GetTerrainMODE() == __terrain_none_mode__)
+		{
+			SetBorderDisplay(index, true);
+		}
+		else if(grids[index]->GetTerrainMODE() == __terrain_body_mode__)
+		{
+			if (grids[index]->GetTerrainID() == m_terrainID)
+			{
+				SetBorderDisplay(index, false);
+				grids[index]->SetBorderDisplay((index + 2) % 4, false);
+			}
+			else
+			{
+				//必须创建的顺序大于隔壁(主要针对于map存储状况下的解决办法)
+				if (GetOrder() > grids[index]->GetOrder())
+				{
+					SetBorderDisplay(index, true);
+					grids[index]->SetBorderDisplay((index + 2) % 4, false);
+				}
+				else
+				{
+					SetBorderDisplay(index, false);
+					grids[index]->SetBorderDisplay((index + 2) % 4, true);
+				}
+			}
+		}
+	}
+}
+
+void IETerrain::SetBorderDisplay(int index, bool display)
+{
+	if (display)
+	{
+		if (m_border[index] == NULL)
+		{
+			m_border[index] = IESprite::Create();
+			m_border[index]->ChangeTexture(GetTexture());
+		}
+	}
+	else
+	{
+		__IE_RELEASE_DIF__(m_border[index]);
+		m_border[index] = NULL;
+	}
 }
 
 void IETerrain::LoadXML()
 {
-	if (m_terrainID == 0) return;
+	if (m_terrainID == 0)
+	{
+		BindPhysicNode(NULL);
+		return;
+	}
 
 	IETerrainInfo * terrainsInfo = IETerrainsInfoManager::Share()->GetTerrainsInfoList();
 	IEXml * xml = terrainsInfo[m_terrainID]._Xml;
@@ -152,18 +261,6 @@ void IETerrain::LoadScript()
 	}
 }
 
-void IETerrain::SetTerrainMODE(IETerrainMode mode)
-{
-	if (m_terrainID == 0)
-	{
-		m_terrainMODE = __terrain_none_mode__;
-	}
-	else
-	{
-		m_terrainMODE = mode;
-	}
-}
-
 IETerrainMode IETerrain::GetTerrainMODE()
 {
 	return m_terrainMODE;
@@ -172,15 +269,6 @@ IETerrainMode IETerrain::GetTerrainMODE()
 void IETerrain::SetTerrainID(unsigned int terrainID)
 {
 	m_terrainID = terrainID;
-
-	if (m_terrainID == 0)
-	{
-		IENode::SetDisplay(false);
-	}
-	else
-	{
-		IENode::SetDisplay(true);
-	}
 }
 
 unsigned int IETerrain::GetTerrainID()
@@ -192,172 +280,61 @@ void IETerrain::DrawNode()
 {
 	IESprite::DrawNode();
 
-	if (IsDisplayBorder())
-	{
-		DrawBorder();
-	}
-	if (m_terrainPiece)
-	{
-		DrawCenterPiece();
-	}
-}
-
-void IETerrain::AddNewCalBorder(IETerrain ** grids)
-{
-	m_displayExtraTerrain[0] = m_displayExtraTerrain[1] = m_displayExtraTerrain[2] = m_displayExtraTerrain[3] = false;
-
-	for (int index = 0; index < 4; index++)
-	{
-		if (grids[index] == NULL)
-		{
-			SetDisplayTerrainBorder(index, true);
-		}
-		else
-		{
-			if (grids[index]->GetTerrainID() == m_terrainID)
-			{
-				grids[index]->SetDisplayTerrainBorder((index + 2) % 4, false);
-			}
-			else if (grids[index]->GetTerrainID() == 0)
-			{
-				//或者隔壁的terrainID为0
-				SetDisplayTerrainBorder(index, true);
-				grids[index]->SetDisplayTerrainBorder((index + 2) % 4, false);
-			}
-			else
-			{
-				//必须创建的顺序大于隔壁(主要针对于map存储状况下的解决办法)
-				if (m_order > grids[index]->GetOrder())
-				{
-					SetDisplayTerrainBorder(index, true);
-					grids[index]->SetDisplayTerrainBorder((index + 2) % 4, false);
-				}
-			}
-		}
-	}
-}
-
-void IETerrain::DelOldCalBorder(IETerrain ** grids)
-{
-	for (int index = 0; index < 4; index++)
-	{
-		if (grids[index])
-		{
-			if (grids[index]->GetTerrainMODE() == __terrain_body_mode__)
-			{
-				grids[index]->SetDisplayTerrainBorder((index + 2) % 4, true);
-			}
-		}
-	}
-}
-
-bool IETerrain::IsDisplayBorder()
-{
-	return m_displayExtraTerrain[0] || m_displayExtraTerrain[1] || m_displayExtraTerrain[2] || m_displayExtraTerrain[3];
-}
-
-void IETerrain::SetDisplayTerrainBorder(int index, bool display)
-{
-	m_displayExtraTerrain[index] = display;
-}
-
-void IETerrain::SetBorderTextureFile(const char * textureFile)
-{
-	m_terrainBorder->ChangeTexture(textureFile);
-}
-
-void IETerrain::SetBorderTexture(IETexture * texture)
-{
-	//m_terrainBorder->changeg(texture);
-	m_terrainBorder->ChangeGroup("border");
-}
-
-IESprite * IETerrain::GetBorderSprite()
-{
-	return m_terrainBorder;
-}
-
-void IETerrain::SetPieceSprite(const char * textureFile)
-{
-	if (m_terrainPiece)
-	{
-		m_terrainPiece->AutoRelease();
-		m_terrainPiece = NULL;
-	}
-	if (textureFile == NULL)
-	{
-		m_terrainPiece = NULL;
-		m_displayExtraTerrain[4] = false;
-	}
-	else
-	{
-		m_terrainPiece = IESprite::Create(textureFile);
-		m_displayExtraTerrain[4] = true;
-	}
+	DrawBorder();
+	DrawPiece();
 }
 
 void IETerrain::DrawBorder()
 {
 	glMatrixMode(GL_MODELVIEW);
 
-	DrawDownBorder();
-	DrawRightBorder();
-	DrawTopBorder();
-	DrawLeftBorder();
-}
-
-void IETerrain::DrawCenterPiece()
-{
-	if (m_displayExtraTerrain[4])
+	if (m_piece)
 	{
-		m_terrainPiece->Visit();
+		m_piece->Visit();
 	}
-}
 
-void IETerrain::DrawTopBorder()
-{
-	if (m_displayExtraTerrain[2])
+	//up
+	if (m_border[2])
 	{
 		glPushMatrix();
 		glTranslatef(0.0f, m_size[1], 0.0f);
-		m_terrainBorder->Visit();
+		m_border[2]->Visit();
 		glPopMatrix();
 	}
-}
 
-void IETerrain::DrawDownBorder()
-{
-	if (m_displayExtraTerrain[0])
+	//down
+	if (m_border[0])
 	{
 		glPushMatrix();
 		glRotatef(180, 1.0f, 0.0f, 0.0f);
-		m_terrainBorder->Visit();
+		m_border[0]->Visit();
 		glPopMatrix();
 	}
-}
 
-void IETerrain::DrawLeftBorder()
-{
-	if (m_displayExtraTerrain[3])
+	//left
+	if (m_border[3])
 	{
 		glPushMatrix();
 		glRotatef(90.0f, 0.0f, 0.0f, 1.0f);
-		m_terrainBorder->Visit();
+		m_border[3]->Visit();
 		glPopMatrix();
 	}
-}
 
-void IETerrain::DrawRightBorder()
-{
-	if (m_displayExtraTerrain[1])
+	//right
+	if (m_border[1])
 	{
 		glPushMatrix();
 		glRotatef(-90.0f, 0.0f, 0.0f, 1.0f);
 		glTranslatef(0.0f, m_size[1], 0.0f);
 		glTranslatef(-m_size[0], 0.0f, 0.0f);
-		m_terrainBorder->Visit();
+		m_border[1]->Visit();
 		glPopMatrix();
 	}
+}
+
+void IETerrain::DrawPiece()
+{
+
 }
 
 IE_END

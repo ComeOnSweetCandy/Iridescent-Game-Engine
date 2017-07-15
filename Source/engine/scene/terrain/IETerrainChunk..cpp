@@ -34,7 +34,7 @@ void IETerrainChunk::FillCache()
 	{
 		for (int y = 0; y < m_chunkLength; y++)
 		{
-			IETerrain * empty = IETerrain::Create(0, __terrain_none_mode__, 0);
+			IETerrain * empty = IETerrain::Create(0, 0);
 			AddChild(empty, x, y);
 		}
 	}
@@ -49,7 +49,7 @@ void IETerrainChunk::ResetCache()
 			if (m_chunksIndexMatrix[x][y])
 			{
 				IETerrain * block = (IETerrain *)m_chunksIndexMatrix[x][y];
-				block->SetTerrainID(0);
+				block->Reload(0, 0);
 			}
 		}
 	}

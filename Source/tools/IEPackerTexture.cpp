@@ -79,6 +79,12 @@ IEPackerTexture * IEPackerTexture::Create(const char * textureName)
 
 void IEPackerTexture::GetTexture(IETextureUnitState * unitState)
 {
+	if (unitState->_TextureID == 0)
+	{
+		//如果当前所制定的group不存在 则直接返回
+		return;
+	}
+
 	unitState->_CurTime += IETime::Share()->GetLastFrapPassingTime();
 	unsigned char groupIndex = unitState->_GroupIndex;
 	unsigned char frapIndex = unitState->_FrapIndex;
@@ -94,7 +100,6 @@ void IEPackerTexture::GetTexture(IETextureUnitState * unitState)
 		}
 	}
 
-	unitState->_TextureID = m_textureId;
 	unitState->_FrapIndex = frapIndex;
 	unitState->_X = m_textureGroups[groupIndex]._Fraps[frapIndex]._X;
 	unitState->_Y = m_textureGroups[groupIndex]._Fraps[frapIndex]._Y;
@@ -109,32 +114,28 @@ void IEPackerTexture::GetTexture(IETextureUnitState * unitState)
 
 void IEPackerTexture::ChangeGroup(IETextureUnitState * textureUnitState, const char * groupName, unsigned char sameIndex)
 {
-	textureUnitState->_GroupIndex = 0;
-
-	if (m_groupCount == 1)
+	int resCount = 0;
+	for (unsigned char index = 0; index < m_groupCount; index++)
 	{
-		textureUnitState->_GroupIndex = 0;
-	}
-	else
-	{
-		int resCount = 0;
-		for (unsigned char index = 0; index < m_groupCount; index++)
+		int res = strcmp(m_textureGroups[index]._Name, groupName);
+		if (res == 0)
 		{
-			int res = strcmp(m_textureGroups[index]._Name, groupName);
-			if (res == 0)
+			if (resCount == sameIndex)
 			{
-				if (resCount == sameIndex)
-				{
-					//如果两者相等
-					textureUnitState->_GroupIndex = index;
-				}
-				resCount++;
+				//如果两者相等
+				textureUnitState->_TextureID = *m_textureId;
+				textureUnitState->_GroupIndex = index;
+				textureUnitState->_FrapIndex = 0;
+				textureUnitState->_CurTime = 0.0f;
+
+				return;
 			}
+			resCount++;
 		}
 	}
 
-	textureUnitState->_FrapIndex = 0;
-	textureUnitState->_CurTime = 0.0f;
+	//如果没有找到
+	textureUnitState->_TextureID = 0;
 }
 
 const char * IEPackerTexture::LoadXML(IEXml * xml)

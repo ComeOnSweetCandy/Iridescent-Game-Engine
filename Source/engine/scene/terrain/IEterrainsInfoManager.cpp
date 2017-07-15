@@ -75,6 +75,8 @@ void IETerrainsInfoManager::LoadTerrainsInfo()
 		IEString fileDir = IEString(m_terrainsInfoList[index]._TerrainName) << ".xml";
 
 		m_terrainsInfoList[index]._LuaScript = NULL;
+		m_terrainsInfoList[index]._PieceC = 1;
+		m_terrainsInfoList[index]._BodyC = 1;
 		m_terrainsInfoList[index++]._Xml = IEXml::Create(fileDir.GetString());
 	}
 	

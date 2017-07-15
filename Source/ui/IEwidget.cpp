@@ -285,7 +285,7 @@ void IEWidget::DrawNode()
 			if (m_texture)
 			{
 				m_texture->GetTexture(m_textureUnit);
-				glBindTexture(GL_TEXTURE_2D, *(m_textureUnit->_TextureID));
+				glBindTexture(GL_TEXTURE_2D, m_textureUnit->_TextureID);
 			}
 
 			glEnable(GL_BLEND);

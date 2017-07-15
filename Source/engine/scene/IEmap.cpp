@@ -182,7 +182,7 @@ void IEMap::Update()
 		{
 			activeArea->MouseClick();
 		}
-		if (IEKeyboard::Share()->IsKeyDown(DIK_LCONTROL) && IEMouse::Share()->IsButtonDown(0))
+		if (IEKeyboard::Share()->IsKeyDown(DIK_LSHIFT) && IEMouse::Share()->IsButtonDown(0))
 		{
 			activeArea->MouseClick();
 		}
