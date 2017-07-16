@@ -69,7 +69,8 @@ private:
 
 	struct IETerrainSerialization
 	{
-		unsigned char _BorderIndex;
+		unsigned int _terrainID;
+		unsigned char _BodyIndex;
 		unsigned char _BevelIndex;
 		unsigned int _PieceID;
 		unsigned char _PieceIndex;

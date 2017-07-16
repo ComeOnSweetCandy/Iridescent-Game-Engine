@@ -77,6 +77,28 @@ IEXml * IEXml::FindChild(const char * key)
 	return NULL;
 }
 
+IEXml * IEXml::FindChild(const char * key, unsigned int index)
+{
+	IEXmlStack * endElement = (IEXmlStack *)m_value;
+	while (endElement)
+	{
+		if (endElement->_Xml->m_key == key)
+		{
+			if (index == 0)
+			{
+				return endElement->_Xml;
+			}
+			else
+			{
+				index--;
+			}
+		}
+		endElement = endElement->_Next;
+	}
+
+	return NULL;
+}
+
 int IEXml::ValueInt()
 {
 	IEString * valueString = (IEString *)m_value;

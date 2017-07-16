@@ -51,6 +51,7 @@ public:
 	float ValueFloat();
 	const char * ValueString();
 	IEXml * FindChild(const char * key);
+	IEXml * FindChild(const char * key, unsigned int index);
 	IEContainer * FindChilds(const char * key);
 
 protected:

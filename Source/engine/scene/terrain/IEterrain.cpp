@@ -73,12 +73,6 @@ void IETerrain::ChangeBodyIndex(unsigned int terrainID, unsigned char bodyIndex)
 		m_terrainMODE = __terrain_body_mode__;
 		SetDisplay(true);
 
-		if (bodyIndex == 0)
-		{
-			IETerrainInfo * infos = IETerrainsInfoManager::Share()->GetTerrainsInfoList();
-			bodyIndex = bodyIndex % infos[m_terrainID]._BodyC;
-		}
-
 		ChangeGroup("body", bodyIndex);
 	}
 
@@ -97,15 +91,18 @@ void IETerrain::ChangePieceIndex(unsigned int terrainID, unsigned char pieceInde
 	{
 		//如果要添加piece 必须制定terrain的id非零
 		__IE_RELEASE_DIF__(m_piece);
-		m_piece = IESprite::Create();
 
-		if (pieceIndex == 0)
+		if (m_terrainID != terrainID)
 		{
-			IETerrainInfo * infos = IETerrainsInfoManager::Share()->GetTerrainsInfoList();
-			pieceIndex = pieceIndex % infos[terrainID]._PieceC;
+			m_piece = IESprite::Create();
+			if (pieceIndex == 0)
+			{
+				IETerrainInfo * infos = IETerrainsInfoManager::Share()->GetTerrainsInfoList();
+				pieceIndex = pieceIndex % infos[terrainID]._PieceC;
+			}
+			m_piece->ChangeTexture(GetTexture());
+			m_piece->ChangeGroup("piece", pieceIndex);
 		}
-		m_piece->ChangeTexture(GetTexture());
-		m_piece->ChangeGroup("piece", pieceIndex);
 	}
 	else
 	{
@@ -147,29 +144,36 @@ void IETerrain::ChangeBorderDisplay()
 
 	for (int index = 0; index < 4; index++)
 	{
-		if (grids[index]->GetTerrainMODE() == __terrain_none_mode__)
+		if (grids[index] == NULL)
 		{
 			SetBorderDisplay(index, true);
 		}
-		else if(grids[index]->GetTerrainMODE() == __terrain_body_mode__)
+		else
 		{
-			if (grids[index]->GetTerrainID() == m_terrainID)
+			if (grids[index]->GetTerrainMODE() == __terrain_none_mode__)
 			{
-				SetBorderDisplay(index, false);
-				grids[index]->SetBorderDisplay((index + 2) % 4, false);
+				SetBorderDisplay(index, true);
 			}
-			else
+			else if (grids[index]->GetTerrainMODE() == __terrain_body_mode__)
 			{
-				//必须创建的顺序大于隔壁(主要针对于map存储状况下的解决办法)
-				if (GetOrder() > grids[index]->GetOrder())
+				if (grids[index]->GetTerrainID() == m_terrainID)
 				{
-					SetBorderDisplay(index, true);
+					SetBorderDisplay(index, false);
 					grids[index]->SetBorderDisplay((index + 2) % 4, false);
 				}
 				else
 				{
-					SetBorderDisplay(index, false);
-					grids[index]->SetBorderDisplay((index + 2) % 4, true);
+					//必须创建的顺序大于隔壁(主要针对于map存储状况下的解决办法)
+					if (GetOrder() > grids[index]->GetOrder())
+					{
+						SetBorderDisplay(index, true);
+						grids[index]->SetBorderDisplay((index + 2) % 4, false);
+					}
+					else
+					{
+						SetBorderDisplay(index, false);
+						grids[index]->SetBorderDisplay((index + 2) % 4, true);
+					}
 				}
 			}
 		}
@@ -276,6 +280,27 @@ unsigned int IETerrain::GetTerrainID()
 	return m_terrainID;
 }
 
+void IETerrain::Serialize()
+{
+	struct IETerrainSerialization
+	{
+		unsigned int _terrainID;
+		unsigned char _BodyIndex;
+		unsigned char _BevelIndex;
+		unsigned int _PieceID;
+		unsigned char _PieceIndex;
+		unsigned char _BorderIndex[4];
+	};
+
+
+
+}
+
+void IETerrain::determinant()
+{
+
+}
+
 void IETerrain::DrawNode()
 {
 	IESprite::DrawNode();
@@ -287,11 +312,6 @@ void IETerrain::DrawNode()
 void IETerrain::DrawBorder()
 {
 	glMatrixMode(GL_MODELVIEW);
-
-	if (m_piece)
-	{
-		m_piece->Visit();
-	}
 
 	//up
 	if (m_border[2])
@@ -334,7 +354,10 @@ void IETerrain::DrawBorder()
 
 void IETerrain::DrawPiece()
 {
-
+	if (m_piece)
+	{
+		m_piece->Visit();
+	}
 }
 
 IE_END

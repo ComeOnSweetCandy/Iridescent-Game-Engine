@@ -15,6 +15,8 @@
 
 IE_BEGIN
 
+#define __IE_GROUP_RAND__ 0
+
 struct IETextureFrap
 {
 	unsigned short int _X;
@@ -24,17 +26,24 @@ struct IETextureFrap
 	float _End;
 };
 
+struct IETextureSame
+{
+	unsigned char _FrapsCount;
+	IETextureFrap * _Fraps;
+};
+
 struct IETextureGroup
 {
 	char * _Name;
-	unsigned char _FrapsCount;
-	IETextureFrap * _Fraps;
+	unsigned char _SameCount;
+	IETextureSame * _Same;
 };
 
 struct IETextureUnitState
 {
 	GLuint _TextureID;
 	unsigned char _GroupIndex;
+	unsigned char _SameIndex;
 	unsigned char _FrapIndex;
 	float _CurTime;
 
@@ -61,7 +70,7 @@ public:
 
 public:
 	void GetTexture(IETextureUnitState * unitState);
-	void ChangeGroup(IETextureUnitState * textureUnitState, const char * groupName, unsigned char sameIndex = 0);					//修改当前激活的贴图组 因为可能存在同名的group组 所以后面加上一个index
+	void ChangeGroup(IETextureUnitState * textureUnitState, const char * groupName, unsigned char sameIndex);					//修改当前激活的贴图组 因为可能存在同名的group组 所以后面加上一个index 参数为0 代表随机一个index
 
 private:
 	const char * LoadXML(IEXml * xml);							//读取xml

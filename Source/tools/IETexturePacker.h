@@ -16,10 +16,13 @@ IE_BEGIN
 
 typedef struct __iePackedGroup
 {
-	unsigned short _GroupIndex;
 	char * _GroupName;
+	unsigned short _GroupIndex;
+	unsigned short _SameIndex;
 	unsigned short _FrapsCount;
+	unsigned short _SameCount;
 	
+	__iePackedGroup * _Same;
 	__iePackedGroup * _Next;
 }IEPackedGroup;
 
@@ -41,6 +44,7 @@ public:
 
 	//存在于的动作组
 	unsigned short _GroupIndex;
+	unsigned short _SameIndex;
 	unsigned short _FrapIndex;
 	float _EndTime;
 };
@@ -56,7 +60,7 @@ public:
 	static IETexturePacker * Create(const char * textureName);
 
 public:
-	void AddImage(IEImage * image, const char * groupName, float endTime = 0.0f);		//放入image的数据时，也填充group
+	void AddImage(IEImage * image, const char * groupName, float endTime = 0.0f, unsigned char sameIndex = 0);		//放入image的数据时，也填充group
 	void SaveTexture();											//生成新的贴图并且存储于本地 同时生成plist文件
 
 private:
@@ -70,6 +74,7 @@ public:
 	IEContainer * m_textureContainer;
 	IEContainer * m_pointsContainer;
 	IEPackedGroup * m_textureGroupHead;
+	unsigned short m_groupMaxIndex;
 
 	unsigned int m_width;
 	unsigned int m_height;

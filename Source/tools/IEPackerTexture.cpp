@@ -24,8 +24,12 @@ IEPackerTexture::~IEPackerTexture()
 	{
 		for (unsigned char index = 0; index < m_groupCount; index++)
 		{
+			for (unsigned char index1 = 0; index1 < m_textureGroups[index]._SameCount; index1++)
+			{
+				delete[]m_textureGroups[index]._Same[index1]._Fraps;
+			}
+			delete[]m_textureGroups[index]._Same;
 			delete[]m_textureGroups[index]._Name;
-			delete[]m_textureGroups[index]._Fraps;
 		}
 		delete[]m_textureGroups;
 	}
@@ -87,13 +91,14 @@ void IEPackerTexture::GetTexture(IETextureUnitState * unitState)
 
 	unitState->_CurTime += IETime::Share()->GetLastFrapPassingTime();
 	unsigned char groupIndex = unitState->_GroupIndex;
+	unsigned char sameIndex = unitState->_SameIndex;
 	unsigned char frapIndex = unitState->_FrapIndex;
 
-	if (unitState->_CurTime >= m_textureGroups[groupIndex]._Fraps[frapIndex]._End)
+	if (unitState->_CurTime >= m_textureGroups[groupIndex]._Same[sameIndex]._Fraps[frapIndex]._End)
 	{
 		frapIndex++;
 
-		if (frapIndex >= m_textureGroups[groupIndex]._FrapsCount)
+		if (frapIndex >= m_textureGroups[groupIndex]._Same[sameIndex]._FrapsCount)
 		{
 			frapIndex = 0;
 			unitState->_CurTime = 0.0f;
@@ -101,10 +106,10 @@ void IEPackerTexture::GetTexture(IETextureUnitState * unitState)
 	}
 
 	unitState->_FrapIndex = frapIndex;
-	unitState->_X = m_textureGroups[groupIndex]._Fraps[frapIndex]._X;
-	unitState->_Y = m_textureGroups[groupIndex]._Fraps[frapIndex]._Y;
-	unitState->_Width = m_textureGroups[groupIndex]._Fraps[frapIndex]._Width;
-	unitState->_Height = m_textureGroups[groupIndex]._Fraps[frapIndex]._Height;
+	unitState->_X = m_textureGroups[groupIndex]._Same[sameIndex]._Fraps[frapIndex]._X;
+	unitState->_Y = m_textureGroups[groupIndex]._Same[sameIndex]._Fraps[frapIndex]._Y;
+	unitState->_Width = m_textureGroups[groupIndex]._Same[sameIndex]._Fraps[frapIndex]._Width;
+	unitState->_Height = m_textureGroups[groupIndex]._Same[sameIndex]._Fraps[frapIndex]._Height;
 
 	unitState->_BeginX = ((float)unitState->_X) / ((float)m_textureWidth);
 	unitState->_BeginY = ((float)unitState->_Y) / ((float)m_textureHeight);
@@ -114,23 +119,33 @@ void IEPackerTexture::GetTexture(IETextureUnitState * unitState)
 
 void IEPackerTexture::ChangeGroup(IETextureUnitState * textureUnitState, const char * groupName, unsigned char sameIndex)
 {
-	int resCount = 0;
 	for (unsigned char index = 0; index < m_groupCount; index++)
 	{
 		int res = strcmp(m_textureGroups[index]._Name, groupName);
 		if (res == 0)
 		{
-			if (resCount == sameIndex)
+			if (sameIndex>m_textureGroups[index]._SameCount)
 			{
-				//如果两者相等
-				textureUnitState->_TextureID = *m_textureId;
-				textureUnitState->_GroupIndex = index;
-				textureUnitState->_FrapIndex = 0;
-				textureUnitState->_CurTime = 0.0f;
-
-				return;
+				//超出了最大值
+				break;
 			}
-			resCount++;
+			if (sameIndex == __IE_GROUP_RAND__)
+			{
+				//同名group之中随机一个
+				sameIndex = rand() % m_textureGroups[index]._SameCount;
+			}
+			else
+			{
+				sameIndex--;
+			}
+
+			textureUnitState->_TextureID = *m_textureId;
+			textureUnitState->_GroupIndex = index;
+			textureUnitState->_SameIndex = sameIndex;
+			textureUnitState->_FrapIndex = 0;
+			textureUnitState->_CurTime = 0.0f;
+
+			return;
 		}
 	}
 
@@ -161,14 +176,21 @@ const char * IEPackerTexture::LoadXML(IEXml * xml)
 		m_textureGroups[index]._Name = new char[nameLength + 1];
 		strcpy(m_textureGroups[index]._Name, name);
 
-		//获取帧数
-		m_textureGroups[index]._FrapsCount = xmls[index]->FindChild("frapsCount")->ValueInt();
-		IEContainer * fraps = xmls[index]->FindChilds("frap");
+		//获取同名的数目
+		m_textureGroups[index]._SameCount = xmls[index]->FindChild("sameCount")->ValueInt();
+		m_textureGroups[index]._Same = new IETextureSame[m_textureGroups[index]._SameCount];
 
-		m_textureGroups[index]._Fraps = new IETextureFrap[m_textureGroups[index]._FrapsCount];
-		for (unsigned char index1 = 0; index1 < m_textureGroups[index]._FrapsCount; index1++)
+		for (unsigned char sameIndex = 0; sameIndex < m_textureGroups[index]._SameCount; sameIndex++)
 		{
-			FillTextureFrap(m_textureGroups[index]._Fraps[index1], (IEXml *)(fraps->Find(index1)));
+			IEXml * sameXML = xmls[index]->FindChild("same", sameIndex);
+			IEContainer * frapsXMLS = sameXML->FindChilds("frap");
+
+			m_textureGroups[index]._Same[sameIndex]._FrapsCount = sameXML->FindChild("frapsCount")->ValueInt();
+			m_textureGroups[index]._Same[sameIndex]._Fraps = new IETextureFrap[m_textureGroups[index]._Same[sameIndex]._FrapsCount];
+			for (unsigned char index1 = 0; index1 < m_textureGroups[index]._Same[sameIndex]._FrapsCount; index1++)
+			{
+				FillTextureFrap(m_textureGroups[index]._Same[sameIndex]._Fraps[index1], (IEXml *)(frapsXMLS->Find(index1)));
+			}
 		}
 	}
 	return textureName;
@@ -180,13 +202,16 @@ void IEPackerTexture::ForgeryXML(const char * textureName)
 	m_textureGroups = new IETextureGroup[m_groupCount];
 
 	m_textureGroups[0]._Name = NULL;
-	m_textureGroups[0]._FrapsCount = 1;
-	m_textureGroups[0]._Fraps = new IETextureFrap[1];
-	m_textureGroups[0]._Fraps[0]._X = 0;
-	m_textureGroups[0]._Fraps[0]._Y = 0;
-	m_textureGroups[0]._Fraps[0]._Width = m_textureWidth;
-	m_textureGroups[0]._Fraps[0]._Height = m_textureHeight;
-	m_textureGroups[0]._Fraps[0]._End = 0.0f;
+	m_textureGroups[0]._SameCount = 1;
+	m_textureGroups[0]._Same = new IETextureSame[1];
+
+	m_textureGroups[0]._Same[0]._FrapsCount = 1;
+	m_textureGroups[0]._Same[0]._Fraps = new IETextureFrap[1];
+	m_textureGroups[0]._Same[0]._Fraps[0]._X = 0;
+	m_textureGroups[0]._Same[0]._Fraps[0]._Y = 0;
+	m_textureGroups[0]._Same[0]._Fraps[0]._Width = m_textureWidth;
+	m_textureGroups[0]._Same[0]._Fraps[0]._Height = m_textureHeight;
+	m_textureGroups[0]._Same[0]._Fraps[0]._End = 0.0f;
 }
 
 void IEPackerTexture::FillTextureFrap(IETextureFrap& textureFrap, IEXml * xml)

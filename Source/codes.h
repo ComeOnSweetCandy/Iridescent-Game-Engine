@@ -73,8 +73,8 @@
 //IEPlayer * player = IEPlayer::Create(0);
 //scene->AddChild(player);
 
-//IEImage * images[6];
-//for (int i = 0; i < 6; i++)
+//IEImage * images[10];
+//for (int i = 0; i < 10; i++)
 //{
 //	images[i] = IEImage::Create();
 //}
@@ -82,16 +82,24 @@
 //images[1]->LoadImageData("../Debug/data/texture/other/fire/body_1.png");
 //images[2]->LoadImageData("../Debug/data/texture/other/fire/body_2.png");
 //images[3]->LoadImageData("../Debug/data/texture/other/fire/body_3.png");
-//images[4]->LoadImageData("../Debug/data/texture/other/fire/icon_0.png");
-//images[5]->LoadImageData("../Debug/data/texture/other/fire/picked_0.png");
+//images[4]->LoadImageData("../Debug/data/texture/other/fire/body_0.png");
+//images[5]->LoadImageData("../Debug/data/texture/other/fire/body_1.png");
+//images[6]->LoadImageData("../Debug/data/texture/other/fire/body_2.png");
+//images[7]->LoadImageData("../Debug/data/texture/other/fire/body_3.png");
+//images[8]->LoadImageData("../Debug/data/texture/other/fire/icon_0.png");
+//images[9]->LoadImageData("../Debug/data/texture/other/fire/picked_0.png");
 //
 //IETexturePacker * packer = IETexturePacker::Create("torch");
-//packer->AddImage(images[0], "body", 0.2f);
-//packer->AddImage(images[1], "body", 0.5f);
-//packer->AddImage(images[2], "body", 0.7f);
-//packer->AddImage(images[3], "body", 1.0f);
-//packer->AddImage(images[4], "icon", 2.0f);
-//packer->AddImage(images[5], "picked", 2.0f);
+//packer->AddImage(images[0], "body", 0.2f, 0);
+//packer->AddImage(images[1], "body", 0.5f, 0);
+//packer->AddImage(images[2], "body", 0.7f, 0);
+//packer->AddImage(images[3], "body", 1.0f, 0);
+//packer->AddImage(images[4], "body", 0.2f, 1);
+//packer->AddImage(images[5], "body", 0.5f, 1);
+//packer->AddImage(images[6], "body", 0.7f, 1);
+//packer->AddImage(images[7], "body", 1.0f, 1);
+//packer->AddImage(images[8], "icon", 2.0f, 0);
+//packer->AddImage(images[9], "picked", 2.0f, 0);
 //packer->SaveTexture();
 //packer->ReleaseDisreference();
 
