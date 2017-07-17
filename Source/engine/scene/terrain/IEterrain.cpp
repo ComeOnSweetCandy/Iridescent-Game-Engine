@@ -46,6 +46,118 @@ void IETerrain::Reload(unsigned int terrainID, unsigned int createdOrder)
 
 	IETerrain::LoadXML();
 	IETerrain::LoadScript();
+
+	//判定border的显示与否
+	ChangeBorderDisplay();
+}
+
+void IETerrain::ResetSelf()
+{
+	IETerrain::SetTerrainID(0);
+	IETerrain::SetOrder(0);
+
+	BindPhysicNode(NULL);
+}
+
+IETerrainInfoSerialization * IETerrain::Serialize()
+{
+	IETerrainInfoSerialization * serialization = new IETerrainInfoSerialization();
+	serialization->_TerrainID = m_terrainID;
+	serialization->_Order = m_order;
+
+	if (m_terrainID == 0)
+	{
+		serialization->_BodyIndex = 0;
+		serialization->_BevelIndex = 0;
+		serialization->_PieceID = 0;
+		serialization->_PieceIndex = 0;
+		serialization->_BorderIndex[0] = 0;
+		serialization->_BorderIndex[1] = 0;
+		serialization->_BorderIndex[2] = 0;
+		serialization->_BorderIndex[3] = 0;
+	}
+	else
+	{
+		serialization->_BodyIndex = m_textureUnit->_SameIndex + 1;
+
+		if (m_piece)
+		{
+			serialization->_PieceID = m_pieceID;
+			serialization->_BodyIndex = m_piece->GetTextureUnitState()->_SameIndex + 1;
+		}
+		else
+		{
+			serialization->_PieceID = 0;
+			serialization->_BodyIndex = 0;
+		}
+
+		if (m_bevel)
+		{
+			serialization->_BevelIndex = m_piece->GetTextureUnitState()->_SameIndex + 1;
+		}
+		else
+		{
+			serialization->_BevelIndex = 0;
+		}
+
+		for (int index = 0; index < 4; index++)
+		{
+			if (m_border[index])
+			{
+				serialization->_BorderIndex[index] = m_border[index]->GetTextureUnitState()->_SameIndex + 1;
+			}
+			else
+			{
+				serialization->_BorderIndex[index] = 0;
+			}
+		}
+	}
+
+	return serialization;
+}
+
+void IETerrain::determinant(IETerrainInfoSerialization * serialization)
+{
+	SetTerrainID(serialization->_TerrainID);
+	SetOrder(serialization->_Order);
+
+	IETerrain::LoadXML();
+	IETerrain::LoadScript();
+
+	__IE_RELEASE_DIF__(m_piece);
+	__IE_RELEASE_DIF__(m_bevel);
+	__IE_RELEASES_DIF__(m_border, 4);
+
+	if (m_terrainID)
+	{
+		//获取贴图信息
+		IETerrainInfo * infos = IETerrainsInfoManager::Share()->GetTerrainsInfoList();
+		IEPackerTexture * pieceTexture = IEPackerTexture::Create(infos[m_pieceID]._Xml->FindChild("texture"));
+
+		ChangeGroup("body", serialization->_BodyIndex);
+
+		if (serialization->_PieceID && serialization->_PieceIndex)
+		{
+			m_piece = IESprite::Create();
+			m_piece->ChangeTexture(pieceTexture);
+			m_piece->ChangeGroup("piece", serialization->_PieceIndex);
+		}
+		if (serialization->_BevelIndex)
+		{
+			m_bevel = IESprite::Create();
+			m_bevel->ChangeTexture(m_texture);
+			m_bevel->ChangeGroup("bevel", serialization->_BevelIndex);
+		}
+		for (int index = 0; index < 4; index++)
+		{
+			if (serialization->_BorderIndex[index])
+			{
+				m_border[index] = IESprite::Create();
+				m_border[index]->ChangeTexture(m_texture);
+				m_border[index]->ChangeGroup("border", serialization->_BorderIndex[index]);
+			}
+		}
+	}
 }
 
 void IETerrain::SetBlockPostion(int x, int y)
@@ -54,33 +166,15 @@ void IETerrain::SetBlockPostion(int x, int y)
 	m_blockPositionY = y;
 }
 
-void IETerrain::ChangeBodyIndex(unsigned int terrainID, unsigned char bodyIndex)
+void IETerrain::ChangeBodyIndex(unsigned char bodyIndex)
 {
-	m_terrainID = terrainID;
-
-	//如果为零 采取以下动作
-	if (m_terrainID == 0)
+	if (m_terrainID != 0)
 	{
-		m_terrainMODE = __terrain_none_mode__;
-		SetDisplay(false);
-
-		__IE_RELEASE_DIF__(m_piece);
-		__IE_RELEASE_DIF__(m_bevel);
-		__IE_RELEASES_DIF__(m_border, 4);
-	}
-	else
-	{
-		m_terrainMODE = __terrain_body_mode__;
-		SetDisplay(true);
-
 		ChangeGroup("body", bodyIndex);
 	}
-
-	//判定border的显示与否
-	ChangeBorderDisplay();
 }
 
-void IETerrain::ChangeBevelIndex(unsigned int terrainID, unsigned char bevelIndex)
+void IETerrain::ChangeBevelIndex(unsigned char bevelIndex)
 {
 	
 }
@@ -94,14 +188,14 @@ void IETerrain::ChangePieceIndex(unsigned int terrainID, unsigned char pieceInde
 
 		if (m_terrainID != terrainID)
 		{
+			IETerrainInfo * infos = IETerrainsInfoManager::Share()->GetTerrainsInfoList();
+			IEPackerTexture * texture = IEPackerTexture::Create(infos[terrainID]._Xml);
+
 			m_piece = IESprite::Create();
-			if (pieceIndex == 0)
-			{
-				IETerrainInfo * infos = IETerrainsInfoManager::Share()->GetTerrainsInfoList();
-				pieceIndex = pieceIndex % infos[terrainID]._PieceC;
-			}
-			m_piece->ChangeTexture(GetTexture());
+			m_piece->ChangeTexture(texture);
 			m_piece->ChangeGroup("piece", pieceIndex);
+
+			m_pieceID = terrainID;
 		}
 	}
 	else
@@ -110,30 +204,28 @@ void IETerrain::ChangePieceIndex(unsigned int terrainID, unsigned char pieceInde
 	}
 }
 
-void IETerrain::ChangeBorderIndex(unsigned int terrainID, unsigned char * bordersIndex)
+void IETerrain::ChangeBorderIndex(unsigned char * bordersIndex)
 {
-	if (bordersIndex == NULL)
+	if (m_terrainID)
 	{
-		IETerrainInfo * infos = IETerrainsInfoManager::Share()->GetTerrainsInfoList();
-
-		unsigned char borders[4] = { rand() % infos[m_terrainID]._PieceC, rand() % infos[m_terrainID]._PieceC, rand() % infos[m_terrainID]._PieceC, rand() % infos[m_terrainID]._PieceC };
-		bordersIndex = borders;
-	}
-
-	for (unsigned char index = 0; index < 4; index++)
-	{
-		if (m_border[index])
+		if (bordersIndex == NULL)
 		{
-			m_border[index]->ChangeGroup("border", bordersIndex[index]);
+			unsigned char borders[4] = { 0, 0, 0, 0 };
+			bordersIndex = borders;
+		}
+
+		for (unsigned char index = 0; index < 4; index++)
+		{
+			if (m_border[index])
+			{
+				m_border[index]->ChangeGroup("border", bordersIndex[index]);
+			}
 		}
 	}
 }
 
 void IETerrain::ChangeBorderDisplay()
 {
-	unsigned int _terrainID = m_terrainID;
-	IETerrainMode _terrainMode = m_terrainMODE;
-
 	IETerrain * grids[4];
 	static IETerrainArea * area = IEApplication::Share()->GetCurrentActiveScene()->GetBindedMap()->GetTerrain();
 
@@ -220,8 +312,6 @@ void IETerrain::LoadXML()
 
 	//load texture
 	IEXml * textureXML = xml->FindChild("texture");
-	const char * textureName = textureXML->FindChild("tex")->ValueString();
-	
 	IEPackerTexture * texture = IEPackerTexture::Create(textureXML);
 	ChangeTexture(texture);
 }
@@ -273,32 +363,27 @@ IETerrainMode IETerrain::GetTerrainMODE()
 void IETerrain::SetTerrainID(unsigned int terrainID)
 {
 	m_terrainID = terrainID;
+
+	//如果为零 采取以下动作
+	if (m_terrainID == 0)
+	{
+		m_terrainMODE = __terrain_none_mode__;
+		SetDisplay(false);
+
+		__IE_RELEASE_DIF__(m_piece);
+		__IE_RELEASE_DIF__(m_bevel);
+		__IE_RELEASES_DIF__(m_border, 4);
+	}
+	else
+	{
+		m_terrainMODE = __terrain_body_mode__;
+		SetDisplay(true);
+	}
 }
 
 unsigned int IETerrain::GetTerrainID()
 {
 	return m_terrainID;
-}
-
-void IETerrain::Serialize()
-{
-	struct IETerrainSerialization
-	{
-		unsigned int _terrainID;
-		unsigned char _BodyIndex;
-		unsigned char _BevelIndex;
-		unsigned int _PieceID;
-		unsigned char _PieceIndex;
-		unsigned char _BorderIndex[4];
-	};
-
-
-
-}
-
-void IETerrain::determinant()
-{
-
 }
 
 void IETerrain::DrawNode()

@@ -121,6 +121,11 @@ void IESprite::ChangeGroup(const char * groupName, unsigned int sameIndex)
 	}
 }
 
+IETextureUnitState * IESprite::GetTextureUnitState()
+{
+	return m_textureUnit;
+}
+
 IEPackerTexture * IESprite::GetTexture()
 {
 	return m_texture;

@@ -51,15 +51,11 @@ void IETerrainArea::AddChild(int blockLocationX, int blockLocationY)
 	//放入旧的信息
 	if (IETerrain * pastTerrain = (IETerrain *)(GetBlock(blockLocationX, blockLocationY)))
 	{
-		m_alter->_TerrainPast._TerrainID = pastTerrain->GetTerrainID();
-		m_alter->_TerrainPast._TerrainMode = pastTerrain->GetTerrainMODE();
-		m_alter->_TerrainPast._Order = pastTerrain->GetOrder();
+		m_alter->_PastTerrainInfoSerialization = pastTerrain->Serialize();
 	}
 	else
 	{
-		m_alter->_TerrainPast._TerrainID = 0;
-		m_alter->_TerrainPast._TerrainMode = __terrain_none_mode__;
-		m_alter->_TerrainPast._Order = 0;
+		m_alter->_PastTerrainInfoSerialization = NULL;
 	}
 
 	switch (m_readyTerrainMode)
@@ -257,7 +253,7 @@ void IETerrainArea::ChangeBody(int blockLocationX, int blockLocationY)
 		grid->Reload(m_alter->_Terrain._TerrainID, m_alter->_Terrain._Order);
 		grid->SetBlockPostion(blockLocationX, blockLocationY);
 		grid->ChangeBodyIndex(m_alter->_Terrain._TerrainID);
-		grid->ChangeBorderIndex(m_alter->_Terrain._TerrainID);
+		grid->ChangeBorderIndex();
 	}
 }
 
@@ -292,23 +288,8 @@ void IETerrainArea::RollbackAlter()
 		return;
 	}
 
-	unsigned int terrainID = m_alter->_TerrainPast._TerrainID;
-	IETerrainMode terrainMODE = m_alter->_TerrainPast._TerrainMode;
-	unsigned int createdOrder = m_alter->_TerrainPast._Order;
-	int blockLocationX = m_alter->_X;
-	int blockLocationY = m_alter->_Y;
-
-	switch (m_alter->_TerrainPast._TerrainMode)
-	{
-	case __terrain_body_mode__:
-
-		break;
-	case __terrain_none_mode__:
-
-		break;
-	default:
-		break;
-	}
+	IETerrain * pastTerrain = (IETerrain *)(GetBlock(m_alter->_X, m_alter->_Y));
+	pastTerrain->determinant(m_alter->_PastTerrainInfoSerialization);
 }
 
 void IETerrainArea::MouseMove(float x, float y)

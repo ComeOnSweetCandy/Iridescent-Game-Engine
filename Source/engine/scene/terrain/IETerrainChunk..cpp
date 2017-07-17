@@ -49,7 +49,8 @@ void IETerrainChunk::ResetCache()
 			if (m_chunksIndexMatrix[x][y])
 			{
 				IETerrain * block = (IETerrain *)m_chunksIndexMatrix[x][y];
-				block->Reload(0, 0);
+				//block->Reload(0, 0);
+				block->ResetSelf();
 			}
 		}
 	}

@@ -28,6 +28,16 @@ typedef enum
 /*
 ** 需要一个信息序列化 以用来保存数据 重载数据来生成terrain
 */
+struct IETerrainInfoSerialization
+{
+	unsigned int _TerrainID;
+	unsigned int _Order;
+	unsigned char _BodyIndex;
+	unsigned char _BevelIndex;
+	unsigned int _PieceID;
+	unsigned char _PieceIndex;
+	unsigned char _BorderIndex[4];
+};
 
 class __IE_DLL__ IETerrain :public IEBlock
 {
@@ -41,17 +51,18 @@ public:
 	void Reload(unsigned int terrainID, unsigned int createdOrder);
 	void SetBlockPostion(int x, int y);		//进行全局定位
 
+	void ResetSelf();															//仅仅重置自身 只会在加载地图信息时清理旧的内容时使用
+	IETerrainInfoSerialization * Serialize();									//序列化所有的信息 只会在存储地图信息时使用
+	void determinant(IETerrainInfoSerialization * serialization);				//解析化所有的信息 只会在加载地图信息时使用
+	
 	IETerrainMode GetTerrainMODE();
 	void SetTerrainID(unsigned int terrainID);
 	unsigned int GetTerrainID();
 
-	void Serialize();				//序列化所有的信息
-	void determinant();				//解析化所有的信息
-
-	void ChangeBodyIndex(unsigned int terrainID, unsigned char bodyIndex = 0);
+	void ChangeBodyIndex(unsigned char bodyIndex = 0);
 	void ChangePieceIndex(unsigned int terrainID, unsigned char pieceIndex = 0);
-	void ChangeBevelIndex(unsigned int terrainID, unsigned char bevelIndex);
-	void ChangeBorderIndex(unsigned int terrainID, unsigned char * bordersIndex = NULL);
+	void ChangeBevelIndex(unsigned char bevelIndex);
+	void ChangeBorderIndex(unsigned char * bordersIndex = NULL);
 
 protected:
 	virtual void DrawNode();
@@ -66,23 +77,13 @@ private:
 	void LoadScript();		//加载脚本文件
 
 private:
-
-	struct IETerrainSerialization
-	{
-		unsigned int _terrainID;
-		unsigned char _BodyIndex;
-		unsigned char _BevelIndex;
-		unsigned int _PieceID;
-		unsigned char _PieceIndex;
-		unsigned char _BorderIndex[4];
-	};
-
 	//index=>body,bevel,piece,border1,border2,border3,border4
 	unsigned int m_partsIndex[8];
 
 	int m_blockPositionX;
 	int m_blockPositionY;
 	unsigned int m_terrainID;
+	unsigned int m_pieceID;
 	IETerrainMode m_terrainMODE;
 
 	IESprite * m_bevel;

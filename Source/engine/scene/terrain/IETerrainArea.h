@@ -30,7 +30,8 @@ public:
 	int _Y;
 
 	IETerrainAlterInfo _Terrain;
-	IETerrainAlterInfo _TerrainPast;
+	//IETerrainAlterInfo _TerrainPast;
+	IETerrainInfoSerialization * _PastTerrainInfoSerialization;
 };
 
 class __IE_DLL__ IETerrainArea :public IEArea

@@ -191,6 +191,12 @@ void IEMap::Update()
 			//取消选中的内容 包括ReadyID和选中的物品都会进行清除
 			activeArea->MouseCancel();
 		}
+
+		//当按下后退键的时候
+		if (IEKeyboard::Share()->KeyTouch(DIK_BACK))
+		{
+			activeArea->RollbackAlter();
+		}
 	}
 }
 

@@ -19,8 +19,8 @@ typedef struct __iePackedGroup
 	char * _GroupName;
 	unsigned short _GroupIndex;
 	unsigned short _SameIndex;
-	unsigned short _FrapsCount;
 	unsigned short _SameCount;
+	unsigned short _FrapsCount;
 	
 	__iePackedGroup * _Same;
 	__iePackedGroup * _Next;
