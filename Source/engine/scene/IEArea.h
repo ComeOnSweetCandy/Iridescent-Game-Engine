@@ -84,6 +84,7 @@ protected:
 	IESprite * m_suspension;							//悬浮在鼠标上端的sprite
 	IEBlock * m_choosen;								//选择了的block
 
+	IEGrid m_lastMouseTouchLocation;					//记录上一帧鼠标按下时候所位于的格子
 	IEGrid m_mouseLocation;								//记录当前鼠标所位于的格子
 
 	friend class IEPathAnticipate;

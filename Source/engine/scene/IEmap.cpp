@@ -184,7 +184,12 @@ void IEMap::Update()
 		}
 		if (IEKeyboard::Share()->IsKeyDown(DIK_LSHIFT) && IEMouse::Share()->IsButtonDown(0))
 		{
-			activeArea->MouseClick();
+			//位防止刷子重复刷同一个地方 
+			static IEGrid lastModifyGrid = IEGrid(0, 0);
+			if (lastModifyGrid.m_x != IESituation::Share()->_MousePositionX && lastModifyGrid.m_y!=IESituation::Share()->_MousePositionY)
+			{
+				activeArea->MouseClick();
+			}
 		}
 		if (IEMouse::Share()->IsButtonTouch(1))
 		{

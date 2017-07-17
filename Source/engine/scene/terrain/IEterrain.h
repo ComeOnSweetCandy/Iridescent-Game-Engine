@@ -48,7 +48,8 @@ public:
 	static IETerrain * Create(unsigned int terrainID, unsigned int createdOrder);
 
 public:
-	void Reload(unsigned int terrainID, unsigned int createdOrder);
+	void Load(unsigned int terrainID, unsigned int Order);
+	void Reload(unsigned int terrainID, unsigned int Order);
 	void SetBlockPostion(int x, int y);		//进行全局定位
 
 	void ResetSelf();															//仅仅重置自身 只会在加载地图信息时清理旧的内容时使用

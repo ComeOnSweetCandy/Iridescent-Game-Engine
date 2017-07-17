@@ -29,7 +29,7 @@ IETerrain::~IETerrain()
 void IETerrain::Initialization(unsigned int terrainID, unsigned int createdOrder)
 {
 	IESprite::Initialization(NULL);
-	IETerrain::Reload(terrainID, createdOrder);
+	IETerrain::Load(terrainID, createdOrder);
 }
 
 IETerrain * IETerrain::Create(unsigned int terrainID, unsigned int createdOrder)
@@ -39,10 +39,19 @@ IETerrain * IETerrain::Create(unsigned int terrainID, unsigned int createdOrder)
 	return terrainGrid;
 }
 
-void IETerrain::Reload(unsigned int terrainID, unsigned int createdOrder)
+void IETerrain::Load(unsigned int terrainID, unsigned int Order)
 {
 	IETerrain::SetTerrainID(terrainID);
-	IETerrain::SetOrder(createdOrder);
+	IETerrain::SetOrder(Order);
+
+	IETerrain::LoadXML();
+	IETerrain::LoadScript();
+}
+
+void IETerrain::Reload(unsigned int terrainID, unsigned int Order)
+{
+	IETerrain::SetTerrainID(terrainID);
+	IETerrain::SetOrder(Order);
 
 	IETerrain::LoadXML();
 	IETerrain::LoadScript();
@@ -83,12 +92,12 @@ IETerrainInfoSerialization * IETerrain::Serialize()
 		if (m_piece)
 		{
 			serialization->_PieceID = m_pieceID;
-			serialization->_BodyIndex = m_piece->GetTextureUnitState()->_SameIndex + 1;
+			serialization->_PieceIndex = m_piece->GetTextureUnitState()->_SameIndex + 1;
 		}
 		else
 		{
 			serialization->_PieceID = 0;
-			serialization->_BodyIndex = 0;
+			serialization->_PieceIndex = 0;
 		}
 
 		if (m_bevel)
@@ -132,12 +141,12 @@ void IETerrain::determinant(IETerrainInfoSerialization * serialization)
 	{
 		//获取贴图信息
 		IETerrainInfo * infos = IETerrainsInfoManager::Share()->GetTerrainsInfoList();
-		IEPackerTexture * pieceTexture = IEPackerTexture::Create(infos[m_pieceID]._Xml->FindChild("texture"));
-
 		ChangeGroup("body", serialization->_BodyIndex);
 
 		if (serialization->_PieceID && serialization->_PieceIndex)
 		{
+			IEPackerTexture * pieceTexture = IEPackerTexture::Create(infos[m_pieceID]._Xml->FindChild("texture"));
+
 			m_piece = IESprite::Create();
 			m_piece->ChangeTexture(pieceTexture);
 			m_piece->ChangeGroup("piece", serialization->_PieceIndex);

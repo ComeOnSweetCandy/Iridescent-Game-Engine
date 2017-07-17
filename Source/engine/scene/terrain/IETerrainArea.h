@@ -26,6 +26,10 @@ typedef struct ieTerrainAlterInfo
 class IETerrainAlter:public IEObject
 {
 public:
+	IETerrainAlter(){};
+	~IETerrainAlter(){ delete _PastTerrainInfoSerialization; }
+
+public:
 	int _X;
 	int _Y;
 

@@ -38,24 +38,25 @@ IETerrainArea * IETerrainArea::Create(IEMap * map, int visibleRadius, int sideLe
 
 void IETerrainArea::AddChild(int blockLocationX, int blockLocationY)
 {
-	m_alter = new IETerrainAlter();
-	m_alters->Push(m_alter);
-
-	//先记载入新的信息
-	m_alter->_X = blockLocationX;
-	m_alter->_Y = blockLocationY;
-	m_alter->_Terrain._TerrainID = m_readyTerrainID;
-	m_alter->_Terrain._TerrainMode = m_readyTerrainMode;
-	m_alter->_Terrain._Order = m_curOrder++;
-
 	//放入旧的信息
 	if (IETerrain * pastTerrain = (IETerrain *)(GetBlock(blockLocationX, blockLocationY)))
 	{
+		m_alter = new IETerrainAlter();
+		m_alters->Push(m_alter);
+
+		//先记载入新的信息
+		m_alter->_X = blockLocationX;
+		m_alter->_Y = blockLocationY;
+		m_alter->_Terrain._TerrainID = m_readyTerrainID;
+		m_alter->_Terrain._TerrainMode = m_readyTerrainMode;
+		m_alter->_Terrain._Order = m_curOrder++;
+
+		//村放入之前的信息
 		m_alter->_PastTerrainInfoSerialization = pastTerrain->Serialize();
 	}
 	else
 	{
-		m_alter->_PastTerrainInfoSerialization = NULL;
+		return;
 	}
 
 	switch (m_readyTerrainMode)
@@ -250,9 +251,9 @@ void IETerrainArea::ChangeBody(int blockLocationX, int blockLocationY)
 	IETerrain * grid = (IETerrain *)GetBlock(blockLocationX, blockLocationY);
 	if (grid != NULL)
 	{
-		grid->Reload(m_alter->_Terrain._TerrainID, m_alter->_Terrain._Order);
 		grid->SetBlockPostion(blockLocationX, blockLocationY);
-		grid->ChangeBodyIndex(m_alter->_Terrain._TerrainID);
+		grid->Reload(m_alter->_Terrain._TerrainID, m_alter->_Terrain._Order);
+		grid->ChangeBodyIndex();
 		grid->ChangeBorderIndex();
 	}
 }
@@ -349,7 +350,11 @@ void IETerrainArea::MouseClick()
 	}
 	else
 	{
-		AddChild(m_mouseLocation.m_x, m_mouseLocation.m_y);
+		if (m_lastMouseTouchLocation != m_mouseLocation)
+		{
+			AddChild(m_mouseLocation.m_x, m_mouseLocation.m_y);
+		}
+		m_lastMouseTouchLocation = m_mouseLocation;
 	}
 }
 
