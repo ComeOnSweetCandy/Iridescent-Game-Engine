@@ -26,6 +26,8 @@ public:
 	static IEThreadProtocol * Share();
 
 public:
+	virtual void Release();
+
 	virtual void Thread();
 	static DWORD WINAPI ThreadProc(LPVOID lpParam);
 

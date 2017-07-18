@@ -49,6 +49,7 @@ public:
 	virtual void MouseMove(float x, float y){};										//鼠标的移动 这个时候显示ready的block
 	virtual void MouseCancel(){};
 	virtual void MouseClick(){};
+	virtual void MouseBrush(){};
 
 protected:
 	virtual void Visit();

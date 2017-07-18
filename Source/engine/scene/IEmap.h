@@ -21,6 +21,8 @@ class IEThingArea;
 class IEPath;
 class IEPathFinder;
 
+struct IETerrainSerialization;
+
 //chunk存储格式
 typedef struct ieChunkIndex
 {
@@ -37,14 +39,6 @@ typedef struct ieThingChunkIndex
 	int _BlockOffset;
 	ieThingChunkIndex * _Next;
 }IEThingChunkIndex;
-
-//terrain block的存储格式
-typedef struct ieTerrainBlockFormat
-{
-	unsigned int _TerrainID;
-	unsigned int  _TerrainMode;
-	unsigned int _Order;
-}IETerrainBlockFormat;
 
 //marble block的存储格式
 typedef struct ieMarbleBlockFormat
@@ -138,7 +132,7 @@ private:
 	IEChunkIndex * m_terrainChunksIndex;
 	unsigned int m_terrainIndexCount;
 	unsigned int m_terrainOrder;
-	IETerrainBlockFormat * m_terrainBlocksList;
+	IETerrainSerialization * m_terrainsSerialization;
 	FILE * m_terrainIndexFile;
 	FILE * m_terrainFile;
 

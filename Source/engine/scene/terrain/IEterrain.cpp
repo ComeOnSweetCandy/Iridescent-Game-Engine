@@ -68,9 +68,9 @@ void IETerrain::ResetSelf()
 	BindPhysicNode(NULL);
 }
 
-IETerrainInfoSerialization * IETerrain::Serialize()
+IETerrainSerialization * IETerrain::Serialize()
 {
-	IETerrainInfoSerialization * serialization = new IETerrainInfoSerialization();
+	IETerrainSerialization * serialization = new IETerrainSerialization();
 	serialization->_TerrainID = m_terrainID;
 	serialization->_Order = m_order;
 
@@ -125,7 +125,7 @@ IETerrainInfoSerialization * IETerrain::Serialize()
 	return serialization;
 }
 
-void IETerrain::determinant(IETerrainInfoSerialization * serialization)
+void IETerrain::determinant(IETerrainSerialization * serialization)
 {
 	SetTerrainID(serialization->_TerrainID);
 	SetOrder(serialization->_Order);
@@ -290,6 +290,7 @@ void IETerrain::SetBorderDisplay(int index, bool display)
 			m_border[index] = IESprite::Create();
 			m_border[index]->ChangeTexture(GetTexture());
 		}
+		m_border[index]->ChangeGroup("border");
 	}
 	else
 	{
@@ -309,17 +310,13 @@ void IETerrain::LoadXML()
 	IETerrainInfo * terrainsInfo = IETerrainsInfoManager::Share()->GetTerrainsInfoList();
 	IEXml * xml = terrainsInfo[m_terrainID]._Xml;
 
-	//load physic
-	IEPhysicNode * physicNode = NULL;
-	IEXml * physicXML = xml->FindChild("physic");
-	const char * physicType = physicXML->FindChild("type")->ValueString();
-	if (strcmp(physicType, "none") == 0)
-	{
-		physicNode = NULL;
-	}
-	BindPhysicNode(physicNode);
+	//ÉêÇëÎïÀí
+	//IEPhysicNode * physicNode = IEPhysicNode::Create(xml->FindChild("physic"));
+	//BindPhysicNode(physicNode);
 
-	//load texture
+	BindPhysicNode(NULL);
+
+	//¶ÁÈ¡ÌùÍ¼
 	IEXml * textureXML = xml->FindChild("texture");
 	IEPackerTexture * texture = IEPackerTexture::Create(textureXML);
 	ChangeTexture(texture);

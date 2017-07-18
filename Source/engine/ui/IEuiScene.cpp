@@ -105,7 +105,8 @@ void IEUiScene::AnalyzeHTML(char * html)
 				findedIndex = label[index]->FindCharFromIndex('\"', 0, 2);
 				IEString * subString = label[index]->SubString(0, findedIndex + 1);
 
-				IEArray * splitStringsArray = subString->SplitBy('=', splitCount);
+				IEArray * splitStringsArray = subString->SplitBy('=');
+				splitCount = splitStringsArray->Count();
 				IEString ** splitStrings = (IEString **)(splitStringsArray->GetContainer());
 				if (splitCount != 2)
 				{
@@ -175,10 +176,10 @@ void IEUiScene::AnalyzeStyleValue(IEString * styleString)
 {
 	IEHtmlLabel * htmlLabel = (IEHtmlLabel *)(m_htmlStack->GetFromEnding());
 	IEWidget * widget = htmlLabel->h_widget;
-	int splitCount = 0;
 	IEString style = *styleString;
 	style.DeleteChar('\"');
-	IEArray * splitsArray = style.SplitBy(';', splitCount);
+	IEArray * splitsArray = style.SplitBy(';');
+	int splitCount = splitsArray->Count();
 	IEString ** strings = (IEString **)(splitsArray->GetContainer());
 
 	if (splitCount == 0)
@@ -189,7 +190,8 @@ void IEUiScene::AnalyzeStyleValue(IEString * styleString)
 
 	for (int index = 0; index < splitsArray->Count(); index++)
 	{
-		IEArray * entrys = strings[index]->SplitBy(':', splitCount);
+		IEArray * entrys = strings[index]->SplitBy(':');
+		int splitCount = entrys->Count();
 		IEString ** entry = (IEString **)(entrys->GetContainer());
 		entry[0]->DeleteChar(' ');
 
@@ -213,7 +215,8 @@ void IEUiScene::AnalyzeStyleValue(IEString * styleString)
 			entry[1]->DeleteChar('(');
 			entry[1]->DeleteChar(')');
 			entry[1]->DeleteString("rgb", 0);
-			IEArray * numbers = entry[1]->SplitBy(',', splitCount);
+			IEArray * numbers = entry[1]->SplitBy(',');
+			splitCount = numbers->Count();
 			IEString ** number = (IEString **)(numbers->GetContainer());
 			htmlLabel->h_color[0] = number[0]->transToInt();
 			htmlLabel->h_color[1] = number[1]->transToInt();
@@ -221,7 +224,8 @@ void IEUiScene::AnalyzeStyleValue(IEString * styleString)
 		}
 		else if (*(entry[0]) == "margin")
 		{
-			IEArray * numbers = entry[1]->SplitBy(' ', splitCount);
+			IEArray * numbers = entry[1]->SplitBy(' ');
+			splitCount = numbers->Count();
 			IEString ** number = (IEString **)(numbers->GetContainer());
 			if (splitCount != 4)
 			{

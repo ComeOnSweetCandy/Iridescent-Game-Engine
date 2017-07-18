@@ -10,11 +10,6 @@ IETerrainArea::IETerrainArea()
 	m_alter = NULL;
 	m_readyTerrainID = 0;
 	m_readyTerrainMode = __terrain_none_mode__;
-
-	strcpy(stringBody, "/body_");
-	strcpy(stringBorder, "/border_");
-	strcpy(stringNumber, "0"); 
-	strcpy(stringPNG, ".png");
 }
 
 IETerrainArea::~IETerrainArea()
@@ -38,135 +33,82 @@ IETerrainArea * IETerrainArea::Create(IEMap * map, int visibleRadius, int sideLe
 
 void IETerrainArea::AddChild(int blockLocationX, int blockLocationY)
 {
-	//放入旧的信息
 	if (IETerrain * pastTerrain = (IETerrain *)(GetBlock(blockLocationX, blockLocationY)))
 	{
+		//放入旧的信息
 		m_alter = new IETerrainAlter();
 		m_alters->Push(m_alter);
 
 		//先记载入新的信息
 		m_alter->_X = blockLocationX;
 		m_alter->_Y = blockLocationY;
-		m_alter->_Terrain._TerrainID = m_readyTerrainID;
-		m_alter->_Terrain._TerrainMode = m_readyTerrainMode;
-		m_alter->_Terrain._Order = m_curOrder++;
+		int cacheX, cacheY;
+		LocationTranslate(blockLocationX, blockLocationY, m_alter->_ChunkX, m_alter->_ChunkY, cacheX, cacheY);
 
 		//村放入之前的信息
 		m_alter->_PastTerrainInfoSerialization = pastTerrain->Serialize();
-	}
-	else
-	{
-		return;
-	}
 
-	switch (m_readyTerrainMode)
-	{
-	case __terrain_none_mode__:
-		ChangeNone(blockLocationX, blockLocationY);
-		break;
-	case __terrain_body_mode__:
-		ChangeBody(blockLocationX, blockLocationY);
-		break;
-	case __terrain_bevel_mode__:
-		ChangeBevel(blockLocationX, blockLocationY);
-		break;
-	case __terrain_piece_mode__:
-		ChangePiece(blockLocationX, blockLocationY);
-		break;
-	default:
-		break;
+		switch (m_readyTerrainMode)
+		{
+		case __terrain_none_mode__:
+			ChangeNone(blockLocationX, blockLocationY);
+			break;
+		case __terrain_body_mode__:
+			ChangeBody(blockLocationX, blockLocationY);
+			break;
+		case __terrain_bevel_mode__:
+			ChangeBevel(blockLocationX, blockLocationY);
+			break;
+		case __terrain_piece_mode__:
+			ChangePiece(blockLocationX, blockLocationY);
+			break;
+		default:
+			break;
+		}
+
+		//放入新的信息
+		m_alter->_PastTerrainInfoSerialization = pastTerrain->Serialize();
+
+		//当前计数加1
+		m_curOrder++;
 	}
 }
 
-void IETerrainArea::LoadChilds(IETerrainBlockFormat * blocks, int chunkLocationX, int chunkLocationY)
+void IETerrainArea::LoadChilds(IETerrainSerialization * blocksInfo, int chunkLocationX, int chunkLocationY)
 {
 	IETerrainChunk * chunk = (IETerrainChunk *)GetChunk(chunkLocationX, chunkLocationY);
 	chunk->ResetCache();
 
-	m_loadString[0];
-	m_loadString[1] = stringBody;
-	m_loadString[2] = stringNumber;
-	m_loadString[3] = stringPNG;
-
-	unsigned int index = 0;
-	for (int x = 0; x < m_chunkLength; x++)
+	if (blocksInfo)
 	{
-		for (int y = 0; y < m_chunkLength; y++)
+		for (int x = 0; x < m_chunkLength; x++)
 		{
-			if (blocks)
+			for (int y = 0; y < m_chunkLength; y++)
 			{
-				if (blocks[index]._TerrainMode == __terrain_body_mode__)
-				{
-					LoadBody(chunk, x, y, blocks[index]._TerrainID, blocks[index]._Order);
-				}
-				else if (blocks[index]._TerrainMode == __terrain_none_mode__)
-				{
-					LoadNone(chunk, x, y, 0, 0);
-				}
-
-				index++;
-			}
-			else
-			{
-				LoadNone(chunk, x, y, 0, 0);
+				IETerrain * terrain = (IETerrain *)chunk->GetBlock(x, y);
+				terrain->determinant(&(blocksInfo[y * m_chunkLength + x]));
 			}
 		}
 	}
 
-	//在修改列表中 是否有当前block的更新
-	//unsigned int count = m_alters->Count();
-	//IETerrainAlter ** alters = (IETerrainAlter **)(m_alters->GetContainer());
-	//for (index = 0; index < count; index++)
-	//{
-	//	if (alters[index]->_chunkLocationX == chunkLocationX && alters[index]->_chunkLocationY == chunkLocationY)
-	//	{
-	//		if (alters[index]->_Terrain._TerrainMode == __terrain_body_mode__)
-	//		{
-	//			LoadBody(block, alters[index]->_explicitBlockLocationX, alters[index]->_explicitBlockLocationY, alters[index]->_Terrain._TerrainID, alters[index]->_Terrain._Order);
-	//		}
-	//		else if (alters[index]->_Terrain._TerrainMode == __terrain_none_mode__)
-	//		{
-	//			LoadNone(block, alters[index]->_explicitBlockLocationX, alters[index]->_explicitBlockLocationY, 0, 0);
-	//		}
-	//	}
-	//}
+	//检测一下修改列表 是否有对当前chunk的修改
+	//得出chunk的边界 这样可以快速筛选出属于该chunk内的操作
+	unsigned int count = m_alters->Count();
+	IETerrainAlter ** alters = (IETerrainAlter **)(m_alters->GetContainer());
+	for (unsigned int index = 0; index < count; index++)
+	{
+		if (alters[index]->_ChunkX == chunkLocationX && alters[index]->_ChunkY == chunkLocationY)
+		{
+			IETerrain * terrain = (IETerrain *)GetBlock(alters[index]->_X, alters[index]->_Y);
+			terrain->determinant(alters[index]->_CurtTerrainInfoSerialization);
 
-	//设置border sprite
-	IEBlock *** gridArrays = chunk->GetBlocksMatrix();
-	m_loadString[0];
-	m_loadString[1] = stringBorder;
-	m_loadString[2] = stringNumber;
-	m_loadString[3] = stringPNG;
-
-	//for (int x = 0; x < m_chunkLength; x++)
-	//{
-	//	for (int y = 0; y < m_chunkLength; y++)
-	//	{
-	//		IETerrain * grid = (IETerrain *)gridArrays[x][y];
-	//		if (grid->IsDisplayBorder())
-	//		{
-	//			index = rand() % m_terrainsInfo[grid->GetTerrainID()]._BorderC;
-
-	//			m_loadString[0] = m_terrainsInfo[grid->GetTerrainID()]._TerrainName;
-	//			m_loadString[2][0] = '0' + index;
-
-	//			RESOURCE.InsertKeyStrings(m_loadString, 4);
-	//			IETexture * texture = (IETexture *)(RESOURCE.GetCufFind());
-
-	//			if (texture)
-	//			{
-	//				//grid->SetBorderTexture(texture);
-	//			}
-	//			else
-	//			{
-	//				char textureFile[64];
-
-	//				sprintf(textureFile, "%s%s%d%s", m_terrainsInfo[grid->GetTerrainID()]._TerrainName, "/border_", index, ".png");
-	//				//grid->SetBorderTextureFile(textureFile);
-	//			}
-	//		}
-	//	}
-	//}
+			//重新计算一边周边的terrain的边框问题
+			((IETerrain *)(GetBlock(alters[index]->_X, alters[index]->_Y - 1)))->ChangeBorderDisplay();
+			((IETerrain *)(GetBlock(alters[index]->_X + 1, alters[index]->_Y)))->ChangeBorderDisplay();
+			((IETerrain *)(GetBlock(alters[index]->_X, alters[index]->_Y + 1)))->ChangeBorderDisplay();
+			((IETerrain *)(GetBlock(alters[index]->_X - 1, alters[index]->_Y)))->ChangeBorderDisplay();
+		}
+	}
 }
 
 IEChunk * IETerrainArea::CreateChunk()
@@ -177,63 +119,6 @@ IEChunk * IETerrainArea::CreateChunk()
 void IETerrainArea::LoadChunk(int blockX, int blockY)
 {
 	m_map->LoadTerrainChunk(blockX, blockY);
-}
-
-void IETerrainArea::LoadBody(IETerrainChunk * chunk, int explicitGridPositionX, int explicitGridPositionY, unsigned int terrainID, unsigned int createdOrder)
-{
-	int randIndex;
-
-	if (m_terrainsInfo[terrainID]._BodyC)
-	{
-		randIndex = rand() % m_terrainsInfo[terrainID]._BodyC;
-
-		IETerrain * grid = (IETerrain *)chunk->GetBlock(explicitGridPositionX, explicitGridPositionY);
-		grid->Reload(terrainID, createdOrder); 
-
-		m_loadString[0] = m_terrainsInfo[terrainID]._TerrainName;
-		m_loadString[2][0] = '0' + randIndex;
-
-		RESOURCE.InsertKeyStrings(m_loadString, 4);
-		IEPackerTexture * texture = (IEPackerTexture *)(RESOURCE.GetCufFind());
-
-		if (texture)
-		{
-			grid->ChangeTexture(texture);
-		}
-		else
-		{
-			char textureFile[64];
-
-			sprintf(textureFile, "%s%s%d%s", m_terrainsInfo[terrainID]._TerrainName, "/body_", randIndex, ".png");
-			grid->ChangeTexture(textureFile);
-		}
-
-		if (m_terrainsInfo[terrainID]._BorderC)
-		{
-			IETerrain * grids[4];
-			grids[0] = (IETerrain *)chunk->GetBlock(explicitGridPositionX, explicitGridPositionY - 1);
-			grids[1] = (IETerrain *)chunk->GetBlock(explicitGridPositionX + 1, explicitGridPositionY);
-			grids[2] = (IETerrain *)chunk->GetBlock(explicitGridPositionX, explicitGridPositionY + 1);
-			grids[3] = (IETerrain *)chunk->GetBlock(explicitGridPositionX - 1, explicitGridPositionY);
-
-			//grid->AddNewCalBorder(grids);
-		}
-	}
-}
-
-void IETerrainArea::LoadNone(IETerrainChunk * chunk, int explicitGridPositionX, int explicitGridPositionY, unsigned int terrainID, unsigned int createdOrder)
-{
-	IETerrain * grid = (IETerrain *)chunk->GetBlock(explicitGridPositionX, explicitGridPositionY);
-	IETerrain * grids[4];
-
-	grids[0] = (IETerrain *)chunk->GetBlock(explicitGridPositionX, explicitGridPositionY - 1);
-	grids[1] = (IETerrain *)chunk->GetBlock(explicitGridPositionX + 1, explicitGridPositionY);
-	grids[2] = (IETerrain *)chunk->GetBlock(explicitGridPositionX, explicitGridPositionY + 1);
-	grids[3] = (IETerrain *)chunk->GetBlock(explicitGridPositionX - 1, explicitGridPositionY);
-
-	//grid->DelOldCalBorder(grids);
-	grid->SetTerrainID(0);
-	grid->SetDisplay(false);
 }
 
 void IETerrainArea::ChangeNone(int blockLocationX, int blockLocationY)
@@ -252,9 +137,8 @@ void IETerrainArea::ChangeBody(int blockLocationX, int blockLocationY)
 	if (grid != NULL)
 	{
 		grid->SetBlockPostion(blockLocationX, blockLocationY);
-		grid->Reload(m_alter->_Terrain._TerrainID, m_alter->_Terrain._Order);
+		grid->Reload(m_readyTerrainID, m_curOrder);
 		grid->ChangeBodyIndex();
-		grid->ChangeBorderIndex();
 	}
 }
 
@@ -268,7 +152,7 @@ void IETerrainArea::ChangePiece(int blockLocationX, int blockLocationY)
 	IETerrain * grid = (IETerrain *)GetBlock(blockLocationX, blockLocationY);
 	if (grid != NULL)
 	{
-		grid->ChangePieceIndex(m_alter->_Terrain._TerrainID);
+		grid->ChangePieceIndex(m_readyTerrainID);
 	}
 }
 
@@ -282,15 +166,30 @@ void IETerrainArea::RollbackAllAlters()
 
 void IETerrainArea::RollbackAlter()
 {
-	m_alter = (IETerrainAlter *)(m_alters->PopTop());
-
-	if (!m_alter)
+	if (m_alter = (IETerrainAlter *)(m_alters->PopTop()))
 	{
-		return;
-	}
+		IETerrain * pastTerrain = (IETerrain *)(GetBlock(m_alter->_X, m_alter->_Y));
+		pastTerrain->determinant(m_alter->_PastTerrainInfoSerialization);
 
-	IETerrain * pastTerrain = (IETerrain *)(GetBlock(m_alter->_X, m_alter->_Y));
-	pastTerrain->determinant(m_alter->_PastTerrainInfoSerialization);
+		//重新计算一边周边的terrain的边框问题
+		((IETerrain *)(GetBlock(m_alter->_X, m_alter->_Y - 1)))->ChangeBorderDisplay();
+		((IETerrain *)(GetBlock(m_alter->_X + 1, m_alter->_Y)))->ChangeBorderDisplay();
+		((IETerrain *)(GetBlock(m_alter->_X, m_alter->_Y + 1)))->ChangeBorderDisplay();
+		((IETerrain *)(GetBlock(m_alter->_X - 1, m_alter->_Y)))->ChangeBorderDisplay();
+	}
+}
+
+void IETerrainArea::SetReadyTerrain(unsigned int terrainID, IETerrainMode terrainMode)
+{
+	m_readyTerrainID = terrainID;
+	m_readyTerrainMode = terrainMode;
+
+	if (m_readyTerrainID != 0 && m_readyTerrainMode != __terrain_none_mode__)
+	{
+		IEPackerTexture * texture = IEPackerTexture::Create(m_terrainsInfo[m_readyTerrainID]._Xml->FindChild("texture"));
+		m_suspension->ChangeTexture(texture);
+		m_suspension->ChangeGroup("body");
+	}
 }
 
 void IETerrainArea::MouseMove(float x, float y)
@@ -350,24 +249,19 @@ void IETerrainArea::MouseClick()
 	}
 	else
 	{
+		AddChild(m_mouseLocation.m_x, m_mouseLocation.m_y);
+	}
+}
+
+void IETerrainArea::MouseBrush()
+{
+	if (m_readyTerrainID != 0)
+	{
 		if (m_lastMouseTouchLocation != m_mouseLocation)
 		{
 			AddChild(m_mouseLocation.m_x, m_mouseLocation.m_y);
 		}
 		m_lastMouseTouchLocation = m_mouseLocation;
-	}
-}
-
-void IETerrainArea::SetReadyTerrain(unsigned int terrainID, IETerrainMode terrainMode)
-{
-	m_readyTerrainID = terrainID;
-	m_readyTerrainMode = terrainMode;
-
-	if (m_readyTerrainID != 0 && m_readyTerrainMode != __terrain_none_mode__)
-	{
-		IEPackerTexture * texture = IEPackerTexture::Create(m_terrainsInfo[m_readyTerrainID]._Xml->FindChild("texture"));
-		m_suspension->ChangeTexture(texture);
-		m_suspension->ChangeGroup("body");
 	}
 }
 

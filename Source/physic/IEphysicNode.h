@@ -12,6 +12,7 @@
 
 #include "../core/IEobject.h"
 #include "physicEdge/IEphysicEdge.h"
+#include "../tools/IEXml.h"
 
 IE_BEGIN
 
@@ -40,7 +41,9 @@ public:
 	IEPhysicNode();
 	virtual ~IEPhysicNode();
 	virtual void Initialization(IEPhysicEdge * physicEdge, IEPhysicNodeType physicNodeType);
+	virtual void Initialization(IEXml * physicXML);
 	static IEPhysicNode * Create(IEPhysicEdge * physicEdge, IEPhysicNodeType physicNodeType);
+	static IEPhysicNode * Create(IEXml * physicXML);
 
 private:
 	virtual void Update();

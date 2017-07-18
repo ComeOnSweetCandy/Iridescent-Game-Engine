@@ -28,10 +28,35 @@ void IEPhysicNode::Initialization(IEPhysicEdge * physicEdge, IEPhysicNodeType ph
 	SetPhysicNodeType(physicNodeType);
 }
 
+void IEPhysicNode::Initialization(IEXml * physicXML)
+{
+	//读取物理节点的类型
+	int physicType = physicXML->FindChild("type")->ValueInt();
+	SetPhysicNodeType((IEPhysicNodeType)physicType);
+
+	//读取物理刚体的类型
+	int edgeType = physicXML->FindChild("edge")->ValueInt();
+	IEString edgeInfo = physicXML->FindChild("info")->ValueString();
+
+
+	IEContainer * container = edgeInfo.SplitBy(',');
+	IEString ** strings = (IEString **)container->GetContainer();
+	unsigned int cout = container->Count();
+
+	//建立edge
+}
+
 IEPhysicNode * IEPhysicNode::Create(IEPhysicEdge * physicEdge, IEPhysicNodeType physicNodeType)
 {
 	IEPhysicNode * object = new IEPhysicNode();
 	object->Initialization(physicEdge, physicNodeType);
+	return object;
+}
+
+IEPhysicNode * IEPhysicNode::Create(IEXml * physicXML)
+{
+	IEPhysicNode * object = new IEPhysicNode();
+	object->Initialization(physicXML);
 	return object;
 }
 

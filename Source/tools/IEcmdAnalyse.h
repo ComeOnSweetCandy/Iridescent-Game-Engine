@@ -22,17 +22,24 @@ public:
 	~IECmdAnalyse();
 	void Initialization();
 	static IECmdAnalyse * Share();
+	void Release();
 
 public:
-	void CommandAnalyse(char * command);
+	void Run();
+
+	void InjuectCommand(char * command);
 	void FieldAnalyse();
 
+	void NormalCommand();
 	bool AddCommand();
 	bool SetCommand();
 
 private:
 	static IECmdAnalyse * m_StaticCmdAnalyse;
+	IEString m_command;
+
 	IEString ** m_commandArrays;
+	int m_commandSectionCount;
 };
 
 IE_END

@@ -466,8 +466,8 @@ void IESettingDictionary::AnalyzeSetting(char * setting)
 		return;
 	}
 
-	int splitRes = -1;
-	IEArray * stringArray = set.SplitBy('=', splitRes);
+	IEArray * stringArray = set.SplitBy('=');
+	int splitRes = stringArray->Count();
 	if (splitRes != 2)
 	{
 		//分割的结果不为2 错误的设置格式

@@ -11,6 +11,9 @@
 #include "../tools/IEtime.h"
 #include "../core/IEcamera.h"
 
+#include "../thread/IEconsole.h"
+#include "../tools/IEcmdAnalyse.h"
+
 IE_BEGIN
 
 IEResourcesManager::IEResourcesManager()
@@ -34,6 +37,10 @@ IEResourcesManager::~IEResourcesManager()
 	IESituation::Share()->Release();						//删除环境变量
 	IEInputManager::Share()->Release();						//操作功能释放
 	IETime::Share()->Release();								//时间释放
+	
+	//额外
+	IECmdAnalyse::Share()->Release();						//释放命令解析器
+	IEConsole::Share()->Release();							//释放控制台
 }
 
 void IEResourcesManager::Initialization()
@@ -60,6 +67,7 @@ void IEResourcesManager::Run()
 	IEInputManager::Share()->Run();
 	IECamera::Share()->Run();
 	IEAutoReleasePool::Share()->Run();
+	IECmdAnalyse::Share()->Run();
 }
 
 IE_END

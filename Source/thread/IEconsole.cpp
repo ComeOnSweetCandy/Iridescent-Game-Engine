@@ -36,42 +36,18 @@ void MainLoop()
 
 void IEConsole::Thread()
 {
-	//printf("build succeed.");
-	//static bool ye = true;
-	//if (ye)
-	//{
-	//	ye = false;
-
-	//	int argc = 1;
-	//	char * str = "C:\\IridescentEngine\\Debug\\IridescentEngine.exe";
-	//	char * argv[1];
-	//	argv[0] = str;
-
-	//	glutInit(&argc, argv);
-	//	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
-	//	glutInitWindowSize(800, 600);
-	//	glutCreateWindow("IEapplilcation");
-	//	glewInit();
-
-	//	glutDisplayFunc(MainLoop);
-	//	//Setup();
-
-	//	//glutTimerFunc(33, TimerFunction, 1);
-	//	glutMainLoop();
-	//}
-
 	char strCommand[256];
 	char chReturn;
 
-	strCommand;
-	chReturn;
+	printf(">");
 
 	while (true)
 	{
-		printf(">");
-		//scanf("%[0-9a-zA-Z ]s", strCommand, &chReturn);
+		scanf("%[0-9a-zA-Z _]s", strCommand, &chReturn);
 		fflush(stdin);
-		IECmdAnalyse::Share()->CommandAnalyse(strCommand);
+
+		//因为在另一个线程下 所有的opengl操作都是无效的 所以将命令注入列表中 一次提取一个命令进行解析
+		IECmdAnalyse::Share()->InjuectCommand(strCommand);
 	}
 }
 

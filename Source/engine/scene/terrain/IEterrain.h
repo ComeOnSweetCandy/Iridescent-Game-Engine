@@ -28,13 +28,13 @@ typedef enum
 /*
 ** 需要一个信息序列化 以用来保存数据 重载数据来生成terrain
 */
-struct IETerrainInfoSerialization
+struct IETerrainSerialization
 {
 	unsigned int _TerrainID;
 	unsigned int _Order;
+	unsigned int _PieceID;
 	unsigned char _BodyIndex;
 	unsigned char _BevelIndex;
-	unsigned int _PieceID;
 	unsigned char _PieceIndex;
 	unsigned char _BorderIndex[4];
 };
@@ -53,12 +53,14 @@ public:
 	void SetBlockPostion(int x, int y);		//进行全局定位
 
 	void ResetSelf();															//仅仅重置自身 只会在加载地图信息时清理旧的内容时使用
-	IETerrainInfoSerialization * Serialize();									//序列化所有的信息 只会在存储地图信息时使用
-	void determinant(IETerrainInfoSerialization * serialization);				//解析化所有的信息 只会在加载地图信息时使用
+	IETerrainSerialization * Serialize();									//序列化所有的信息 只会在存储地图信息时使用
+	void determinant(IETerrainSerialization * serialization);				//解析化所有的信息 只会在加载地图信息时使用
 	
 	IETerrainMode GetTerrainMODE();
 	void SetTerrainID(unsigned int terrainID);
 	unsigned int GetTerrainID();
+
+	void ChangeBorderDisplay();													//进行计算边框是否进行显示
 
 	void ChangeBodyIndex(unsigned char bodyIndex = 0);
 	void ChangePieceIndex(unsigned int terrainID, unsigned char pieceIndex = 0);
@@ -70,7 +72,6 @@ protected:
 	void DrawBorder();
 	void DrawPiece();
 
-	void ChangeBorderDisplay();
 	void SetBorderDisplay(int index, bool display);
 
 private:
@@ -78,9 +79,6 @@ private:
 	void LoadScript();		//加载脚本文件
 
 private:
-	//index=>body,bevel,piece,border1,border2,border3,border4
-	unsigned int m_partsIndex[8];
-
 	int m_blockPositionX;
 	int m_blockPositionY;
 	unsigned int m_terrainID;

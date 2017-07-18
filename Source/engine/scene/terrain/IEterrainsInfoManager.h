@@ -21,10 +21,6 @@ typedef struct _ieTerrainInfo
 	~_ieTerrainInfo(){ __IE_LUA_RELEASE__(_LuaScript); __IE_RELEASE_DIF__(_Xml); };
 
 	unsigned int _TerrainID;
-	unsigned char _BodyC;
-	unsigned char _BevelC;
-	unsigned char _PieceC;
-	unsigned char _BorderC;
 	char _TerrainName[64];
 
 	lua_State * _LuaScript;

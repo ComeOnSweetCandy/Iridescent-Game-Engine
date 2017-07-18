@@ -78,7 +78,7 @@ public:
 	bool isNote();														//针对文件内的内容而言，是否为注释行
 
 public:
-	IEContainer * SplitBy(char c, int &splitCount);						//按某个字符串,分割
+	IEContainer * SplitBy(char c);										//按某个字符串,分割
 	IEContainer * SplitBy(char beginC, char endC);						//分割字符串 有开头和结尾的方式
 	int PushSeveralChar(char c);										//向前推进几个字符
 	int DetectedChar(char c);											//检测某个字符出现的次数

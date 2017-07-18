@@ -16,26 +16,24 @@
 
 IE_BEGIN
 
-typedef struct ieTerrainAlterInfo
-{
-	unsigned int _TerrainID;
-	IETerrainMode _TerrainMode;
-	unsigned int _Order;
-}IETerrainAlterInfo;
-
 class IETerrainAlter:public IEObject
 {
 public:
 	IETerrainAlter(){};
-	~IETerrainAlter(){ delete _PastTerrainInfoSerialization; }
+	~IETerrainAlter()
+	{ 
+		delete _CurtTerrainInfoSerialization;
+		delete _PastTerrainInfoSerialization; 
+	}
 
 public:
 	int _X;
 	int _Y;
+	int _ChunkX;
+	int _ChunkY;
 
-	IETerrainAlterInfo _Terrain;
-	//IETerrainAlterInfo _TerrainPast;
-	IETerrainInfoSerialization * _PastTerrainInfoSerialization;
+	IETerrainSerialization * _CurtTerrainInfoSerialization;
+	IETerrainSerialization * _PastTerrainInfoSerialization;
 };
 
 class __IE_DLL__ IETerrainArea :public IEArea
@@ -47,23 +45,23 @@ public:
 	static IETerrainArea * Create(IEMap * map, int visibleRadius, int sideLength);
 
 public:
-	virtual void AddChild(int blockLocationX, int blockLocationY);										//添加一个新的child
-	virtual void LoadChilds(IETerrainBlockFormat * blocks, int chunkLocationX, int chunkLocationY);		//最多一次传递过来最大快速的数据块量
+	virtual void AddChild(int blockLocationX, int blockLocationY);											//添加一个新的child
+	virtual void LoadChilds(IETerrainSerialization * blocksInfo, int chunkLocationX, int chunkLocationY);	//读取地图文件中的数据
 
+	virtual void SetReadyTerrain(unsigned int terrainID, IETerrainMode terrainMode);					//设定准备的terrain
 	virtual void MouseMove(float x, float y);															//鼠标的移动
 	virtual void MouseCancel();																			//鼠标的右键取消
 	virtual void MouseClick();																			//有ready物下的一次点击
+	virtual void MouseBrush();																			//鼠标刷子
+
 	virtual void RollbackAlter();																		//回滚一次操作
 	virtual void RollbackAllAlters();																	//回滚所有的操作
-	virtual void SetReadyTerrain(unsigned int terrainID, IETerrainMode terrainMode);					//设定准备的terrain
 
-private:
+protected:
 	virtual IEChunk * CreateChunk();
 	virtual void LoadChunk(int blockX, int blockY);
 
-	void LoadBody(IETerrainChunk * chunk, int explicitGridPositionX, int explicitGridPositionY, unsigned int terrainID, unsigned int createdOrder);
-	void LoadNone(IETerrainChunk * chunk, int explicitGridPositionX, int explicitGridPositionY, unsigned int terrainID, unsigned int createdOrder);
-
+private:
 	//通过这四个方式创建的 index都是随机的
 	void ChangeNone(int blockLocationX, int blockLocationY);
 	void ChangeBody(int blockLocationX, int blockLocationY);
@@ -77,13 +75,6 @@ private:
 	unsigned int m_choosedTerrainOrder;
 	unsigned int m_readyTerrainID;
 	IETerrainMode m_readyTerrainMode;
-
-	//避免字符串拼接所带来的开销
-	char * m_loadString[4];
-	char stringBody[16];
-	char stringBorder[16];
-	char stringNumber[16];
-	char stringPNG[16];
 
 	friend class IEMap;
 };

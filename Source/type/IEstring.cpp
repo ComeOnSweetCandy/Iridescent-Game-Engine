@@ -325,7 +325,7 @@ const char * IEString::GetString() const
 	return m_string;
 }
 
-IEContainer * IEString::SplitBy(char c, int &splitCount)
+IEContainer * IEString::SplitBy(char c)
 {
 	unsigned int stringLength = this->Length();
 	if (m_string[stringLength - 1] == c)
@@ -337,7 +337,7 @@ IEContainer * IEString::SplitBy(char c, int &splitCount)
 		return NULL;
 	}
 
-	splitCount = 1;
+	unsigned int splitCount = 1;
 	bool isLastCharSpace = true;
 	for (unsigned int index = 0; index < stringLength; index++)
 	{
@@ -357,7 +357,7 @@ IEContainer * IEString::SplitBy(char c, int &splitCount)
 
 	IEString ** splitString = new IEString*[splitCount];
 	IEContainer * stringArray = IEContainer::Create();
-	for (int index = 0; index < splitCount; index++)
+	for (unsigned int index = 0; index < splitCount; index++)
 	{
 		splitString[index] = IEString::Create();
 		stringArray->Push(splitString[index]);
@@ -376,7 +376,7 @@ IEContainer * IEString::SplitBy(char c, int &splitCount)
 		}
 		else
 		{
-			*splitString[splitOrder] = *splitString[splitOrder] + m_string[index];
+			*(splitString[splitOrder]) << m_string[index];
 			isLastCharSpace = false;
 		}
 	}
@@ -726,8 +726,8 @@ float IEString::transToFloat()
 {
 	int length = this->Length();
 
-	int spliteCount = 0;
-	IEArray * spliteArray = SplitBy('.', spliteCount);
+	IEArray * spliteArray = SplitBy('.');
+	int spliteCount = spliteArray->Count();
 	if (spliteCount != 2)
 	{
 		__IE_WARNING__("IEString : error. transToFloat.\n");

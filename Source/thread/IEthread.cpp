@@ -41,6 +41,11 @@ IEThreadProtocol * IEThreadProtocol::Share()
 	return m_staticThread;
 }
 
+void IEThreadProtocol::Release()
+{
+	delete this;
+}
+
 DWORD WINAPI IEThreadProtocol::ThreadProc(LPVOID lpParam)
 {
 	IEThreadProtocol * lp = (IEThreadProtocol *)lpParam;
