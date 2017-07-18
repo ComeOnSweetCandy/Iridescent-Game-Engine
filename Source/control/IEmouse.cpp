@@ -85,6 +85,17 @@ void IEMouse::ReckonMousePosition()
 
 	ScreenToClient(IESituation::Share()->_Hwnd, &mousePos);
 
+	//检测鼠标是否过界
+	if (mousePos.x<0 || mousePos.x>IESituation::Share()->_ScreenWidth || mousePos.y<0 || mousePos.y>IESituation::Share()->_ScreenHeight)
+	{
+		m_mouseIn = false;
+	}
+	else
+	{
+		m_mouseIn = true;
+	}
+
+	//计算鼠标所指向的地方 按场景计算
 	mousePos.x = mousePos.x < 0 ? 0 : mousePos.x;
 	mousePos.y = mousePos.y < 0 ? 0 : mousePos.y;
 	mousePos.x = mousePos.x > IESituation::Share()->_ScreenWidth ? IESituation::Share()->_ScreenWidth : mousePos.x;
@@ -130,6 +141,11 @@ void IEMouse::GetMousePosition(int &x, int &y)
 {
 	x = m_state.lX;
 	y = m_state.lY;
+}
+
+bool IEMouse::IsMouseIn()
+{
+	return m_mouseIn;
 }
 
 IE_END

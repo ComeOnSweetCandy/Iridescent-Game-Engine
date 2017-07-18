@@ -178,21 +178,22 @@ void IEMap::Update()
 		activeArea->MouseMove(IESituation::Share()->_MousePositionX, IESituation::Share()->_MousePositionY);
 
 		//当按下鼠标的时候
-		if (IEMouse::Share()->IsButtonTouch(0))
+		if (IEMouse::Share()->IsMouseIn())
 		{
-			activeArea->MouseClick();
-		}
-		else if (IEMouse::Share()->IsButtonTouch(1))
-		{
-			//取消选中的内容 包括ReadyID和选中的物品都会进行清除
-			activeArea->MouseCancel();
-		}
-
-		//鼠标刷
-		if (IEKeyboard::Share()->IsKeyDown(DIK_LSHIFT) && IEMouse::Share()->IsButtonDown(0))
-		{
-			//位防止刷子重复刷同一个地方 
-			activeArea->MouseBrush();
+			if (IEMouse::Share()->IsButtonTouch(0))
+			{
+				activeArea->MouseClick();
+			}
+			else if (IEMouse::Share()->IsButtonTouch(1))
+			{
+				//取消选中的内容 包括ReadyID和选中的物品都会进行清除
+				activeArea->MouseCancel();
+			}
+			else if (IEKeyboard::Share()->IsKeyDown(DIK_LSHIFT) && IEMouse::Share()->IsButtonDown(0))
+			{
+				//鼠标刷 位防止刷子重复刷同一个地方 
+				activeArea->MouseBrush();
+			}
 		}
 
 		//当按下后退键的时候
@@ -244,27 +245,18 @@ void IEMap::SaveTerrain()
 
 	//对terrain的操作
 	IEContainer * terrainAlters = m_curTerrain->GetAlters();
-	terrainAlters->ReverseSpace();
+	//terrainAlters->ReverseSpace();
 
 	//然后写入改变的东西
 	while (IETerrainAlter * controll = (IETerrainAlter *)(terrainAlters->PopTop()))
 	{
-		//IEGrid blockLocation = IEGrid(controll->_X, controll->_Y);
-		//IEGrid chunkLocation = IEGrid(0, 0);
-		//IEGrid explicitBlockLocation = IEGrid(0, 0);
-
-		//m_curTerrain->LocationTranslate(blockLocation, chunkLocation, explicitBlockLocation);
-
 		static int chunkLocationX, chunkLocationY, explicitBlockLocationX, explicitBlockLocationY;
-		IEGrid chunkLocation = IEGrid(chunkLocationX, chunkLocationY);
-		IEGrid explicitBlockLocation = IEGrid(explicitBlockLocationX, explicitBlockLocationY);
-
 		m_curTerrain->LocationTranslate(controll->_X, controll->_Y, chunkLocationX, chunkLocationY, explicitBlockLocationX, explicitBlockLocationY);
 
 		int existTerrainChunkIndex = -1;
 		for (unsigned int terrainIndex = 0; terrainIndex < m_terrainIndexCount; terrainIndex++)
 		{
-			if (m_terrainChunksIndex[terrainIndex]._X == chunkLocation.m_x && m_terrainChunksIndex[terrainIndex]._Y == chunkLocation.m_y)
+			if (m_terrainChunksIndex[terrainIndex]._X == chunkLocationX && m_terrainChunksIndex[terrainIndex]._Y == chunkLocationY)
 			{
 				existTerrainChunkIndex = terrainIndex;
 				break;
@@ -276,10 +268,10 @@ void IEMap::SaveTerrain()
 			//如果已经存在index 和对应的 chunk段 修改即可
 			fseek(m_terrainFile, 0, SEEK_SET);
 			fseek(m_terrainFile, m_unitChunkBlockCount * m_terrainBlockSize * existTerrainChunkIndex, SEEK_SET);
-			fseek(m_terrainFile, (explicitBlockLocation.m_x * m_chunkSideLength + explicitBlockLocation.m_y) * m_terrainBlockSize, SEEK_CUR);
+			fseek(m_terrainFile, (explicitBlockLocationX * m_chunkSideLength + explicitBlockLocationY) * m_terrainBlockSize, SEEK_CUR);
 
 			//直接覆盖
-			fwrite(&(controll->_CurtTerrainInfoSerialization), m_terrainBlockSize, 1, m_terrainFile);
+			fwrite(controll->_CurtTerrainInfoSerialization, m_terrainBlockSize, 1, m_terrainFile);
 			fseek(m_terrainFile, 0, SEEK_SET);
 		}
 		else
@@ -288,8 +280,8 @@ void IEMap::SaveTerrain()
 			fseek(m_terrainIndexFile, 0, SEEK_END);
 
 			IEChunkIndex newChunkIndex;
-			newChunkIndex._X = chunkLocation.m_x;
-			newChunkIndex._Y = chunkLocation.m_y;
+			newChunkIndex._X = chunkLocationX;
+			newChunkIndex._Y = chunkLocationY;
 			newChunkIndex._BlockOffset = m_terrainIndexCount++;
 			fwrite(&newChunkIndex, sizeof(IEChunkIndex), 1, m_terrainIndexFile);
 			fseek(m_terrainIndexFile, 0, SEEK_SET);
@@ -308,7 +300,7 @@ void IEMap::SaveTerrain()
 
 			//回过头进行修改
 			fseek(m_terrainFile, m_unitChunkBlockCount * m_terrainBlockSize * existTerrainChunkIndex, SEEK_END);
-			fseek(m_terrainFile, (explicitBlockLocation.m_x * m_chunkSideLength + explicitBlockLocation.m_y) * m_terrainBlockSize, SEEK_CUR);
+			fseek(m_terrainFile, (explicitBlockLocationX * m_chunkSideLength + explicitBlockLocationY) * m_terrainBlockSize, SEEK_CUR);
 
 			//直接覆盖
 			fwrite(controll->_CurtTerrainInfoSerialization, m_terrainBlockSize, 1, m_terrainFile);
@@ -371,7 +363,7 @@ void IEMap::LoadTerrainChunk(int blockX, int blockY)
 	if (existTerrainChunkIndex >= 0)
 	{
 		fseek(m_terrainFile, m_unitChunkBlockCount * m_terrainBlockSize * existTerrainChunkIndex, SEEK_SET);
-		fread(m_terrainsSerialization, sizeof(IETerrainSerialization), m_unitChunkBlockCount, m_terrainFile);
+		fread(m_terrainsSerialization, m_terrainBlockSize, m_unitChunkBlockCount, m_terrainFile);
 		
 		m_curTerrain->LoadChilds(m_terrainsSerialization, blockX, blockY);
 	}

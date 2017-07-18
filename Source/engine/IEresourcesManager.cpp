@@ -51,6 +51,8 @@ void IEResourcesManager::Initialization()
 	IECreaturesInfoManager::Share();
 	IETerrainsInfoManager::Share();
 	IEAdorningsInfoManager::Share();
+
+	IEConsole::Share()->Initialization();
 }
 
 IEResourcesManager * IEResourcesManager::CreateAndRetain()

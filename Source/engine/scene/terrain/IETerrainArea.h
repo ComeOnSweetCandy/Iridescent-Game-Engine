@@ -68,6 +68,8 @@ private:
 	void ChangeBevel(int blockLocationX, int blockLocationY);
 	void ChangePiece(int blockLocationX, int blockLocationY);
 
+	void ReserializatioRound(int blockLocationX, int blockLocationY);									//一个body修改 重新序列化周围的border数值
+
 private:
 	IETerrainInfo * m_terrainsInfo;
 	IETerrainAlter * m_alter;

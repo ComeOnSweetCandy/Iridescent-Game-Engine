@@ -67,7 +67,7 @@ void IETerrainArea::AddChild(int blockLocationX, int blockLocationY)
 		}
 
 		//放入新的信息
-		m_alter->_PastTerrainInfoSerialization = pastTerrain->Serialize();
+		m_alter->_CurtTerrainInfoSerialization = pastTerrain->Serialize();
 
 		//当前计数加1
 		m_curOrder++;
@@ -86,7 +86,7 @@ void IETerrainArea::LoadChilds(IETerrainSerialization * blocksInfo, int chunkLoc
 			for (int y = 0; y < m_chunkLength; y++)
 			{
 				IETerrain * terrain = (IETerrain *)chunk->GetBlock(x, y);
-				terrain->determinant(&(blocksInfo[y * m_chunkLength + x]));
+				terrain->determinant(&(blocksInfo[x * m_chunkLength + y]));
 			}
 		}
 	}
@@ -101,12 +101,7 @@ void IETerrainArea::LoadChilds(IETerrainSerialization * blocksInfo, int chunkLoc
 		{
 			IETerrain * terrain = (IETerrain *)GetBlock(alters[index]->_X, alters[index]->_Y);
 			terrain->determinant(alters[index]->_CurtTerrainInfoSerialization);
-
-			//重新计算一边周边的terrain的边框问题
-			((IETerrain *)(GetBlock(alters[index]->_X, alters[index]->_Y - 1)))->ChangeBorderDisplay();
-			((IETerrain *)(GetBlock(alters[index]->_X + 1, alters[index]->_Y)))->ChangeBorderDisplay();
-			((IETerrain *)(GetBlock(alters[index]->_X, alters[index]->_Y + 1)))->ChangeBorderDisplay();
-			((IETerrain *)(GetBlock(alters[index]->_X - 1, alters[index]->_Y)))->ChangeBorderDisplay();
+			terrain->ChangeBorderDisplay();
 		}
 	}
 }
@@ -139,6 +134,11 @@ void IETerrainArea::ChangeBody(int blockLocationX, int blockLocationY)
 		grid->SetBlockPostion(blockLocationX, blockLocationY);
 		grid->Reload(m_readyTerrainID, m_curOrder);
 		grid->ChangeBodyIndex();
+
+		ReserializatioRound(blockLocationX, blockLocationY - 1);
+		ReserializatioRound(blockLocationX + 1, blockLocationY);
+		ReserializatioRound(blockLocationX, blockLocationY + 1);
+		ReserializatioRound(blockLocationX - 1, blockLocationY);
 	}
 }
 
@@ -156,6 +156,22 @@ void IETerrainArea::ChangePiece(int blockLocationX, int blockLocationY)
 	}
 }
 
+void IETerrainArea::ReserializatioRound(int blockLocationX, int blockLocationY)
+{
+	unsigned int count = m_alters->Count();
+	IETerrainAlter ** alters = (IETerrainAlter **)(m_alters->GetContainer());
+	for (unsigned int index = 0; index < count; index++)
+	{
+		if (alters[index]->_X == blockLocationX && alters[index]->_Y == blockLocationY)
+		{
+			delete alters[index]->_CurtTerrainInfoSerialization;
+
+			IETerrain * terrain = (IETerrain *)GetBlock(blockLocationX, blockLocationY);
+			alters[index]->_CurtTerrainInfoSerialization = terrain->Serialize();
+		}
+	}
+}
+
 void IETerrainArea::RollbackAllAlters()
 {
 	while (IETerrainAlter * alter = (IETerrainAlter *)(m_alters->PopTop()))
@@ -170,12 +186,15 @@ void IETerrainArea::RollbackAlter()
 	{
 		IETerrain * pastTerrain = (IETerrain *)(GetBlock(m_alter->_X, m_alter->_Y));
 		pastTerrain->determinant(m_alter->_PastTerrainInfoSerialization);
+		pastTerrain->ChangeBorderDisplay();
 
-		//重新计算一边周边的terrain的边框问题
-		((IETerrain *)(GetBlock(m_alter->_X, m_alter->_Y - 1)))->ChangeBorderDisplay();
-		((IETerrain *)(GetBlock(m_alter->_X + 1, m_alter->_Y)))->ChangeBorderDisplay();
-		((IETerrain *)(GetBlock(m_alter->_X, m_alter->_Y + 1)))->ChangeBorderDisplay();
-		((IETerrain *)(GetBlock(m_alter->_X - 1, m_alter->_Y)))->ChangeBorderDisplay();
+		int blockLocationX = m_alter->_X;
+		int blockLocationY = m_alter->_Y;
+
+		ReserializatioRound(blockLocationX, blockLocationY - 1);
+		ReserializatioRound(blockLocationX + 1, blockLocationY);
+		ReserializatioRound(blockLocationX, blockLocationY + 1);
+		ReserializatioRound(blockLocationX - 1, blockLocationY);
 	}
 }
 

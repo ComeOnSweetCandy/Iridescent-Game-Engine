@@ -243,37 +243,59 @@ void IETerrain::ChangeBorderDisplay()
 	grids[2] = (IETerrain *)area->GetBlock(m_blockPositionX, m_blockPositionY + 1);
 	grids[3] = (IETerrain *)area->GetBlock(m_blockPositionX - 1, m_blockPositionY);
 
-	for (int index = 0; index < 4; index++)
+	if (m_terrainID == 0)
 	{
-		if (grids[index] == NULL)
+		for (int index = 0; index < 4; index++)
 		{
-			SetBorderDisplay(index, true);
+			SetBorderDisplay(index, false);
+
+			if (grids[index] != NULL)
+			{
+				if (grids[index]->GetTerrainMODE() == __terrain_body_mode__)
+				{
+					if (grids[index]->GetTerrainID() != m_terrainID)
+					{
+						SetBorderDisplay(index, false);
+						grids[index]->SetBorderDisplay((index + 2) % 4, true);
+					}
+				}
+			}
 		}
-		else
+	}
+	else
+	{
+		for (int index = 0; index < 4; index++)
 		{
-			if (grids[index]->GetTerrainMODE() == __terrain_none_mode__)
+			if (grids[index] == NULL)
 			{
 				SetBorderDisplay(index, true);
 			}
-			else if (grids[index]->GetTerrainMODE() == __terrain_body_mode__)
+			else
 			{
-				if (grids[index]->GetTerrainID() == m_terrainID)
+				if (grids[index]->GetTerrainMODE() == __terrain_none_mode__)
 				{
-					SetBorderDisplay(index, false);
-					grids[index]->SetBorderDisplay((index + 2) % 4, false);
+					SetBorderDisplay(index, true);
 				}
-				else
+				else if (grids[index]->GetTerrainMODE() == __terrain_body_mode__)
 				{
-					//必须创建的顺序大于隔壁(主要针对于map存储状况下的解决办法)
-					if (GetOrder() > grids[index]->GetOrder())
+					if (grids[index]->GetTerrainID() == m_terrainID)
 					{
-						SetBorderDisplay(index, true);
+						SetBorderDisplay(index, false);
 						grids[index]->SetBorderDisplay((index + 2) % 4, false);
 					}
 					else
 					{
-						SetBorderDisplay(index, false);
-						grids[index]->SetBorderDisplay((index + 2) % 4, true);
+						//必须创建的顺序大于隔壁(主要针对于map存储状况下的解决办法)
+						if (GetOrder() > grids[index]->GetOrder())
+						{
+							SetBorderDisplay(index, true);
+							grids[index]->SetBorderDisplay((index + 2) % 4, false);
+						}
+						else
+						{
+							SetBorderDisplay(index, false);
+							grids[index]->SetBorderDisplay((index + 2) % 4, true);
+						}
 					}
 				}
 			}

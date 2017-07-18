@@ -28,6 +28,8 @@ typedef enum
 /*
 ** 需要一个信息序列化 以用来保存数据 重载数据来生成terrain
 */
+#pragma pack(push)
+#pragma pack(1)
 struct IETerrainSerialization
 {
 	unsigned int _TerrainID;
@@ -38,6 +40,7 @@ struct IETerrainSerialization
 	unsigned char _PieceIndex;
 	unsigned char _BorderIndex[4];
 };
+#pragma pack(pop)
 
 class __IE_DLL__ IETerrain :public IEBlock
 {

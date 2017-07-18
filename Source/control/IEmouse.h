@@ -28,12 +28,14 @@ public:
 	BOOL IsButtonDown(int button);
 	bool IsButtonTouch(int button);
 	void GetMousePosition(int &x, int &y);
+	bool IsMouseIn();
 
 private:
 	static IEMouse * m_StaticMouse;
 
 	LPDIRECTINPUTDEVICE8 m_pDIDev;
 	DIMOUSESTATE m_state;
+	bool m_mouseIn;							//鼠标是否过界
 
 	bool m_buttonCache[2];
 };
