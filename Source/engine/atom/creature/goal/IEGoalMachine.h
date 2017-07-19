@@ -4,7 +4,7 @@
 * info     : goal controller
 * date     : 2017/6/22
 * version  : 1.0
-* remark   : none
+* remark   : 一个creature必须有一个goal管理器，同时最大允许一个goal在运行，goal可以有等待序列
 ************************************/
 
 #ifndef __IE_GOAL_MACHINE__
@@ -39,6 +39,7 @@ protected:
 
 private:
 	IEGoal * m_goalList[__goal_count__];
+	IEGoal * m_curGoal;
 	IECreature * m_creature;
 
 	friend class IEGoal;

@@ -1,6 +1,8 @@
 #define __IE_DLL_EXPORTS__
 #include "IETerrainArea.h"
 
+#include "../../../control/IEmouse.h"
+
 IE_BEGIN
 
 IETerrainArea::IETerrainArea()
@@ -71,6 +73,7 @@ void IETerrainArea::AddChild(int blockLocationX, int blockLocationY)
 
 		//当前计数加1
 		m_curOrder++;
+		m_alter->_AlterOrder = m_alterOrder++;
 	}
 }
 
@@ -158,18 +161,40 @@ void IETerrainArea::ChangePiece(int blockLocationX, int blockLocationY)
 
 void IETerrainArea::ReserializatioRound(int blockLocationX, int blockLocationY)
 {
-	unsigned int count = m_alters->Count();
-	IETerrainAlter ** alters = (IETerrainAlter **)(m_alters->GetContainer());
-	for (unsigned int index = 0; index < count; index++)
-	{
-		if (alters[index]->_X == blockLocationX && alters[index]->_Y == blockLocationY)
-		{
-			delete alters[index]->_CurtTerrainInfoSerialization;
+	//unsigned int count = m_alters->Count();
+	//IETerrainAlter ** alters = (IETerrainAlter **)(m_alters->GetContainer());
+	//for (unsigned int index = 0; index < count; index++)
+	//{
+	//	if (alters[index]->_X == blockLocationX && alters[index]->_Y == blockLocationY)
+	//	{
+	//		delete alters[index]->_CurtTerrainInfoSerialization;
 
-			IETerrain * terrain = (IETerrain *)GetBlock(blockLocationX, blockLocationY);
-			alters[index]->_CurtTerrainInfoSerialization = terrain->Serialize();
-		}
-	}
+	//		IETerrain * terrain = (IETerrain *)GetBlock(blockLocationX, blockLocationY);
+	//		alters[index]->_CurtTerrainInfoSerialization = terrain->Serialize();
+	//		
+	//		return;
+	//	}
+	//}
+
+	//但是如果没有找到，那么就需要放置新的进去
+	IETerrainAlter * alter = new IETerrainAlter();
+	m_alters->Push(alter);
+
+	//先记载入新的信息
+	alter->_X = blockLocationX;
+	alter->_Y = blockLocationY;
+	int cacheX, cacheY;
+	LocationTranslate(blockLocationX, blockLocationY, alter->_ChunkX, alter->_ChunkY, cacheX, cacheY);
+
+	//村放入之前的信息 等于NULL的意思为 之前的信息为被动修改 非主动
+	alter->_PastTerrainInfoSerialization = NULL;
+
+	//放入新的信息
+	IETerrain * terrain = (IETerrain *)GetBlock(blockLocationX, blockLocationY);
+	alter->_CurtTerrainInfoSerialization = terrain->Serialize();
+
+	//放入修改计数
+	alter->_AlterOrder = m_alterOrder;
 }
 
 void IETerrainArea::RollbackAllAlters()
@@ -182,19 +207,19 @@ void IETerrainArea::RollbackAllAlters()
 
 void IETerrainArea::RollbackAlter()
 {
-	if (m_alter = (IETerrainAlter *)(m_alters->PopTop()))
+	while (IETerrainAlter * alter = (IETerrainAlter *)(m_alters->PopTop()))
 	{
-		IETerrain * pastTerrain = (IETerrain *)(GetBlock(m_alter->_X, m_alter->_Y));
-		pastTerrain->determinant(m_alter->_PastTerrainInfoSerialization);
-		pastTerrain->ChangeBorderDisplay();
+		if (alter->_PastTerrainInfoSerialization)
+		{
+			//获取经过修改的terrain
+			IETerrain * pastTerrain = (IETerrain *)(GetBlock(alter->_X, alter->_Y));
 
-		int blockLocationX = m_alter->_X;
-		int blockLocationY = m_alter->_Y;
+			//如果之前的past为空 说明是受到border改动而受到影响的周围的terrain 无需调整
+			pastTerrain->determinant(alter->_PastTerrainInfoSerialization);
+			pastTerrain->ChangeBorderDisplay();
 
-		ReserializatioRound(blockLocationX, blockLocationY - 1);
-		ReserializatioRound(blockLocationX + 1, blockLocationY);
-		ReserializatioRound(blockLocationX, blockLocationY + 1);
-		ReserializatioRound(blockLocationX - 1, blockLocationY);
+			return;
+		}
 	}
 }
 
@@ -213,30 +238,17 @@ void IETerrainArea::SetReadyTerrain(unsigned int terrainID, IETerrainMode terrai
 
 void IETerrainArea::MouseMove(float x, float y)
 {
-	//首先计算鼠标所指向的格子和小格子
-	float revisePositionX = IESituation::Share()->_MousePositionX;
-	float revisePositionY = IESituation::Share()->_MousePositionY;
-	if (revisePositionX < 0.0f)
-	{
-		revisePositionX = revisePositionX - 1.0f;
-	}
-	if (revisePositionY < 0.0f)
-	{
-		revisePositionY = revisePositionY - 1.0f;
-	}
-	m_mouseLocation = IEGrid(revisePositionX, revisePositionY);
-
 	//在这里计算鼠标所指向的位置 chunk block都会被记录下来
 	if (m_readyTerrainID != 0 && m_readyTerrainMode != __terrain_none_mode__)
 	{
 		//说明已经选择了ReadyID
-		m_suspension->SetTranslate(m_mouseLocation.m_x, m_mouseLocation.m_y);
+		m_suspension->SetTranslate(IEMouse::Share()->_MouseLocationX, IEMouse::Share()->_MouseLocationY);
 		m_suspension->Visit();
 	}
 	else
 	{
 		//说明没有选择ReadyID 那么就以当前地面为显示的元素
-		if (IETerrain * terrain = (IETerrain *)GetBlock(m_mouseLocation.m_x, m_mouseLocation.m_y))
+		if (IETerrain * terrain = (IETerrain *)GetBlock(IEMouse::Share()->_MouseLocationX, IEMouse::Share()->_MouseLocationY))
 		{
 			IEPackerTexture * texture = terrain->GetTexture();
 			m_suspension->ChangeTexture(texture);
@@ -262,13 +274,13 @@ void IETerrainArea::MouseClick()
 	if (m_readyTerrainID == 0)
 	{
 		//选择模式 对当前位置进行选择
-		m_choosen = GetBlock(m_mouseLocation.m_x, m_mouseLocation.m_y);
+		m_choosen = GetBlock(IEMouse::Share()->_MouseLocationX, IEMouse::Share()->_MouseLocationY);
 
 		//会在一片地区显示choosen的所有的信息 编辑器下会显示
 	}
 	else
 	{
-		AddChild(m_mouseLocation.m_x, m_mouseLocation.m_y);
+		AddChild(IEMouse::Share()->_MouseLocationX, IEMouse::Share()->_MouseLocationY);
 	}
 }
 
@@ -276,11 +288,7 @@ void IETerrainArea::MouseBrush()
 {
 	if (m_readyTerrainID != 0)
 	{
-		if (m_lastMouseTouchLocation != m_mouseLocation)
-		{
-			AddChild(m_mouseLocation.m_x, m_mouseLocation.m_y);
-		}
-		m_lastMouseTouchLocation = m_mouseLocation;
+		AddChild(IEMouse::Share()->_MouseLocationX, IEMouse::Share()->_MouseLocationY);
 	}
 }
 

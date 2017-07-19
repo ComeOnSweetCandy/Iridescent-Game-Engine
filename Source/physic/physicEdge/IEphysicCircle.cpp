@@ -1,6 +1,9 @@
 #define __IE_DLL_EXPORTS__
 #include "IEphysicCircle.h"
 
+#include "../../core/container/IEcontianer.h"
+#include "../../type/IEstring.h"
+
 IE_BEGIN
 
 IEPhysicCircle::IEPhysicCircle()
@@ -18,7 +21,24 @@ void IEPhysicCircle::Initialization(IEPhysicEdgeInfo * physicEdgeInfo)
 	IEPhysicEdge::Initialization(physicEdgeInfo);
 }
 
+void IEPhysicCircle::Initialization(const char * physicEdgeInfo)
+{
+	IEString stringRadius = physicEdgeInfo;
+
+	IEPhysicCircleInfo * circleInfo = new IEPhysicCircleInfo();
+	circleInfo->m_physicEdgeType = __edge_circle__;
+	circleInfo->m_radius = stringRadius.transToInt();
+	circleInfo->m_vertexsCount = 32;
+}
+
 IEPhysicCircle * IEPhysicCircle::Create(IEPhysicEdgeInfo * physicEdgeInfo)
+{
+	IEPhysicCircle * object = new IEPhysicCircle();
+	object->Initialization(physicEdgeInfo);
+	return object;
+}
+
+IEPhysicCircle * IEPhysicCircle::Create(const char * physicEdgeInfo)
 {
 	IEPhysicCircle * object = new IEPhysicCircle();
 	object->Initialization(physicEdgeInfo);

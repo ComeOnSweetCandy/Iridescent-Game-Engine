@@ -36,8 +36,13 @@ private:
 	LPDIRECTINPUTDEVICE8 m_pDIDev;
 	DIMOUSESTATE m_state;
 	bool m_mouseIn;							//鼠标是否过界
-
 	bool m_buttonCache[2];
+
+public:
+	float _MousePositionX;
+	float _MousePositionY;
+	int _MouseLocationX;
+	int _MouseLocationY;
 };
 
 IE_END

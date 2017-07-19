@@ -129,9 +129,21 @@ bool IECmdAnalyse::SetCommand()
 
 	IEString field = *(m_commandArrays[1]);
 
-	if (field == "ready_terrain")
+	if (field == "center")
 	{
-		//3 terrainID 4 terrainMODE
+		if (m_commandSectionCount <= 2)return false;
+		if (m_commandSectionCount <= 3)return false;
+
+		IEString strCenterX = *(m_commandArrays[2]);
+		IEString strCenterY = *(m_commandArrays[3]);
+
+		int centerX = strCenterX.transToInt();
+		int centerY = strCenterX.transToInt();
+
+		return true;
+	}
+	else if (field == "ready_terrain")
+	{
 		if (m_commandSectionCount <= 2)return false;
 		if (m_commandSectionCount <= 3)return false;
 

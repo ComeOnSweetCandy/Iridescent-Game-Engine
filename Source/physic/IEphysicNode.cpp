@@ -31,26 +31,45 @@ void IEPhysicNode::Initialization(IEPhysicEdge * physicEdge, IEPhysicNodeType ph
 void IEPhysicNode::Initialization(IEXml * physicXML)
 {
 	//读取物理节点的类型
-	int physicType = physicXML->FindChild("type")->ValueInt();
-	SetPhysicNodeType((IEPhysicNodeType)physicType);
+	IEPhysicNodeType physicType = (IEPhysicNodeType)(physicXML->FindChild("type")->ValueInt());
 
 	//读取物理刚体的类型
-	int edgeType = physicXML->FindChild("edge")->ValueInt();
-	IEString edgeInfo = physicXML->FindChild("info")->ValueString();
+	IEPhysicEdgeType edgeType = (IEPhysicEdgeType)(physicXML->FindChild("edge")->ValueInt());
 
-
-	IEContainer * container = edgeInfo.SplitBy(',');
-	IEString ** strings = (IEString **)container->GetContainer();
-	unsigned int cout = container->Count();
+	//读取物理边缘的信息
+	const char * edgeInfo = physicXML->FindChild("info")->ValueString();
 
 	//建立edge
+	IEPhysicEdge * physicEdge;
+	if (edgeType == __edge_circle__)
+	{
+		physicEdge = IEPhysicCircle::Create(edgeInfo);
+	}
+	else if (edgeType == __edge_polygon__)
+	{
+		physicEdge = NULL;
+	}
+	else
+	{
+		physicEdge = NULL;
+		__IE_ERROR__("IEPhysicNode : error. wrong physic edge type.\n");
+	}
+
+	Initialization(physicEdge, physicType);
 }
 
-IEPhysicNode * IEPhysicNode::Create(IEPhysicEdge * physicEdge, IEPhysicNodeType physicNodeType)
+IEPhysicNode * IEPhysicNode::Create(IEPhysicEdge * physicEdge, IEPhysicNodeType physicType)
 {
-	IEPhysicNode * object = new IEPhysicNode();
-	object->Initialization(physicEdge, physicNodeType);
-	return object;
+	if (physicType == __physic_none_node__)
+	{
+		return NULL;
+	}
+	else
+	{
+		IEPhysicNode * object = new IEPhysicNode();
+		object->Initialization(physicEdge, physicType);
+		return object;
+	}
 }
 
 IEPhysicNode * IEPhysicNode::Create(IEXml * physicXML)

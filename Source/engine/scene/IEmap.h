@@ -15,6 +15,7 @@
 
 IE_BEGIN
 
+class IEArea;
 class IETerrainArea;
 class IEMarble;
 class IEThingArea;
@@ -114,12 +115,15 @@ public:
 protected:
 	virtual void Update();
 
+	void InputHandle();					//鼠标事件处理
+
 private:
 	void InitAreaFile(IEString &fileName);
 
 private:
 	IESceneType m_activeSceneType;		//当前激活的scene type
 	IESceneEditMode m_sceneEditMode;	//当前scene的修改方式
+	IEArea * m_activeArea;				//当前修改模式下 激活的area
 
 	int m_chunkSideLength;				//一个chunk的长度
 	int m_unitChunkBlockCount;			//一个chunk中包含有多少个block

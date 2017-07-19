@@ -26,6 +26,8 @@ public:
 	IEPhysicCircle();
 	virtual ~IEPhysicCircle();
 	virtual void Initialization(IEPhysicEdgeInfo * physicEdgeInfo);
+	virtual void Initialization(const char * physicEdgeInfo);
+	static IEPhysicCircle * Create(const char * physicEdgeInfo);
 	static IEPhysicCircle * Create(IEPhysicEdgeInfo * physicEdgeInfo);
 
 public:

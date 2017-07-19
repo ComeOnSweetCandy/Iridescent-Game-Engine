@@ -66,6 +66,7 @@ private:
 protected:
 	IECreatureInfo * m_creatureInfo;
 	IEUnitInfo * m_unitInfo;
+
 	IEActionMachine * m_actionMachine;
 
 	IEText * m_nameDisplay;

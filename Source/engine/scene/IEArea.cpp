@@ -16,6 +16,9 @@ IEArea::IEArea()
 	m_alters = NULL;
 	m_suspension = NULL;
 
+	m_curOrder = 0;
+	m_alterOrder = 0;
+
 	m_centerChunkLocation = IEGrid(0, 0);
 }
 

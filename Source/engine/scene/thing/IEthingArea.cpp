@@ -9,6 +9,8 @@
 #include "../../script/IEluaPhysicNode.h"
 #include "../../script/IEluaThing.h"
 
+#include "../../../control/IEmouse.h"
+
 IE_BEGIN
 
 IEThingArea::IEThingArea()
@@ -270,18 +272,7 @@ void IEThingArea::SetReadyThing(unsigned int thingID)
 void IEThingArea::MouseSuspension(float positionX, float positionY)
 {
 	//首先计算鼠标所指向的格子和小格子
-	float revisePositionX = positionX;
-	float revisePositionY = positionY;
-	if (positionX < 0.0f)
-	{
-		revisePositionX = positionX - 1.0f;
-	}
-	if (positionY < 0.0f)
-	{
-		revisePositionY = positionY - 1.0f;
-	}
-
-	m_mouseLocation = IEGrid(revisePositionX, revisePositionY);
+	IEGrid mouseLocation = IEGrid(IEMouse::Share()->_MouseLocationX, IEMouse::Share()->_MouseLocationY);
 
 	//根据switch来决定是否归整化
 	if (m_regularization)
@@ -290,24 +281,24 @@ void IEThingArea::MouseSuspension(float positionX, float positionY)
 	}
 	else
 	{
-		m_mouseTinyLocation = IEVector(positionX - (float)m_mouseLocation.m_x, positionY - (float)m_mouseLocation.m_y) / 0.25f;
+		m_mouseTinyLocation = IEVector(positionX - (float)mouseLocation.m_x, positionY - (float)mouseLocation.m_y) / 0.25f;
 	}
 
 	if (m_mouseTinyLocation.m_x == 4)
 	{
 		m_mouseTinyLocation.m_x = 0;
-		m_mouseLocation.m_x = m_mouseLocation.m_x + 1;
+		m_mouseTinyLocation.m_x = m_mouseTinyLocation.m_x + 1;
 	}
 	if (m_mouseTinyLocation.m_y == 4)
 	{
 		m_mouseTinyLocation.m_y = 0;
-		m_mouseLocation.m_y = m_mouseLocation.m_y + 1;
+		m_mouseTinyLocation.m_y = m_mouseTinyLocation.m_y + 1;
 	}
 
 	if (m_readyThingID)
 	{
 		//选择了一个 thingID 检测是否可行
-		bool result = AllowChild(m_mouseLocation.m_x, m_mouseLocation.m_y, m_mouseTinyLocation.m_x, m_mouseTinyLocation.m_y);
+		bool result = AllowChild(m_mouseTinyLocation.m_x, m_mouseTinyLocation.m_y, m_mouseTinyLocation.m_x, m_mouseTinyLocation.m_y);
 
 		if (result)
 		{
@@ -317,26 +308,26 @@ void IEThingArea::MouseSuspension(float positionX, float positionY)
 		{
 			m_suspensionThing->SetBackColor(1.0f, 0.0f, 0.0f, 0.7f);
 		}
-		m_suspensionThing->SetTranslate(m_mouseLocation.m_x + m_mouseTinyLocation.m_x * 0.25f, m_mouseLocation.m_y + m_mouseTinyLocation.m_y * 0.25f);	
+		m_suspensionThing->SetTranslate(m_mouseTinyLocation.m_x + m_mouseTinyLocation.m_x * 0.25f, m_mouseTinyLocation.m_y + m_mouseTinyLocation.m_y * 0.25f);
 	}
 	else
 	{
 		//没有选择 thingID 亮起待选择
-		IEThing * thing = ChooseThing(m_mouseLocation.m_x, m_mouseLocation.m_y, m_mouseTinyLocation.m_x, m_mouseTinyLocation.m_y);
+		IEThing * thing = ChooseThing(m_mouseTinyLocation.m_x, m_mouseTinyLocation.m_y, m_mouseTinyLocation.m_x, m_mouseTinyLocation.m_y);
 	}
 }
 
 void IEThingArea::MouseLButtonTouch()
 {
-	if (m_readyThingID)
-	{
-		AddChild(m_mouseLocation.m_x, m_mouseLocation.m_y, m_mouseTinyLocation.m_x, m_mouseTinyLocation.m_y);
-	}
-	else
-	{
-		IEThing * thing = ChooseThing(m_mouseLocation.m_x, m_mouseLocation.m_y, m_mouseTinyLocation.m_x, m_mouseTinyLocation.m_y);
-		m_choosenThingOrder = thing->GetOrder();
-	}
+	//if (m_readyThingID)
+	//{
+	//	AddChild(m_mouseLocation.m_x, m_mouseLocation.m_y, m_mouseTinyLocation.m_x, m_mouseTinyLocation.m_y);
+	//}
+	//else
+	//{
+	//	IEThing * thing = ChooseThing(m_mouseLocation.m_x, m_mouseLocation.m_y, m_mouseTinyLocation.m_x, m_mouseTinyLocation.m_y);
+	//	m_choosenThingOrder = thing->GetOrder();
+	//}
 }
 
 void IEThingArea::MouseRButtonTouch()

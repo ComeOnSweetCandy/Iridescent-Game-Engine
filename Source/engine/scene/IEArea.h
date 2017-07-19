@@ -72,7 +72,8 @@ protected:
 	int m_visibleLength;					//可见的范围的一边长
 	int m_visibleChunksCount;				//能最多同时显示的chunk的数目
 	int m_chunkLength;						//一个chunk的边长 也就是一边有多少个block
-	unsigned char m_curOrder;				//当前编号
+	unsigned int m_curOrder;				//当前编号
+	unsigned int m_alterOrder;				//当前的修改编号
 	
 	IEMap * m_map;
 	IEGrid m_centerChunkLocation;			//当前中心点的chunk的位置
@@ -84,9 +85,6 @@ protected:
 	IEContainer * m_alters;								//对于当前area的所有修改都会被记录下来
 	IESprite * m_suspension;							//悬浮在鼠标上端的sprite
 	IEBlock * m_choosen;								//选择了的block
-
-	IEGrid m_lastMouseTouchLocation;					//记录上一帧鼠标按下时候所位于的格子
-	IEGrid m_mouseLocation;								//记录当前鼠标所位于的格子
 
 	friend class IEPathAnticipate;
 	friend class IEMap;

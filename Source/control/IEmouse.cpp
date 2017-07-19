@@ -114,8 +114,22 @@ void IEMouse::ReckonMousePosition()
 	float finalX = glX - glScreenXhalf;
 	float finalY = glY - IESituation::Share()->_FieldAltitude;
 
-	IESituation::Share()->_MousePositionX = finalX;
-	IESituation::Share()->_MousePositionY = finalY;
+	_MousePositionX = finalX;
+	_MousePositionY = finalY;
+
+	//然后计算鼠标所指向的格子和小格子
+	float revisePositionX = _MousePositionX;
+	float revisePositionY = _MousePositionY;
+	if (revisePositionX < 0.0f)
+	{
+		revisePositionX = revisePositionX - 1.0f;
+	}
+	if (revisePositionY < 0.0f)
+	{
+		revisePositionY = revisePositionY - 1.0f;
+	}
+	_MouseLocationX = (int)revisePositionX;
+	_MouseLocationY = (int)revisePositionY;
 }
 
 BOOL IEMouse::IsButtonDown(int button)

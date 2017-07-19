@@ -22,11 +22,12 @@ public:
 	IETerrainAlter(){};
 	~IETerrainAlter()
 	{ 
-		delete _CurtTerrainInfoSerialization;
-		delete _PastTerrainInfoSerialization; 
+		__IE_DELETE__(_CurtTerrainInfoSerialization);
+		__IE_DELETE__(_PastTerrainInfoSerialization);
 	}
 
 public:
+	unsigned int _AlterOrder;
 	int _X;
 	int _Y;
 	int _ChunkX;

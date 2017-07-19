@@ -65,6 +65,8 @@ void IEMap::Initialization(char * sceneName)
 	//m_curMarble = IEMarble::Create(this, m_visibleRadius, m_chunkSideLength);
 	//m_curThing = IEThingArea::Create(this, m_visibleRadius, m_chunkSideLength);
 
+	m_activeArea = m_curTerrain;
+
 	//寻路算法
 	m_pathFinder = IEPathFinder::Create(m_curPath);
 	m_pathFinder->SetPath(m_curPath);
@@ -162,48 +164,61 @@ void IEMap::Update()
 	//m_curMarble->SetCenterBlockLocation(cameraGrid);
 	//m_curThing->SetCenterBlockLocation(cameraGrid.m_x, cameraGrid.m_y);
 
-	//先对当前选择的场景进行判定
-	IEArea * activeArea = NULL;
-	switch (m_activeSceneType)
-	{
-		case __ie_scene_none__:activeArea = NULL; break;
-		case __ie_scene_terrain__:activeArea = m_curTerrain; break;
-		case __ie_scene_marble__:activeArea = m_curMarble; break;
-		case __ie_scene_thing__:activeArea = m_curThing; break;
-		default: break;
-	}
+	InputHandle();
+}
 
-	if (activeArea)
+void IEMap::InputHandle()
+{
+	if (m_activeArea)
 	{
-		activeArea->MouseMove(IESituation::Share()->_MousePositionX, IESituation::Share()->_MousePositionY);
+		static bool isMouseFree = true;		//鼠标是否释放
+
+		m_activeArea->MouseMove(IEMouse::Share()->_MousePositionX, IEMouse::Share()->_MousePositionY);
 
 		//当按下鼠标的时候
 		if (IEMouse::Share()->IsMouseIn())
 		{
 			if (IEMouse::Share()->IsButtonTouch(0))
 			{
-				activeArea->MouseClick();
+				m_activeArea->MouseClick();
 			}
 			else if (IEMouse::Share()->IsButtonTouch(1))
 			{
 				//取消选中的内容 包括ReadyID和选中的物品都会进行清除
-				activeArea->MouseCancel();
+				m_activeArea->MouseCancel();
 			}
 			else if (IEKeyboard::Share()->IsKeyDown(DIK_LSHIFT) && IEMouse::Share()->IsButtonDown(0))
 			{
-				//鼠标刷 位防止刷子重复刷同一个地方 
-				activeArea->MouseBrush();
+				//鼠标刷 位防止刷子重复刷同一个地方
+				static int lastKeydownLocationX, lastKeydownLocationY;
+
+				if (isMouseFree == true)
+				{
+					isMouseFree = false;
+
+					m_activeArea->MouseBrush();
+				}
+				else if (lastKeydownLocationX != IEMouse::Share()->_MouseLocationX && lastKeydownLocationY != IEMouse::Share()->_MouseLocationY)
+				{
+					m_activeArea->MouseBrush();
+				}
+				lastKeydownLocationX = IEMouse::Share()->_MouseLocationX;
+				lastKeydownLocationY = IEMouse::Share()->_MouseLocationY;
+			}
+			else
+			{
+				isMouseFree = true;
 			}
 		}
 
 		//当按下后退键的时候
 		if (IEKeyboard::Share()->KeyTouch(DIK_BACK))
 		{
-			activeArea->RollbackAlter();
+			m_activeArea->RollbackAlter();
 		}
 		if (IEKeyboard::Share()->IsKeyDown(DIK_LSHIFT) && IEKeyboard::Share()->IsKeyDown(DIK_BACK))
 		{
-			activeArea->RollbackAlter();
+			m_activeArea->RollbackAlter();
 		}
 	}
 }

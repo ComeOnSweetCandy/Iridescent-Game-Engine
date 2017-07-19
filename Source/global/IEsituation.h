@@ -29,9 +29,6 @@ public:
 	int _ScreenHeight;
 
 	float _FieldAltitude;
-
-	float _MousePositionX;
-	float _MousePositionY;
 };
 
 #endif
