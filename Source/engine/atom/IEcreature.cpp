@@ -289,7 +289,7 @@ void IECreature::RunGoal()
 
 void IECreature::RunAction()
 {
-	m_actionMachine->ExcuteAction();
+	//m_actionMachine->ExcuteAction();
 }
 
 IE_END

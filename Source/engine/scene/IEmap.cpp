@@ -178,19 +178,12 @@ void IEMap::InputHandle()
 		//当按下鼠标的时候
 		if (IEMouse::Share()->IsMouseIn())
 		{
-			if (IEMouse::Share()->IsButtonTouch(0))
-			{
-				m_activeArea->MouseClick();
-			}
-			else if (IEMouse::Share()->IsButtonTouch(1))
-			{
-				//取消选中的内容 包括ReadyID和选中的物品都会进行清除
-				m_activeArea->MouseCancel();
-			}
-			else if (IEKeyboard::Share()->IsKeyDown(DIK_LSHIFT) && IEMouse::Share()->IsButtonDown(0))
+			if (IEKeyboard::Share()->IsKeyDown(DIK_LSHIFT) && IEMouse::Share()->IsButtonDown(0))
 			{
 				//鼠标刷 位防止刷子重复刷同一个地方
 				static int lastKeydownLocationX, lastKeydownLocationY;
+
+				printf("%d %d %d %d\n", lastKeydownLocationX, lastKeydownLocationY, IEMouse::Share()->_MouseLocationX, IEMouse::Share()->_MouseLocationY);
 
 				if (isMouseFree == true)
 				{
@@ -198,12 +191,21 @@ void IEMap::InputHandle()
 
 					m_activeArea->MouseBrush();
 				}
-				else if (lastKeydownLocationX != IEMouse::Share()->_MouseLocationX && lastKeydownLocationY != IEMouse::Share()->_MouseLocationY)
+				else if (lastKeydownLocationX != IEMouse::Share()->_MouseLocationX || lastKeydownLocationY != IEMouse::Share()->_MouseLocationY)
 				{
 					m_activeArea->MouseBrush();
 				}
 				lastKeydownLocationX = IEMouse::Share()->_MouseLocationX;
 				lastKeydownLocationY = IEMouse::Share()->_MouseLocationY;
+			}
+			else if (IEMouse::Share()->IsButtonTouch(0))
+			{
+				m_activeArea->MouseClick();
+			}
+			else if (IEMouse::Share()->IsButtonTouch(1))
+			{
+				//取消选中的内容 包括ReadyID和选中的物品都会进行清除
+				m_activeArea->MouseCancel();
 			}
 			else
 			{
@@ -260,7 +262,7 @@ void IEMap::SaveTerrain()
 
 	//对terrain的操作
 	IEContainer * terrainAlters = m_curTerrain->GetAlters();
-	//terrainAlters->ReverseSpace();
+	terrainAlters->ReverseSpace();
 
 	//然后写入改变的东西
 	while (IETerrainAlter * controll = (IETerrainAlter *)(terrainAlters->PopTop()))

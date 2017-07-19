@@ -177,24 +177,29 @@ void IETerrainArea::ReserializatioRound(int blockLocationX, int blockLocationY)
 	//}
 
 	//但是如果没有找到，那么就需要放置新的进去
-	IETerrainAlter * alter = new IETerrainAlter();
-	m_alters->Push(alter);
+	if (IETerrain * terrain = (IETerrain *)GetBlock(blockLocationX, blockLocationY))
+	{
+		if (terrain->GetTerrainID() != 0)
+		{
+			IETerrainAlter * alter = new IETerrainAlter();
+			m_alters->Push(alter);
 
-	//先记载入新的信息
-	alter->_X = blockLocationX;
-	alter->_Y = blockLocationY;
-	int cacheX, cacheY;
-	LocationTranslate(blockLocationX, blockLocationY, alter->_ChunkX, alter->_ChunkY, cacheX, cacheY);
+			//先记载入新的信息
+			alter->_X = blockLocationX;
+			alter->_Y = blockLocationY;
+			int cacheX, cacheY;
+			LocationTranslate(blockLocationX, blockLocationY, alter->_ChunkX, alter->_ChunkY, cacheX, cacheY);
 
-	//村放入之前的信息 等于NULL的意思为 之前的信息为被动修改 非主动
-	alter->_PastTerrainInfoSerialization = NULL;
+			//村放入之前的信息 等于NULL的意思为 之前的信息为被动修改 非主动
+			alter->_PastTerrainInfoSerialization = NULL;
 
-	//放入新的信息
-	IETerrain * terrain = (IETerrain *)GetBlock(blockLocationX, blockLocationY);
-	alter->_CurtTerrainInfoSerialization = terrain->Serialize();
+			//放入新的信息
+			alter->_CurtTerrainInfoSerialization = terrain->Serialize();
 
-	//放入修改计数
-	alter->_AlterOrder = m_alterOrder;
+			//放入修改计数
+			alter->_AlterOrder = m_alterOrder;
+		}
+	}
 }
 
 void IETerrainArea::RollbackAllAlters()
@@ -288,6 +293,7 @@ void IETerrainArea::MouseBrush()
 {
 	if (m_readyTerrainID != 0)
 	{
+
 		AddChild(IEMouse::Share()->_MouseLocationX, IEMouse::Share()->_MouseLocationY);
 	}
 }
