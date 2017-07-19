@@ -183,8 +183,6 @@ void IEMap::InputHandle()
 				//鼠标刷 位防止刷子重复刷同一个地方
 				static int lastKeydownLocationX, lastKeydownLocationY;
 
-				printf("%d %d %d %d\n", lastKeydownLocationX, lastKeydownLocationY, IEMouse::Share()->_MouseLocationX, IEMouse::Share()->_MouseLocationY);
-
 				if (isMouseFree == true)
 				{
 					isMouseFree = false;
