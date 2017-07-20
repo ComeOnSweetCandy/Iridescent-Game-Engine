@@ -1,5 +1,5 @@
 #define __IE_DLL_EXPORTS__
-#include "IEcreaturesInfoManager.h"
+#include "IECreaturesInfoManager.h"
 
 IE_BEGIN
 
@@ -12,11 +12,15 @@ IECreaturesInfoManager::IECreaturesInfoManager()
 
 IECreaturesInfoManager::~IECreaturesInfoManager()
 {
-	for (int index = 0; index < m_creaturesInfoCount; index++)
+	for (unsigned int index = 0; index < m_creaturesInfoCount; index++)
 	{
-		delete m_creaturesInfoList[index];
+		__IE_RELEASE_DIF__(m_creaturesInfoList[index]._XML);
+		__IE_LUA_RELEASE__(m_creaturesInfoList[index]._LuaScript);
 	}
-	delete [] m_creaturesInfoList;
+	if (m_creaturesInfoList)
+	{
+		delete[] m_creaturesInfoList;
+	}
 }
 
 void IECreaturesInfoManager::Initialization()
@@ -41,38 +45,62 @@ IECreaturesInfoManager * IECreaturesInfoManager::Share()
 
 void IECreaturesInfoManager::LoadCreaturesInfo()
 {
-	IEString infoFileDir = pOBJECT_TO_cSTRING(SETTING["BaseDir"]) + "creature.txt";
-	FILE * filePoint = fopen(infoFileDir.GetString(), "r");
-	char c;
-	while ((c = fgetc(filePoint)) != EOF)
-	{
-		if (c == '\n')
-		{
-			m_creaturesInfoCount++;
-		}
-	}
-	m_creaturesInfoCount++;
+	IEString fileDir = pOBJECT_TO_cSTRING(SETTING["creatureInfoFile"]);
+	FILE * fp = fopen(fileDir.GetString(), "r");
 
-	fseek(filePoint, 0, SEEK_SET);
-	m_creaturesInfoList = new IECreatureInfo *[m_creaturesInfoCount];
-	IECreatureInfo * data;
-	int index = 0;
-	while (!feof(filePoint))
+	char buf[1024];
+	while (fgets(buf, 1024, fp))
 	{
-		data = new IECreatureInfo();
-		fscanf(filePoint, "%s %d %d %d %d %d %d %d %d %d", data->_CreatureName, &(data->_CreatureType), &(data->_BaseHealth), &(data->_GrowHealth),\
-			&(data->_BasePower), &(data->_GrowHealth), &(data->_BaseSpeed), &(data->_GrowSpeed), &(data->_BaseDamage), &(data->_GrowDamage));
-		m_creaturesInfoList[index] = data;
+		m_creaturesInfoCount++;
+	}
+
+	if (m_creaturesInfoCount == 0)
+	{
+		return;
+	}
+
+	fseek(fp, 0, SEEK_SET);
+	m_creaturesInfoList = new IECreatureInfo[m_creaturesInfoCount];
+
+	unsigned int index = 0;
+	while (!feof(fp))
+	{
+		fscanf(fp, "%d %s", &(m_creaturesInfoList[index]._CreatureID), m_creaturesInfoList[index]._CreatureName);
+		
+		if (m_creaturesInfoList[index]._CreatureID)
+		{
+			fileDir = IEString(m_creaturesInfoList[index]._CreatureName) << ".xml";
+
+			m_creaturesInfoList[index]._LuaScript = NULL;
+			m_creaturesInfoList[index]._XML = IEXml::Create(fileDir.GetString());
+
+			//Ìî³äÊý¾Ý
+			m_creaturesInfoList[index]._CreatureType = (IECreatureType)(m_creaturesInfoList[index]._XML->FindChild("type")->ValueInt());
+			m_creaturesInfoList[index]._BaseHealth = m_creaturesInfoList[index]._XML->FindChild("baseHealth")->ValueInt();
+			m_creaturesInfoList[index]._GrowHealth = m_creaturesInfoList[index]._XML->FindChild("growHealth")->ValueInt();
+			m_creaturesInfoList[index]._BaseMagic = m_creaturesInfoList[index]._XML->FindChild("baseMagic")->ValueInt();
+			m_creaturesInfoList[index]._GrowMagic = m_creaturesInfoList[index]._XML->FindChild("growMagic")->ValueInt();
+			m_creaturesInfoList[index]._BaseSpeed = m_creaturesInfoList[index]._XML->FindChild("baseSpeed")->ValueInt();
+			m_creaturesInfoList[index]._GrowSpeed = m_creaturesInfoList[index]._XML->FindChild("growSpeed")->ValueInt();
+			m_creaturesInfoList[index]._BaseDamage = m_creaturesInfoList[index]._XML->FindChild("physicDamage")->ValueInt();
+			m_creaturesInfoList[index]._GrowDamage = m_creaturesInfoList[index]._XML->FindChild("growPhysicDamage")->ValueInt();
+		}
+		else
+		{
+			m_creaturesInfoList[index]._LuaScript = NULL;
+			m_creaturesInfoList[index]._XML = NULL;
+		}
 
 		index++;
 	}
-	fclose(filePoint);
+
+	fclose(fp);
 }
 
 void IECreaturesInfoManager::SaveCreaturesInfo()
 {
 	FILE * filePoint = fopen("./data/creature.txt", "wb");
-	for (int index = 0; index < m_creaturesInfoCount; index++)
+	for (unsigned int index = 0; index < m_creaturesInfoCount; index++)
 	{
 		fwrite(&m_creaturesInfoList[index], sizeof(IECreatureInfo), 1, filePoint);
 	}

@@ -10,7 +10,7 @@
 #ifndef __IE_LUA_Creature__
 #define __IE_LUA_Creature__
 
-#include "../atom/IEcreature.h"
+#include "../atom/creature/IECreature.h"
 
 IE_BEGIN
 

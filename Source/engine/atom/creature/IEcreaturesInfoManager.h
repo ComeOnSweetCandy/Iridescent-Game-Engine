@@ -1,5 +1,5 @@
 /***********************************
-* name     : IEcreaturesInfoManager.h
+* name     : IECreaturesInfoManager.h
 * creater  : cosc
 * info     : all creatures manager
 * date     : 2017/2/15
@@ -10,7 +10,7 @@
 #ifndef __IE_CREATURES_INFO_MANAGER__
 #define __IE_CREATURES_INFO_MANAGER__
 
-#include "../IEcreature.h"
+#include "IECreature.h"
 
 IE_BEGIN
 
@@ -30,8 +30,8 @@ public:
 private:
 	static IECreaturesInfoManager * m_staticCreaturesManager;
 
-	IECreatureInfo ** m_creaturesInfoList;
-	int m_creaturesInfoCount;
+	IECreatureInfo * m_creaturesInfoList;
+	unsigned int m_creaturesInfoCount;
 
 	friend class IECreature;
 };

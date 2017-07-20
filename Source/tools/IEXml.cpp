@@ -123,7 +123,10 @@ void IEXml::ReadXML(const char * fileName)
 
 	//打开文件
 	FILE * fp = fopen(fileDir.GetString(), "r");
-	if (fp == NULL) return;
+	if (fp == NULL)
+	{
+		return;
+	}
 
 	IEString content;
 	char hrContent[1024];

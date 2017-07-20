@@ -70,13 +70,13 @@
 #include "engine/scene/terrain/items/IEwater.h"
 
 //atom
-#include "engine/atom/IECreature.h"
+#include "engine/atom/creature/IECreature.h"
 #include "engine/atom/creature/IEplayer.h"
 #include "engine/atom/creature/IEcreaturesInfoManager.h"
 #include "engine/atom/prop/IEpropPack.h"
 
 //action
-#include "engine/action/IEwalk.h"
+#include "engine/atom/creature/action/IEWalk.h"
 
 //trigger
 #include "engine/trigger/IEtrigger.h"

@@ -307,7 +307,7 @@ void IETexturePacker::SortTexture(unsigned int index)
 		IEGrid * grid = grids[gridIndex];
 
 		//假设已经提取到该点 就要判别 首先判别是否有空间放下去
-		if ((grid->m_x + element->_Width) >= m_width || (grid->m_y + element->_Height) >= m_height)
+		if ((grid->m_x + element->_Width) > m_width || (grid->m_y + element->_Height) > m_height)
 		{
 			//说明放不下去了 那就得寻找下一个位置点
 			continue;

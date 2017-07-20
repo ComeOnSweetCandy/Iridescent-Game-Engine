@@ -1,10 +1,10 @@
 #define __IE_DLL_EXPORTS__
-#include "IEplayer.h"
+#include "IEPlayer.h"
 
 #include "../../../core/IEcamera.h"
 
 #include "../prop/IEpickedProp.h"
-#include "../../action/IEwalk.h"
+#include "action/IEwalk.h"
 
 IE_BEGIN
 

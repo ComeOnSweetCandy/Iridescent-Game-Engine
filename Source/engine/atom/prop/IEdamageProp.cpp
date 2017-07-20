@@ -1,6 +1,6 @@
 #define __IE_DLL_EXPORTS__
 #include "IEdamageProp.h"
-#include "../IEcreature.h"
+#include "../creature/IECreature.h"
 
 IE_BEGIN
 

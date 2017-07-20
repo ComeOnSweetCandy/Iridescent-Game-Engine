@@ -5,7 +5,7 @@
 #include "../../../../interface/cmd/IEapplication.h"
 #include "../../../scene/IEmap.h"
 
-#include "../../../action/IEdisplacement.h"
+#include "../action/IEDisplacement.h"
 
 IE_BEGIN
 
@@ -88,7 +88,7 @@ void IEGoalTarget::Excute()
 	const float * translate = creature->GetTranslate();
 
 	IEVector leftRoad = m_destination - IEVector(translate[0], translate[1]);
-	float speed = creature->GetUnitInfo()->_Speed;
+	float speed = creature->GetCreatureUnit()->_Speed;
 	if (leftRoad.Length() < (speed / 60.0f))
 	{
 		//GetNextStep();

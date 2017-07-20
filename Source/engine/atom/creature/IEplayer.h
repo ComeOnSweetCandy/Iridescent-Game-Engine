@@ -1,5 +1,5 @@
 /***********************************
-* name     : IEplayer.h
+* name     : IEPlayer.h
 * creater  : cosc
 * info     : keyboard from player
 * date     : 2016/12/10
@@ -10,7 +10,7 @@
 #ifndef __IE_PLAYER__
 #define __IE_PLAYER__
 
-#include "../IEcreature.h"
+#include "IECreature.h"
 #include "../../../control/IEplayerNode.h"
 #include "../prop/IEpropPack.h"
 

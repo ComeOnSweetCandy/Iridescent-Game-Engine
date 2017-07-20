@@ -1,7 +1,7 @@
 #define __IE_DLL_EXPORTS__
 #include "IEAction.h"
 #include "IEActionMachine.h"
-#include "../atom/IEcreature.h"
+#include "../IECreature.h"
 
 IE_BEGIN
 
@@ -72,12 +72,13 @@ IECreature * IEAction::GetActionCreature()
 
 IECreatureInfo * IEAction::GetCreatureInfo()
 {
-	return m_actionMachine->m_creature->GetCreatureInfo();
+	//return m_actionMachine->m_creature->GetCreatureInfo();
+	return NULL;
 }
 
-IEUnitInfo * IEAction::GetUnitInfo()
+IECreatureUnit * IEAction::GetCreatureUnit()
 {
-	return m_actionMachine->m_creature->GetUnitInfo();
+	return m_actionMachine->m_creature->GetCreatureUnit();
 }
 
 void IEAction::ChangeActionTexture(char * actionSuffix, int playTimes)

@@ -1,7 +1,7 @@
 #define __IE_DLL_EXPORTS__
 #include "IEawait.h"
 
-#include "../atom/IEcreature.h"
+#include "../IECreature.h"
 
 IE_BEGIN
 

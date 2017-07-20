@@ -10,7 +10,7 @@
 #ifndef __IE_PATH_FINDER__
 #define __IE_PATH_FINDER__
 
-#include "../engine/atom/IEcreature.h"
+#include "../engine/atom/creature/IECreature.h"
 
 IE_BEGIN
 

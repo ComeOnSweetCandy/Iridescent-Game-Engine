@@ -64,6 +64,28 @@ void IEImage::CheckType(IEString &file)
 	else if (extensions == "png" || extensions == "PNG")
 	{
 		LoadPNG(file.GetString(), &m_imgWidth, &m_imgHeight, &m_imgComponents, &m_imgFormat);
+
+		//检测是否pass为3 如果为3 修改pass为4 且修改源文件
+		if (m_imgComponents == 3)
+		{
+			int size = m_imgWidth * m_imgHeight * 4;
+			unsigned char * newData = new unsigned char[size];
+
+			for (int iii = 0; iii < m_imgWidth * m_imgHeight; iii++)
+			{
+				memcpy(newData + iii * 4, m_imgData + iii * 3, 3);
+				*(newData + iii * 4 + 3) = 0xFF;
+			}
+
+			delete[]m_imgData;
+			m_imgData = newData;
+
+			m_imgFormat = GL_RGBA;
+			m_imgComponents = 4;
+
+			//最后保存文件
+			SavePNG(file.GetString());
+		}
 	}
 	else
 	{
@@ -359,7 +381,6 @@ void IEImage::LoadPNG(const char *szFileName, GLint *iWidth, GLint *iHeight, GLi
 	}
 
 	fclose(pFile);
-	return;
 }
 
 void IEImage::SavePNG(const char * fileName)

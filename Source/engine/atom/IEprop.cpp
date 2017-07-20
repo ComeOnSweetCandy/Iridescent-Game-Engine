@@ -1,6 +1,6 @@
 #define __IE_DLL_EXPORTS__
 #include "IEProp.h"
-#include "IEcreature.h"
+#include "creature/IECreature.h"
 
 #include "prop/IEpropsInfoManager.h"
 

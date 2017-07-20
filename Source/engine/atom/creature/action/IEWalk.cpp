@@ -1,8 +1,8 @@
 #define __IE_DLL_EXPORTS__
 #include "IEwalk.h"
 
-#include "../../interface/cmd/IEapplication.h"
-#include "../scene/IEmap.h"
+#include "../../../../interface/cmd/IEapplication.h"
+#include "../../../scene/IEMap.h"
 
 IE_BEGIN
 
@@ -82,8 +82,8 @@ bool IEWalk::Excute()
 	const float * translate = GetActionNode()->GetTranslate();
 
 	IEVector leftRoad = m_destination - IEVector(translate[0], translate[1]);
-	//float speed = GetUnitInfo()->GetSpeed();
-	float speed = GetUnitInfo()->_Speed;
+	//float speed = GetCreatureUnit()->GetSpeed();
+	float speed = GetCreatureUnit()->_Speed;
 	if (leftRoad.Length() < (speed / 60.0f))
 	{
 		GetNextStep();

@@ -1,5 +1,5 @@
 /***********************************
-* name     : IEcreatureInfo.h
+* name     : IECreatureInfo.h
 * creater  : cosc
 * info     : creature info
 * date     : 2017/1/4
@@ -11,6 +11,7 @@
 #define __IE_CREATURE_INFO__
 
 #include "../../../global/IEstdafx.h"
+#include "../../../tools/IEXml.h"
 #include "../../../type/IEvector.h"
 #include "../../../type/IEgrid.h"
 
@@ -27,7 +28,7 @@ enum __IE_DLL__ IECreatureType
 	__creature_type_unknown__
 };
 
-enum __IE_DLL__ IECreatureGroup
+enum __IE_DLL__ IECreatureParty
 {
 	__creature_group_mine__,
 	__creature_group_friend__,
@@ -37,25 +38,12 @@ enum __IE_DLL__ IECreatureGroup
 
 typedef struct ieUnitInfo
 {
-	ieUnitInfo()
-	{
-		//绝对需要读取unit信息 最大可能同map一类
-		_CreatrueID = 1;
-		_UnitOrder = 1;
-		_UnitGroup = __creature_group_mine__;
-		strcpy(_UnitName, "steven");
-		_Level = 1;
-
-		//绝对需要确认的信息 最大可能从save一类
-		_Alive = true;
-	};
-	
 	//map一类需要读取的信息
 	unsigned int _CreatrueID;
-	unsigned int _UnitOrder;
+	unsigned int _Order;
 	unsigned int _Level;
-	IECreatureGroup _UnitGroup;
-	char _UnitName[64];
+	IECreatureParty _Party;
+	char _Name[64];
 
 	//save一类需要读取的信息
 	bool _Alive;
@@ -67,18 +55,21 @@ typedef struct ieUnitInfo
 	unsigned int _CurPower;
 	unsigned int _Speed;
 	unsigned int _Damage;
-}IEUnitInfo;
+}IECreatureUnit;
 
 typedef struct ieCreatureInfo
 {
 	IECreatureType _CreatureType;
+	unsigned _CreatureID;
 	char _CreatureName[64];
+	lua_State * _LuaScript;
+	IEXml * _XML;
 
 	unsigned int _BaseHealth;
 	unsigned int _GrowHealth;
 
-	unsigned int _BasePower;
-	unsigned int _GrowPower;
+	unsigned int _BaseMagic;
+	unsigned int _GrowMagic;
 
 	unsigned int _BaseSpeed;
 	unsigned int _GrowSpeed;

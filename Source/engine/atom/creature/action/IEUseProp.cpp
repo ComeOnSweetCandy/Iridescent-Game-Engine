@@ -1,6 +1,6 @@
 #define __IE_DLL_EXPORTS__
 #include "IEuseProp.h"
-#include "../atom/creature/IEplayer.h"
+#include "../IEPlayer.h"
 
 IE_BEGIN
 

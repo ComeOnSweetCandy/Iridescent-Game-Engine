@@ -1,5 +1,5 @@
 /***********************************
-* name     : IEactin.h
+* name     : IEActin.h
 * creater  : cosc
 * info     : action base
 * date     : 2017/1/13
@@ -10,9 +10,9 @@
 #ifndef __IE_ACTION__
 #define __IE_ACTION__
 
-#include "../atom/creature/IEcreatureInfo.h"
-#include "../../core/IEnode.h"
-#include "../trigger/IEtrigger.h"
+#include "../IECreatureInfo.h"
+#include "../../../../core/IEnode.h"
+#include "../../../trigger/IEtrigger.h"
 
 IE_BEGIN
 
@@ -60,7 +60,7 @@ protected:
 	IENode * GetActionNode();
 	IECreature * GetActionCreature();
 	IECreatureInfo * GetCreatureInfo();
-	IEUnitInfo * GetUnitInfo();
+	IECreatureUnit * GetCreatureUnit();
 
 	void ChangeAction(IEActionType actionType);
 	void ChangeAction(IEActionType actionType, IEAction * action);

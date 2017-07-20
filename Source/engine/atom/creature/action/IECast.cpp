@@ -1,7 +1,8 @@
 #define __IE_DLL_EXPORTS__
 #include "IEcast.h"
-#include "../atom/IEcreature.h"
-#include "../atom/IEprop.h"
+
+#include "../IECreature.h"
+#include "../../IEprop.h"
 
 IE_BEGIN
 

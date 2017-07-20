@@ -1,6 +1,6 @@
 #define __IE_DLL_EXPORTS__
 #include "IEdead.h"
-#include "../atom/IEcreature.h"
+#include "../IECreature.h"
 
 IE_BEGIN
 

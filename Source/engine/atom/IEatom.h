@@ -12,7 +12,7 @@
 
 #include "../../core/element/IEsprite.h"
 #include "../../physic/IEphysicNode.h"
-#include "../action/IEactionMachine.h"
+#include "creature/action/IEActionMachine.h"
 
 IE_BEGIN
 

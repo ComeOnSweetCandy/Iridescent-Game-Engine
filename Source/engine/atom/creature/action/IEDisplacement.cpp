@@ -103,7 +103,7 @@ void IEDisplacement::SetActionNodeDisplacement()
 
 void IEDisplacement::SetActionNodeFaceDirection()
 {
-	//GetUnitInfo()->SetFacer(m_direction.m_x, m_direction.m_y);
+	//GetCreatureUnit()->SetFacer(m_direction.m_x, m_direction.m_y);
 	GetActionNode()->SetDirection(m_direction.m_x, m_direction.m_y);
 
 	SetTextureDirection();

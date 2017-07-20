@@ -1,5 +1,5 @@
 /***********************************
-* name     : IEcreature.h
+* name     : IECreature.h
 * creater  : cosc
 * info     : creature
 * date     : 2017/1/4
@@ -10,13 +10,14 @@
 #ifndef __IE_CREATURE__
 #define __IE_CREATURE__
 
-#include "IEatom.h"
-#include "creature/IEcreatureInfo.h"
-#include "../action/IEactionMachine.h"
+#include "../IEatom.h"
+#include "IECreatureInfo.h"
+
+#include "goal/IEGoalMachine.h"
+#include "action/IEactionMachine.h"
 
 IE_BEGIN
 
-class IECreaturesInfoManager;
 class IEText;
 class IEProcessBar;
 
@@ -30,12 +31,13 @@ public:
 
 public:
 	virtual void SetTranslate(const float &x, const float &y);
-
-	IECreatureInfo * GetCreatureInfo();
-	IEUnitInfo * GetUnitInfo();
+ 
+	IECreatureInfo& GetCreatureInfo();
+	IECreatureUnit * GetCreatureUnit();
 	IEActionMachine * GetActionMachine();
 
-	//给予creature的指令
+	//给予creature的指令 或者说是目标 可以由脚本进行调用
+	void Await();
 	void Walk(float x, float y);
 	void Cured(int cureValue);
 	void Damaged(int damageValue);
@@ -51,9 +53,8 @@ protected:
 	virtual void TemporaryTextureEnd();
 
 private:
-	void InitCreatureInfo(int creatureID);
-	void InitUnitInfo(int creatureOrder);
-	void InitCreatureScript();
+	void InitUnit(unsigned int creatureID, int creatureOrder);
+	void InitMachine();
 	void InitCreatureTab();
 
 	IEContainer * FindCreatureAround();				//获取周围所有的人的句柄
@@ -64,9 +65,8 @@ private:
 	void RunAction();								//运行动作
 
 protected:
-	IECreatureInfo * m_creatureInfo;
-	IEUnitInfo * m_unitInfo;
-
+	IECreatureUnit * m_unit;
+	IEGoalMachine * m_goalMachine;
 	IEActionMachine * m_actionMachine;
 
 	IEText * m_nameDisplay;

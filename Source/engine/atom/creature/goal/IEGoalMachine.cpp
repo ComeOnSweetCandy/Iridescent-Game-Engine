@@ -1,6 +1,6 @@
 #define __IE_DLL_EXPORTS__
 #include "IEGoalMachine.h"
-#include "../../IEcreature.h"
+#include "../IECreature.h"
 
 IE_BEGIN
 
@@ -11,16 +11,13 @@ IEGoalMachine::IEGoalMachine()
 
 IEGoalMachine::~IEGoalMachine()
 {
-	m_creature = NULL;
+	__IE_RELEASE_DIF__(m_goalList);
+	__IE_RELEASE_DIF__(m_curGoal);
 }
 
 void IEGoalMachine::Initialization(IECreature * creature)
 {
-	m_creature = creature;
-	for (int index = 0; index < __action_count__; index++)
-	{
-		m_goalList[index] = NULL;
-	}
+	m_goalList = IEStack::Create();
 }
 
 IEGoalMachine * IEGoalMachine::Create(IECreature * creature)
@@ -40,71 +37,50 @@ IECreature * IEGoalMachine::GetCreature()
 	return m_creature;
 }
 
-void IEGoalMachine::ExcuteGoal()
+void IEGoalMachine::AddGoal(IEGoal * goal)
 {
-	for (int index = 0; index < __action_count__; index++)
+	if (m_curGoal == NULL)
 	{
-		if (m_goalList[index])
-		{
-			m_goalList[index]->Excute();
+		m_curGoal = goal;
+	}
+	else
+	{
+		m_goalList->PushFromEnding(goal);
+	}
+}
 
-			return;
+void IEGoalMachine::ChangeGoal(IEGoal * goal)
+{
+	if (m_curGoal == NULL)
+	{
+		m_curGoal = goal;
+	}
+	else
+	{
+		__IE_RELEASE_DIF__(goal);
+	}
+}
+
+void IEGoalMachine::Excute()
+{
+	if (m_curGoal)
+	{
+		m_curGoal->Excute();
+	}
+	else
+	{
+		if (IEGoal * nextGoal = (IEGoal *)(m_goalList->PopFromBegining()))
+		{
+			//首先检查goal栈 是否有准备好的下一个目标
+			m_curGoal = nextGoal;
+			m_curGoal->Excute();
+		}
+		else
+		{
+			//如果没有next goal 就要通知creature了
+			m_creature->Await();
 		}
 	}
-
-	//如果没有goal
-	//creature'state swtich to free.
-}
-
-void IEGoalMachine::SwitchGoal(IEGoalType goalType, IEGoal * goal)
-{
-	if (!goal)
-	{
-		__IE_ERROR__("IEGaolMachine : error.\n");
-	}
-
-	//清空其它目标
-	for (int index = 0; index < __action_count__; index++)
-	{
-		if (m_goalList[index])
-		{
-			m_goalList[index]->End();
-			delete m_goalList[index];
-			m_goalList[index] = NULL;
-		}
-	}
-
-	m_goalList[goalType] = goal;
-	m_goalList[goalType]->SetGoalMachine(this);
-	m_goalList[goalType]->Begin();
-}
-
-bool IEGoalMachine::CheckGoals()
-{
-	for (int index = 0; index < __action_count__; index++)
-	{
-		if (m_goalList[index])
-		{
-			return false;
-		}
-	}
-
-	return true;
-}
-
-void IEGoalMachine::FinishGoal(IEGoalType goalType)
-{
-	if (m_goalList[goalType])
-	{
-		m_goalList[goalType]->End();
-		delete m_goalList[goalType];
-		m_goalList[goalType] = NULL;
-	}
-}
-
-IECreature * IEGoalMachine::GetCreatureByIndex(unsigned int index)
-{
-	return NULL;
 }
 
 IE_END

@@ -10,7 +10,9 @@
 #ifndef __IE_GOAL__
 #define __IE_GOAL__
 
-#include "../../IEcreature.h"
+#include "../../../../core/IEobject.h"
+#include "../../../../core/container/IEcontianer.h"
+#include "../../../../type/IEvector.h"
 
 IE_BEGIN
 
@@ -18,6 +20,7 @@ class IEGoalMachine;
 
 enum __IE_DLL__ IEGoalType
 {
+	__goal_await__,
 	__goal_go__,
 	__goal_flee__,
 	__goal_follow__,
@@ -25,7 +28,7 @@ enum __IE_DLL__ IEGoalType
 	__goal_count__
 };
 
-class __IE_DLL__ IEGoal
+class __IE_DLL__ IEGoal:public IEObject
 {
 public:
 	IEGoal();

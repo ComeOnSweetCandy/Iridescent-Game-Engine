@@ -26,19 +26,15 @@ public:
 	static IEGoalMachine * Create(IECreature * creature);
 
 public:
+	void Excute();
+	void AddGoal(IEGoal * goal);
+	void ChangeGoal(IEGoal * goal);
+
 	void SetCreature(IECreature * creature);
 	IECreature * GetCreature();
 
-protected:
-	void ExcuteGoal();
-	bool CheckGoals();
-	void SwitchGoal(IEGoalType goalType, IEGoal * goal = NULL);
-	void FinishGoal(IEGoalType goalType);
-
-	IECreature * GetCreatureByIndex(unsigned int index);
-
 private:
-	IEGoal * m_goalList[__goal_count__];
+	IEStack * m_goalList;
 	IEGoal * m_curGoal;
 	IECreature * m_creature;
 

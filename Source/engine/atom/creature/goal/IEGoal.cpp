@@ -27,7 +27,7 @@ IEGoal * IEGoal::Create()
 
 void IEGoal::FinishSelf()
 {
-	m_goalMachine->FinishGoal(m_goalType);
+	//m_goalMachine->FinishGoal(m_goalType);
 }
 
 void IEGoal::SetGoalMachine(IEGoalMachine * goalMachine)

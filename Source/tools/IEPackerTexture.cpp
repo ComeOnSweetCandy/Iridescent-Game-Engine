@@ -201,7 +201,9 @@ void IEPackerTexture::ForgeryXML(const char * textureName)
 	m_groupCount = 1;
 	m_textureGroups = new IETextureGroup[m_groupCount];
 
-	m_textureGroups[0]._Name = NULL;
+	m_textureGroups[0]._Name = new char[4];
+	strcpy(m_textureGroups[0]._Name, "def");
+
 	m_textureGroups[0]._SameCount = 1;
 	m_textureGroups[0]._Same = new IETextureSame[1];
 
@@ -247,24 +249,6 @@ void IEPackerTexture::LoadTexture(const char * textureName)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
-	if (m_image->m_imgComponents == 3)
-	{
-		int size = m_image->m_imgWidth * m_image->m_imgHeight * 4;
-		unsigned char * newData = new unsigned char[size];
-
-		for (int iii = 0; iii < m_image->m_imgWidth * m_image->m_imgHeight; iii++)
-		{
-			memcpy(newData + iii * 4, m_image->m_imgData + iii * 3, 3);
-			*(newData + iii * 4 + 3) = 0xFF;
-		}
-
-		delete[]m_image->m_imgData;
-		m_image->m_imgData = newData;
-
-		m_image->m_imgComponents = 4;
-		m_image->m_imgFormat = GL_RGBA;
-	}
 
 	//IEThreadProtocol::Share()->ThreadLoadImage(m_image);
 
