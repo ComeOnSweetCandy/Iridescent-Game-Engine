@@ -29,6 +29,7 @@ public:
 	void Excute();
 	void AddGoal(IEGoal * goal);
 	void ChangeGoal(IEGoal * goal);
+	void FinishGoal(IEGoal * goal);
 
 	void SetCreature(IECreature * creature);
 	IECreature * GetCreature();

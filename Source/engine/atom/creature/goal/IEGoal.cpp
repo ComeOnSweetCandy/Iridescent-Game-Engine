@@ -1,7 +1,9 @@
 #define __IE_DLL_EXPORTS__
 #include "IEGoal.h"
 
+#include "../IECreature.h"
 #include "IEGoalMachine.h"
+#include "../action/IEAction.h"
 
 IE_BEGIN
 
@@ -25,14 +27,24 @@ IEGoal * IEGoal::Create()
 	return NULL;
 }
 
-void IEGoal::FinishSelf()
+IECreature * IEGoal::GetCreature()
 {
-	//m_goalMachine->FinishGoal(m_goalType);
+	return m_goalMachine->m_creature;
 }
 
-void IEGoal::SetGoalMachine(IEGoalMachine * goalMachine)
+void IEGoal::ChangeAction(IEAction * action)
 {
-	m_goalMachine = goalMachine;
+	GetCreature()->GetActionMachine()->ChangeAction(action);
+}
+
+void IEGoal::FinishSelf()
+{
+	m_goalMachine->FinishGoal(this);
+}
+
+void IEGoal::SetGoalMachine(IEGoalMachine * machine)
+{
+	m_goalMachine = machine;
 }
 
 IE_END

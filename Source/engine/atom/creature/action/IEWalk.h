@@ -25,9 +25,9 @@ public:
 	static IEWalk * Create(float x, float y);
 
 public:
-	virtual bool Begin();
-	virtual bool Excute();
-	virtual bool End();
+	virtual void Begin();
+	virtual void Excute();
+	virtual void End();
 
 private:
 	void GetNextStep();

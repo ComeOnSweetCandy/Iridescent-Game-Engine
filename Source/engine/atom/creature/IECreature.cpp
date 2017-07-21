@@ -7,9 +7,7 @@
 #include "../../../core/element/IEtext.h"
 #include "../../../core/element/IEprocessBar.h"
 
-#include "action/IEinjured.h"
-#include "action/IEdead.h"
-#include "action/IEwalk.h"
+#include "goal/IEGoalAwait.h"
 
 #include "../../script/IEluaNode.h"
 #include "../../script/IEluaCreature.h"
@@ -52,6 +50,11 @@ IECreature * IECreature::Create(unsigned int creatureID, unsigned int creatureOr
 
 void IECreature::SetTranslate(const float &x, const float &y)
 {
+	printf("IECreature : settranslate error.\n");
+}
+
+void IECreature::SetPosition(const float &x, const float &y)
+{
 	IENode::SetTranslate(x, y);
 	m_physicNode->SetPhysicPosition(x, y);
 }
@@ -75,8 +78,8 @@ void IECreature::Die()
 
 void IECreature::TemporaryTextureEnd()
 {
-	m_actionMachine->DeleteAllActions();
-	m_actionMachine->CheckActions();
+	//m_actionMachine->DeleteAllActions();
+	//m_actionMachine->CheckActions();
 }
 
 IECreatureUnit * IECreature::GetCreatureUnit()
@@ -150,7 +153,7 @@ void IECreature::InitUnit(unsigned int creatureID, int creatureOrder)
 
 		if (luaL_dofile(luaScript, scriptName) != 0)
 		{
-			__IE_WARNING__("IETerrain : can not find luaScript file.\n");
+			__IE_WARNING__("IECreature : can not find luaScript file.\n");
 		}
 
 		__creatureInfo._LuaScript = luaScript;
@@ -185,36 +188,33 @@ void IECreature::Cured(int cureValue)
 
 void IECreature::Damaged(int damageValue)
 {
-	m_unit->_CurHealth = m_unit->_CurHealth - damageValue;
-	ArrangeInfo();
+	//m_unit->_CurHealth = m_unit->_CurHealth - damageValue;
+	//ArrangeInfo();
 
-	if (m_unit->_CurHealth <= 0)
-	{
-		IEDead * deadAction = IEDead::Create();
-		GetActionMachine()->ChangeAction(__action_dead__, deadAction);
-	}
-	else
-	{
-		IEInjured * injuredAction = IEInjured::Create();
-		GetActionMachine()->ChangeAction(__action_injured__, injuredAction);
-	}
+	//if (m_unit->_CurHealth <= 0)
+	//{
+	//	IEDead * deadAction = IEDead::Create();
+	//	GetActionMachine()->ChangeAction(__action_dead__, deadAction);
+	//}
+	//else
+	//{
+	//	IEInjured * injuredAction = IEInjured::Create();
+	//	GetActionMachine()->ChangeAction(__action_injured__, injuredAction);
+	//}
 
-	m_healthDisplay->SetProcess(m_unit->_CurHealth / m_unit->_MaxHealth);
+	//m_healthDisplay->SetProcess(m_unit->_CurHealth / m_unit->_MaxHealth);
 }
 
 void IECreature::Await()
 {
-	//1：调用脚本 是否有采取的行动
-
-	//2：如果没有行动 进入await状态
-
-	printf("i am boring\n");
+	IEGoalAwait * goal = IEGoalAwait::Create();
+	m_goalMachine->AddGoal(goal);
 }
 
 void IECreature::Walk(float x, float y)
 {
-	IEWalk * wal = IEWalk::Create(x, y);
-	GetActionMachine()->ChangeAction(__action_walk__, wal);
+	//IEWalk * wal = IEWalk::Create(x, y);
+	//GetActionMachine()->ChangeAction(__action_walk__, wal);
 }
 
 void IECreature::FollowEnemy()

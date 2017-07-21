@@ -31,6 +31,7 @@ public:
 
 public:
 	virtual void SetTranslate(const float &x, const float &y);
+	virtual void SetPosition(const float &x, const float &y);
  
 	IECreatureInfo& GetCreatureInfo();
 	IECreatureUnit * GetCreatureUnit();

@@ -16,7 +16,9 @@
 
 IE_BEGIN
 
+class IECreature;
 class IEGoalMachine;
+class IEAction;
 
 enum __IE_DLL__ IEGoalType
 {
@@ -41,14 +43,20 @@ protected:
 	virtual void Excute() = 0;
 	virtual void End() = 0;
 
+	IECreature * GetCreature();
+	
+	void ChangeAction(IEAction * action);
 	void FinishSelf();
 
 private:
-	void SetGoalMachine(IEGoalMachine * stateMachine);
+	void SetGoalMachine(IEGoalMachine * machine);
 
 protected:
 	IEGoalType m_goalType;
 	IEGoalMachine * m_goalMachine;
+
+	unsigned int _Mask;				//作为一个自身的标志
+	unsigned int _Opera;			//操作数 代表比哪些goal等级更高
 
 	friend class IEGoalMachine;
 };

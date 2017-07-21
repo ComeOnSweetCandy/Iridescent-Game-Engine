@@ -1,5 +1,5 @@
 /***********************************
-* name     : IEactionMachine.h
+* name     : IEActionMachine.h
 * creater  : cosc
 * info     : action control machine
 * date     : 2017/1/14
@@ -10,11 +10,7 @@
 #ifndef __IE_ACTION_MACHINE__
 #define __IE_ACTION_MACHINE__
 
-#include "IEaction.h"
-#include "IEawait.h"
-#include "IEattack.h"
-#include "IEdisplacement.h"
-#include "IEuseProp.h"
+#include "IEAction.h"
 
 IE_BEGIN
 
@@ -29,24 +25,12 @@ public:
 	static IEActionMachine * Create(IECreature * atom);
 
 public:
-	void ChangeAction(IEActionType actionType);
-	void ChangeAction(IEActionType actionType, IEAction * action);
-	void AppendAction(IEActionType actionType);
-	void AppendAction(IEActionType actionType, IEAction * action);
-	bool AllowChangeAction(IEAction * action);
-	void DeleteAction(IEActionType actionType);
-	void DeleteOtherActions(IEActionType actionType, IEActionLevel actionLevel);
-	void DeleteAllActions();
-	void CheckActions();
-	void ExcuteAction();
+	void ChangeAction(IEAction * action);
+	void Run();
 
 private:
-	void CreateAction(IEActionType actionType);
-
-private:
-	IEAction * m_actionList[__action_count__];
+	IEAction * m_action;
 	IECreature * m_creature;
-	IEString m_lastActionTextureName;
 
 	friend class IEAction;
 };

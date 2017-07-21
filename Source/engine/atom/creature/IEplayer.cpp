@@ -4,7 +4,7 @@
 #include "../../../core/IEcamera.h"
 
 #include "../prop/IEpickedProp.h"
-#include "action/IEwalk.h"
+//#include "action/IEwalk.h"
 
 IE_BEGIN
 
@@ -53,15 +53,15 @@ void IEPlayer::Live()
 		//moveDirection.Normalize();
 		//moveDirection = moveDirection * (m_unitInfo->_Speed) * IETime::Share()->GetLastFrapPassingTime();
 
-		IEDisplacement * action = IEDisplacement::Create(m_moveDirection.m_x, m_moveDirection.m_y);
-		m_actionMachine->ChangeAction(__action_displacement__, action);
+		//IEDisplacement * action = IEDisplacement::Create(m_moveDirection.m_x, m_moveDirection.m_y);
+		//m_actionMachine->ChangeAction(__action_displacement__, action);
 	}
 
 	//重置所有的操作
 	ResetEverything();
 
 	//执行动作
-	m_actionMachine->ExcuteAction();
+	m_actionMachine->Run();
 
 	//设置camera
 	const float * translate = GetTranslate();
@@ -128,8 +128,8 @@ void IEPlayer::PlayerPressNumberKey(unsigned char key)
 {
 	int packIndex = key - DIK_1;
 
-	IEUseProp * useProp = IEUseProp::Create(packIndex);
-	m_actionMachine->ChangeAction(__action_useProp__, useProp);
+	//IEUseProp * useProp = IEUseProp::Create(packIndex);
+	//m_actionMachine->ChangeAction(__action_useProp__, useProp);
 
 	HandleKeyboard();
 }

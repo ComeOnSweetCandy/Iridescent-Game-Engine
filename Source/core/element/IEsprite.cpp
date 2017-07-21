@@ -92,7 +92,7 @@ void IESprite::ChangeTexture(const char * textureName)
 
 	m_texture = IEPackerTexture::Create(textureName);
 	m_texture->Retain();
-	ChangeGroup("default");
+	//ChangeGroup("default");
 
 	ReckonSize();
 }

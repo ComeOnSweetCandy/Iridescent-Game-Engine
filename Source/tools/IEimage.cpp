@@ -84,7 +84,7 @@ void IEImage::CheckType(IEString &file)
 			m_imgComponents = 4;
 
 			//最后保存文件
-			SavePNG(file.GetString());
+			//SavePNG(file.GetString());
 		}
 	}
 	else

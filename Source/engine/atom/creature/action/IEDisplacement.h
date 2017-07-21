@@ -27,9 +27,9 @@ public:
 	static IEDisplacement * Create(int x, int y);
 
 public:
-	virtual bool Begin();
-	virtual bool Excute();
-	virtual bool End();
+	virtual void Begin();
+	virtual void Excute();
+	virtual void End();
 
 private:
 	void SetActionNodeDisplacement();

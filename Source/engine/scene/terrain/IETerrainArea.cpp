@@ -255,10 +255,13 @@ void IETerrainArea::MouseMove(float x, float y)
 		//说明没有选择ReadyID 那么就以当前地面为显示的元素
 		if (IETerrain * terrain = (IETerrain *)GetBlock(IEMouse::Share()->_MouseLocationX, IEMouse::Share()->_MouseLocationY))
 		{
-			IEPackerTexture * texture = terrain->GetTexture();
-			m_suspension->ChangeTexture(texture);
-			m_suspension->ChangeGroup("body");
-			m_suspension->SetTranslate(x, y);
+			if (terrain->GetTerrainID() != 0)
+			{
+				IEPackerTexture * texture = terrain->GetTexture();
+				m_suspension->ChangeTexture(texture);
+				m_suspension->ChangeGroup("body");
+				m_suspension->SetTranslate(x, y);
+			}
 		}
 		else
 		{

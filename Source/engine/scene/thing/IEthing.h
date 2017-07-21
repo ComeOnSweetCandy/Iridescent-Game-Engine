@@ -12,6 +12,8 @@
 
 #include "../IEBlock.h"
 
+#include "../../trigger/IEtrigger.h"
+
 IE_BEGIN
 
 class __IE_DLL__ IEThing :public IEBlock
