@@ -58,6 +58,8 @@ private:
 	void InitMachine();
 	void InitCreatureTab();
 
+	void AnalyseCommand(char * command);
+
 	IEContainer * FindCreatureAround();				//获取周围所有的人的句柄
 	void ArrangeInfo();								//处理一些 防止信息数值错误的操作
 

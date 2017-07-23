@@ -26,7 +26,7 @@ public:
 	static IEGoalMachine * Create(IECreature * creature);
 
 public:
-	void Excute();
+	void Run();
 	void AddGoal(IEGoal * goal);
 	void ChangeGoal(IEGoal * goal);
 	void FinishGoal(IEGoal * goal);

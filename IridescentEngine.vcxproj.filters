@@ -561,6 +561,9 @@
     <ClCompile Include="Source\engine\atom\creature\action\IERest.cpp">
       <Filter>IridescentEngine</Filter>
     </ClCompile>
+    <ClCompile Include="Source\engine\atom\creature\goal\IEGoalWatch.cpp">
+      <Filter>IridescentEngine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\core\shader\IEshader.h">
@@ -996,6 +999,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\engine\atom\creature\action\IERest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\engine\atom\creature\goal\IEGoalWatch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

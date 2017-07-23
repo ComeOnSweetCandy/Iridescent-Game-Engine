@@ -40,7 +40,10 @@ void IEActionMachine::ChangeAction(IEAction * action)
 
 void IEActionMachine::Run()
 {
-	m_action->Excute();
+	if (m_action)
+	{
+		m_action->Excute();
+	}
 }
 
 IE_END

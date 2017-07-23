@@ -80,7 +80,7 @@ void IEGoalMachine::FinishGoal(IEGoal * goal)
 	}
 }
 
-void IEGoalMachine::Excute()
+void IEGoalMachine::Run()
 {
 	if (m_curGoal)
 	{

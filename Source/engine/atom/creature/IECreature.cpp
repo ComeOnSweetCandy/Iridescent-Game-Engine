@@ -136,7 +136,7 @@ void IECreature::InitUnit(unsigned int creatureID, int creatureOrder)
 		luaL_openlibs(luaScript);
 
 		char scriptName[64];
-		sprintf(scriptName, "%s%s%s", "../Debug/data/script/terrain/", __creatureInfo._CreatureName, ".lua");
+		sprintf(scriptName, "%s%s%s", "../Debug/data/script/creature/", __creatureInfo._CreatureName, ".lua");
 
 		luaL_Reg lua_reg_libs[] =
 		{
@@ -178,6 +178,11 @@ void IECreature::InitCreatureTab()
 	//IENode::AddChild(m_nameDisplay);
 }
 
+void IECreature::AnalyseCommand(char * command)
+{
+
+}
+
 void IECreature::Cured(int cureValue)
 {
 	m_unit->_CurHealth = m_unit->_CurHealth + cureValue;
@@ -207,6 +212,12 @@ void IECreature::Damaged(int damageValue)
 
 void IECreature::Await()
 {
+	//从script读取脚本信息
+	//char * command[256];
+
+	//解析命令
+
+
 	IEGoalAwait * goal = IEGoalAwait::Create();
 	m_goalMachine->AddGoal(goal);
 }
@@ -270,12 +281,12 @@ void IECreature::RunState()
 
 void IECreature::RunGoal()
 {
-	m_goalMachine->Excute();
+	m_goalMachine->Run();
 }
 
 void IECreature::RunAction()
 {
-	//m_actionMachine->ExcuteAction();
+	m_actionMachine->Run();
 }
 
 IE_END
