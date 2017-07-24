@@ -5,7 +5,7 @@
 #include "../../../../interface/cmd/IEapplication.h"
 #include "../../../scene/IEmap.h"
 
-//#include "../action/IEDisplacement.h"
+#include "../action/IEDisplacement.h"
 
 IE_BEGIN
 

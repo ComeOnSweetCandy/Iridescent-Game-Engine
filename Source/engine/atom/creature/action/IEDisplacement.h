@@ -32,8 +32,6 @@ public:
 private:
 	void SetActionNodeDisplacement();
 	void SetActionNodeFaceDirection();
-	void SetTextureDirection();
-
 
 private:
 	IEVector m_displacement;

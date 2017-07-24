@@ -26,17 +26,16 @@ public:
 	virtual void Initialization();
 	static IEAction * Create();
 
+public:
+	void SetActionMachine(IEActionMachine * machine);
+
 protected:
 	virtual void Begin() = 0;
 	virtual void Excute() = 0;
 	virtual void End() = 0;
 
 	IECreature * GetCreature();
-
-	void ChangeTextureGroup(const char * groupName);
-
-private:
-	void SetActionMachine(IEActionMachine * machine);
+	IEActionMachine * GetActionMachine();
 
 protected:
 	IEActionMachine * m_actionMachine;

@@ -29,7 +29,7 @@ IERest * IERest::Create()
 
 void IERest::Begin()
 {
-	ChangeTextureGroup("rest");
+	GetCreature()->ChangeGroup("rest");
 }
 
 void IERest::Excute()

@@ -28,14 +28,17 @@ IEActionMachine * IEActionMachine::Create(IECreature * atom)
 
 void IEActionMachine::ChangeAction(IEAction * action)
 {
-	action->SetActionMachine(this);
-
 	if (m_action)
 	{
 		__IE_RELEASE_DIF__(action);
 	}
 	m_action = action;
-	m_action->Begin();
+
+	if (action)
+	{
+		action->SetActionMachine(this);
+		m_action->Begin();
+	}
 }
 
 void IEActionMachine::Run()

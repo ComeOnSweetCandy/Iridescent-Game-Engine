@@ -120,8 +120,8 @@ void IEPackerTexture::GetTexture(IETextureUnitState * unitState)
 void IEPackerTexture::ChangeGroup(IETextureUnitState * textureUnitState, const char * groupName, unsigned char sameIndex)
 {
 	//先进行检测是否为重复修改group
-	bool res = strcmp(m_textureGroups[textureUnitState->_GroupIndex]._Name, groupName);
-	if (res)
+	int res = strcmp(m_textureGroups[textureUnitState->_GroupIndex]._Name, groupName);
+	if (res == 0)
 	{
 		if (sameIndex - 1 == textureUnitState->_SameIndex)
 		{

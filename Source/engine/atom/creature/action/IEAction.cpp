@@ -31,9 +31,9 @@ IECreature * IEAction::GetCreature()
 	return m_actionMachine->m_creature;
 }
 
-void IEAction::ChangeTextureGroup(const char * groupName)
+IEActionMachine * IEAction::GetActionMachine()
 {
-	GetCreature()->ChangeGroup(groupName);
+	return m_actionMachine;
 }
 
 void IEAction::SetActionMachine(IEActionMachine * machine)

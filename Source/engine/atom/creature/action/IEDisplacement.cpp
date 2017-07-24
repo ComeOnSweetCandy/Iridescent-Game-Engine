@@ -17,34 +17,35 @@ IEDisplacement::~IEDisplacement()
 
 void IEDisplacement::Initialization(float x, float y)
 {
-	SetDisplacement(x, y);
+	//m_displacement[0] = x;
+	//m_displacement[1] = y;
 
-	float abs_x = __IE_ABS__(x);
-	float abs_y = __IE_ABS__(y);
+	//float abs_x = __IE_ABS__(x);
+	//float abs_y = __IE_ABS__(y);
 
-	if (x > 0.0f)
-	{
-		if (abs_x >= abs_y)
-		{
-			SetDirection(1, 0);
-		}
-	}
-	else
-	{
-		if (abs_x >= abs_y)
-		{
-			SetDirection(-1, 0);
-		}
-	}
-	
-	if (y > 0.0f)
-	{
-		SetDirection(0, 1);
-	}
-	else if (y < 0.0f)
-	{
-		SetDirection(0, -1);
-	}
+	//if (x > 0.0f)
+	//{
+	//	if (abs_x >= abs_y)
+	//	{
+	//		SetDirection(1, 0);
+	//	}
+	//}
+	//else
+	//{
+	//	if (abs_x >= abs_y)
+	//	{
+	//		SetDirection(-1, 0);
+	//	}
+	//}
+	//
+	//if (y > 0.0f)
+	//{
+	//	SetDirection(0, 1);
+	//}
+	//else if (y < 0.0f)
+	//{
+	//	SetDirection(0, -1);
+	//}
 }
 
 void IEDisplacement::Initialization(int x, int y)
@@ -69,14 +70,12 @@ void IEDisplacement::Initialization(int x, int y)
 		}
 		else if (x == -1)
 		{
-			//ÌùÍ¼·­×ª
-			//???
 			groupName << 'r';
 		}
 
 		if (y == 1)
 		{
-			groupName << 'b';
+			groupName << 't';
 		}
 		else if (y == 0)
 		{
@@ -84,10 +83,11 @@ void IEDisplacement::Initialization(int x, int y)
 		}
 		else if (y == -1)
 		{
-			groupName << 't';
+			groupName << 'b';
 		}
 		
-		//GetCreature()->ChangeGroup(groupName.GetString(), 1);
+		GetCreature()->ChangeGroup(groupName.GetString(), 1);
+		GetCreature()->SetScale(lastDirection[0] >= 0 ? 1 : -1);
 	}
 	lastDirection[0] = x;
 	lastDirection[1] = y;
@@ -116,45 +116,26 @@ IEDisplacement * IEDisplacement::Create(float x, float y)
 	return action;
 }
 
-bool IEDisplacement::Begin()
+void IEDisplacement::Begin()
 {
-	ChangeActionTexture("walk");
-	DeleteOtherActions();
 
-	return true;
 }
 
-bool IEDisplacement::Excute()
+void IEDisplacement::Excute()
 {
-	SetActionNodeFaceDirection();
 	SetActionNodeDisplacement();
 
-	DeleteAction(m_actionType);
-	return true;
+	GetActionMachine()->ChangeAction(NULL);
 }
 
-bool IEDisplacement::End()
+void IEDisplacement::End()
 {
-	return true;
+
 }
 
 void IEDisplacement::SetActionNodeDisplacement()
 {
-	m_displacement = m_displacement * 4.0f;
-	GetActionNode()->GetPhysicNode()->SetDisplacement(m_displacement.m_x, m_displacement.m_y);
-}
-
-void IEDisplacement::SetActionNodeFaceDirection()
-{
-	//GetCreatureUnit()->SetFacer(m_direction.m_x, m_direction.m_y);
-	GetActionNode()->SetDirection(m_direction.m_x, m_direction.m_y);
-
-	SetTextureDirection();
-}
-
-void IEDisplacement::SetTextureDirection()
-{
-	GetActionNode()->SetScale(m_displacement.m_x >= 0.0f ? 1 : -1);
+	GetCreature()->GetPhysicNode()->SetDisplacement(m_displacement.m_x, m_displacement.m_y);
 }
 
 IE_END
