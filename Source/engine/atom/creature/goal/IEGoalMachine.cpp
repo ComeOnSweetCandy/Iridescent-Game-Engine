@@ -56,16 +56,16 @@ void IEGoalMachine::AddGoal(IEGoal * goal)
 
 void IEGoalMachine::ChangeGoal(IEGoal * goal)
 {
-	goal->SetGoalMachine(this);
+	if (m_curGoal)
+	{
+		__IE_RELEASE_DIF__(m_curGoal);
+	}
 
-	if (m_curGoal == NULL)
+	if (goal)
 	{
 		m_curGoal = goal;
+		m_curGoal->SetGoalMachine(this);
 		m_curGoal->Begin();
-	}
-	else
-	{
-		__IE_RELEASE_DIF__(goal);
 	}
 }
 

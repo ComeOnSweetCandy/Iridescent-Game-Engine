@@ -9,7 +9,7 @@ IE_BEGIN
 
 IEGoal::IEGoal()
 {
-	m_goalType = __goal_count__;
+
 }
 
 IEGoal::~IEGoal()

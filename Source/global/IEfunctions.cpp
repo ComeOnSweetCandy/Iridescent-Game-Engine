@@ -52,3 +52,19 @@ void * GetLuaUserdataElement(lua_State * luaScript, const char * paramName)
 	lua_pop(luaScript, 1);
 	return value;
 }
+
+bool AllocateLuaFunction(lua_State * luaScript, const char * functionName)
+{
+	if (lua_getglobal(luaScript, functionName))
+	{
+		//SetLuaUserdataElement(m_luaScript, "self", "IEThing.IEThing", this);
+
+		return true;
+	}
+	else
+	{
+		lua_pop(luaScript, -1);
+
+		return false;
+	}
+}

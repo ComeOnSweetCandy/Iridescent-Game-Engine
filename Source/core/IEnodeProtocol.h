@@ -29,7 +29,7 @@ public:
 	void SetScale(const float &scale);
 	void SetAnchor(const float &x, const float &y);
 	void SetTranslate(const float &x, const float &y);
-	void SetDirection(const char &x, const char &y);
+	void SetDirection(const int &x, const int &y);
 	void SetSize(const float &x, const float &y);
 	void SetZIndex(const float &zIndex);
 

@@ -1,12 +1,12 @@
 #define __IE_DLL_EXPORTS__
 #include "IEdisplacement.h"
 
+#include "../IECreature.h"
+
 IE_BEGIN
 
 IEDisplacement::IEDisplacement()
 {
-	m_actionType = __action_displacement__;
-	m_actionLevel = __actionlevel_0__;
 	m_displacement = IEVector(0.0f, 0.0f);
 }
 
@@ -49,24 +49,67 @@ void IEDisplacement::Initialization(float x, float y)
 
 void IEDisplacement::Initialization(int x, int y)
 {
-	GetActionNode();
+	//检测是否需要修改group
+	int * lastDirection = GetCreature()->GetDirection();
+	if (lastDirection[0] == x && lastDirection[1] == y)
+	{
+		//与上一次方向相同 无需更换贴图组
+	}
+	else
+	{
+		//与上一次方向不同
+		IEString groupName = "walk_";
+		if (x == 1)
+		{
+			groupName << 'r';
+		}
+		else if (x == 0)
+		{
+			//什么也不做
+		}
+		else if (x == -1)
+		{
+			//贴图翻转
+			//???
+			groupName << 'r';
+		}
+
+		if (y == 1)
+		{
+			groupName << 'b';
+		}
+		else if (y == 0)
+		{
+			//什么也不做
+		}
+		else if (y == -1)
+		{
+			groupName << 't';
+		}
+		
+		//GetCreature()->ChangeGroup(groupName.GetString(), 1);
+	}
+	lastDirection[0] = x;
+	lastDirection[1] = y;
+
+	unsigned int speed = GetCreature()->GetCreatureUnit()->_Speed;
+	float shift = (float)(speed) / 360 / 60;
+
+	m_displacement[0] = lastDirection[0];
+	m_displacement[1] = lastDirection[1];
+
+	m_displacement.Normalize();
+	m_displacement = m_displacement * shift;
 }
 
-IEDisplacement * IEDisplacement::Create()
-{
-	IEDisplacement * action = new IEDisplacement();
-	action->Initialization(0, 0);
-	return action;
-}
-
-IEDisplacement * IEDisplacement::Create(float x, float y)
+IEDisplacement * IEDisplacement::Create(int x, int y)
 {
 	IEDisplacement * action = new IEDisplacement();
 	action->Initialization(x, y);
 	return action;
 }
 
-IEDisplacement * IEDisplacement::Create(int x, int y)
+IEDisplacement * IEDisplacement::Create(float x, float y)
 {
 	IEDisplacement * action = new IEDisplacement();
 	action->Initialization(x, y);
@@ -112,16 +155,6 @@ void IEDisplacement::SetActionNodeFaceDirection()
 void IEDisplacement::SetTextureDirection()
 {
 	GetActionNode()->SetScale(m_displacement.m_x >= 0.0f ? 1 : -1);
-}
-
-void IEDisplacement::SetDisplacement(float x, float y)
-{
-	m_displacement = IEVector((const float)x, (const float)y);
-}
-
-void IEDisplacement::SetDirection(int x, int y)
-{
-	m_direction = IEGrid(x, y);
 }
 
 IE_END

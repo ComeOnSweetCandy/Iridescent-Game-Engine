@@ -132,4 +132,6 @@ extern "C" __IE_DLL__ char *  GetLuaStringElement(lua_State * luaScript, const c
 extern "C" __IE_DLL__ void SetLuaUserdataElement(lua_State * luaScript, const char * paramName, const char * className, void * data);
 extern "C" __IE_DLL__ void * GetLuaUserdataElement(lua_State * luaScript, const char * paramName);
 
+extern "C" __IE_DLL__ bool AllocateLuaFunction(lua_State * luaScript, const char * functionName);
+
 #endif

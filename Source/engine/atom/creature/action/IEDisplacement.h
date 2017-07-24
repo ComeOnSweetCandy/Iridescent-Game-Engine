@@ -1,9 +1,8 @@
 /***********************************
-* name     : IEdisplacement.h
+* name     : IEDisplacement.h
 * creater  : cosc
 * info     : action displacement
-* c_date   : 2017/2/17
-* l_date   : 2017/2/17
+* date     : 2017/7/24
 * version  : 1.0
 * remark   : none
 ************************************/
@@ -11,7 +10,7 @@
 #ifndef __IE_DISPLACEMENT__
 #define __IE_DISPLACEMENT__
 
-#include "IEaction.h"
+#include "IEAction.h"
 
 IE_BEGIN
 
@@ -22,7 +21,6 @@ public:
 	virtual ~IEDisplacement();
 	virtual void Initialization(float x, float y);
 	virtual void Initialization(int x, int y);
-	static IEDisplacement * Create();
 	static IEDisplacement * Create(float x, float y);
 	static IEDisplacement * Create(int x, int y);
 
@@ -36,12 +34,11 @@ private:
 	void SetActionNodeFaceDirection();
 	void SetTextureDirection();
 
-	void SetDirection(int x, int y);
-	void SetDisplacement(float x, float y);
 
 private:
 	IEVector m_displacement;
-	IEGrid m_direction;
+
+	bool m_directer[2];
 };
 
 IE_END

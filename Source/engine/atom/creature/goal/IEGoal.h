@@ -20,16 +20,6 @@ class IECreature;
 class IEGoalMachine;
 class IEAction;
 
-enum __IE_DLL__ IEGoalType
-{
-	__goal_await__,
-	__goal_go__,
-	__goal_flee__,
-	__goal_follow__,
-	__goal_attack__,
-	__goal_count__
-};
-
 class __IE_DLL__ IEGoal:public IEObject
 {
 public:
@@ -52,7 +42,6 @@ private:
 	void SetGoalMachine(IEGoalMachine * machine);
 
 protected:
-	IEGoalType m_goalType;
 	IEGoalMachine * m_goalMachine;
 
 	unsigned int _Mask;				//作为一个自身的标志

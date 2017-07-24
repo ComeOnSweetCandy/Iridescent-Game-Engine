@@ -17,6 +17,8 @@
 
 IE_BEGIN
 
+class IECreature;
+
 enum __IE_DLL__ IECreatureType
 {
 	__creature_type_human__,
@@ -77,6 +79,8 @@ typedef struct ieCreatureInfo
 	unsigned int _BaseDamage;
 	unsigned int _GrowDamage;
 }IECreatureInfo;
+
+extern "C" __IE_DLL__ bool __CreatureOpposite(IECreature * creatureA, IECreature * creatureB);
 
 IE_END
 

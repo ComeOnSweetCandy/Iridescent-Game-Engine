@@ -38,8 +38,13 @@ public:
 	IEActionMachine * GetActionMachine();
 
 	//给予creature的指令 或者说是目标 可以由脚本进行调用
-	void Await();
-	void Walk(float x, float y);
+	void Await();								//无目标情况下的处理
+	void Remind();								//警戒线视野内有enemy
+	void Warning();								//攻击线视野内有enemy
+
+	
+	
+	void Walk(float x, float y);				
 	void Cured(int cureValue);
 	void Damaged(int damageValue);
 

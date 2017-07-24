@@ -22,7 +22,7 @@ IEGoalGo::~IEGoalGo()
 
 void IEGoalGo::Initialization(float x, float y)
 {
-	SetDestination(x, y);
+	IEGoalGo::SetDestination(x, y);
 }
 
 IEGoalGo * IEGoalGo::Create(float x, float y)

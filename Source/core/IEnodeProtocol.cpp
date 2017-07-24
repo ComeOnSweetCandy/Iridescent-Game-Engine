@@ -65,7 +65,7 @@ void IENodeProtocol::SetTranslate(const float &x, const float &y)
 	m_translate[1] = y;
 }
 
-void IENodeProtocol::SetDirection(const char &x, const char &y)
+void IENodeProtocol::SetDirection(const int &x, const int &y)
 {
 	m_direction[0] = x;
 	m_direction[1] = y;

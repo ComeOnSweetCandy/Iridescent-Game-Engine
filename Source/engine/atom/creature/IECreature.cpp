@@ -8,6 +8,7 @@
 #include "../../../core/element/IEprocessBar.h"
 
 #include "goal/IEGoalAwait.h"
+#include "goal/IEGoalWatch.h"
 
 #include "../../script/IEluaNode.h"
 #include "../../script/IEluaCreature.h"
@@ -185,6 +186,9 @@ void IECreature::AnalyseCommand(char * command)
 
 void IECreature::Cured(int cureValue)
 {
+	printf("%d",cureValue);
+	return;
+
 	m_unit->_CurHealth = m_unit->_CurHealth + cureValue;
 	ArrangeInfo();
 
@@ -216,10 +220,18 @@ void IECreature::Await()
 	//char * command[256];
 
 	//½âÎöÃüÁî
+	IECreatureInfo& __creatureInfo = IECreaturesInfoManager::Share()->m_creaturesInfoList[m_unit->_CreatrueID];
 
-
-	IEGoalAwait * goal = IEGoalAwait::Create();
-	m_goalMachine->AddGoal(goal);
+	if (AllocateLuaFunction(__creatureInfo._LuaScript, "Await"))
+	{
+		SetLuaUserdataElement(__creatureInfo._LuaScript, "self", "IECreature.IECreature", this);
+		lua_call(__creatureInfo._LuaScript, 0, 0);
+	}
+	else
+	{
+		IEGoalWatch * goal = IEGoalWatch::Create();
+		m_goalMachine->AddGoal(goal);
+	}
 }
 
 void IECreature::Walk(float x, float y)

@@ -564,6 +564,9 @@
     <ClCompile Include="Source\engine\atom\creature\goal\IEGoalWatch.cpp">
       <Filter>IridescentEngine</Filter>
     </ClCompile>
+    <ClCompile Include="Source\engine\atom\creature\IECreatureInfo.cpp">
+      <Filter>IridescentEngine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\core\shader\IEshader.h">

@@ -56,6 +56,7 @@
     <ClCompile Include="Source\engine\atom\creature\goal\IEGoalUser.cpp" />
     <ClCompile Include="Source\engine\atom\creature\goal\IEGoalWatch.cpp" />
     <ClCompile Include="Source\engine\atom\creature\IECreature.cpp" />
+    <ClCompile Include="Source\engine\atom\creature\IECreatureInfo.cpp" />
     <ClCompile Include="Source\engine\atom\creature\IECreaturesInfoManager.cpp" />
     <ClCompile Include="Source\engine\atom\creature\IEPlayer.cpp" />
     <ClCompile Include="Source\engine\atom\IEatom.cpp" />
