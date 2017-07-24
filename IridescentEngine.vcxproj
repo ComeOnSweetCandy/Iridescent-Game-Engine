@@ -47,6 +47,7 @@
     <ClCompile Include="Source\core\shader\IEshader.cpp" />
     <ClCompile Include="Source\engine\atom\creature\action\IEAction.cpp" />
     <ClCompile Include="Source\engine\atom\creature\action\IEActionMachine.cpp" />
+    <ClCompile Include="Source\engine\atom\creature\action\IEDisplacement.cpp" />
     <ClCompile Include="Source\engine\atom\creature\action\IERest.cpp" />
     <ClCompile Include="Source\engine\atom\creature\goal\IEGoal.cpp" />
     <ClCompile Include="Source\engine\atom\creature\goal\IEGoalAwait.cpp" />
@@ -189,6 +190,7 @@
     <ClInclude Include="Source\core\shader\IEshader.h" />
     <ClInclude Include="Source\engine\atom\creature\action\IEAction.h" />
     <ClInclude Include="Source\engine\atom\creature\action\IEActionMachine.h" />
+    <ClInclude Include="Source\engine\atom\creature\action\IEDisplacement.h" />
     <ClInclude Include="Source\engine\atom\creature\action\IERest.h" />
     <ClInclude Include="Source\engine\atom\creature\goal\IEGoal.h" />
     <ClInclude Include="Source\engine\atom\creature\goal\IEGoalAwait.h" />
