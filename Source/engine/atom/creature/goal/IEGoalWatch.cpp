@@ -2,11 +2,8 @@
 #include "IEGoalWatch.h"
 
 #include "IEGoalGo.h"
-
-#include "../action/IERest.h"
-
-#include "../../../../interface/cmd/IEapplication.h"
 #include "../IECreature.h"
+#include "../../../../interface/cmd/IEapplication.h"
 
 IE_BEGIN
 
@@ -37,8 +34,7 @@ IEGoalWatch * IEGoalWatch::Create()
 
 void IEGoalWatch::Begin()
 {
-	IERest * rest = IERest::Create();
-	ChangeAction(rest);
+	GetCreature()->Rest();
 }
 
 void IEGoalWatch::Excute()
@@ -66,12 +62,29 @@ void IEGoalWatch::Excute()
 			if (res)
 			{
 				//两者对立
-				float * position = creatures[index]->GetTranslate();
-				IEGoalGo * goal = IEGoalGo::Create(position[0], position[1]);
-				m_goalMachine->ChangeGoal(goal);
+				float * aPosition = self->GetTranslate();
+				float * bPosition = creatures[index]->GetTranslate();
 
-				return;
+				//检测是否在范围内
+				float length = IEVector(aPosition[0] - bPosition[0], aPosition[1] - bPosition[1]).Length();
+				if (length <= self->GetCreatureInfo()->_View)
+				{
+					if (m_watchSomething == false)
+					{
+						m_watchSomething = true;
+						self->Warning(creatures[index]);
+					}
+
+					return;
+				}
 			}
+		}
+
+		if (m_watchSomething == true)
+		{
+			m_watchSomething = false;
+
+			self->Rest();
 		}
 	}
 }

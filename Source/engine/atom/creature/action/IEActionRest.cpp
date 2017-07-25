@@ -1,5 +1,5 @@
 #define __IE_DLL_EXPORTS__
-#include "IERest.h"
+#include "IEActionRest.h"
 
 #include "../IECreature.h"
 

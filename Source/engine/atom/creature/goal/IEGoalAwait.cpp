@@ -1,7 +1,7 @@
 #define __IE_DLL_EXPORTS__
 #include "IEGoalAwait.h"
 
-#include "../action/IERest.h"
+#include "../IECreature.h"
 
 IE_BEGIN
 
@@ -30,8 +30,7 @@ IEGoalAwait * IEGoalAwait::Create()
 
 void IEGoalAwait::Begin()
 {
-	IERest * rest = IERest::Create();
-	ChangeAction(rest);
+	GetCreature()->Rest();
 }
 
 void IEGoalAwait::Excute()

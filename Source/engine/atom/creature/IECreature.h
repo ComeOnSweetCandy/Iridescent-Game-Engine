@@ -33,18 +33,20 @@ public:
 	virtual void SetTranslate(const float &x, const float &y);
 	virtual void SetPosition(const float &x, const float &y);
  
-	IECreatureInfo& GetCreatureInfo();
+	IECreatureInfo * GetCreatureInfo();
 	IECreatureUnit * GetCreatureUnit();
 	IEActionMachine * GetActionMachine();
 
-	//给予creature的指令 或者说是目标 可以由脚本进行调用
+	//给予creature的情况反馈 与指令区分开 或者意为 通知当前creature所处于的状态
+	void User();								//当前为用户控制
 	void Await();								//无目标情况下的处理
-	void Remind();								//警戒线视野内有enemy
-	void Warning();								//攻击线视野内有enemy
+	void Warning(IECreature * creature);		//警戒线视野内有enemy
 
 	
-	
-	void Walk(float x, float y);				
+	//给予creature的指令调用的统统为action组
+	void Rest();								//action rest
+	void Angry();								//action angry
+	void Displacement(float x, float y);		//action displacement
 	void Cured(int cureValue);
 	void Damaged(int damageValue);
 
@@ -73,6 +75,7 @@ private:
 	void RunAction();								//运行动作
 
 protected:
+	IECreatureInfo * m_info;
 	IECreatureUnit * m_unit;
 	IEGoalMachine * m_goalMachine;
 	IEActionMachine * m_actionMachine;

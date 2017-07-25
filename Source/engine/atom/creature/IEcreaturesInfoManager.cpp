@@ -76,6 +76,7 @@ void IECreaturesInfoManager::LoadCreaturesInfo()
 
 			//Ìî³äÊý¾Ý
 			m_creaturesInfoList[index]._CreatureType = (IECreatureType)(m_creaturesInfoList[index]._XML->FindChild("type")->ValueInt());
+			m_creaturesInfoList[index]._View = m_creaturesInfoList[index]._XML->FindChild("view")->ValueFloat();
 			m_creaturesInfoList[index]._BaseHealth = m_creaturesInfoList[index]._XML->FindChild("baseHealth")->ValueInt();
 			m_creaturesInfoList[index]._GrowHealth = m_creaturesInfoList[index]._XML->FindChild("growHealth")->ValueInt();
 			m_creaturesInfoList[index]._BaseMagic = m_creaturesInfoList[index]._XML->FindChild("baseMagic")->ValueInt();

@@ -9,6 +9,12 @@
 
 #include "goal/IEGoalAwait.h"
 #include "goal/IEGoalWatch.h"
+#include "goal/IEGoalUser.h"
+#include "goal/IEGoalGo.h"
+
+#include "action/IEActionRest.h"
+#include "action/IEActionAngry.h"
+#include "action/IEActionDisplacement.h"
 
 #include "../../script/IEluaNode.h"
 #include "../../script/IEluaCreature.h"
@@ -28,6 +34,7 @@ IECreature::IECreature()
 IECreature::~IECreature()
 {
 	__IE_DELETE__(m_unit);
+	__IE_RELEASE_DIF__(m_goalMachine);
 	__IE_RELEASE_DIF__(m_actionMachine);
 }
 
@@ -57,7 +64,11 @@ void IECreature::SetTranslate(const float &x, const float &y)
 void IECreature::SetPosition(const float &x, const float &y)
 {
 	IENode::SetTranslate(x, y);
-	m_physicNode->SetPhysicPosition(x, y);
+
+	if (m_physicNode)
+	{
+		m_physicNode->SetPhysicPosition(x, y);
+	}
 }
 
 void IECreature::Born()
@@ -83,6 +94,11 @@ void IECreature::TemporaryTextureEnd()
 	//m_actionMachine->CheckActions();
 }
 
+IECreatureInfo * IECreature::GetCreatureInfo()
+{
+	return m_info;
+}
+
 IECreatureUnit * IECreature::GetCreatureUnit()
 {
 	return m_unit;
@@ -96,17 +112,18 @@ IEActionMachine * IECreature::GetActionMachine()
 void IECreature::InitUnit(unsigned int creatureID, int creatureOrder)
 {
 	//获取creature的基本信息
-	IECreatureInfo& __creatureInfo = IECreaturesInfoManager::Share()->m_creaturesInfoList[creatureID];
+	m_info = &(IECreaturesInfoManager::Share()->m_creaturesInfoList[creatureID]);
 
 	//新建个体信息
 	m_unit = new IECreatureUnit();
 
 	//填入必要信息
+	m_unit->_CretureInfo = m_info;
 	m_unit->_CreatrueID = creatureID;
 	m_unit->_Order = creatureOrder;
 
 	//需要从map中读取的信息
-	m_unit->_Party = __creature_group_friend__;
+	m_unit->_Party = __creature_party_friend__;
 	m_unit->_Level = 10;
 	strcpy(m_unit->_Name, "steven");
 
@@ -114,15 +131,15 @@ void IECreature::InitUnit(unsigned int creatureID, int creatureOrder)
 	m_unit->_Alive = true;
 
 	//需要通过计算的数据
-	m_unit->_MaxHealth = __creatureInfo._BaseHealth + m_unit->_Level * __creatureInfo._GrowHealth;
+	m_unit->_MaxHealth = m_info->_BaseHealth + m_unit->_Level * m_info->_GrowHealth;
 	m_unit->_CurHealth = m_unit->_MaxHealth;
-	m_unit->_MaxPower = __creatureInfo._BaseMagic + m_unit->_Level * __creatureInfo._GrowMagic;
+	m_unit->_MaxPower = m_info->_BaseMagic + m_unit->_Level * m_info->_GrowMagic;
 	m_unit->_CurPower = m_unit->_MaxPower;
-	m_unit->_Speed = __creatureInfo._BaseSpeed + m_unit->_Level * __creatureInfo._GrowSpeed;
-	m_unit->_Damage = __creatureInfo._BaseDamage + m_unit->_Level * __creatureInfo._GrowDamage;
+	m_unit->_Speed = m_info->_BaseSpeed + m_unit->_Level * m_info->_GrowSpeed;
+	m_unit->_Damage = m_info->_BaseDamage + m_unit->_Level * m_info->_GrowDamage;
 	
 	//贴图
-	IEPackerTexture * texture = IEPackerTexture::Create(__creatureInfo._XML->FindChild("texture"));
+	IEPackerTexture * texture = IEPackerTexture::Create(m_info->_XML->FindChild("texture"));
 	ChangeTexture(texture);
 
 	//物理
@@ -130,14 +147,14 @@ void IECreature::InitUnit(unsigned int creatureID, int creatureOrder)
 	BindPhysicNode(physicNode);
 
 	//脚本
-	lua_State * luaScript = __creatureInfo._LuaScript;
+	lua_State * luaScript = m_info->_LuaScript;
 	if (!luaScript)
 	{
 		luaScript = luaL_newstate();
 		luaL_openlibs(luaScript);
 
 		char scriptName[64];
-		sprintf(scriptName, "%s%s%s", "../Debug/data/script/creature/", __creatureInfo._CreatureName, ".lua");
+		sprintf(scriptName, "%s%s%s", "../Debug/data/script/creature/", m_info->_CreatureName, ".lua");
 
 		luaL_Reg lua_reg_libs[] =
 		{
@@ -157,7 +174,7 @@ void IECreature::InitUnit(unsigned int creatureID, int creatureOrder)
 			__IE_WARNING__("IECreature : can not find luaScript file.\n");
 		}
 
-		__creatureInfo._LuaScript = luaScript;
+		m_info->_LuaScript = luaScript;
 	}
 }
 
@@ -214,18 +231,18 @@ void IECreature::Damaged(int damageValue)
 	//m_healthDisplay->SetProcess(m_unit->_CurHealth / m_unit->_MaxHealth);
 }
 
+void IECreature::User()
+{
+	IEGoalUser * goal = IEGoalUser::Create();
+	m_goalMachine->AddGoal(goal);
+}
+
 void IECreature::Await()
 {
-	//从script读取脚本信息
-	//char * command[256];
-
-	//解析命令
-	IECreatureInfo& __creatureInfo = IECreaturesInfoManager::Share()->m_creaturesInfoList[m_unit->_CreatrueID];
-
-	if (AllocateLuaFunction(__creatureInfo._LuaScript, "Await"))
+	if (AllocateLuaFunction(m_info->_LuaScript, "Await"))
 	{
-		SetLuaUserdataElement(__creatureInfo._LuaScript, "self", "IECreature.IECreature", this);
-		lua_call(__creatureInfo._LuaScript, 0, 0);
+		SetLuaUserdataElement(m_info->_LuaScript, "self", "IECreature.IECreature", this);
+		lua_call(m_info->_LuaScript, 0, 0);
 	}
 	else
 	{
@@ -234,10 +251,37 @@ void IECreature::Await()
 	}
 }
 
-void IECreature::Walk(float x, float y)
+void IECreature::Warning(IECreature * creature)
 {
-	//IEWalk * wal = IEWalk::Create(x, y);
-	//GetActionMachine()->ChangeAction(__action_walk__, wal);
+	//由script来决定如何处理warning状态
+	if (AllocateLuaFunction(m_info->_LuaScript, "Warning"))
+	{
+		SetLuaUserdataElement(m_info->_LuaScript, "self", "IECreature.IECreature", this);
+		lua_call(m_info->_LuaScript, 0, 0);
+	}
+	else
+	{
+		IEGoalGo * goal = IEGoalGo::Create(creature->GetTranslate()[0], creature->GetTranslate()[1]);
+		m_goalMachine->ChangeGoal(goal);
+	}
+}
+
+void IECreature::Rest()
+{
+	IERest * rest = IERest::Create();
+	m_actionMachine->ChangeAction(rest);
+}
+
+void IECreature::Angry()
+{
+	IEActionAngry * action = IEActionAngry::Create();
+	m_actionMachine->ChangeAction(action);
+}
+
+void IECreature::Displacement(float x, float y)
+{
+	IEDisplacement * action = IEDisplacement::Create(x, y);
+	m_actionMachine->ChangeAction(action);
 }
 
 void IECreature::FollowEnemy()
@@ -253,7 +297,7 @@ void IECreature::FollowEnemy()
 void IECreature::FollowCreature(IECreature * creature)
 {
 	const float * translate = creature->GetTranslate();
-	Walk(translate[0], translate[1]);
+	//Walk(translate[0], translate[1]);
 }
 
 IEContainer * IECreature::FindCreatureAround()

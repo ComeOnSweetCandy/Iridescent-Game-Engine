@@ -2,8 +2,7 @@
 * name     : IERest.h
 * creater  : cosc
 * info     : action rest
-* c_date   : 2017/7/21
-* l_date   : 2017/7/21
+* date     : 2017/7/21
 * version  : 1.0
 * remark   : none
 ************************************/

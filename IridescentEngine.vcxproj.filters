@@ -558,16 +558,19 @@
     <ClCompile Include="Source\engine\atom\creature\goal\IEGoalAwait.cpp">
       <Filter>IridescentEngine</Filter>
     </ClCompile>
-    <ClCompile Include="Source\engine\atom\creature\action\IERest.cpp">
-      <Filter>IridescentEngine</Filter>
-    </ClCompile>
     <ClCompile Include="Source\engine\atom\creature\goal\IEGoalWatch.cpp">
       <Filter>IridescentEngine</Filter>
     </ClCompile>
     <ClCompile Include="Source\engine\atom\creature\IECreatureInfo.cpp">
       <Filter>IridescentEngine</Filter>
     </ClCompile>
-    <ClCompile Include="Source\engine\atom\creature\action\IEDisplacement.cpp">
+    <ClCompile Include="Source\engine\atom\creature\action\IEActionAngry.cpp">
+      <Filter>IridescentEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\engine\atom\creature\action\IEActionRest.cpp">
+      <Filter>IridescentEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\engine\atom\creature\action\IEActionDisplacement.cpp">
       <Filter>IridescentEngine</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1004,13 +1007,16 @@
     <ClInclude Include="Source\engine\atom\creature\goal\IEGoalAwait.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\engine\atom\creature\action\IERest.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\engine\atom\creature\goal\IEGoalWatch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\engine\atom\creature\action\IEDisplacement.h">
+    <ClInclude Include="Source\engine\atom\creature\action\IEActionAngry.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\engine\atom\creature\action\IEActionRest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\engine\atom\creature\action\IEActionDisplacement.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

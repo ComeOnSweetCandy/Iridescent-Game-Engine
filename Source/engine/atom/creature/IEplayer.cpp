@@ -4,7 +4,7 @@
 #include "../../../core/IEcamera.h"
 
 #include "../prop/IEpickedProp.h"
-//#include "action/IEwalk.h"
+#include "action/IEActionDisplacement.h"
 
 IE_BEGIN
 
@@ -49,12 +49,8 @@ void IEPlayer::Live()
 	//处理键盘按键
 	if (m_moveDirection.m_x || m_moveDirection.m_y)
 	{
-		//IEVector moveDirection = m_moveDirection;
-		//moveDirection.Normalize();
-		//moveDirection = moveDirection * (m_unitInfo->_Speed) * IETime::Share()->GetLastFrapPassingTime();
-
-		//IEDisplacement * action = IEDisplacement::Create(m_moveDirection.m_x, m_moveDirection.m_y);
-		//m_actionMachine->ChangeAction(__action_displacement__, action);
+		IEDisplacement * action = IEDisplacement::Create(m_moveDirection.m_x, m_moveDirection.m_y);
+		m_actionMachine->ChangeAction(action);
 	}
 
 	//重置所有的操作

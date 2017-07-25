@@ -5,7 +5,7 @@
 #include "../../../../interface/cmd/IEapplication.h"
 #include "../../../scene/IEmap.h"
 
-#include "../action/IEDisplacement.h"
+#include "../action/IEActionDisplacement.h"
 
 IE_BEGIN
 
@@ -23,6 +23,8 @@ IEGoalGo::~IEGoalGo()
 void IEGoalGo::Initialization(float x, float y)
 {
 	IEGoalGo::SetDestination(x, y);
+
+	FindPath();
 }
 
 IEGoalGo * IEGoalGo::Create(float x, float y)

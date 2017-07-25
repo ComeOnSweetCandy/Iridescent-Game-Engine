@@ -32,36 +32,16 @@ enum __IE_DLL__ IECreatureType
 
 enum __IE_DLL__ IECreatureParty
 {
-	__creature_group_mine__,
-	__creature_group_friend__,
-	__creature_group_neutral__,
-	__creature_group_enemy__
+	__creature_party_mine__,
+	__creature_party_friend__,
+	__creature_party_neutral__,
+	__creature_party_enemy__
 };
-
-typedef struct ieUnitInfo
-{
-	//map一类需要读取的信息
-	unsigned int _CreatrueID;
-	unsigned int _Order;
-	unsigned int _Level;
-	IECreatureParty _Party;
-	char _Name[64];
-
-	//save一类需要读取的信息
-	bool _Alive;
-
-	//剩下的信息 是依靠于计算产生的
-	unsigned int _MaxHealth;
-	unsigned int _CurHealth;
-	unsigned int _MaxPower;
-	unsigned int _CurPower;
-	unsigned int _Speed;
-	unsigned int _Damage;
-}IECreatureUnit;
 
 typedef struct ieCreatureInfo
 {
 	IECreatureType _CreatureType;
+	float _View;
 	unsigned _CreatureID;
 	char _CreatureName[64];
 	lua_State * _LuaScript;
@@ -79,6 +59,28 @@ typedef struct ieCreatureInfo
 	unsigned int _BaseDamage;
 	unsigned int _GrowDamage;
 }IECreatureInfo;
+
+typedef struct ieUnitInfo
+{
+	//map一类需要读取的信息
+	IECreatureInfo * _CretureInfo;
+	unsigned int _CreatrueID;
+	unsigned int _Order;
+	unsigned int _Level;
+	IECreatureParty _Party;
+	char _Name[64];
+
+	//save一类需要读取的信息
+	bool _Alive;
+
+	//剩下的信息 是依靠于计算产生的
+	unsigned int _MaxHealth;
+	unsigned int _CurHealth;
+	unsigned int _MaxPower;
+	unsigned int _CurPower;
+	unsigned int _Speed;
+	unsigned int _Damage;
+}IECreatureUnit;
 
 extern "C" __IE_DLL__ bool __CreatureOpposite(IECreature * creatureA, IECreature * creatureB);
 

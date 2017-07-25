@@ -11,7 +11,7 @@ IEActionMachine::IEActionMachine()
 
 IEActionMachine::~IEActionMachine()
 {
-	m_creature = NULL;
+	__IE_RELEASE_DIF__(m_action);
 }
 
 void IEActionMachine::Initialization(IECreature * creature)

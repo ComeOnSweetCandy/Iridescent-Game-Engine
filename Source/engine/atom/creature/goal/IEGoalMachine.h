@@ -17,7 +17,7 @@ IE_BEGIN
 
 class IECreature;
 
-class __IE_DLL__ IEGoalMachine
+class __IE_DLL__ IEGoalMachine:public IEObject
 {
 public:
 	IEGoalMachine();

@@ -14,6 +14,12 @@
 
 IE_BEGIN
 
+typedef enum __ieGoalWatchState
+{
+	__goal_watch_rest_state__,
+	__goal_watch_angry_state__
+}IEGoalWatchState;
+
 class __IE_DLL__ IEGoalWatch :public IEGoal
 {
 public:
@@ -28,7 +34,9 @@ protected:
 	virtual void End();
 
 private:
-	unsigned char m_cycle;		//检测周期 并非每一帧都会进行检测 而是几帧进行一次
+	bool m_watchSomething;				//是否有监视到creature 放置重复转换状态
+	IEGoalWatchState m_watchState;		//当前creature watch状况下的状态
+	unsigned char m_cycle;				//检测周期 并非每一帧都会进行检测 而是几帧进行一次
 };
 
 IE_END

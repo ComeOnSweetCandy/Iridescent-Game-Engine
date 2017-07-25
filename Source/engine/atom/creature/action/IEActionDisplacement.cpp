@@ -1,5 +1,5 @@
 #define __IE_DLL_EXPORTS__
-#include "IEdisplacement.h"
+#include "IEActionDisplacement.h"
 
 #include "../IECreature.h"
 
