@@ -14,6 +14,7 @@
 #include "../trigger/IEtriggerManager.h"
 #include "../../physic/IEphysicWorld.h"
 #include "prop/IEpropLayer.h"
+#include "IEDrawScene.h"
 #include "IEmap.h"
 #include "../atom/creature/IEplayer.h"
 
@@ -46,6 +47,7 @@ private:
 	IEMap * m_map;
 	IELayer * m_creaturesLayer;
 	IEPlayer * m_player;
+	IEDrawScene * m_drawScene;			//延迟渲染 基于z轴索引按序渲染
 };
 
 IE_END

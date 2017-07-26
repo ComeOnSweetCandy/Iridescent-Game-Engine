@@ -1,45 +1,45 @@
 /***********************************
-* name     : IEpath.h
+* name     : IEPath.h
 * creater  : cosc
-* info     : terrain
+* info     : path grid
 * date     : 2017/4/15
 * version  : 1.0
-* remark   : none
+* remark   : mark的8位，从第一位开始，从0 -1开始，逆时针转动
 ************************************/
 
-#ifndef __IE_PATH__
-#define __IE_PATH__
+#ifndef __IE_PATH_GRID__
+#define __IE_PATH_GRID__
 
-#include "../IEArea.h"
-#include "IEpathBlock.h"
+#include "../IEBlock.h"
+
+#define PATH_PRECISION 4
 
 IE_BEGIN
 
-class IEPhysicNode;
-
-class __IE_DLL__ IEPath :public IEArea
+class __IE_DLL__ IEPath :public IEBlock
 {
 public:
 	IEPath();
 	virtual ~IEPath();
-	virtual void Initialization(IEMap * map, int halfViewBlocks, int blockSize);
-	static IEPath * Create(IEMap * map, int halfViewBlocks, int blockSize);
+	virtual void Initialization();
+	static IEPath * Create();
 
 public:
-	virtual void Visit();
+	void SetGridGrid(int x, int y);
+	IEGrid GetGridGrid();
 
-	void ReckonPath(IEPhysicNode * physicNode);
-	void RecoverPhysicNodeRange(IEPhysicNode * phsyicNode);
-	void ReckonPhysicNodeDot(IEPhysicNode * physicNode, IEGrid curGrid, IEGrid curTunnelGrid);
-	bool ReckonDotInPhysicNode(IEPhysicNode * physicNode, IEVector position);
+	void SetTunnel(int x, int y, unsigned char tunnel);
+	unsigned char GetGridTunnelPassed(int x, int y);
 
 protected:
-	IEChunk * CreateChunk();
+	virtual void DrawNode();
 
 private:
-	IEArray * m_list;
+	void ResetTunnel();
 
-	friend class IEMap;
+private:
+	unsigned char m_tunnel[PATH_PRECISION][PATH_PRECISION];
+	IEGrid m_gridGrid;
 };
 
 IE_END

@@ -1,8 +1,8 @@
 #define __IE_DLL_EXPORTS__
-#include "IEpathFinder.h"
+#include "IEPathFinder.h"
 
 #include "../engine/scene/IEmap.h"
-#include "../engine/scene/path/IEpath.h"
+#include "../engine/scene/path/IEPathArea.h"
 #include "../physic/physicEdge/IEphysicCircle.h"
 #include "../type/IEbaseType.h"
 
@@ -22,19 +22,19 @@ IEPathFinder::~IEPathFinder()
 	m_list = NULL;
 }
 
-void IEPathFinder::Initialization(IEPath * path)
+void IEPathFinder::Initialization(IEPathArea * path)
 {
 	SetPath(path);
 }
 
-IEPathFinder * IEPathFinder::Create(IEPath * path)
+IEPathFinder * IEPathFinder::Create(IEPathArea * path)
 {
 	IEPathFinder * pathFinder = new IEPathFinder();
 	pathFinder->Initialization(path);
 	return pathFinder;
 }
 
-void IEPathFinder::SetPath(IEPath * path)
+void IEPathFinder::SetPath(IEPathArea * path)
 {
 	m_path = path;
 }
@@ -121,7 +121,7 @@ IEArray * IEPathFinder::FindPaths(IEGrid staGrid, IEGrid staTunnel, IEGrid endGr
 					surroundGrid = surroundGrid + IEGrid(0, 1);
 				}
 
-				IEPathGrid * pathGrid = (IEPathGrid *)(m_path->GetBlock(surroundGrid.m_x, surroundGrid.m_y));
+				IEPath * pathGrid = (IEPath *)(m_path->GetBlock(surroundGrid.m_x, surroundGrid.m_y));
 				unsigned char tunnelPassed = pathGrid->GetGridTunnelPassed(surroundTunnel.m_x, surroundTunnel.m_y);
 
 				if (tunnelPassed == 0)
@@ -343,7 +343,7 @@ bool IEPathFinder::InVolumn(float radius, IEVector center, IEGrid grid, IEGrid t
 	if (interval.Length() < radius)
 	{
 		//如果在范围之内		
-		IEPathGrid * pathGrid = (IEPathGrid *)(m_path->GetBlock(grid.m_x, grid.m_y));
+		IEPath * pathGrid = (IEPath *)(m_path->GetBlock(grid.m_x, grid.m_y));
 
 		unsigned char res = pathGrid->GetGridTunnelPassed(tunnel.m_x, tunnel.m_y);
 		if (res == 0)

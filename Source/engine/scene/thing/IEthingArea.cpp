@@ -1,7 +1,7 @@
 #define __IE_DLL_EXPORTS__
 #include "IEthingArea.h"
 
-#include "../path/IEpath.h"
+#include "../path/IEPathArea.h"
 
 #include "items/IEthingCreator.h"
 

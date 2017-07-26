@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\ai\IEpathFinder.cpp" />
+    <ClCompile Include="Source\ai\IEPathFinder.cpp" />
     <ClCompile Include="Source\control\IEinputManager.cpp" />
     <ClCompile Include="Source\control\IEinputProtocol.cpp" />
     <ClCompile Include="Source\control\IEkeyboard.cpp" />
@@ -80,9 +80,9 @@
     <ClCompile Include="Source\engine\scene\marble\IEmarbleBlock.cpp" />
     <ClCompile Include="Source\engine\scene\marble\IEmarbleGrid.cpp" />
     <ClCompile Include="Source\engine\scene\marble\IEmarblesInfoManager.cpp" />
-    <ClCompile Include="Source\engine\scene\path\IEpath.cpp" />
-    <ClCompile Include="Source\engine\scene\path\IEpathBlock.cpp" />
-    <ClCompile Include="Source\engine\scene\path\IEpathGrid.cpp" />
+    <ClCompile Include="Source\engine\scene\path\IEPathArea.cpp" />
+    <ClCompile Include="Source\engine\scene\path\IEPathChunk.cpp" />
+    <ClCompile Include="Source\engine\scene\path\IEPath.cpp" />
     <ClCompile Include="Source\engine\scene\prop\IEpropLayer.cpp" />
     <ClCompile Include="Source\engine\scene\terrain\IETerrain.cpp" />
     <ClCompile Include="Source\engine\scene\terrain\IETerrainArea.cpp" />
@@ -154,7 +154,7 @@
     <ClCompile Include="Source\ui\IEwidget.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\ai\IEpathFinder.h" />
+    <ClInclude Include="Source\ai\IEPathFinder.h" />
     <ClInclude Include="Source\codes.h" />
     <ClInclude Include="Source\control\IEinputManager.h" />
     <ClInclude Include="Source\control\IEinputPortocol.h" />
@@ -224,9 +224,9 @@
     <ClInclude Include="Source\engine\scene\marble\IEmarbleBlock.h" />
     <ClInclude Include="Source\engine\scene\marble\IEmarbleGrid.h" />
     <ClInclude Include="Source\engine\scene\marble\IEmarblesInfoManager.h" />
-    <ClInclude Include="Source\engine\scene\path\IEpath.h" />
-    <ClInclude Include="Source\engine\scene\path\IEpathBlock.h" />
-    <ClInclude Include="Source\engine\scene\path\IEpathGrid.h" />
+    <ClInclude Include="Source\engine\scene\path\IEPathArea.h" />
+    <ClInclude Include="Source\engine\scene\path\IEPathChunk.h" />
+    <ClInclude Include="Source\engine\scene\path\IEPath.h" />
     <ClInclude Include="Source\engine\scene\prop\IEpropLayer.h" />
     <ClInclude Include="Source\engine\scene\terrain\IETerrain.h" />
     <ClInclude Include="Source\engine\scene\terrain\IETerrainArea.h" />

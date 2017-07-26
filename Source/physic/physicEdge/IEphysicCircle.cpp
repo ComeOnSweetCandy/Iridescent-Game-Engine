@@ -25,10 +25,12 @@ void IEPhysicCircle::Initialization(const char * physicEdgeInfo)
 {
 	IEString stringRadius = physicEdgeInfo;
 
-	IEPhysicCircleInfo * circleInfo = new IEPhysicCircleInfo();
-	circleInfo->m_physicEdgeType = __edge_circle__;
-	circleInfo->m_radius = stringRadius.transToInt();
-	circleInfo->m_vertexsCount = 32;
+	IEPhysicCircleInfo * circleEdgeInfo = new IEPhysicCircleInfo();
+	circleEdgeInfo->m_physicEdgeType = __edge_circle__;
+	circleEdgeInfo->m_radius = stringRadius.transToFloat();
+	circleEdgeInfo->m_vertexsCount = 32;
+
+	m_physicEdgeInfo = circleEdgeInfo;
 }
 
 IEPhysicCircle * IEPhysicCircle::Create(IEPhysicEdgeInfo * physicEdgeInfo)

@@ -23,8 +23,6 @@ IEGoalGo::~IEGoalGo()
 void IEGoalGo::Initialization(float x, float y)
 {
 	IEGoalGo::SetDestination(x, y);
-
-	FindPath();
 }
 
 IEGoalGo * IEGoalGo::Create(float x, float y)

@@ -7,7 +7,7 @@ IE_BEGIN
 
 IEDisplacement::IEDisplacement()
 {
-	m_displacement = IEVector(0.0f, 0.0f);
+
 }
 
 IEDisplacement::~IEDisplacement()
@@ -17,89 +17,16 @@ IEDisplacement::~IEDisplacement()
 
 void IEDisplacement::Initialization(float x, float y)
 {
-	//m_displacement[0] = x;
-	//m_displacement[1] = y;
-
-	//float abs_x = __IE_ABS__(x);
-	//float abs_y = __IE_ABS__(y);
-
-	//if (x > 0.0f)
-	//{
-	//	if (abs_x >= abs_y)
-	//	{
-	//		SetDirection(1, 0);
-	//	}
-	//}
-	//else
-	//{
-	//	if (abs_x >= abs_y)
-	//	{
-	//		SetDirection(-1, 0);
-	//	}
-	//}
-	//
-	//if (y > 0.0f)
-	//{
-	//	SetDirection(0, 1);
-	//}
-	//else if (y < 0.0f)
-	//{
-	//	SetDirection(0, -1);
-	//}
+	m_displace[0] = x;
+	m_displace[1] = y;
+	m_valueType = 0;
 }
 
 void IEDisplacement::Initialization(int x, int y)
 {
-	//检测是否需要修改group
-	int * lastDirection = GetCreature()->GetDirection();
-	if (lastDirection[0] == x && lastDirection[1] == y)
-	{
-		//与上一次方向相同 无需更换贴图组
-	}
-	else
-	{
-		//与上一次方向不同
-		IEString groupName = "walk_";
-		if (x == 1)
-		{
-			groupName << 'r';
-		}
-		else if (x == 0)
-		{
-			//什么也不做
-		}
-		else if (x == -1)
-		{
-			groupName << 'r';
-		}
-
-		if (y == 1)
-		{
-			groupName << 't';
-		}
-		else if (y == 0)
-		{
-			//什么也不做
-		}
-		else if (y == -1)
-		{
-			groupName << 'b';
-		}
-		
-		GetCreature()->ChangeGroup(groupName.GetString(), 1);
-		GetCreature()->SetScale(lastDirection[0] >= 0 ? 1 : -1);
-	}
-	lastDirection[0] = x;
-	lastDirection[1] = y;
-
-	unsigned int speed = GetCreature()->GetCreatureUnit()->_Speed;
-	float shift = (float)(speed) / 360 / 60;
-
-	m_displacement[0] = lastDirection[0];
-	m_displacement[1] = lastDirection[1];
-
-	m_displacement.Normalize();
-	m_displacement = m_displacement * shift;
+	m_direction[0] = x;
+	m_direction[1] = y;
+	m_valueType = 1;
 }
 
 IEDisplacement * IEDisplacement::Create(int x, int y)
@@ -118,7 +45,97 @@ IEDisplacement * IEDisplacement::Create(float x, float y)
 
 void IEDisplacement::Begin()
 {
+	if (m_valueType == 0)
+	{
+		//通过直接传递位移的值
+		float abs_x = __IE_ABS__(m_displace[0]);
+		float abs_y = __IE_ABS__(m_displace[1]);
 
+		if (m_displace[0] > 0.0f)
+		{
+			if (abs_x >= abs_y)
+			{
+				m_direction[0] = 1;
+				m_direction[1] = 0;
+			}
+		}
+		else
+		{
+			if (abs_x >= abs_y)
+			{
+				m_direction[0] = -1;
+				m_direction[1] = 0;
+			}
+		}
+		
+		if (m_displace[1] > 0.0f)
+		{
+			m_direction[0] = 0;
+			m_direction[1] = 1;
+		}
+		else if (m_displace[1] < 0.0f)
+		{
+			m_direction[0] = 0;
+			m_direction[1] = -1;
+		}
+	}
+
+	//检测是否需要修改group
+	int * lastDirection = GetCreature()->GetDirection();
+	if (lastDirection[0] == m_direction[0] && lastDirection[1] == m_direction[1])
+	{
+		//与上一次方向相同 无需更换贴图组
+	}
+	else
+	{
+		//与上一次方向不同
+		IEString groupName = "walk_";
+		if (m_direction[0] == 1)
+		{
+			groupName << 'r';
+		}
+		else if (m_direction[0] == 0)
+		{
+			//什么也不做
+		}
+		else if (m_direction[0] == -1)
+		{
+			groupName << 'r';
+		}
+
+		if (m_direction[1] == 1)
+		{
+			groupName << 't';
+		}
+		else if (m_direction[1] == 0)
+		{
+			//什么也不做
+		}
+		else if (m_direction[1] == -1)
+		{
+			groupName << 'b';
+		}
+
+		GetCreature()->ChangeGroup(groupName.GetString(), 1);
+		GetCreature()->SetScale(lastDirection[0] >= 0 ? 1 : -1);
+
+		lastDirection[0] = m_direction[0];
+		lastDirection[1] = m_direction[1];
+	}
+
+	if (m_valueType == 1)
+	{
+		//通过传递方向
+		unsigned int speed = GetCreature()->GetCreatureUnit()->_Speed;
+		float shift = (float)(speed) / 360 / 60;
+
+		m_displace[0] = lastDirection[0];
+		m_displace[1] = lastDirection[1];
+
+		float _sqrt = sqrt(m_displace[0] * m_displace[0] + m_displace[1] * m_displace[1]);
+		m_displace[0] = m_displace[0] / _sqrt * shift;
+		m_displace[1] = m_displace[1] / _sqrt * shift;
+	}
 }
 
 void IEDisplacement::Excute()
@@ -135,7 +152,7 @@ void IEDisplacement::End()
 
 void IEDisplacement::SetActionNodeDisplacement()
 {
-	GetCreature()->GetPhysicNode()->SetDisplacement(m_displacement.m_x, m_displacement.m_y);
+	GetCreature()->GetPhysicNode()->SetDisplacement(m_displace[0], m_displace[1]);
 }
 
 IE_END

@@ -4,8 +4,8 @@
 #include "terrain/IEterrainArea.h"
 #include "thing/IEThingArea.h"
 #include "marble/IEmarble.h"
-#include "path/IEpath.h"
-#include "../../ai/IEpathFinder.h"
+#include "path/IEPathArea.h"
+#include "../../ai/IEPathFinder.h"
 
 #include "../../core/IEcamera.h"
 #include "../../control/IEmouse.h"
@@ -60,7 +60,7 @@ void IEMap::Initialization(char * sceneName)
 	m_sceneName = sceneName;
 
 	//µØÍ¼
-	m_curPath = IEPath::Create(this, m_visibleRadius, m_chunkSideLength);
+	m_curPath = IEPathArea::Create(this, m_visibleRadius, m_chunkSideLength);
 	m_curTerrain = IETerrainArea::Create(this, m_visibleRadius, m_chunkSideLength);
 	//m_curMarble = IEMarble::Create(this, m_visibleRadius, m_chunkSideLength);
 	//m_curThing = IEThingArea::Create(this, m_visibleRadius, m_chunkSideLength);
@@ -223,7 +223,7 @@ void IEMap::InputHandle()
 	}
 }
 
-IEPath * IEMap::GetPath()
+IEPathArea * IEMap::GetPath()
 {
 	return m_curPath;
 }
@@ -245,7 +245,7 @@ IEThingArea * IEMap::GetThing()
 
 void IEMap::BuildPath(IEPhysicNode * physicNode)
 {
-	m_curPath->ReckonPath(physicNode);
+	m_curPath->ReckonAddPath(physicNode);
 }
 
 IEArray * IEMap::FindPath(IEPhysicNode * physicNode, IEVector staPosition, IEVector endPosition)

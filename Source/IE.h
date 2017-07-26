@@ -85,7 +85,7 @@
 #include "engine/atom/prop/IEpickedProp.h"
 
 //ai
-#include "ai/IEpathFinder.h"
+#include "ai/IEPathFinder.h"
 
 //thing
 #include "engine/scene/thing/items/IEfire.h"

@@ -1,40 +1,40 @@
 #define __IE_DLL_EXPORTS__
-#include "IEpathBlock.h"
+#include "IEPathChunk.h"
 
 IE_BEGIN
 
-IEPathBlock::IEPathBlock()
+IEPathChunk::IEPathChunk()
 {
 	m_chunksIndexMatrix = NULL;
 	m_chunkLength = 0;
 }
 
-IEPathBlock::~IEPathBlock()
+IEPathChunk::~IEPathChunk()
 {
 	
 }
 
-void IEPathBlock::Initialization(int & blockSize)
+void IEPathChunk::Initialization(int& blockSize)
 {
 	IEChunk::Initialization(blockSize);
 
 	ResetPathGrid();
 }
 
-IEPathBlock * IEPathBlock::Create(int blockSize)
+IEPathChunk * IEPathChunk::Create(int blockSize)
 {
-	IEPathBlock * object = new IEPathBlock();
+	IEPathChunk * object = new IEPathChunk();
 	object->Initialization(blockSize);
 	return object;
 }
 
-void IEPathBlock::ResetPathGrid()
+void IEPathChunk::ResetPathGrid()
 {
 	for (int x = 0; x < m_chunkLength; x++)
 	{
 		for (int y = 0; y < m_chunkLength; y++)
 		{
-			IEPathGrid * grid = IEPathGrid::Create();
+			IEPath * grid = IEPath::Create();
 			grid->SetGridGrid(x, y);
 
 			AddChild(grid, x, y);

@@ -372,9 +372,6 @@
     <ClCompile Include="Source\engine\script\IEluaPhysicPolygon.cpp">
       <Filter>IridescentEngine\engine\script\physic\physicEdge</Filter>
     </ClCompile>
-    <ClCompile Include="Source\ai\IEpathFinder.cpp">
-      <Filter>IridescentEngine\ai</Filter>
-    </ClCompile>
     <ClCompile Include="Source\global\IEfunctions.cpp">
       <Filter>IridescentEngine\global</Filter>
     </ClCompile>
@@ -413,15 +410,6 @@
     </ClCompile>
     <ClCompile Include="Source\engine\script\IEluaNode.cpp">
       <Filter>IridescentEngine\engine\script</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\engine\scene\path\IEpath.cpp">
-      <Filter>IridescentEngine\engine\scene\path</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\engine\scene\path\IEpathBlock.cpp">
-      <Filter>IridescentEngine\engine\scene\path</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\engine\scene\path\IEpathGrid.cpp">
-      <Filter>IridescentEngine\engine\scene\path</Filter>
     </ClCompile>
     <ClCompile Include="Source\engine\scene\prop\IEpropLayer.cpp">
       <Filter>IridescentEngine\engine\scene\prop</Filter>
@@ -572,6 +560,18 @@
     </ClCompile>
     <ClCompile Include="Source\engine\atom\creature\action\IEActionDisplacement.cpp">
       <Filter>IridescentEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ai\IEPathFinder.cpp">
+      <Filter>IridescentEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\engine\scene\path\IEPathArea.cpp">
+      <Filter>IridescentEngine\engine\scene\path</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\engine\scene\path\IEPath.cpp">
+      <Filter>IridescentEngine\engine\scene\path</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\engine\scene\path\IEPathChunk.cpp">
+      <Filter>IridescentEngine\engine\scene\path</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -815,9 +815,6 @@
     <ClInclude Include="Source\engine\script\IEluaPhysicPolygon.h">
       <Filter>IridescentEngine\engine\script\physic\physicEdge</Filter>
     </ClInclude>
-    <ClInclude Include="Source\ai\IEpathFinder.h">
-      <Filter>IridescentEngine\ai</Filter>
-    </ClInclude>
     <ClInclude Include="Source\global\IEfunctions.h">
       <Filter>IridescentEngine\global</Filter>
     </ClInclude>
@@ -856,15 +853,6 @@
     </ClInclude>
     <ClInclude Include="Source\engine\script\IEluaNode.h">
       <Filter>IridescentEngine\engine\script</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\engine\scene\path\IEpath.h">
-      <Filter>IridescentEngine\engine\scene\path</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\engine\scene\path\IEpathBlock.h">
-      <Filter>IridescentEngine\engine\scene\path</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\engine\scene\path\IEpathGrid.h">
-      <Filter>IridescentEngine\engine\scene\path</Filter>
     </ClInclude>
     <ClInclude Include="Source\engine\scene\prop\IEpropLayer.h">
       <Filter>IridescentEngine\engine\scene\prop</Filter>
@@ -1018,6 +1006,18 @@
     </ClInclude>
     <ClInclude Include="Source\engine\atom\creature\action\IEActionDisplacement.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ai\IEPathFinder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\engine\scene\path\IEPathArea.h">
+      <Filter>IridescentEngine\engine\scene\path</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\engine\scene\path\IEPath.h">
+      <Filter>IridescentEngine\engine\scene\path</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\engine\scene\path\IEPathChunk.h">
+      <Filter>IridescentEngine\engine\scene\path</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

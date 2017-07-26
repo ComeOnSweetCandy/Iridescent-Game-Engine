@@ -1,10 +1,10 @@
 /***********************************
-* name     : IEpathFinder.h
+* name     : IEPathFinder.h
 * creater  : cosc
 * info     : find path
 * date     : 2017/3/15
 * version  : 1.1
-* remark   : there are more things i should do.
+* remark   : there are more things i should do. base on a*.
 ************************************/
 
 #ifndef __IE_PATH_FINDER__
@@ -14,7 +14,7 @@
 
 IE_BEGIN
 
-class IEPath;
+class IEPathArea;
 class IETerrainArea;
 class IETerrain;
 
@@ -38,11 +38,11 @@ class __IE_DLL__ IEPathFinder :public IEObject
 public:
 	IEPathFinder();
 	virtual ~IEPathFinder();
-	virtual void Initialization(IEPath * path);
-	static IEPathFinder * Create(IEPath * path);
+	virtual void Initialization(IEPathArea * path);
+	static IEPathFinder * Create(IEPathArea * path);
 
 public:
-	void SetPath(IEPath * path);
+	void SetPath(IEPathArea * path);
 	IEArray * FindPaths(IEGrid staGrid, IEGrid staTunnel, IEGrid endGrid, IEGrid endTunnel);
 	IEArray * FindPath(IEPhysicNode * physicNode, IEVector staPosition, IEVector endPosition);
 
@@ -57,7 +57,7 @@ private:
 	void HandleGrid(IEVector staPosition, IEVector endPosition, IEGrid &startGrid, IEGrid &startTunnel, IEGrid &endGrid, IEGrid &endTunnel);
 
 private:
-	IEPath * m_path;
+	IEPathArea * m_path;
 	IEArray * m_activeList;
 	IEArray * m_closeList;
 	IEArray * m_list;

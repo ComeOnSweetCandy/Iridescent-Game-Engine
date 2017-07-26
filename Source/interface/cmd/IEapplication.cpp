@@ -83,8 +83,8 @@ void IEApplication::ApplicationLoop()
 
 	__IE_RUN__(m_resourcesManger);
 	__IE_RUN__(m_activeScene);
-	__IE_RUN__(m_uiScene);
 	__IE_RUN__(m_drawScene);
+	__IE_RUN__(m_uiScene);
 
 	LoopEnd();
 }

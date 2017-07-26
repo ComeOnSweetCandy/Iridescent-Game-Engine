@@ -18,6 +18,13 @@ void IEDrawScene::Initialization()
 	IELayer::Initialization();
 }
 
+IEDrawScene * IEDrawScene::Create()
+{
+	IEDrawScene * layer = new IEDrawScene();
+	layer->Initialization();
+	return layer;
+}
+
 IEDrawScene * IEDrawScene::CreateAndRetain()
 {
 	IEDrawScene * layer = new IEDrawScene();

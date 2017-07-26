@@ -34,11 +34,9 @@ private:
 	void SetActionNodeFaceDirection();
 
 private:
-	IEVector m_displacement;
-
 	int m_valueType;				//传递过来的值的类型
 	int m_direction[2];				//传递的数值为方向
-	//float m_displacement[2];		//传递来的数值为
+	float m_displace[2];			//传递的数值为位移的距离
 };
 
 IE_END

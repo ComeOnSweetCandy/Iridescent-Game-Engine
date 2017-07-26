@@ -20,6 +20,7 @@ public:
 	IEDrawScene();
 	virtual ~IEDrawScene();
 	virtual void Initialization();
+	static IEDrawScene * Create();
 	static IEDrawScene * CreateAndRetain();
 
 public:

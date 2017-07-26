@@ -11,7 +11,7 @@
 #define __IE_MAP__
 
 #include "../../core/IElayer.h"
-#include "../../ai/IEpathFinder.h"
+#include "../../ai/IEPathFinder.h"
 
 IE_BEGIN
 
@@ -19,7 +19,7 @@ class IEArea;
 class IETerrainArea;
 class IEMarble;
 class IEThingArea;
-class IEPath;
+class IEPathArea;
 class IEPathFinder;
 
 struct IETerrainSerialization;
@@ -104,7 +104,7 @@ public:
 	void LoadMarbleChunk(int chunkLocationX, int chunkLocationY);
 	void LoadThingChunk(int chunkLocationX, int chunkLocationY);
 
-	IEPath * GetPath();
+	IEPathArea * GetPath();
 	IETerrainArea * GetTerrain();
 	IEMarble * GetMarble();
 	IEThingArea * GetThing();
@@ -156,7 +156,7 @@ private:
 	FILE * m_thingIndexFile;
 	FILE * m_thingFile;
 
-	IEPath * m_curPath;
+	IEPathArea * m_curPath;
 	IEPathFinder * m_pathFinder;
 
 	IEString m_sceneName;

@@ -22,11 +22,13 @@ void IETotalScene::Initialization(char * sceneName)
 	m_physicWorld = IEPhysicWorld::Create();
 	m_creaturesLayer = IELayer::Create();
 	m_propLayer = IELayer::Create();
+	m_drawScene = IEDrawScene::Create();
 	m_map = IEMap::Create(sceneName);
 
 	IENode::AddChild(m_map);
 	IENode::AddChild(m_creaturesLayer);
 	IENode::AddChild(m_propLayer);
+	IENode::AddChild(m_drawScene);
 }
 
 IETotalScene * IETotalScene::CreateAndRetain(char * sceneName)
@@ -43,6 +45,10 @@ void IETotalScene::Run()
 
 	m_physicWorld->Run();
 	m_triggerManager->Run();
+	m_drawScene->Run();
+
+	//带所有的元素渲染完毕 这个时候 根据IEPlayer的方位定位camera最精准
+	//IECamera::Share()->Run();
 }
 
 void IETotalScene::AddChild(IECreature * creature)

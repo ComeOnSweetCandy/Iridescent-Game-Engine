@@ -59,7 +59,7 @@ void IEPlayer::Live()
 	//执行动作
 	m_actionMachine->Run();
 
-	//设置camera
+	//设置camera player应该作为最先更新的东西
 	const float * translate = GetTranslate();
 	IECamera::Share()->SetCameraPosi(translate[0], translate[1]);
 }
