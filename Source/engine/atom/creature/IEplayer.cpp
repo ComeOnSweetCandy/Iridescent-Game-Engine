@@ -28,6 +28,10 @@ void IEPlayer::Initialization(int creatureID)
 
 	m_propPack = IEPropPack::CreateAndRetain(this, 10);
 	BindPlayerControl();
+
+	//直接定义为用户
+	m_unit->_Party = __creature_party_mine__;
+	IECreature::User();
 }
 
 IEPlayer * IEPlayer::Create(int creatureIndex)

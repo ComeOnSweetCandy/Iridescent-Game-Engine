@@ -167,12 +167,6 @@ void IEPhysicNode::Collision(IEPhysicNode * physicNode)
 void IEPhysicNode::DrawPhysicNode()
 {
 	glPushMatrix();
-
-	printf("%f %f\n", m_position.m_x, m_position.m_y);
-
-	m_position.m_x;
-	m_position.m_y;
-
 	glTranslatef(m_position.m_x, m_position.m_y, 0.0f);
 
 	glBindTexture(GL_TEXTURE_2D, NULL);
@@ -180,7 +174,7 @@ void IEPhysicNode::DrawPhysicNode()
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
-	float a = 0.1f;
+	float a = 0.5f;
 	switch (m_collisionState)
 	{
 	case IridescentEngine::__collision_safe__:

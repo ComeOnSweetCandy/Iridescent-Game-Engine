@@ -38,30 +38,6 @@ void IEGoalGo::SetDestination(float x, float y)
 	m_destination[1] = y;
 }
 
-void IEGoalGo::GetNextStep()
-{
-	if (m_stepIndex >= 0)
-	{
-		IEObject ** objects = m_path->GetContainer();
-		m_destination = *((IEVector *)objects[m_stepIndex]);
-		m_stepIndex--;
-	}
-	else
-	{
-		m_stepIndex--;
-	}
-}
-
-void IEGoalGo::FindPath()
-{
-	IECreature * creature = m_goalMachine->GetCreature();
-	const float * translate = creature->GetTranslate();
-	IEVector startPosition(translate[0], translate[1]);
-	m_path = IEApplication::Share()->GetCurrentActiveScene()->GetBindedMap()->FindPath(creature->GetPhysicNode(), startPosition, m_destination);
-	m_stepIndex = m_path->Count() - 1;
-	m_destination = startPosition;
-}
-
 void IEGoalGo::Begin()
 {
 	FindPath();
@@ -103,6 +79,30 @@ void IEGoalGo::Excute()
 void IEGoalGo::End()
 {
 
+}
+
+void IEGoalGo::GetNextStep()
+{
+	if (m_stepIndex >= 0)
+	{
+		IEObject ** objects = m_path->GetContainer();
+		m_destination = *((IEVector *)objects[m_stepIndex]);
+		m_stepIndex--;
+	}
+	else
+	{
+		m_stepIndex--;
+	}
+}
+
+void IEGoalGo::FindPath()
+{
+	IECreature * creature = m_goalMachine->GetCreature();
+	const float * translate = creature->GetTranslate();
+	IEVector startPosition(translate[0], translate[1]);
+	m_path = IEApplication::Share()->GetCurrentActiveScene()->GetBindedMap()->FindPath(creature->GetPhysicNode(), startPosition, m_destination);
+	m_stepIndex = m_path->Count() - 1;
+	m_destination = startPosition;
 }
 
 IE_END

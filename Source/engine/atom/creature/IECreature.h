@@ -41,7 +41,6 @@ public:
 	void User();								//当前为用户控制
 	void Await();								//无目标情况下的处理
 	void Warning(IECreature * creature);		//警戒线视野内有enemy
-
 	
 	//给予creature的指令调用的统统为action组
 	void Rest();								//action rest

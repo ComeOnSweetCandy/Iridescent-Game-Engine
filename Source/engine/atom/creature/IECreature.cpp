@@ -146,14 +146,9 @@ void IECreature::InitUnit(unsigned int creatureID, int creatureOrder)
 	//IEPhysicNode * physicNode = NULL;
 	//BindPhysicNode(physicNode);
 
-
-
 	//根据XML生成PhysicNode
 	IEPhysicNode * physicNode = IEPhysicNode::Create(m_info->_XML->FindChild("physic"));
 	BindPhysicNode(physicNode);
-
-
-
 
 	//脚本
 	lua_State * luaScript = m_info->_LuaScript;
@@ -341,7 +336,6 @@ void IECreature::ArrangeInfo()
 void IECreature::RunState()
 {
 	//检测当前应当有的状态信息
-
 }
 
 void IECreature::RunGoal()
