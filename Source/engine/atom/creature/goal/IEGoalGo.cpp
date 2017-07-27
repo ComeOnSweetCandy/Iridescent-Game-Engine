@@ -41,7 +41,7 @@ void IEGoalGo::SetDestination(float x, float y)
 void IEGoalGo::Begin()
 {
 	FindPath();
-
+	
 	//ChangeActionTexture("walk");
 	//DeleteOtherActions();
 	//return true;
@@ -72,8 +72,8 @@ void IEGoalGo::Excute()
 		leftRoad = leftRoad * speed * IETime::Share()->GetLastFrapPassingTime();
 	}
 
-	//IEDisplacement * action = IEDisplacement::Create(leftRoad.m_x, leftRoad.m_y);
-	//actionMachine->ChangeAction(__action_displacement__, action);
+	IEDisplacement * action = IEDisplacement::Create(leftRoad.m_x, leftRoad.m_y);
+	actionMachine->ChangeAction(action);
 }
 
 void IEGoalGo::End()

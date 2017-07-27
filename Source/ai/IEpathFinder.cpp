@@ -122,8 +122,12 @@ IEArray * IEPathFinder::FindPaths(IEGrid staGrid, IEGrid staTunnel, IEGrid endGr
 				}
 
 				IEPath * pathGrid = (IEPath *)(m_path->GetBlock(surroundGrid.m_x, surroundGrid.m_y));
-				unsigned char tunnelPassed = pathGrid->GetGridTunnelPassed(surroundTunnel.m_x, surroundTunnel.m_y);
+				if (pathGrid == NULL)
+				{
+					continue;
+				}
 
+				unsigned char tunnelPassed = pathGrid->GetGridTunnelPassed(surroundTunnel.m_x, surroundTunnel.m_y);
 				if (tunnelPassed == 0)
 				{
 					//如果本身没有路径
@@ -344,6 +348,11 @@ bool IEPathFinder::InVolumn(float radius, IEVector center, IEGrid grid, IEGrid t
 	{
 		//如果在范围之内		
 		IEPath * pathGrid = (IEPath *)(m_path->GetBlock(grid.m_x, grid.m_y));
+		if (pathGrid == NULL)
+		{
+			//没有 不准同行
+			return true;
+		}
 
 		unsigned char res = pathGrid->GetGridTunnelPassed(tunnel.m_x, tunnel.m_y);
 		if (res == 0)

@@ -16,7 +16,7 @@ IE_BEGIN
 IEMap::IEMap()
 {
 	m_chunkSideLength = 16;
-	m_visibleRadius = 0;
+	m_visibleRadius = 1;
 	m_unitChunkBlockCount = m_chunkSideLength * m_chunkSideLength;
 
 	m_activeSceneType = __ie_scene_terrain__;

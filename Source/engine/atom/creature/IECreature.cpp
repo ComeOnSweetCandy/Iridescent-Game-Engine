@@ -238,7 +238,7 @@ void IECreature::Damaged(int damageValue)
 void IECreature::User()
 {
 	IEGoalUser * goal = IEGoalUser::Create();
-	m_goalMachine->AddGoal(goal);
+	m_goalMachine->ChangeGoal(goal);
 }
 
 void IECreature::Await()
@@ -251,7 +251,7 @@ void IECreature::Await()
 	else
 	{
 		IEGoalWatch * goal = IEGoalWatch::Create();
-		m_goalMachine->AddGoal(goal);
+		m_goalMachine->ChangeGoal(goal);
 	}
 }
 
