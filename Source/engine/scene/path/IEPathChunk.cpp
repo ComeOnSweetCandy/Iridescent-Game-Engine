@@ -30,6 +30,27 @@ IEPathChunk * IEPathChunk::Create(int blockSize)
 
 void IEPathChunk::ResetPathGrid()
 {
+	//m_tunnels = new unsigned char **[m_chunkLength];
+	//for (int x = 0; x < m_chunkLength; x++)
+	//{
+	//	m_tunnels[x] = new unsigned char *[m_chunkLength];
+	//}
+
+	//for (int x = 0; x < m_chunkLength; x++)
+	//{
+	//	for (int y = 0; y < m_chunkLength; y++)
+	//	{
+	//		m_tunnels[x][y] = new unsigned char[16];
+	//	}
+	//}
+
+	m_tunnels = (unsigned char ***)malloc(sizeof(unsigned char)* m_chunkLength * m_chunkLength * 16);
+	memset(m_tunnels, 0xFF, m_chunkLength * m_chunkLength * 16);
+	
+
+
+
+
 	for (int x = 0; x < m_chunkLength; x++)
 	{
 		for (int y = 0; y < m_chunkLength; y++)

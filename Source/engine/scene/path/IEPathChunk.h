@@ -25,6 +25,9 @@ public:
 
 private:
 	void ResetPathGrid();
+
+private:
+	unsigned char *** m_tunnels;
 };
 
 IE_END
