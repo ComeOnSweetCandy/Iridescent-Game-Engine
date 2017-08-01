@@ -18,6 +18,8 @@ void IEPathChunk::Initialization(int& blockSize)
 {
 	IEChunk::Initialization(blockSize);
 
+	m_tunnels = (unsigned char ***)malloc(sizeof(unsigned char)* m_chunkLength * m_chunkLength * 16);
+
 	ResetPathGrid();
 }
 
@@ -44,7 +46,7 @@ void IEPathChunk::ResetPathGrid()
 	//	}
 	//}
 
-	m_tunnels = (unsigned char ***)malloc(sizeof(unsigned char)* m_chunkLength * m_chunkLength * 16);
+
 	memset(m_tunnels, 0xFF, m_chunkLength * m_chunkLength * 16);
 	
 

@@ -39,6 +39,21 @@ IEChunk * IEPathArea::CreateChunk()
 	return IEPathChunk::Create(m_chunkLength);
 }
 
+void IEPathArea::SetTunnel(int * datas, unsigned char tunnel)
+{
+	//先进行转换
+	int chunkLocationX, chunkLocationY, explictLocationX, explictLocationY;
+	LocationTranslate(datas[0], datas[1], chunkLocationX, chunkLocationY, explictLocationX, explictLocationY);
+
+	//获取chunk
+	IEPathChunk * chunk = (IEPathChunk *)(GetChunk(chunkLocationX, chunkLocationY));
+
+	//获取tunnels
+	unsigned char *** _tunnels = chunk->m_tunnels;
+	int index = datas[2] * PATH_PRECISION + datas[3];
+	_tunnels[explictLocationX][explictLocationY][index] = _tunnels[explictLocationX][explictLocationY][index] & tunnel;
+}
+
 void IEPathArea::ReckonAddPath(IEPhysicNode * physicNode)
 {	
 	if (!physicNode)
@@ -70,7 +85,7 @@ void IEPathArea::ReckonAddPath(IEPhysicNode * physicNode)
 		ReckonPhysicNodeDot(physicNode, gridGrid, tunnelGrid + IEGrid(0, 1));
 		ReckonPhysicNodeDot(physicNode, gridGrid, tunnelGrid + IEGrid(0, -1));
 	}
-
+	
 	//最后计算这些点的通道变化
 	int count = m_list->Count();
 	IEBaseType<int[5]> ** i = (IEBaseType<int[5]> **)(m_list->GetContainer());
@@ -79,17 +94,19 @@ void IEPathArea::ReckonAddPath(IEPhysicNode * physicNode)
 		int * data = ((IEBaseType<int[5]> *)(m_list->Find(index)))->GetData();
 		IEPath * path = (IEPath *)GetBlock(data[0], data[1]);
 		//path->SetTunnel(curTunnelGrid.m_x, curTunnelGrid.m_y, 0);
-
+		
 		if (data[4] == 0)
 		{
 			//点在物理范围外，即物理体的边缘位置 需要检测周围8个点 是否在列表内
+
+
 		}
 		else if (data[4] == 1)
 		{
+			SetTunnel(data, 0);
 			//说明整个点都在物理范围内 直接通道全部关闭
-			path->SetTunnel(data[2], data[3], 0);
+			//path->SetTunnel(data[2], data[3], 0);
 		}
-		
 	}
 
 	m_list->Release();
@@ -149,9 +166,6 @@ void IEPathArea::ReckonPhysicNodeDot(IEPhysicNode * physicNode, IEGrid curGrid, 
 	data[2] = curTunnelGrid.m_x;
 	data[3] = curTunnelGrid.m_y;
 	data[4] = res ? 1 : 0;
-
-	//IEPath * pathGrid = (IEPath *)GetBlock(curGrid.m_x, curGrid.m_y);
-	//pathGrid->SetTunnel(curTunnelGrid.m_x, curTunnelGrid.m_y, 0);
 }
 
 bool IEPathArea::ReckonDotInPhysicNode(IEPhysicNode * physicNode, IEVector position)

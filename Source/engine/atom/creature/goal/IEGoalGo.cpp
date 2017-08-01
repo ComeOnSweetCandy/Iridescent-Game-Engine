@@ -41,10 +41,6 @@ void IEGoalGo::SetDestination(float x, float y)
 void IEGoalGo::Begin()
 {
 	FindPath();
-	
-	//ChangeActionTexture("walk");
-	//DeleteOtherActions();
-	//return true;
 }
 
 void IEGoalGo::Excute()

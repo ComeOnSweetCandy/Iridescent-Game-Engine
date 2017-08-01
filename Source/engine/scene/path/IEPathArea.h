@@ -38,6 +38,10 @@ protected:
 	virtual IEChunk * CreateChunk();
 
 private:
+	void GetTunnel();
+	void SetTunnel(int * datas, unsigned char tunnel);			//设定某一个位置的tunnel
+
+private:
 	IEArray * m_list;
 
 	friend class IEMap;

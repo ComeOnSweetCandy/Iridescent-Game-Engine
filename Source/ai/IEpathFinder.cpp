@@ -121,14 +121,26 @@ IEArray * IEPathFinder::FindPaths(IEGrid staGrid, IEGrid staTunnel, IEGrid endGr
 					surroundGrid = surroundGrid + IEGrid(0, 1);
 				}
 
-				IEPath * pathGrid = (IEPath *)(m_path->GetBlock(surroundGrid.m_x, surroundGrid.m_y));
-				if (pathGrid == NULL)
+				//先做转换
+				static int chunkLocationX, chunkLocationY, explictLocationX, explictLocationY, tunnelIndex;
+				m_path->LocationTranslate(surroundGrid.m_x, surroundGrid.m_y, chunkLocationX, chunkLocationY, explictLocationX, explictLocationY);
+				tunnelIndex = surroundTunnel.m_x * PATH_PRECISION + surroundTunnel.m_y;
+
+				//获取chunk
+				IEPathChunk * chunk = (IEPathChunk *)(m_path->GetChunk(chunkLocationX, chunkLocationY));
+				if (chunk == NULL)
 				{
 					continue;
 				}
 
-				unsigned char tunnelPassed = pathGrid->GetGridTunnelPassed(surroundTunnel.m_x, surroundTunnel.m_y);
-				if (tunnelPassed == 0)
+				//IEPath * pathGrid = (IEPath *)(m_path->GetBlock(surroundGrid.m_x, surroundGrid.m_y));
+				//if (pathGrid == NULL)
+				//{
+				//	continue;
+				//}
+				//unsigned char tunnelPassed = pathGrid->GetGridTunnelPassed(surroundTunnel.m_x, surroundTunnel.m_y);
+
+				if (chunk->m_tunnels[explictLocationX][explictLocationY][tunnelIndex] == 0)
 				{
 					//如果本身没有路径
 					continue;
@@ -212,13 +224,10 @@ IEArray * IEPathFinder::FindPaths(IEGrid staGrid, IEGrid staTunnel, IEGrid endGr
 		IEVector * stepPosition = new IEVector(curPathNode->m_grid + curPathNode->m_tunnel * (1.0f / PATH_PRECISION));
 		steps->Push(stepPosition);
 
-		//printf("%d  %d  %d   %d    %f   %f\n", curPathNode->m_grid.m_x, curPathNode->m_grid.m_y, curPathNode->m_tunnel.m_x, curPathNode->m_tunnel.m_y, stepPosition->m_x, stepPosition->m_y);
-
 		curPathNode = curPathNode->m_parentPathNode;
 	}
 	IEVector * stepPosition = new IEVector(curPathNode->m_grid + curPathNode->m_tunnel * (1.0f / PATH_PRECISION));
 	steps->Push(stepPosition);
-	//printf("%d  %d  %d   %d    %f   %f\n", curPathNode->m_grid.m_x, curPathNode->m_grid.m_y, curPathNode->m_tunnel.m_x, curPathNode->m_tunnel.m_y, stepPosition->m_x, stepPosition->m_y);
 
 	__IE_RELEASE__(m_activeList);
 	__IE_RELEASE__(m_closeList);
@@ -346,16 +355,20 @@ bool IEPathFinder::InVolumn(float radius, IEVector center, IEGrid grid, IEGrid t
 	IEVector interval = position - center;
 	if (interval.Length() < radius)
 	{
-		//如果在范围之内		
-		IEPath * pathGrid = (IEPath *)(m_path->GetBlock(grid.m_x, grid.m_y));
-		if (pathGrid == NULL)
+		//先做转换
+		static int chunkLocationX, chunkLocationY, explictLocationX, explictLocationY, tunnelIndex;
+		m_path->LocationTranslate(grid.m_x, grid.m_y, chunkLocationX, chunkLocationY, explictLocationX, explictLocationY);
+		tunnelIndex = tunnel.m_x * PATH_PRECISION + tunnel.m_y;
+
+		//获取chunk
+		IEPathChunk * chunk = (IEPathChunk *)(m_path->GetChunk(chunkLocationX, chunkLocationY));
+		if (chunk == NULL)
 		{
 			//没有 不准同行
 			return true;
 		}
 
-		unsigned char res = pathGrid->GetGridTunnelPassed(tunnel.m_x, tunnel.m_y);
-		if (res == 0)
+		if (chunk->m_tunnels[explictLocationX][explictLocationY][tunnelIndex] == 0)
 		{
 			//通行为零
 			return true;

@@ -15,6 +15,8 @@
 
 IE_BEGIN
 
+#define PATH_PRECISION 4
+
 class __IE_DLL__ IEPathChunk :public IEChunk
 {
 public:
@@ -28,6 +30,9 @@ private:
 
 private:
 	unsigned char *** m_tunnels;
+
+	friend class IEPathArea;
+	friend class IEPathFinder;
 };
 
 IE_END

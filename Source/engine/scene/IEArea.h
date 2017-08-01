@@ -42,6 +42,9 @@ public:
 	void SetCurOrder(unsigned int order);											//设定当前的编号
 	unsigned int GetCurOrder();														//取得编号
 
+	//将block的位置转换为相应的chunk位置和内部位置
+	void LocationTranslate(int blockLocationX, int blockLocationY, int& chunkLocationX, int& chunkLocationY, int& explicitLocationX, int& explicitLocationY);
+
 	//所有对于area的修改的接口
 	virtual void RollbackAlter(){};													//回滚一次操作
 	virtual void RollbackAllAlters(){};												//回滚所有的操作
@@ -63,7 +66,6 @@ protected:
 
 	virtual IEChunk * CreateChunk();													//子类必须继承 用于创建一个新的chunk各自的实现
 
-	void LocationTranslate(int blockLocationX, int blockLocationY, int& chunkLocationX, int& chunkLocationY, int& explicitLocationX, int& explicitLocationY);		//将block的位置转换为相应的chunk位置和内部位置
 	void InitChunks();																																				//初始化chunks表
 
 protected:
