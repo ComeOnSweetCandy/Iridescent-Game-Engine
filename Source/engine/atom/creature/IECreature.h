@@ -37,7 +37,7 @@ public:
 	IECreatureUnit * GetCreatureUnit();
 	IEActionMachine * GetActionMachine();
 
-	//给予creature的情况反馈 与指令区分开 或者意为 通知当前creature所处于的状态
+	//给予creature的情况反馈 与指令区分开 或者意为 通知当前creature所处于的状态 通知类型的反馈
 	void User();								//当前为用户控制
 	void Await();								//无目标情况下的处理
 	void Warning(IECreature * creature);		//警戒线视野内有enemy
