@@ -4,7 +4,10 @@
 #include "../../../core/IEcamera.h"
 
 #include "../prop/IEpickedProp.h"
+
 #include "action/IEActionDisplacement.h"
+#include "action/IEActionRest.h"
+#include "action/IEActionAttack.h"
 
 IE_BEGIN
 
@@ -50,12 +53,8 @@ void IEPlayer::Live()
 {
 	IEAtom::Live();
 
-	//处理键盘按键
-	if (m_moveDirection.m_x || m_moveDirection.m_y)
-	{
-		IEDisplacement * action = IEDisplacement::Create(m_moveDirection.m_x, m_moveDirection.m_y);
-		m_actionMachine->ChangeAction(action);
-	}
+	//处理所有的用户的操作
+	HandlePlayerControll();
 
 	//重置所有的操作
 	ResetEverything();
@@ -66,6 +65,30 @@ void IEPlayer::Live()
 	//设置camera player应该作为最先更新的东西
 	const float * translate = GetTranslate();
 	IECamera::Share()->SetCameraPosi(translate[0], translate[1]);
+}
+
+void IEPlayer::HandlePlayerControll()
+{
+	//处理键盘按键
+	m_nextAction = NULL;
+
+	if (m_moveDirection.m_x || m_moveDirection.m_y)
+	{
+		m_nextAction = IEDisplacement::Create(m_moveDirection.m_x, m_moveDirection.m_y);
+	}
+	else if (m_attack)
+	{
+		m_nextAction = IEActionAttack::Create();
+	}
+	else
+	{
+		m_nextAction = IERest::Create();
+	}
+
+	if (m_nextAction)
+	{
+		m_actionMachine->ChangeAction(m_nextAction);
+	}
 }
 
 void IEPlayer::BindPlayerControl()
@@ -84,15 +107,13 @@ void IEPlayer::BindPlayerControl()
 
 void IEPlayer::HandleKeyboard()
 {
-	//if (IECamera::Share()->ValidateCameraMode(IEPlayerDriverCameraMode))
-	//{
-	//	IECamera::Share()->SetCameraPosi(m_position + m_displacement);
-	//}
+
 }
 
 void IEPlayer::ResetEverything()
 {
 	m_moveDirection = 0;
+	m_attack = false;
 }
 
 void IEPlayer::PlayerPressKeyW(unsigned char key)
@@ -121,6 +142,7 @@ void IEPlayer::PlayerPressKeyD(unsigned char key)
 
 void IEPlayer::PlayerPressKeyJ(unsigned char key)
 {
+	m_attack = true;
 	HandleKeyboard();
 }
 

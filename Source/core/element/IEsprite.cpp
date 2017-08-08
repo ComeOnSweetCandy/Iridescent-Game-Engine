@@ -49,24 +49,31 @@ void IESprite::PreVisit()
 
 void IESprite::DrawNode()
 {
-	RunTexture();
-
 	if (m_shader)
 	{
 		glUseProgram(m_shader->GetShaderProgram());
 	}
+
+	static float drawX, drawY;		//最终定义绘制的方向的
+	drawX = m_drawDirection[0] ? 0 : m_size[0];
+	drawY = m_drawDirection[1] ? 0 : m_size[1];
 
 	glBindTexture(GL_TEXTURE_2D, m_textureUnit->_TextureID);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	glColor4f(m_backColor[0], m_backColor[1], m_backColor[2], m_backColor[3]);
-	//glBegin(GL_QUADS);
+	glBegin(GL_QUADS);
 	//glTexCoord2f(m_textureUnit->_BeginX, m_textureUnit->_BeginY); glVertex2f(0, 0);
 	//glTexCoord2f(m_textureUnit->_EndX, m_textureUnit->_BeginY); glVertex2f(m_size[0], 0);
 	//glTexCoord2f(m_textureUnit->_EndX, m_textureUnit->_EndY); glVertex2f(m_size[0], m_size[1]);
 	//glTexCoord2f(m_textureUnit->_BeginX, m_textureUnit->_EndY); glVertex2f(0, m_size[1]);
-	//glEnd();
+
+	glTexCoord2f(m_textureUnit->_BeginX, m_textureUnit->_BeginY); glVertex2f(drawX, drawY);
+	glTexCoord2f(m_textureUnit->_EndX, m_textureUnit->_BeginY); glVertex2f(m_size[0] - drawX, drawY);
+	glTexCoord2f(m_textureUnit->_EndX, m_textureUnit->_EndY); glVertex2f(m_size[0] - drawX, m_size[1] - drawY);
+	glTexCoord2f(m_textureUnit->_BeginX, m_textureUnit->_EndY); glVertex2f(drawX, m_size[1] - drawY);
+	glEnd();
 
 	glDisable(GL_BLEND);
 	glBindTexture(GL_TEXTURE_2D, NULL);
@@ -140,54 +147,16 @@ void IESprite::RemoveTexture()
 	}
 }
 
-void IESprite::RunTexture()
-{
-	//if (m_texture && m_textureState && m_textureState->m_allow && m_texture->m_textureFramesCount > 1)
-	//{
-	//	m_textureState->m_curTextureTime = m_textureState->m_curTextureTime + IETime::Share()->GetLastFrapPassingTime();
-	//	if (m_textureState->m_curTextureTime >= m_texture->m_timeAxis[m_textureState->m_curTextureIndex])
-	//	{
-	//		m_textureState->m_curTextureIndex++;
-
-	//		if (m_textureState->m_curTextureIndex + 1 == m_texture->m_triggerAxis)
-	//		{
-	//			//该帧为触发帧
-	//			m_textureState->m_triggerFrap = true;
-	//		}
-	//	}
-	//	if (m_textureState->m_curTextureIndex >= m_texture->m_textureFramesCount)
-	//	{
-	//		//播放完成一圈
-	//		if (m_textureState->m_temporaryRun)
-	//		{
-	//			m_textureState->m_temporaryRun = false;
-	//			TemporaryTextureEnd();
-	//		}
-	//		else
-	//		{
-	//			m_textureState->m_curTextureTime = 0.0f;
-	//			m_textureState->m_curTextureIndex = 0;
-	//		}
-	//	}
-	//}
-}
-
-bool IESprite::IsTriggerFrap()
+bool IESprite::TriggerFrap()
 {
 	//return m_textureState->m_triggerFrap;
 	return true;
 }
 
-bool IESprite::IsEndFrap()
+bool IESprite::EndFrap()
 {
 	//return m_textureState->;
 	return false;
-}
-
-void IESprite::TemporaryTextureEnd()
-{
-	//m_textureState->m_allow = false;
-	//m_textureState->m_curTextureIndex--;
 }
 
 IE_END

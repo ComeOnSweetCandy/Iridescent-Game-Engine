@@ -15,6 +15,7 @@
 
 IE_BEGIN
 
+class IEElement;
 class IEKeyboard;
 
 enum IECameraMode
@@ -32,6 +33,8 @@ public:
 	static IECamera * Share();
 
 public:
+	void BindElement(IEElement * element);					//绑定一个element 这样摄像机就会一直跟随该element
+
 	void SetCameraPosi(const float &x, const float &y);
 	void SetCameraPosi(IEVector posi);
 	IEVector GetGameraPosition();
@@ -48,6 +51,7 @@ private:
 	static IECamera * m_StaticCamera;
 	IEVector m_cameraPosi;
 	IECameraMode m_cameraMode;
+	IEElement * m_bindElement;
 
 	bool m_cameraMoveLiner;
 	IEVector m_cameraSpeed;

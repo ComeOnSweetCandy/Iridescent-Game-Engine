@@ -276,7 +276,7 @@ void IEWidget::DrawNode()
 
 		if (w_node)
 		{
-			RunTexture();
+			//RunTexture();
 
 			if (m_shader)
 			{

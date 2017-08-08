@@ -35,7 +35,7 @@ void IEWater::LoadShader()
 
 void IEWater::DrawNode()
 {
-	RunTexture();
+	//RunTexture();
 
 	if (m_shader)
 	{

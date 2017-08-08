@@ -1,5 +1,5 @@
 /***********************************
-* name     : IEattack.h
+* name     : IEActionAttack.h
 * creater  : cosc
 * info     : action attack
 * date     : 2017/2/17
@@ -16,20 +16,18 @@ IE_BEGIN
 
 class IECreature;
 
-class __IE_DLL__ IEAttack :public IEAction
+class __IE_DLL__ IEActionAttack :public IEAction
 {
 public:
-	IEAttack();
-	virtual ~IEAttack();
+	IEActionAttack();
+	virtual ~IEActionAttack();
 	virtual void Initialization();
-	static IEAttack * Create();
+	static IEActionAttack * Create();
 
 public:
-	virtual bool Begin();
-	virtual bool Excute();
-	virtual bool End();
-
-	virtual void Attack();
+	virtual void Begin();
+	virtual void Excute();
+	virtual void End();
 
 private:
 	bool m_haveAttacked;

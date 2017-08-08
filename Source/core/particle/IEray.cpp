@@ -47,7 +47,7 @@ void IERay::DrawNode()
 {
 	//IEParticle::DrawNode();
 
-	RunTexture();
+	//RunTexture();
 	if (m_shader)
 	{
 		glUseProgram(m_shader->GetShaderProgram());

@@ -119,13 +119,17 @@ void IEPackerTexture::GetTexture(IETextureUnitState * unitState)
 
 void IEPackerTexture::ChangeGroup(IETextureUnitState * textureUnitState, const char * groupName, unsigned char sameIndex)
 {
-	//先进行检测是否为重复修改group
-	int res = strcmp(m_textureGroups[textureUnitState->_GroupIndex]._Name, groupName);
-	if (res == 0)
+	//先进行检测是否为重复修改group 
+	//但是首先得确定 之前一个groupIndex为空 也就是textureID是否为零
+	if (textureUnitState->_TextureID != 0)
 	{
-		if (sameIndex - 1 == textureUnitState->_SameIndex)
+		int res = strcmp(m_textureGroups[textureUnitState->_GroupIndex]._Name, groupName);
+		if (res == 0)
 		{
-			return;
+			if (sameIndex - 1 == textureUnitState->_SameIndex)
+			{
+				return;
+			}
 		}
 	}
 

@@ -36,6 +36,11 @@ IEActionMachine * IEAction::GetActionMachine()
 	return m_actionMachine;
 }
 
+void IEAction::KeyframeCallback()
+{
+	printf("key frame call back\n");
+}
+
 void IEAction::SetActionMachine(IEActionMachine * machine)
 {
 	m_actionMachine = machine;

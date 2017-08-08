@@ -32,7 +32,10 @@ public:
 public:
 	virtual void SetTranslate(const float &x, const float &y);
 	virtual void SetPosition(const float &x, const float &y);
- 
+
+	virtual void ChangeGroup(const char * groupName, unsigned int sameIndex = 1);				//普通形式下的改变贴图组
+	virtual void ChangeGroupSpecial(const char * groupName, unsigned int sameIndex = 1);		//特殊改变贴图组 因为要考虑到面向朝向问题 所以提供一个简单的接口自动去处理
+
 	IECreatureInfo * GetCreatureInfo();
 	IECreatureUnit * GetCreatureUnit();
 	IEActionMachine * GetActionMachine();
@@ -41,6 +44,9 @@ public:
 	void User();								//当前为用户控制
 	void Await();								//无目标情况下的处理
 	void Warning(IECreature * creature);		//警戒线视野内有enemy
+
+	void BeAttacked();							//通知 被攻击
+	void BeInterrupt();							//通知 被打断
 	
 	//给予creature的指令调用的统统为action组
 	void Rest();								//action rest

@@ -15,27 +15,6 @@
 
 IE_BEGIN
 
-//typedef struct ieTextureState
-//{
-//	ieTextureState()
-//	{
-//		Reset();
-//	};
-//	void Reset()
-//	{
-//		m_curTextureIndex = 0;
-//		m_curTextureTime = 0.0f;
-//		m_temporaryRun = false;
-//		m_triggerFrap = false;
-//		m_allow = true;
-//	}
-//	unsigned int m_curTextureIndex;
-//	float m_curTextureTime;
-//	bool m_temporaryRun;
-//	bool m_triggerFrap;
-//	bool m_allow;
-//}IETextureState;
-
 class __IE_DLL__ IESprite :public IEElement
 {
 public:
@@ -50,19 +29,17 @@ protected:
 	virtual void DrawNode();
 	virtual void ReckonSize();
 
-	void RunTexture();
-
 public:
-	void ChangeTexture(const char * textureName);							//直接更换贴图
-	void ChangeTexture(IEPackerTexture * packerTexture);					//直接更换贴图
-	void ChangeGroup(const char * groupName, unsigned int sameIndex = 1);	//更换贴图组 默认使用第一个texture group
-	IETextureUnitState * GetTextureUnitState();								//获取贴图组的序号
-	IEPackerTexture * GetTexture();											//获取贴图
+	virtual void ChangeGroup(const char * groupName, unsigned int sameIndex = 1);	//更换贴图组 默认使用第一个texture group
+
+	void ChangeTexture(const char * textureName);									//直接更换贴图
+	void ChangeTexture(IEPackerTexture * packerTexture);							//直接更换贴图
+	IETextureUnitState * GetTextureUnitState();										//获取贴图组的序号
+	IEPackerTexture * GetTexture();													//获取贴图
 	void RemoveTexture();
-	
-	virtual void TemporaryTextureEnd();
-	virtual bool IsTriggerFrap();
-	virtual bool IsEndFrap();
+	;
+	virtual bool TriggerFrap();
+	virtual bool EndFrap();
 
 protected:
 	IEPackerTexture * m_texture;

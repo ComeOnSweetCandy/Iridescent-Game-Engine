@@ -26,9 +26,9 @@ public:
 	static IEInjured * Create();
 
 public:
-	virtual bool Begin();
-	virtual bool Excute();
-	virtual bool End();
+	virtual void Begin();
+	virtual void Excute();
+	virtual void End();
 };
 
 IE_END

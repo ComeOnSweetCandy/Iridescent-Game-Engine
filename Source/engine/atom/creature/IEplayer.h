@@ -36,10 +36,15 @@ public:
 	virtual void HandleKeyboard();
 	virtual void ResetEverything();
 
+	void HandlePlayerControll();			//处理所有用户的操作
+
 	IEPropPack * GetPlayersPack();
 
 private:
 	IEGrid m_moveDirection;
+	bool m_attack;
+
+	IEAction * m_nextAction;
 	IEPropPack * m_propPack;
 };
 

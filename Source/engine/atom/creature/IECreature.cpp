@@ -71,6 +71,44 @@ void IECreature::SetPosition(const float &x, const float &y)
 	}
 }
 
+void IECreature::ChangeGroup(const char * groupName, unsigned int sameIndex)
+{
+	IESprite::ChangeGroup(groupName, sameIndex);
+}
+
+void IECreature::ChangeGroupSpecial(const char * groupName, unsigned int sameIndex)
+{
+	//与上一次方向不同
+	IEString groupNameString = groupName;
+	if (m_direction[0] == 1)
+	{
+		groupNameString << 'r';
+	}
+	else if (m_direction[0] == 0)
+	{
+		//什么也不做
+	}
+	else if (m_direction[0] == -1)
+	{
+		groupNameString << 'r';
+	}
+
+	if (m_direction[1] == 1)
+	{
+		groupNameString << 't';
+	}
+	else if (m_direction[1] == 0)
+	{
+		//什么也不做
+	}
+	else if (m_direction[1] == -1)
+	{
+		groupNameString << 'b';
+	}
+
+	IESprite::ChangeGroup(groupNameString.GetString(), sameIndex);
+}
+
 void IECreature::Born()
 {
 	
@@ -267,6 +305,25 @@ void IECreature::Warning(IECreature * creature)
 	{
 		IEGoalGo * goal = IEGoalGo::Create(creature->GetTranslate()[0], creature->GetTranslate()[1]);
 		m_goalMachine->ChangeGoal(goal);
+	}
+}
+
+void IECreature::BeAttacked()
+{
+
+}
+
+void IECreature::BeInterrupt()
+{
+	//由script来决定如何处理interrupt状态
+	if (AllocateLuaFunction(m_info->_LuaScript, "Interrupt"))
+	{
+		SetLuaUserdataElement(m_info->_LuaScript, "self", "IECreature.IECreature", this);
+		lua_call(m_info->_LuaScript, 0, 0);
+	}
+	else
+	{
+		
 	}
 }
 

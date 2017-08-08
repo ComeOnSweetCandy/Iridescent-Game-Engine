@@ -27,6 +27,8 @@ public:
 	static IEAction * Create();
 
 public:
+	virtual void KeyframeCallback();					//运行到关键帧时的反馈
+
 	void SetActionMachine(IEActionMachine * machine);
 
 protected:

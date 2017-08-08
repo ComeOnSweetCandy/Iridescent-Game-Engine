@@ -47,6 +47,8 @@
     <ClCompile Include="Source\core\shader\IEshader.cpp" />
     <ClCompile Include="Source\engine\atom\creature\action\IEAction.cpp" />
     <ClCompile Include="Source\engine\atom\creature\action\IEActionAngry.cpp" />
+    <ClCompile Include="Source\engine\atom\creature\action\IEActionAttack.cpp" />
+    <ClCompile Include="Source\engine\atom\creature\action\IEActionInjured.cpp" />
     <ClCompile Include="Source\engine\atom\creature\action\IEActionMachine.cpp" />
     <ClCompile Include="Source\engine\atom\creature\action\IEActionDisplacement.cpp" />
     <ClCompile Include="Source\engine\atom\creature\action\IEActionRest.cpp" />
@@ -191,6 +193,8 @@
     <ClInclude Include="Source\core\shader\IEshader.h" />
     <ClInclude Include="Source\engine\atom\creature\action\IEAction.h" />
     <ClInclude Include="Source\engine\atom\creature\action\IEActionAngry.h" />
+    <ClInclude Include="Source\engine\atom\creature\action\IEActionAttack.h" />
+    <ClInclude Include="Source\engine\atom\creature\action\IEActionInjured.h" />
     <ClInclude Include="Source\engine\atom\creature\action\IEActionMachine.h" />
     <ClInclude Include="Source\engine\atom\creature\action\IEActionDisplacement.h" />
     <ClInclude Include="Source\engine\atom\creature\action\IEActionRest.h" />

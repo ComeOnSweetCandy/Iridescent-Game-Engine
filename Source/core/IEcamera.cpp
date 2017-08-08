@@ -1,6 +1,8 @@
 #define __IE_DLL_EXPORTS__
 #include "IEcamera.h"
 
+#include "element/IEelement.h"
+
 #include "../control/IEkeyboard.h"
 #include "../type/IEbaseType.h"
 
@@ -56,6 +58,11 @@ bool IECamera::ValidateCameraMode(IECameraMode cameraMode)
 	}
 }
 
+void IECamera::BindElement(IEElement * element)
+{
+	m_bindElement = element;
+}
+
 void IECamera::SetCameraPosi(const float &x, const float &y)
 {
 	m_cameraPosi = IEVector(x, y);
@@ -95,6 +102,15 @@ void IECamera::Run()
 	float recalPosition_y = multiple_y * pixelLength;
 
 	glTranslatef(-recalPosition_x, -recalPosition_y, 0.0f);
+
+	if (m_cameraMode == IEPlayerDriverCameraMode)
+	{
+
+	}
+	else if (m_cameraMode == IEGodViewCameraMode)
+	{
+
+	}
 }
 
 IE_END

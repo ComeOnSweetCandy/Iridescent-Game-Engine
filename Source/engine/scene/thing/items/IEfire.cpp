@@ -101,7 +101,7 @@ void IEFire::DrawLight()
 
 void IEFire::DrawFire()
 {
-	RunTexture();
+	//RunTexture();
 
 	if (m_texture)
 	{

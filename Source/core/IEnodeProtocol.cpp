@@ -13,6 +13,7 @@ IENodeProtocol::IENodeProtocol()
 	m_display = true;
 
 	SetDirection(0, -1);
+	SetDrawDirection(true, true);
 	SetSize(1.0f, 1.0f);
 	SetBackColor(1.0f, 1.0f, 1.0f, 1.0f);
 }
@@ -69,6 +70,12 @@ void IENodeProtocol::SetDirection(const int &x, const int &y)
 {
 	m_direction[0] = x;
 	m_direction[1] = y;
+}
+
+void IENodeProtocol::SetDrawDirection(const bool &standardX, const bool &standardY)
+{
+	m_drawDirection[0] = standardX;
+	m_drawDirection[1] = standardY;
 }
 
 void IENodeProtocol::SetSize(const float &x, const float &y)
