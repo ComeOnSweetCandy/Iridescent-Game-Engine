@@ -18,6 +18,7 @@ struct IEPhysicCircleInfo :IEPhysicEdgeInfo
 {
 	float m_radius;
 	int m_vertexsCount;
+	float m_offsetPosition[2];		//用于描述一个偏移值
 };
 
 class __IE_DLL__ IEPhysicCircle :public IEPhysicEdge
@@ -36,6 +37,9 @@ public:
 
 	void SetRadius(float radius);
 	float GetRadius();
+
+	void SetOffsetPosition(float &offsetX, float &offsetY);
+	float * GetOffsetPosition();
 };
 
 IE_END

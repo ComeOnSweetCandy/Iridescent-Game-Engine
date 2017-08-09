@@ -101,8 +101,8 @@ IEPhysicCollisionState IEPhysicEdgeCollision::CollisionCircleCircle(IEPhysicNode
 	IEPhysicCircleInfo * a_edge_info = (IEPhysicCircleInfo *)(a_edge->GetPhysicEdgeInfo());
 	IEPhysicCircleInfo * b_edge_info = (IEPhysicCircleInfo *)(b_edge->GetPhysicEdgeInfo());
 
-	IEVector aPosition = a->m_position;
-	IEVector bPosition = b->m_position;
+	IEVector aPosition = a->m_position + IEVector(a_edge->GetOffsetPosition()[0], a_edge->GetOffsetPosition()[1]);
+	IEVector bPosition = b->m_position + IEVector(b_edge->GetOffsetPosition()[0], b_edge->GetOffsetPosition()[1]);
 
 	m_cacheT = 1.0f;
 	bool result = IEPhysicEdgeCollision::CC_Collide(a_edge_info->m_radius, b_edge_info->m_radius, bPosition - aPosition, a->GetDisplacement() - b->GetDisplacement(), m_cacheN, m_cacheT);
@@ -132,7 +132,7 @@ IEPhysicCollisionState IEPhysicEdgeCollision::CollisionPolygonCircle(IEPhysicNod
 	IEPhysicCircleInfo * b_edge_info = (IEPhysicCircleInfo *)(b_edge->GetPhysicEdgeInfo());
 
 	IEVector aPosition = a->m_position;
-	IEVector bPosition = b->m_position;
+	IEVector bPosition = b->m_position + IEVector(b_edge->GetOffsetPosition()[0], b_edge->GetOffsetPosition()[1]);
 
 	m_cacheT = 1.0f;
 	m_cacheN = IEVector(0.0f, 0.0f);

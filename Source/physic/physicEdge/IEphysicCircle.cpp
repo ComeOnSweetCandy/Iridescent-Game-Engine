@@ -52,6 +52,7 @@ void IEPhysicCircle::DrawPhysicEdge()
 	int vertexsCount = ((IEPhysicCircleInfo *)m_physicEdgeInfo)->m_vertexsCount;
 	float radius = ((IEPhysicCircleInfo *)m_physicEdgeInfo)->m_radius;
 
+	glTranslatef(((IEPhysicCircleInfo *)m_physicEdgeInfo)->m_offsetPosition[0], ((IEPhysicCircleInfo *)m_physicEdgeInfo)->m_offsetPosition[1], 0.0f);
 	glBegin(GL_TRIANGLE_FAN);
 	for (int index = 0; index < vertexsCount; index++)
 	{
@@ -70,6 +71,17 @@ float IEPhysicCircle::GetRadius()
 {
 	float radius = ((IEPhysicCircleInfo *)m_physicEdgeInfo)->m_radius;
 	return radius;
+}
+
+void IEPhysicCircle::SetOffsetPosition(float &offsetX, float &offsetY)
+{
+	((IEPhysicCircleInfo *)m_physicEdgeInfo)->m_offsetPosition[0] = offsetX;
+	((IEPhysicCircleInfo *)m_physicEdgeInfo)->m_offsetPosition[1] = offsetY;
+}
+
+float * IEPhysicCircle::GetOffsetPosition()
+{
+	return ((IEPhysicCircleInfo *)m_physicEdgeInfo)->m_offsetPosition;
 }
 
 IEVector IEPhysicCircle::GetBarycenter()

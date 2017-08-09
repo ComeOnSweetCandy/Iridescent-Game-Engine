@@ -185,7 +185,8 @@ void IECreature::InitUnit(unsigned int creatureID, int creatureOrder)
 	//BindPhysicNode(physicNode);
 
 	//根据XML生成PhysicNode
-	IEPhysicNode * physicNode = IEPhysicNode::Create(m_info->_XML->FindChild("physic"));
+	IEXml * physicXML = m_info->_XML->FindChild("physic");
+	IEPhysicNode * physicNode = IEPhysicNode::Create(physicXML);
 	BindPhysicNode(physicNode);
 
 	//脚本
@@ -210,7 +211,7 @@ void IECreature::InitUnit(unsigned int creatureID, int creatureOrder)
 			luaL_requiref(luaScript, lua_reg->name, lua_reg->func, 1);
 			lua_pop(luaScript, 1);
 		}
-
+		
 		if (luaL_dofile(luaScript, scriptName) != 0)
 		{
 			__IE_WARNING__("IECreature : can not find luaScript file.\n");

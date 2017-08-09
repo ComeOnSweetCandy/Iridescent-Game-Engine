@@ -44,6 +44,9 @@ void IEPhysicNode::Initialization(IEXml * physicXML)
 	if (edgeType == __edge_circle__)
 	{
 		physicEdge = IEPhysicCircle::Create(edgeInfo);
+		float barycenterOffsetX = physicXML->FindChild("offsetX")->ValueFloat();
+		float barycenterOffsetY = physicXML->FindChild("offsetY")->ValueFloat();
+		((IEPhysicCircle *)physicEdge)->SetOffsetPosition(barycenterOffsetX, barycenterOffsetY);
 	}
 	else if (edgeType == __edge_polygon__)
 	{
