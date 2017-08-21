@@ -1,7 +1,7 @@
 /***********************************
-* name     : IEatom.h
+* name     : IEAtom.h
 * creater  : cosc
-* info     : everthing in this world were called atom
+* info     : everthing in this world were based atom
 * date     : 2016/12/18
 * version  : 1.0
 * remark   : none
@@ -25,11 +25,11 @@ public:
 	static IEAtom * Create();
 
 protected:
-	virtual void Update();
+	virtual void Update();				//每次刷新
 
-	virtual void Born();
-	virtual void Live();
-	virtual void Die();
+	virtual void Born();				//每一帧的处理
+	virtual void Live();				//live时的处理
+	virtual void Die();					//die时的处理
 
 public:
 	void SetTextureGroupName(const char * name);

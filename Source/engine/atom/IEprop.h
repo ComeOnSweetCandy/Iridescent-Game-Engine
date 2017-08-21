@@ -10,7 +10,7 @@
 #ifndef __IE_PROP__
 #define __IE_PROP__
 
-#include "IEatom.h"
+#include "IEAtom.h"
 #include "../trigger/IEtrigger.h"
 
 IE_BEGIN

@@ -10,11 +10,11 @@
 #ifndef __IE_BLOCK__
 #define __IE_BLOCK__
 
-#include "../atom/IEstill.h"
+#include "../atom/IEAtom.h"
 
 IE_BEGIN
 
-class __IE_DLL__ IEBlock :public IEStill
+class __IE_DLL__ IEBlock :public IEAtom
 {
 public:
 	IEBlock();

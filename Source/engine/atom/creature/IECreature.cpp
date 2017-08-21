@@ -239,11 +239,6 @@ void IECreature::InitCreatureTab()
 	//IENode::AddChild(m_nameDisplay);
 }
 
-void IECreature::AnalyseCommand(char * command)
-{
-
-}
-
 void IECreature::Cured(int cureValue)
 {
 	printf("%d",cureValue);
@@ -344,22 +339,6 @@ void IECreature::Displacement(float x, float y)
 {
 	IEDisplacement * action = IEDisplacement::Create(x, y);
 	m_actionMachine->ChangeAction(action);
-}
-
-void IECreature::FollowEnemy()
-{
-	IEContainer * creatures = FindCreatureAround();
-	int randomNumber = rand() % (creatures->Count());
-	IECreature * creature = (IECreature *)(creatures->Find(randomNumber));
-	creatures->Release();
-
-	FollowCreature(creature);
-}
-
-void IECreature::FollowCreature(IECreature * creature)
-{
-	const float * translate = creature->GetTranslate();
-	//Walk(translate[0], translate[1]);
 }
 
 IEContainer * IECreature::FindCreatureAround()

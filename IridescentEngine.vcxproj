@@ -63,9 +63,8 @@
     <ClCompile Include="Source\engine\atom\creature\IECreatureInfo.cpp" />
     <ClCompile Include="Source\engine\atom\creature\IECreaturesInfoManager.cpp" />
     <ClCompile Include="Source\engine\atom\creature\IEPlayer.cpp" />
-    <ClCompile Include="Source\engine\atom\IEatom.cpp" />
+    <ClCompile Include="Source\engine\atom\IEAtom.cpp" />
     <ClCompile Include="Source\engine\atom\IEprop.cpp" />
-    <ClCompile Include="Source\engine\atom\IEstill.cpp" />
     <ClCompile Include="Source\engine\atom\prop\IEdamageProp.cpp" />
     <ClCompile Include="Source\engine\atom\prop\IEpickedProp.cpp" />
     <ClCompile Include="Source\engine\atom\prop\IEpropsInfoManager.cpp" />
@@ -209,9 +208,8 @@
     <ClInclude Include="Source\engine\atom\creature\IECreatureInfo.h" />
     <ClInclude Include="Source\engine\atom\creature\IECreaturesInfoManager.h" />
     <ClInclude Include="Source\engine\atom\creature\IEPlayer.h" />
-    <ClInclude Include="Source\engine\atom\IEatom.h" />
+    <ClInclude Include="Source\engine\atom\IEAtom.h" />
     <ClInclude Include="Source\engine\atom\IEprop.h" />
-    <ClInclude Include="Source\engine\atom\IEstill.h" />
     <ClInclude Include="Source\engine\atom\prop\IEdamageProp.h" />
     <ClInclude Include="Source\engine\atom\prop\IEpickedProp.h" />
     <ClInclude Include="Source\engine\atom\prop\IEpropsInfoManager.h" />

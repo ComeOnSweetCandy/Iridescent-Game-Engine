@@ -15,7 +15,7 @@ IEBlock::~IEBlock()
 
 void IEBlock::Initialization()
 {
-	IEStill::Initialization(NULL);
+	IEAtom::Initialization();
 }
 
 IEBlock * IEBlock::Create()

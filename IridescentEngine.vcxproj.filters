@@ -279,9 +279,6 @@
     <ClCompile Include="Source\interface\cmd\IEframe.cpp">
       <Filter>IridescentEngine\interface\cmd</Filter>
     </ClCompile>
-    <ClCompile Include="Source\engine\atom\IEatom.cpp">
-      <Filter>IridescentEngine\engine\atom</Filter>
-    </ClCompile>
     <ClCompile Include="Source\physic\physicEdge\IEphysicEdge.cpp">
       <Filter>IridescentEngine\physic\physicEdge</Filter>
     </ClCompile>
@@ -394,9 +391,6 @@
       <Filter>IridescentEngine\engine\atom\prop</Filter>
     </ClCompile>
     <ClCompile Include="Source\engine\atom\IEprop.cpp">
-      <Filter>IridescentEngine\engine\atom</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\engine\atom\IEstill.cpp">
       <Filter>IridescentEngine\engine\atom</Filter>
     </ClCompile>
     <ClCompile Include="Source\engine\script\IEluaCollisionTrigger.cpp">
@@ -579,6 +573,9 @@
     <ClCompile Include="Source\engine\atom\creature\action\IEActionInjured.cpp">
       <Filter>IridescentEngine</Filter>
     </ClCompile>
+    <ClCompile Include="Source\engine\atom\IEAtom.cpp">
+      <Filter>IridescentEngine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\core\shader\IEshader.h">
@@ -725,9 +722,6 @@
     <ClInclude Include="Source\type\IEbaseType.h">
       <Filter>IridescentEngine\type</Filter>
     </ClInclude>
-    <ClInclude Include="Source\engine\atom\IEatom.h">
-      <Filter>IridescentEngine\engine\atom</Filter>
-    </ClInclude>
     <ClInclude Include="Source\physic\physicEdge\IEphysicCircle.h">
       <Filter>IridescentEngine\physic\physicEdge</Filter>
     </ClInclude>
@@ -843,9 +837,6 @@
       <Filter>IridescentEngine\engine\atom\prop</Filter>
     </ClInclude>
     <ClInclude Include="Source\engine\atom\IEprop.h">
-      <Filter>IridescentEngine\engine\atom</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\engine\atom\IEstill.h">
       <Filter>IridescentEngine\engine\atom</Filter>
     </ClInclude>
     <ClInclude Include="Source\engine\script\IEluaCollisionTrigger.h">
@@ -1029,6 +1020,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\engine\atom\creature\action\IEActionInjured.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\engine\atom\IEAtom.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

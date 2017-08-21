@@ -1,5 +1,5 @@
 #define __IE_DLL_EXPORTS__
-#include "IEatom.h"
+#include "IEAtom.h"
 
 IE_BEGIN
 

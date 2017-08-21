@@ -10,7 +10,7 @@
 #ifndef __IE_CREATURE__
 #define __IE_CREATURE__
 
-#include "../IEatom.h"
+#include "../IEAtom.h"
 #include "IECreatureInfo.h"
 
 #include "goal/IEGoalMachine.h"
@@ -55,9 +55,6 @@ public:
 	void Cured(int cureValue);
 	void Damaged(int damageValue);
 
-	void FollowEnemy();
-	void FollowCreature(IECreature * creature);
-
 protected:
 	virtual void Born();
 	virtual void Live();
@@ -69,8 +66,6 @@ private:
 	void InitUnit(unsigned int creatureID, int creatureOrder);
 	void InitMachine();
 	void InitCreatureTab();
-
-	void AnalyseCommand(char * command);
 
 	IEContainer * FindCreatureAround();				//获取周围所有的人的句柄
 	void ArrangeInfo();								//处理一些 防止信息数值错误的操作
