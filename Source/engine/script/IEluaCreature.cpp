@@ -40,7 +40,7 @@ int lua_follow_enemy(lua_State * lua)
 
 	IECreature * creature = *((IECreature**)lua_touserdata(lua, 1));
 
-	creature->FollowEnemy();
+	//creature->FollowEnemy();
 
 	return 0;
 }

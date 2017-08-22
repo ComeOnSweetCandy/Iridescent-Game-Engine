@@ -34,7 +34,6 @@ public:
 	virtual void SetPosition(const float &x, const float &y);
 
 	virtual void ChangeGroup(const char * groupName, unsigned int sameIndex = 1);				//普通形式下的改变贴图组
-	virtual void ChangeGroupSpecial(const char * groupName, unsigned int sameIndex = 1);		//特殊改变贴图组 因为要考虑到面向朝向问题 所以提供一个简单的接口自动去处理
 
 	IECreatureInfo * GetCreatureInfo();
 	IECreatureUnit * GetCreatureUnit();

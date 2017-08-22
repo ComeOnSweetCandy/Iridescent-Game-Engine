@@ -88,38 +88,7 @@ void IEDisplacement::Begin()
 	}
 	else
 	{
-		////与上一次方向不同
-		//IEString groupName = "walk_";
-		//if (m_direction[0] == 1)
-		//{
-		//	groupName << 'r';
-		//}
-		//else if (m_direction[0] == 0)
-		//{
-		//	//什么也不做
-		//}
-		//else if (m_direction[0] == -1)
-		//{
-		//	groupName << 'r';
-		//}
-
-		//if (m_direction[1] == 1)
-		//{
-		//	groupName << 't';
-		//}
-		//else if (m_direction[1] == 0)
-		//{
-		//	//什么也不做
-		//}
-		//else if (m_direction[1] == -1)
-		//{
-		//	groupName << 'b';
-		//}
-
-		//GetCreature()->ChangeGroup(groupName.GetString(), 1);
-		//GetCreature()->SetScale(m_direction[0] >= 0 ? 1 : -1);
-
-		GetCreature()->ChangeGroupSpecial("walk", 1);
+		GetCreature()->ChangeGroup("walk", 1);
 		GetCreature()->SetDrawDirection(m_direction[0] >= 0 ? true : false, true);
 
 		lastDirection[0] = m_direction[0];

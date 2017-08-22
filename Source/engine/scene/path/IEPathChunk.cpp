@@ -5,13 +5,14 @@ IE_BEGIN
 
 IEPathChunk::IEPathChunk()
 {
+	m_tunnels = NULL;
 	m_chunksIndexMatrix = NULL;
 	m_chunkLength = 0;
 }
 
 IEPathChunk::~IEPathChunk()
 {
-	
+	free(m_tunnels);
 }
 
 void IEPathChunk::Initialization(int& blockSize)
@@ -49,10 +50,6 @@ void IEPathChunk::ResetPathGrid()
 
 	memset(m_tunnels, 0xFF, m_chunkLength * m_chunkLength * 16);
 	
-
-
-
-
 	for (int x = 0; x < m_chunkLength; x++)
 	{
 		for (int y = 0; y < m_chunkLength; y++)

@@ -31,7 +31,7 @@ IEActionAttack * IEActionAttack::Create()
 
 void IEActionAttack::Begin()
 {
-	GetCreature()->ChangeGroupSpecial("attack", 1);
+	GetCreature()->ChangeGroup("attack", 1);
 }
 
 void IEActionAttack::Excute()

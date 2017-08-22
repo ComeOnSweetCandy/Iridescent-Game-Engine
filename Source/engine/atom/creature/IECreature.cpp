@@ -76,39 +76,6 @@ void IECreature::ChangeGroup(const char * groupName, unsigned int sameIndex)
 	IESprite::ChangeGroup(groupName, sameIndex);
 }
 
-void IECreature::ChangeGroupSpecial(const char * groupName, unsigned int sameIndex)
-{
-	//与上一次方向不同
-	IEString groupNameString = groupName;
-	if (m_direction[0] == 1)
-	{
-		groupNameString << 'r';
-	}
-	else if (m_direction[0] == 0)
-	{
-		//什么也不做
-	}
-	else if (m_direction[0] == -1)
-	{
-		groupNameString << 'r';
-	}
-
-	if (m_direction[1] == 1)
-	{
-		groupNameString << 't';
-	}
-	else if (m_direction[1] == 0)
-	{
-		//什么也不做
-	}
-	else if (m_direction[1] == -1)
-	{
-		groupNameString << 'b';
-	}
-
-	IESprite::ChangeGroup(groupNameString.GetString(), sameIndex);
-}
-
 void IECreature::Born()
 {
 	
