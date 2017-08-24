@@ -12,7 +12,7 @@
 
 #include "../IEArea.h"
 #include "IETerrainChunk.h"
-#include "IETerrainsInfoManager.h"
+#include "IETerrainList.h"
 
 IE_BEGIN
 
@@ -46,6 +46,7 @@ public:
 	static IETerrainArea * Create(IEMap * map, int visibleRadius, int sideLength);
 
 public:
+	virtual void RandomTerrain();
 	virtual void AddChild(int blockLocationX, int blockLocationY);											//添加一个新的child
 	virtual void LoadChilds(IETerrainSerialization * blocksInfo, int chunkLocationX, int chunkLocationY);	//读取地图文件中的数据
 
@@ -72,7 +73,7 @@ private:
 	void ReserializatioRound(int blockLocationX, int blockLocationY);									//一个body修改 重新序列化周围的border数值
 
 private:
-	IETerrainInfo * m_terrainsInfo;
+	IETerrainEntry * m_terrainsInfo;
 	IETerrainAlter * m_alter;
 
 	unsigned int m_choosedTerrainOrder;

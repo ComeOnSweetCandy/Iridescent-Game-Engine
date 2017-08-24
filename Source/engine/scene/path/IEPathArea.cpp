@@ -56,6 +56,12 @@ void IEPathArea::SetTunnel(int * datas, unsigned char tunnel)
 
 void IEPathArea::ReckonAddPath(IEPhysicNode * physicNode)
 {	
+	/*
+	** 这个路径构筑算法实际上有很大的问题，其一就是 导致有些直线路径可能被物体挡住无法通过。
+	** 所以要想办法重新写，可以参照AI那本书中的路径构建算法。
+	** 不过首先可以改写path的存储方式。
+	*/
+
 	if (!physicNode)
 	{
 		return;
@@ -98,8 +104,6 @@ void IEPathArea::ReckonAddPath(IEPhysicNode * physicNode)
 		if (data[4] == 0)
 		{
 			//点在物理范围外，即物理体的边缘位置 需要检测周围8个点 是否在列表内
-
-
 		}
 		else if (data[4] == 1)
 		{

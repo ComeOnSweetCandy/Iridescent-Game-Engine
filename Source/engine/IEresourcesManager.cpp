@@ -4,7 +4,7 @@
 #include "../core/container/IEautoReleasePool.h"
 #include "atom/creature/IEcreaturesInfoManager.h"
 #include "atom/prop/IEpropsInfoManager.h"
-#include "scene/terrain/IEterrainsInfoManager.h"
+#include "scene/terrain/IETerrainList.h"
 #include "scene/thing/IEthingsInfoManager.h"
 
 #include "../control/IEinputManager.h"
@@ -28,7 +28,7 @@ IEResourcesManager::~IEResourcesManager()
 	IEResourcesDictionary::Share()->Release();				//贴图着色器资源
 	IECreaturesInfoManager::Share()->Release();				//人物信息资源
 	IEPropsInfoManager::Share()->Release();					//道具信息资源
-	IETerrainsInfoManager::Share()->Release();				//地形信息资源
+	IETerrainList::Share()->Release();				//地形信息资源
 	IEAdorningsInfoManager::Share()->Release();				//装饰信息资源
 	IECamera::Share()->Release();							//相机释放
 
@@ -49,7 +49,7 @@ void IEResourcesManager::Initialization()
 	IEResourcesDictionary::Share();
 
 	IECreaturesInfoManager::Share();
-	IETerrainsInfoManager::Share();
+	IETerrainList::Share();
 	IEAdorningsInfoManager::Share();
 
 	IEConsole::Share()->Initialization();

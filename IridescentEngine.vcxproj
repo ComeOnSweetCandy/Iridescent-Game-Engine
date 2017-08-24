@@ -88,7 +88,7 @@
     <ClCompile Include="Source\engine\scene\terrain\IETerrain.cpp" />
     <ClCompile Include="Source\engine\scene\terrain\IETerrainArea.cpp" />
     <ClCompile Include="Source\engine\scene\terrain\IETerrainChunk..cpp" />
-    <ClCompile Include="Source\engine\scene\terrain\IETerrainsInfoManager.cpp" />
+    <ClCompile Include="Source\engine\scene\terrain\IETerrainList.cpp" />
     <ClCompile Include="Source\engine\scene\terrain\items\IEwater.cpp" />
     <ClCompile Include="Source\engine\scene\thing\IEJoint.cpp" />
     <ClCompile Include="Source\engine\scene\thing\IEthingArea.cpp" />
@@ -233,7 +233,7 @@
     <ClInclude Include="Source\engine\scene\terrain\IETerrain.h" />
     <ClInclude Include="Source\engine\scene\terrain\IETerrainArea.h" />
     <ClInclude Include="Source\engine\scene\terrain\IETerrainChunk.h" />
-    <ClInclude Include="Source\engine\scene\terrain\IETerrainsInfoManager.h" />
+    <ClInclude Include="Source\engine\scene\terrain\IETerrainList.h" />
     <ClInclude Include="Source\engine\scene\terrain\items\IEwater.h" />
     <ClInclude Include="Source\engine\scene\thing\IEJoint.h" />
     <ClInclude Include="Source\engine\scene\thing\IEthingArea.h" />

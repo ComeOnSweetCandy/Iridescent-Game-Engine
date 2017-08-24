@@ -1,6 +1,16 @@
 #define __IE_DLL_EXPORTS__
 #include "IEfunctions.h"
 
+void __ie_new_unexist_file__(const char * fileName)
+{
+	int exits = _access(fileName, 0);
+	if (exits != 0)
+	{
+		FILE * fp = fopen(fileName, "wb");
+		fclose(fp);
+	}
+}
+
 float GetLuaFloatElement(lua_State * luaScript, const char * name)
 {
 	//lua_settop(luaScript, 0);

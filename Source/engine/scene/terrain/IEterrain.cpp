@@ -1,7 +1,7 @@
 #define __IE_DLL_EXPORTS__
 #include "IETerrain.h"
 
-#include "IEterrainsInfoManager.h"
+#include "IETerrainList.h"
 #include "IETerrainArea.h"
 
 #include "../../../tools/IEscript.h"
@@ -140,7 +140,7 @@ void IETerrain::determinant(IETerrainSerialization * serialization)
 	if (m_terrainID)
 	{
 		//获取贴图信息
-		IETerrainInfo * infos = IETerrainsInfoManager::Share()->GetTerrainsInfoList();
+		IETerrainEntry * infos = IETerrainList::Share()->GetEntrys();
 		ChangeGroup("body", serialization->_BodyIndex);
 
 		if (serialization->_PieceID && serialization->_PieceIndex)
@@ -197,7 +197,7 @@ void IETerrain::ChangePieceIndex(unsigned int terrainID, unsigned char pieceInde
 
 		if (m_terrainID != terrainID)
 		{
-			IETerrainInfo * infos = IETerrainsInfoManager::Share()->GetTerrainsInfoList();
+			IETerrainEntry * infos = IETerrainList::Share()->GetEntrys();
 			IEPackerTexture * texture = IEPackerTexture::Create(infos[terrainID]._Xml);
 
 			m_piece = IESprite::Create();
@@ -329,7 +329,7 @@ void IETerrain::LoadXML()
 		return;
 	}
 
-	IETerrainInfo * terrainsInfo = IETerrainsInfoManager::Share()->GetTerrainsInfoList();
+	IETerrainEntry * terrainsInfo = IETerrainList::Share()->GetEntrys();
 	IEXml * xml = terrainsInfo[m_terrainID]._Xml;
 
 	//申请物理
@@ -351,7 +351,7 @@ void IETerrain::LoadScript()
 		return;
 	}
 
-	IETerrainInfo * terrainsInfo = IETerrainsInfoManager::Share()->GetTerrainsInfoList(); 
+	IETerrainEntry * terrainsInfo = IETerrainList::Share()->GetEntrys(); 
 	lua_State * luaScript = terrainsInfo[m_terrainID]._LuaScript;
 
 	if (!luaScript)

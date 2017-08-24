@@ -23,7 +23,7 @@ void IETerrainArea::Initialization(IEMap * map, int visibleRadius, int sideLengt
 {
 	IEArea::Initialization(map, visibleRadius, sideLength);
 
-	m_terrainsInfo = IETerrainsInfoManager::Share()->GetTerrainsInfoList();
+	m_terrainsInfo = IETerrainList::Share()->GetEntrys();
 }
 
 IETerrainArea * IETerrainArea::Create(IEMap * map, int visibleRadius, int sideLength)
@@ -31,6 +31,12 @@ IETerrainArea * IETerrainArea::Create(IEMap * map, int visibleRadius, int sideLe
 	IETerrainArea * terrain = new IETerrainArea();
 	terrain->Initialization(map, visibleRadius, sideLength);
 	return terrain;
+}
+
+void IETerrainArea::RandomTerrain()
+{
+	//Ëæ»úµØÐÎ
+
 }
 
 void IETerrainArea::AddChild(int blockLocationX, int blockLocationY)

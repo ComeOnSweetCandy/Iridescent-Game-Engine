@@ -11,6 +11,13 @@
 #define __IE_FUNCTIONS__
 
 #include "IEvar.h"
+#include "IEinclude.h"
+
+/************
+* file controll
+*************/
+#define __IE_NEW_UNEXIST_FILE__ __ie_new_unexist_file__
+extern "C" void __IE_DLL__ __ie_new_unexist_file__(const char * fileName);
 
 /************
 * number controll

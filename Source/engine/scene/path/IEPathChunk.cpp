@@ -47,7 +47,6 @@ void IEPathChunk::ResetPathGrid()
 	//	}
 	//}
 
-
 	memset(m_tunnels, 0xFF, m_chunkLength * m_chunkLength * 16);
 	
 	for (int x = 0; x < m_chunkLength; x++)
