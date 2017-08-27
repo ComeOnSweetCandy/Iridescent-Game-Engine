@@ -80,7 +80,10 @@ void IEDisplacement::Begin()
 		}
 	}
 
-	//检测是否需要修改group
+	//修改贴图组
+	GetCreature()->ChangeGroup("walk", 1);
+
+	//检测是否需要修改方向
 	int * lastDirection = GetCreature()->GetDirection();
 	if (lastDirection[0] == m_direction[0] && lastDirection[1] == m_direction[1])
 	{
@@ -88,7 +91,6 @@ void IEDisplacement::Begin()
 	}
 	else
 	{
-		GetCreature()->ChangeGroup("walk", 1);
 		GetCreature()->SetDrawDirection(m_direction[0] >= 0 ? true : false, true);
 
 		lastDirection[0] = m_direction[0];

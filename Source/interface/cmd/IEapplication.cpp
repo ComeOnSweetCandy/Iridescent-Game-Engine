@@ -75,6 +75,13 @@ void IEApplication::LoopBegin()
 	glClear(GL_COLOR_BUFFER_BIT);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
+
+	glBegin(GL_LINES);
+	glColor3f(1.0f, 0.0f, 0.0f); glVertex2f(-1000.0f, 0.0f);
+	glColor3f(1.0f, 0.0f, 0.0f); glVertex2f(1000.0f, 0.0f);
+	glColor3f(1.0f, 0.0f, 0.0f); glVertex2f(0.0f, -1000.0f);
+	glColor3f(1.0f, 0.0f, 0.0f); glVertex2f(0.0f, 1000.0f);
+	glEnd();
 }
 
 void IEApplication::ApplicationLoop()

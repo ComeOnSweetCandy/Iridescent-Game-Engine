@@ -1,6 +1,8 @@
 #define __IE_DLL_EXPORTS__
 #include "IEtotalScene.h"
 
+#include "../../core/IEcamera.h"
+
 IE_BEGIN
 
 IETotalScene::IETotalScene()
@@ -48,7 +50,9 @@ void IETotalScene::Run()
 	m_drawScene->Run();
 
 	//带所有的元素渲染完毕 这个时候 根据IEPlayer的方位定位camera最精准
-	//IECamera::Share()->Run();
+	const float * translate = m_player->GetTranslate();
+	IECamera::Share()->SetCameraPosi(translate[0], translate[1]);
+	IECamera::Share()->Run();
 }
 
 void IETotalScene::AddChild(IECreature * creature)

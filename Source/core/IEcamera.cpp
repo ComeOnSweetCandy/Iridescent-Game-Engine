@@ -103,6 +103,8 @@ void IECamera::Run()
 
 	glTranslatef(-recalPosition_x, -recalPosition_y, 0.0f);
 
+	//gluLookAt(recalPosition_x, recalPosition_y, 999.0f, recalPosition_x, recalPosition_y, 0.0f, 0.0f, 1.0f, 0.0f);
+
 	if (m_cameraMode == IEPlayerDriverCameraMode)
 	{
 

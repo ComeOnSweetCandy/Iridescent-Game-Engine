@@ -67,7 +67,6 @@ void IEResourcesManager::Run()
 {
 	IETime::Share()->Run();
 	IEInputManager::Share()->Run();
-	IECamera::Share()->Run();
 	IEAutoReleasePool::Share()->Run();
 	IECmdAnalyse::Share()->Run();
 }
