@@ -1,14 +1,14 @@
 /***********************************
-* name     : IEthingsInfoManager.h
+* name     : IEThingList.h
 * creater  : cosc
-* info     : things info manager
+* info     : thing list
 * date     : 2017/4/4
 * version  : 1.0
 * remark   : none
 ************************************/
 
-#ifndef __IE_THINGS_INFO_MANAGER__
-#define __IE_THINGS_INFO_MANAGER__
+#ifndef __IE_THING_LIST__
+#define __IE_THING_LIST__
 
 #include "../../../global/IEstdafx.h"
 

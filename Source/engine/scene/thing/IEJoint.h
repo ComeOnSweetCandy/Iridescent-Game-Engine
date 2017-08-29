@@ -25,6 +25,7 @@ public:
 public:
 	//设定周围的thing
 	void SetRound(unsigned char roundIndex ,unsigned int thingID);
+	void RereadSelf();
 
 protected:
 	virtual void DrawNode(){};

@@ -72,6 +72,11 @@ void IENodeProtocol::SetDirection(const int &x, const int &y)
 	m_direction[1] = y;
 }
 
+void IENodeProtocol::SetDirection2(const int &direction)
+{
+	m_direction2 = direction;
+}
+
 void IENodeProtocol::SetDrawDirection(const bool &standardX, const bool &standardY)
 {
 	m_drawDirection[0] = standardX;

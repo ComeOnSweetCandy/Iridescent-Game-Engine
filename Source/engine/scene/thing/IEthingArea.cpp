@@ -3,8 +3,6 @@
 
 #include "../path/IEPathArea.h"
 
-#include "items/IEthingCreator.h"
-
 #include "../../script/IEluaPhysicPolygon.h"
 #include "../../script/IEluaPhysicNode.h"
 #include "../../script/IEluaThing.h"

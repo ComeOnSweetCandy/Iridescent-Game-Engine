@@ -29,7 +29,8 @@ public:
 	void SetScale(const float &scale);
 	void SetAnchor(const float &x, const float &y);
 	void SetTranslate(const float &x, const float &y);
-	void SetDirection(const int &x, const int &y);								//朝向问题
+	void SetDirection(const int &x, const int &y);									//朝向问题
+	void SetDirection2(const int &direction);
 	void SetDrawDirection(const bool &standardX, const bool &standardY);			//绘制的时候 贴图的方向进行改变
 	void SetSize(const float &x, const float &y);
 	void SetZIndex(const float &zIndex);
@@ -58,6 +59,7 @@ protected:
 	float m_translate[2];
 	float m_size[2];
 	int m_direction[2];
+	int m_direction2;
 	bool m_drawDirection[2];
 
 	float m_matrix[16];

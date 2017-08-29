@@ -447,16 +447,10 @@
     <ClCompile Include="Source\engine\script\IEluaSprite.cpp">
       <Filter>IridescentEngine\engine\script</Filter>
     </ClCompile>
-    <ClCompile Include="Source\engine\scene\thing\items\IEthingCreator.cpp">
-      <Filter>IridescentEngine\engine\scene\thing\items</Filter>
-    </ClCompile>
     <ClCompile Include="Source\engine\scene\thing\IEthingArea.cpp">
       <Filter>IridescentEngine\engine\scene\thing</Filter>
     </ClCompile>
     <ClCompile Include="Source\engine\scene\thing\IEthingChunk.cpp">
-      <Filter>IridescentEngine\engine\scene\thing</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\engine\scene\thing\IEthingsInfoManager.cpp">
       <Filter>IridescentEngine\engine\scene\thing</Filter>
     </ClCompile>
     <ClCompile Include="Source\global\IEsituation.cpp">
@@ -575,6 +569,9 @@
     </ClCompile>
     <ClCompile Include="Source\engine\scene\terrain\IETerrainList.cpp">
       <Filter>IridescentEngine\engine\scene\terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\engine\scene\thing\IEThingList.cpp">
+      <Filter>IridescentEngine\engine\scene\thing</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -896,16 +893,10 @@
     <ClInclude Include="Source\engine\script\IEluaSprite.h">
       <Filter>IridescentEngine\engine\script</Filter>
     </ClInclude>
-    <ClInclude Include="Source\engine\scene\thing\items\IEthingCreator.h">
-      <Filter>IridescentEngine\engine\scene\thing\items</Filter>
-    </ClInclude>
     <ClInclude Include="Source\engine\scene\thing\IEthingArea.h">
       <Filter>IridescentEngine\engine\scene\thing</Filter>
     </ClInclude>
     <ClInclude Include="Source\engine\scene\thing\IEthingChunk.h">
-      <Filter>IridescentEngine\engine\scene\thing</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\engine\scene\thing\IEthingsInfoManager.h">
       <Filter>IridescentEngine\engine\scene\thing</Filter>
     </ClInclude>
     <ClInclude Include="Source\global\IEsituation.h">
@@ -1024,6 +1015,9 @@
     </ClInclude>
     <ClInclude Include="Source\engine\scene\terrain\IETerrainList.h">
       <Filter>IridescentEngine\engine\scene\terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\engine\scene\thing\IEThingList.h">
+      <Filter>IridescentEngine\engine\scene\thing</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

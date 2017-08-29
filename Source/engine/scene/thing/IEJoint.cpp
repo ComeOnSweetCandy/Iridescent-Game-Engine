@@ -1,7 +1,7 @@
 #define __IE_DLL_EXPORTS__
 #include "IEJoint.h"
 
-#include "IEthingsInfoManager.h"
+#include "IEThingList.h"
 
 IE_BEGIN
 
@@ -42,6 +42,109 @@ void IEJoint::SetRound(unsigned char roundIndex, unsigned int thingID)
 
 		m_round[index] = true;
 	}
+}
+
+void IEJoint::RereadSelf()
+{
+	//最后当所有的都完了，那么就测算 该使用那部分的贴图 以及贴图的旋转方向了
+	unsigned int aroundCount = 0;
+	for (unsigned int index = 0; index < 4; index++)
+	{
+		if (m_round[index] == true)
+		{
+			aroundCount++;
+		}
+	}
+
+	//考虑到方向的问题。单个thing的方向应该是可以更改的。normal不存在方向问题
+	//这里是特殊thing，意味可以和旁边的同类joint或者thing连接在一起，从而改变状态
+	if (aroundCount == 0)
+	{
+		//四面八方都没有一个thing
+		ChangeGroup("normal", 1);
+	}
+	else if (aroundCount == 1)
+	{
+		//四面八方只有一个thing
+		int direction = 0;
+		for (unsigned int index = 0; index < 4; index++)
+		{
+			if (m_round[index] == true)
+			{
+				direction = index;
+				break;
+			}
+		}
+
+		ChangeGroup("end", 1);	//注意这里要调整方向
+	}
+	else if (aroundCount == 2)
+	{
+		//为一条横 或者为一个折角
+		int direction;
+		int direction1 = -1;
+		int direction2 = -1;
+		for (unsigned int index = 0; index < 4; index++)
+		{
+			if (m_round[index] == true)
+			{
+				if (direction1 == -1)
+				{
+					direction1 = index;
+				}
+				else if (direction2 == -1)
+				{
+					direction2 = index;
+				}
+				else 
+				{
+					break;
+				}
+			}
+		}
+
+		if (direction1 + 1 == direction2 )
+		{
+			//说明相邻
+			direction = direction1;
+			ChangeGroup("corner", 1);	//注意这里要调整方向
+		}
+		else if (direction1 == 0 && direction2 == 3)
+		{
+			//也说明相邻
+			direction = direction2;
+			ChangeGroup("corner", 1);	//注意这里要调整方向
+		}
+		else
+		{
+			//说明为一条直线
+			direction = direction1;
+			ChangeGroup("line", 1);	//注意这里要调整方向
+		}
+	}
+	else if (aroundCount == 3)
+	{
+		//四面八方有三个thing 找出不是thing的那一个面即可
+		int direction = 0;
+		for (unsigned int index = 0; index < 4; index++)
+		{
+			if (m_round[index] == false)
+			{
+				direction = index;
+				break;
+			}
+		}
+
+		direction = (direction + 2) % 4;
+		ChangeGroup("fork", 1);	//注意这里要调整方向
+	}
+	else if (aroundCount == 4)
+	{
+		ChangeGroup("cross", 1);	//注意这里要调整方向
+	}
+
+	//一旦调整完毕 joint将会以正确的方式显示出来
+
 }
 
 void IEJoint::BuildTopSprite(unsigned int thingID)

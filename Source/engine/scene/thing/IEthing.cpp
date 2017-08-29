@@ -1,7 +1,7 @@
 #define __IE_DLL_EXPORTS__
 #include "IEthing.h"
 
-#include "IEthingsInfoManager.h"
+#include "IEThingList.h"
 #include "../../script/IEluaPhysicPolygon.h"
 #include "../../script/IEluaPhysicCircle.h"
 #include "../../script/IEluaPhysicNode.h"

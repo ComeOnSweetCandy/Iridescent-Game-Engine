@@ -5,7 +5,7 @@
 #include "atom/creature/IEcreaturesInfoManager.h"
 #include "atom/prop/IEpropsInfoManager.h"
 #include "scene/terrain/IETerrainList.h"
-#include "scene/thing/IEthingsInfoManager.h"
+#include "scene/thing/IEThingList.h"
 
 #include "../control/IEinputManager.h"
 #include "../tools/IEtime.h"

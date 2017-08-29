@@ -12,7 +12,7 @@
 
 #include "../IEArea.h"
 #include "IEthingChunk.h"
-#include "IEthingsInfoManager.h"
+#include "IEThingList.h"
 
 IE_BEGIN
 

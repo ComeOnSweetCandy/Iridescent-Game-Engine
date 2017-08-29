@@ -1,5 +1,5 @@
 #define __IE_DLL_EXPORTS__
-#include "IEthingsInfoManager.h"
+#include "IEThingList.h"
 
 #include "../../../type/IEstring.h"
 #include "../../../core/container/IEdictionary.h"
