@@ -96,14 +96,14 @@ void IEJoint::RereadSelf()
 				{
 					direction2 = index;
 				}
-				else 
+				else
 				{
 					break;
 				}
 			}
 		}
 
-		if (direction1 + 1 == direction2 )
+		if (direction1 + 1 == direction2)
 		{
 			//说明相邻
 			direction = direction1;
@@ -143,7 +143,11 @@ void IEJoint::RereadSelf()
 		ChangeGroup("cross", 1);	//注意这里要调整方向
 	}
 
+	m_direction;
+
 	//一旦调整完毕 joint将会以正确的方式显示出来
+	
+
 
 }
 
