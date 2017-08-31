@@ -43,6 +43,8 @@ public:
 	float _MousePositionY;
 	int _MouseLocationX;
 	int _MouseLocationY;
+	int _MouseTinyLocationX;
+	int _MouseTinyLocationY;
 };
 
 IE_END

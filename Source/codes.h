@@ -60,11 +60,12 @@
 //IEStateThing * t2 = (IEStateThing *)(scene->GetBindedMap()->GetThing()->AddChild(4, 4, 0, 0, 0));
 //t1->BindStateThing(t2);
 
-//for (int x = -12; x < 12; x++)
+//scene->GetBindedMap()->GetTerrain()->SetReadyTerrain(1, __terrain_body_mode__);
+//for (int x = -3; x < 3; x++)
 //{
-//	for (int y = -12; y < 12; y++)
+//	for (int y = -3; y < 3; y++)
 //	{
-//		scene->GetBindedMap()->GetMarble()->AddChild(1, x, y);
+//		scene->GetBindedMap()->GetTerrain()->AddChild(x, y);
 //	}
 //}
 
@@ -116,3 +117,10 @@
 //scene->GetBindedMap()->AddChild(sprite);
 //
 //sprite->ChangeTexture(texture);
+
+//IECreature * creature = IECreature::Create(1, 1);
+//creature->GetCreatureUnit()->_Party = __creature_party_enemy__;
+//scene->AddChild(creature);
+//IEPlayer * player = IEPlayer::Create(1);
+//player->SetPosition(0, 0);
+//scene->AddChild(player);

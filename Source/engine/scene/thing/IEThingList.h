@@ -11,6 +11,7 @@
 #define __IE_THING_LIST__
 
 #include "../../../global/IEstdafx.h"
+#include "../../../tools/IEXml.h"
 
 IE_BEGIN
 
@@ -24,10 +25,19 @@ typedef struct
 	unsigned short _Mask;				//16位 用来标记4*4的方格
 }IEAdorningOccupyInfo;
 
-typedef struct ieAdorningInfo
+typedef struct _ieThingInfo
 {
-	ieAdorningInfo(){};
-	~ieAdorningInfo(){ __IE_LUA_RELEASE__(_LuaScript); };
+	_ieThingInfo()
+	{
+		_ThingID = 0;
+		_LuaScript = NULL;
+		_XML = NULL;
+	};
+	~_ieThingInfo()
+	{ 
+		__IE_LUA_RELEASE__(_LuaScript);
+		__IE_RELEASE_DIF__(_XML);
+	};
 
 	unsigned int _ThingID;
 	char _ThingName[256];
@@ -36,7 +46,8 @@ typedef struct ieAdorningInfo
 	IEAdorningOccupyInfo * _OccupyInfo;
 
 	lua_State * _LuaScript;
-}IEAdorningInfo;
+	IEXml * _XML;
+}IEThingEntry;
 #pragma pack(pop)
 
 class IEAdorningsInfoManager
@@ -56,14 +67,14 @@ public:
 	void AddAdorningInfo();
 	void DeleteAdorningInfo();
 
-	IEAdorningInfo * GetAdorningsInfoList();
+	IEThingEntry * GetAdorningsInfoList();
 	unsigned int GetAdorningsInfoCount();
 
 private:
 	static IEAdorningsInfoManager * m_staticAdorningsManager;
 
-	IEAdorningInfo * m_adorningsInfoList;
-	unsigned int m_adorningsInfoCount;
+	IEThingEntry * m_entrys;
+	unsigned int m_entrysCount;
 };
 
 IE_END

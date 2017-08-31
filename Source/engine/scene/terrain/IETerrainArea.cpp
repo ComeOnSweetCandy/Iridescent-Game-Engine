@@ -77,6 +77,11 @@ void IETerrainArea::AddChild(int blockLocationX, int blockLocationY)
 	}
 }
 
+void IETerrainArea::ChooseChild(int blockLocationX, int blockLocationY)
+{
+
+}
+
 void IETerrainArea::LoadChilds(IETerrainSerialization * blocksInfo, int chunkLocationX, int chunkLocationY)
 {
 	IETerrainChunk * chunk = (IETerrainChunk *)GetChunk(chunkLocationX, chunkLocationY);
@@ -235,7 +240,7 @@ void IETerrainArea::SetReadyTerrain(unsigned int terrainID, IETerrainMode terrai
 
 	if (m_readyTerrainID != 0 && m_readyTerrainMode != __terrain_none_mode__)
 	{
-		IEPackerTexture * texture = IEPackerTexture::Create(m_terrainsInfo[m_readyTerrainID]._Xml->FindChild("texture"));
+		IEPackerTexture * texture = IEPackerTexture::Create(m_terrainsInfo[m_readyTerrainID]._XML->FindChild("texture"));
 		m_suspension->ChangeTexture(texture);
 		m_suspension->ChangeGroup("body");
 	}

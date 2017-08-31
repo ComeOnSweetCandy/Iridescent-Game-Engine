@@ -18,18 +18,18 @@ IE_BEGIN
 
 typedef enum __ieXmlValueType
 {
-	__xml_value_none__,			//值为空
-	__xml_value_int__,			//值为整形
-	__xml_value_float__,		//值为浮点数
-	__xml_value_string__,		//值为字符串
-	__xml_value_xml__			//值为xml
+	__XML_value_none__,			//值为空
+	__XML_value_int__,			//值为整形
+	__XML_value_float__,		//值为浮点数
+	__XML_value_string__,		//值为字符串
+	__XML_value_XML__			//值为xml
 }IEXmlValueType;
 
 class IEXml;
 
 typedef struct __ieXmlStack
 {
-	IEXml * _Xml;
+	IEXml * _XML;
 	struct __ieXmlStack * _Next;
 }IEXmlStack;
 

@@ -21,19 +21,19 @@ typedef struct _ieTerrainInfo
 	{ 
 		_TerrainID = 0; 
 		_LuaScript = NULL; 
-		_Xml = NULL;
+		_XML = NULL;
 	};
 	~_ieTerrainInfo()
 	{ 
 		__IE_LUA_RELEASE__(_LuaScript); 
-		__IE_RELEASE_DIF__(_Xml); 
+		__IE_RELEASE_DIF__(_XML); 
 	};
 
 	unsigned int _TerrainID;
 	char _TerrainName[64];
 
 	lua_State * _LuaScript;
-	IEXml * _Xml;
+	IEXml * _XML;
 }IETerrainEntry;
 
 class __IE_DLL__ IETerrainList

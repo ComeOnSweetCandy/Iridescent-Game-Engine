@@ -42,7 +42,7 @@ public:
 protected:
 	IEString m_textureGroupName;
 	lua_State * m_script;
-	IEXml * m_xml;
+	IEXml * m_XML;
 
 	//显示当前的状态编号及最大状态值
 	unsigned int m_curStateIndex;

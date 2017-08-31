@@ -255,10 +255,11 @@ void IEThingArea::SetReadyThing(unsigned int thingID)
 {
 	m_readyThingID = thingID;
 
-	if (m_readyThingID)
+	if (m_readyThingID != 0)
 	{
-		IEString s = IEString(m_thingsInfo[thingID]._ThingName) + "/body.png";
-		m_suspension->ChangeTexture(s.GetString());
+		IEPackerTexture * texture = IEPackerTexture::Create(m_thingsInfo[thingID]._XML->FindChild("state", 0)->FindChild("texture"));
+		m_suspension->ChangeTexture(texture);
+		m_suspension->ChangeGroup("fork");
 		m_suspension->SetDisplay(true);
 	}
 	else
@@ -296,7 +297,7 @@ void IEThingArea::MouseMove(float x, float y)
 	if (m_readyThingID)
 	{
 		//选择了一个 thingID 检测是否可行
-		bool result = AllowChild(m_mouseTinyLocation.m_x, m_mouseTinyLocation.m_y, m_mouseTinyLocation.m_x, m_mouseTinyLocation.m_y);
+		bool result = AllowChild(mouseLocation.m_x, mouseLocation.m_y, m_mouseTinyLocation.m_x, m_mouseTinyLocation.m_y);
 
 		if (result)
 		{
@@ -306,12 +307,15 @@ void IEThingArea::MouseMove(float x, float y)
 		{
 			m_suspension->SetBackColor(1.0f, 0.0f, 0.0f, 0.7f);
 		}
-		m_suspension->SetTranslate(m_mouseTinyLocation.m_x + m_mouseTinyLocation.m_x * 0.25f, m_mouseTinyLocation.m_y + m_mouseTinyLocation.m_y * 0.25f);
+		m_suspension->SetBackColor(1.0f, 1.0f, 1.0f, 1.0f);
+
+		m_suspension->SetTranslate(mouseLocation.m_x + m_mouseTinyLocation.m_x * 0.25f, mouseLocation.m_y + m_mouseTinyLocation.m_y * 0.25f);
+		m_suspension->Visit();
 	}
 	else
 	{
 		//没有选择 thingID 亮起待选择
-		IEThing * thing = ChooseThing(m_mouseTinyLocation.m_x, m_mouseTinyLocation.m_y, m_mouseTinyLocation.m_x, m_mouseTinyLocation.m_y);
+		IEThing * thing = ChooseThing(mouseLocation.m_x, mouseLocation.m_y, m_mouseTinyLocation.m_x, m_mouseTinyLocation.m_y);
 	}
 }
 
@@ -366,7 +370,7 @@ void IEThingArea::LoadChild(int blockX, int blockY, IEThingBlockFormat * alters)
 
 IEThing * IEThingArea::CreateThing(unsigned thingID)
 {
-	IEAdorningInfo * adorningsInfo = IEAdorningsInfoManager::Share()->GetAdorningsInfoList();
+	IEThingEntry * adorningsInfo = IEAdorningsInfoManager::Share()->GetAdorningsInfoList();
 	lua_State * luaScript = adorningsInfo[thingID]._LuaScript;
 
 	if (!luaScript)

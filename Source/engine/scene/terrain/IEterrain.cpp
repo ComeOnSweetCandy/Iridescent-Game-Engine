@@ -145,7 +145,7 @@ void IETerrain::determinant(IETerrainSerialization * serialization)
 
 		if (serialization->_PieceID && serialization->_PieceIndex)
 		{
-			IEPackerTexture * pieceTexture = IEPackerTexture::Create(infos[m_pieceID]._Xml->FindChild("texture"));
+			IEPackerTexture * pieceTexture = IEPackerTexture::Create(infos[m_pieceID]._XML->FindChild("texture"));
 
 			m_piece = IESprite::Create();
 			m_piece->ChangeTexture(pieceTexture);
@@ -198,7 +198,7 @@ void IETerrain::ChangePieceIndex(unsigned int terrainID, unsigned char pieceInde
 		if (m_terrainID != terrainID)
 		{
 			IETerrainEntry * infos = IETerrainList::Share()->GetEntrys();
-			IEPackerTexture * texture = IEPackerTexture::Create(infos[terrainID]._Xml);
+			IEPackerTexture * texture = IEPackerTexture::Create(infos[terrainID]._XML);
 
 			m_piece = IESprite::Create();
 			m_piece->ChangeTexture(texture);
@@ -330,7 +330,7 @@ void IETerrain::LoadXML()
 	}
 
 	IETerrainEntry * terrainsInfo = IETerrainList::Share()->GetEntrys();
-	IEXml * xml = terrainsInfo[m_terrainID]._Xml;
+	IEXml * xml = terrainsInfo[m_terrainID]._XML;
 
 	//ÉêÇëÎïÀí
 	//IEPhysicNode * physicNode = IEPhysicNode::Create(xml->FindChild("physic"));

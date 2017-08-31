@@ -153,7 +153,7 @@ void IEJoint::RereadSelf()
 
 void IEJoint::BuildTopSprite(unsigned int thingID)
 {
-	IEAdorningInfo * infos = IEAdorningsInfoManager::Share()->GetAdorningsInfoList();
+	IEThingEntry * infos = IEAdorningsInfoManager::Share()->GetAdorningsInfoList();
 	unsigned int count = IEAdorningsInfoManager::Share()->GetAdorningsInfoCount();
 
 	IEString backName = IEString(infos[thingID]._ThingName) + "_back";

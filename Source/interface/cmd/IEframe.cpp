@@ -67,7 +67,7 @@ void IEFrame::MainLoop()
 
 void IEFrame::Setup()
 {
-	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	glEnable(GL_TEXTURE_2D);
 	glShadeModel(GL_SMOOTH);
 	glEnable(GL_ALPHA_TEST);

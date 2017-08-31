@@ -11,7 +11,7 @@ IE_BEGIN
 IEXml::IEXml()
 {
 	m_value = NULL;
-	m_valueType = __xml_value_none__;
+	m_valueType = __XML_value_none__;
 }
 
 IEXml::~IEXml()
@@ -52,9 +52,9 @@ IEContainer * IEXml::FindChilds(const char * key)
 	IEXml * resultXml = NULL;
 	while (endElement)
 	{
-		if (endElement->_Xml->m_key == key)
+		if (endElement->_XML->m_key == key)
 		{
-			arrays->Push(endElement->_Xml);
+			arrays->Push(endElement->_XML);
 		}
 		endElement = endElement->_Next;
 	}
@@ -67,9 +67,9 @@ IEXml * IEXml::FindChild(const char * key)
 	IEXmlStack * endElement = (IEXmlStack *)m_value;
 	while (endElement)
 	{
-		if (endElement->_Xml->m_key == key)
+		if (endElement->_XML->m_key == key)
 		{
-			return endElement->_Xml;
+			return endElement->_XML;
 		}
 		endElement = endElement->_Next;
 	}
@@ -82,11 +82,11 @@ IEXml * IEXml::FindChild(const char * key, unsigned int index)
 	IEXmlStack * endElement = (IEXmlStack *)m_value;
 	while (endElement)
 	{
-		if (endElement->_Xml->m_key == key)
+		if (endElement->_XML->m_key == key)
 		{
 			if (index == 0)
 			{
-				return endElement->_Xml;
+				return endElement->_XML;
 			}
 			else
 			{
@@ -145,8 +145,8 @@ void IEXml::ReadXML(const char * fileName)
 	stackTop->_Next = NULL;
 
 	//首先将当前的xml放置入栈顶
-	stackTop->_Xml = this;
-	stackTop->_Xml->m_key = ((IEString *)(arrays->Find(0)))->GetString();
+	stackTop->_XML = this;
+	stackTop->_XML->m_key = ((IEString *)(arrays->Find(0)))->GetString();
 
 	for (int index = 1; index < arrays->Count(); index++)
 	{
@@ -164,11 +164,11 @@ void IEXml::ReadXML(const char * fileName)
 		}
 		else if (strs[0] == '|')	//数据段
 		{
-			IEXml * xml = stackTop->_Xml;
+			IEXml * xml = stackTop->_XML;
 			IEString * value = IEString::Create(string->GetString() + 1);
 			
 			xml->m_value = value;
-			xml->m_valueType = __xml_value_string__;
+			xml->m_valueType = __XML_value_string__;
 		}
 		else						//开始区间
 		{
@@ -176,13 +176,13 @@ void IEXml::ReadXML(const char * fileName)
 			IEXml * xml = IEXml::Create();
 
 			//首先往栈顶的元素添加child
-			stackTop->_Xml->AddChild(xml);
+			stackTop->_XML->AddChild(xml);
 
 			//将新建立的xml放置在栈顶
 			IEXmlStack * newStack = new IEXmlStack();
 			newStack->_Next = stackTop;
-			newStack->_Xml = xml;
-			newStack->_Xml->m_key = strs;
+			newStack->_XML = xml;
+			newStack->_XML->m_key = strs;
 			stackTop = newStack;
 		}
 	}
@@ -201,10 +201,10 @@ void IEXml::AddChild(IEXml * xml)
 
 	if (m_value == NULL)
 	{
-		m_valueType = __xml_value_xml__;
+		m_valueType = __XML_value_XML__;
 
 		IEXmlStack * m_childs = new IEXmlStack();
-		m_childs->_Xml = xml;
+		m_childs->_XML = xml;
 		m_childs->_Next = NULL;
 		m_value = m_childs;
 	}
@@ -212,7 +212,7 @@ void IEXml::AddChild(IEXml * xml)
 	{
 		IEXmlStack * newElement = new IEXmlStack();
 		newElement->_Next = NULL;
-		newElement->_Xml = xml;
+		newElement->_XML = xml;
 
 		IEXmlStack * endElement = (IEXmlStack *)m_value;
 		while (endElement->_Next)
@@ -225,25 +225,25 @@ void IEXml::AddChild(IEXml * xml)
 
 void IEXml::ClearSelf()
 {
-	if (m_valueType == __xml_value_xml__)
+	if (m_valueType == __XML_value_XML__)
 	{
 		IEXmlStack * nextElement = (IEXmlStack *)m_value;
 		IEXmlStack * deletedElement;
 
 		while (nextElement)
 		{
-			if (nextElement->_Xml)
+			if (nextElement->_XML)
 			{
 				deletedElement = nextElement;
 				nextElement = nextElement->_Next;
 
-				deletedElement->_Xml->Release();
+				deletedElement->_XML->Release();
 				delete deletedElement;
 				deletedElement = NULL;
 			}
 		}
 	}
-	else if (m_valueType == __xml_value_string__)
+	else if (m_valueType == __XML_value_string__)
 	{
 		IEString * deletedString = (IEString *)m_value;
 		deletedString->ReleaseDisreference();

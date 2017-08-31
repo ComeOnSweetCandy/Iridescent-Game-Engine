@@ -70,13 +70,13 @@ void IETerrainList::LoadList()
 			fileDir = IEString(info._TerrainName) << ".xml";
 
 			info._LuaScript = NULL;
-			info._Xml = IEXml::Create(fileDir.GetString());
+			info._XML = IEXml::Create(fileDir.GetString());
 
 			memcpy(&(m_entrys[info._TerrainID]), &info, sizeof(IETerrainEntry));
 		}
 
 		info._LuaScript = NULL;
-		info._Xml = NULL;
+		info._XML = NULL;
 	}
 	
 	fclose(fp);

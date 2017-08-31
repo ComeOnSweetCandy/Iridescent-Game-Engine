@@ -50,7 +50,7 @@ void IEThing::Reload(unsigned int thingID)
 
 void IEThing::LoadScript()
 {
-	IEAdorningInfo * adorningsInfo = IEAdorningsInfoManager::Share()->GetAdorningsInfoList();
+	IEThingEntry * adorningsInfo = IEAdorningsInfoManager::Share()->GetAdorningsInfoList();
 	m_script = adorningsInfo[m_thingID]._LuaScript;
 
 	if (!m_script)

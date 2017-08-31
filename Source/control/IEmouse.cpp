@@ -130,6 +130,9 @@ void IEMouse::ReckonMousePosition()
 	}
 	_MouseLocationX = (int)revisePositionX;
 	_MouseLocationY = (int)revisePositionY;
+
+	//计算小格子
+
 }
 
 BOOL IEMouse::IsButtonDown(int button)

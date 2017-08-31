@@ -19,7 +19,7 @@ void IEDoor::Initialization(unsigned int thingID)
 	IEThing::Initialization(thingID);
 
 	//...
-	m_xml;
+	m_XML;
 
 	
 }
@@ -34,6 +34,11 @@ IEDoor * IEDoor::Create(unsigned int thingID)
 void IEDoor::Update()
 {
 	//ºôÎüÐ§¹û
+
+}
+
+void IEDoor::ChangeState(unsigned int stateIndex)
+{
 
 }
 

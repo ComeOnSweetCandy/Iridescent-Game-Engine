@@ -75,16 +75,18 @@ void IECreaturesInfoManager::LoadCreaturesInfo()
 			m_creaturesInfoList[index]._XML = IEXml::Create(fileDir.GetString());
 
 			//Ìî³äÊý¾Ý
-			m_creaturesInfoList[index]._CreatureType = (IECreatureType)(m_creaturesInfoList[index]._XML->FindChild("type")->ValueInt());
-			m_creaturesInfoList[index]._View = m_creaturesInfoList[index]._XML->FindChild("view")->ValueFloat();
-			m_creaturesInfoList[index]._BaseHealth = m_creaturesInfoList[index]._XML->FindChild("baseHealth")->ValueInt();
-			m_creaturesInfoList[index]._GrowHealth = m_creaturesInfoList[index]._XML->FindChild("growHealth")->ValueInt();
-			m_creaturesInfoList[index]._BaseMagic = m_creaturesInfoList[index]._XML->FindChild("baseMagic")->ValueInt();
-			m_creaturesInfoList[index]._GrowMagic = m_creaturesInfoList[index]._XML->FindChild("growMagic")->ValueInt();
-			m_creaturesInfoList[index]._BaseSpeed = m_creaturesInfoList[index]._XML->FindChild("baseSpeed")->ValueInt();
-			m_creaturesInfoList[index]._GrowSpeed = m_creaturesInfoList[index]._XML->FindChild("growSpeed")->ValueInt();
-			m_creaturesInfoList[index]._BaseDamage = m_creaturesInfoList[index]._XML->FindChild("physicDamage")->ValueInt();
-			m_creaturesInfoList[index]._GrowDamage = m_creaturesInfoList[index]._XML->FindChild("growPhysicDamage")->ValueInt();
+			IEXml * propertyXML = m_creaturesInfoList[index]._XML->FindChild("property");
+
+			m_creaturesInfoList[index]._CreatureType = (IECreatureType)(propertyXML->FindChild("type")->ValueInt());
+			m_creaturesInfoList[index]._View = propertyXML->FindChild("view")->ValueFloat();
+			m_creaturesInfoList[index]._BaseHealth = propertyXML->FindChild("baseHealth")->ValueInt();
+			m_creaturesInfoList[index]._GrowHealth = propertyXML->FindChild("growHealth")->ValueInt();
+			m_creaturesInfoList[index]._BaseMagic = propertyXML->FindChild("baseMagic")->ValueInt();
+			m_creaturesInfoList[index]._GrowMagic = propertyXML->FindChild("growMagic")->ValueInt();
+			m_creaturesInfoList[index]._BaseSpeed = propertyXML->FindChild("baseSpeed")->ValueInt();
+			m_creaturesInfoList[index]._GrowSpeed = propertyXML->FindChild("growSpeed")->ValueInt();
+			m_creaturesInfoList[index]._BaseDamage = propertyXML->FindChild("physicDamage")->ValueInt();
+			m_creaturesInfoList[index]._GrowDamage = propertyXML->FindChild("growPhysicDamage")->ValueInt();
 		}
 		else
 		{

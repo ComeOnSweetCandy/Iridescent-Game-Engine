@@ -68,7 +68,7 @@ lua_State * IEAtom::GetLuaScript()
 
 void IEAtom::ChangeState(unsigned stateIndex)
 {
-	IEXml * state = m_xml->FindChild("state",stateIndex);
+	IEXml * state = m_XML->FindChild("state",stateIndex);
 
 
 }

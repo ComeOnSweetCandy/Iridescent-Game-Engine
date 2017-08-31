@@ -62,10 +62,10 @@ void IEMap::Initialization(char * sceneName)
 	//µØÍ¼
 	m_curPath = IEPathArea::Create(this, m_visibleRadius, m_chunkSideLength);
 	m_curTerrain = IETerrainArea::Create(this, m_visibleRadius, m_chunkSideLength);
+	m_curThing = IEThingArea::Create(this, m_visibleRadius, m_chunkSideLength);
 	//m_curMarble = IEMarble::Create(this, m_visibleRadius, m_chunkSideLength);
-	//m_curThing = IEThingArea::Create(this, m_visibleRadius, m_chunkSideLength);
 
-	m_activeArea = m_curTerrain;
+	m_activeArea = m_curThing;
 
 	//Ñ°Â·Ëã·¨
 	m_pathFinder = IEPathFinder::Create(m_curPath);
@@ -73,8 +73,8 @@ void IEMap::Initialization(char * sceneName)
 
 	IENode::AddChild(m_curPath);
 	IENode::AddChild(m_curTerrain);
+	IENode::AddChild(m_curThing);
 	//IENode::AddChild(m_curMarble);
-	//IENode::AddChild(m_curThing);
 
 	PreloadMap();
 	LoadMap();
@@ -151,7 +151,7 @@ void IEMap::LoadMap()
 {
 	m_curTerrain->LoadChunks();
 	//m_curMarble->LoadChunks();
-	//m_curThing->LoadChunks();
+	m_curThing->LoadChunks();
 	m_curPath->LoadChunks();
 }
 
@@ -162,7 +162,7 @@ void IEMap::Update()
 
 	m_curTerrain->SetCenterBlockLocation(cameraGrid.m_x, cameraGrid.m_y);
 	//m_curMarble->SetCenterBlockLocation(cameraGrid);
-	//m_curThing->SetCenterBlockLocation(cameraGrid.m_x, cameraGrid.m_y);
+	m_curThing->SetCenterBlockLocation(cameraGrid.m_x, cameraGrid.m_y);
 
 	InputHandle();
 }

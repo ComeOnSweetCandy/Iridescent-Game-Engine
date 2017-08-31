@@ -90,7 +90,7 @@ private:
 	bool AllowChild(int locationX, int locationY, unsigned char tinyLocationX, unsigned char tinyLocationY);		//是否允许当前的子类插入
 
 private:
-	IEAdorningInfo * m_thingsInfo;
+	IEThingEntry * m_thingsInfo;
 	IEThingAlter * m_alter;
 
 	unsigned int m_readyThingID;
