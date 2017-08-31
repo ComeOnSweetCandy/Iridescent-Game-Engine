@@ -32,6 +32,8 @@ protected:
 	virtual void Die();					//die时的处理
 
 public:
+	virtual void ChangeState(unsigned stateIndex);
+
 	void SetTextureGroupName(const char * name);
 	const char * GetTextureGroupName();
 
@@ -39,7 +41,12 @@ public:
 
 protected:
 	IEString m_textureGroupName;
-	lua_State * m_luaScript;
+	lua_State * m_script;
+	IEXml * m_xml;
+
+	//显示当前的状态编号及最大状态值
+	unsigned int m_curStateIndex;
+	unsigned int m_maxStateCount;
 };
 
 IE_END

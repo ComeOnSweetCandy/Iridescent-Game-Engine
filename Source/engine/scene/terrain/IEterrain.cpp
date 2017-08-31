@@ -351,7 +351,7 @@ void IETerrain::LoadScript()
 		return;
 	}
 
-	IETerrainEntry * terrainsInfo = IETerrainList::Share()->GetEntrys(); 
+	IETerrainEntry * terrainsInfo = IETerrainList::Share()->GetEntrys();
 	lua_State * luaScript = terrainsInfo[m_terrainID]._LuaScript;
 
 	if (!luaScript)

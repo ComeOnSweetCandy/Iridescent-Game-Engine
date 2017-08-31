@@ -22,7 +22,7 @@ IEProp::IEProp()
 	m_propCount = 1;
 	m_propIndex = 0;
 	m_owner = NULL;
-	m_luaScript = NULL;
+	m_script = NULL;
 }
 
 IEProp::~IEProp()
@@ -90,10 +90,10 @@ void IEProp::AddSelfToPropLayer()
 	IEApplication::Share()->GetCurrentActiveScene()->GetPropLayer()->AddChild(this);
 }
 
-void IEProp::SetLuaScript(lua_State * m_luaScript)
+void IEProp::SetLuaScript(lua_State * m_script)
 {
-	m_luaScript = m_luaScript;
-	char * propName = GetLuaStringElement(m_luaScript, "propName");
+	m_script = m_script;
+	char * propName = GetLuaStringElement(m_script, "propName");
 
 	ChangeTexture(propName);
 }
@@ -102,8 +102,8 @@ void IEProp::InitLuaScript()
 {
 	IEPropInfo info = IEPropsInfoManager::Share()->LoadPropInfo(m_propIndex);
 	IEString scriptName = IEString("../Debug/data/script/prop/") + info.s_name + ".lua";
-	m_luaScript = luaL_newstate();
-	luaL_openlibs(m_luaScript);
+	m_script = luaL_newstate();
+	luaL_openlibs(m_script);
 
 	luaL_Reg lua_reg_libs[] =
 	{
@@ -120,25 +120,25 @@ void IEProp::InitLuaScript()
 
 	for (luaL_Reg * lua_reg = lua_reg_libs; lua_reg->func; ++lua_reg)
 	{
-		luaL_requiref(m_luaScript, lua_reg->name, lua_reg->func, 1);
-		lua_pop(m_luaScript, 1);
+		luaL_requiref(m_script, lua_reg->name, lua_reg->func, 1);
+		lua_pop(m_script, 1);
 	}
 
-	if (luaL_dofile(m_luaScript, scriptName.GetString()) != 0)
+	if (luaL_dofile(m_script, scriptName.GetString()) != 0)
 	{
-		__IE_WARNING__("IEAttack : can not find m_luaScript file.\n");
+		__IE_WARNING__("IEAttack : can not find m_script file.\n");
 	}
 }
 
 void IEProp::ChangePropTexture(char * textureTypeName)
 {
-	char * textureFile = GetLuaStringElement(m_luaScript, textureTypeName);
+	char * textureFile = GetLuaStringElement(m_script, textureTypeName);
 	ChangeTexture(textureFile);
 }
 
 char * IEProp::GetPropTexture(char * textureTypeName)
 {
-	char * textureFile = GetLuaStringElement(m_luaScript, textureTypeName);
+	char * textureFile = GetLuaStringElement(m_script, textureTypeName);
 	return textureFile;
 }
 

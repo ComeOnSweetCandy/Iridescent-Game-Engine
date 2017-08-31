@@ -10,7 +10,7 @@
 #ifndef __IE_JOINT__
 #define __IE_JOINT__
 
-#include "IEthing.h"
+#include "../IEThing.h"
 
 IE_BEGIN
 

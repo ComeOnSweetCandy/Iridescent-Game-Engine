@@ -33,12 +33,6 @@ IETerrainArea * IETerrainArea::Create(IEMap * map, int visibleRadius, int sideLe
 	return terrain;
 }
 
-void IETerrainArea::RandomTerrain()
-{
-	//随机地形
-
-}
-
 void IETerrainArea::AddChild(int blockLocationX, int blockLocationY)
 {
 	if (IETerrain * pastTerrain = (IETerrain *)(GetBlock(blockLocationX, blockLocationY)))
@@ -196,10 +190,10 @@ void IETerrainArea::ReserializatioRound(int blockLocationX, int blockLocationY)
 			int cacheX, cacheY;
 			LocationTranslate(blockLocationX, blockLocationY, alter->_ChunkX, alter->_ChunkY, cacheX, cacheY);
 
-			//村放入之前的信息 等于NULL的意思为 之前的信息为被动修改 非主动
+			//存放入之前的信息 等于NULL的意思为 之前的信息为被动修改 非主动
 			alter->_PastTerrainInfoSerialization = NULL;
 
-			//放入新的信息
+			//存入新的信息
 			alter->_CurtTerrainInfoSerialization = terrain->Serialize();
 
 			//放入修改计数
@@ -302,7 +296,6 @@ void IETerrainArea::MouseBrush()
 {
 	if (m_readyTerrainID != 0)
 	{
-
 		AddChild(IEMouse::Share()->_MouseLocationX, IEMouse::Share()->_MouseLocationY);
 	}
 }

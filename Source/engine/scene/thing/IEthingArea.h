@@ -1,5 +1,5 @@
 /***********************************
-* name     : IEthingArea.h
+* name     : IEThingArea.h
 * creater  : cosc
 * info     : thing area
 * date     : 2016/12/22
@@ -39,23 +39,33 @@ class __IE_DLL__ IEThingArea :public IEArea
 public:
 	IEThingArea();
 	virtual ~IEThingArea();
-	virtual void Initialization(IEMap * map, int halfViewBlocks, int blockSize);
-	static IEThingArea * Create(IEMap * map, int halfViewBlocks, int blockSize);
+	virtual void Initialization(IEMap * map, int visibleRadius, int sideLength);
+	static IEThingArea * Create(IEMap * map, int visibleRadius, int sideLength);
 
 public:
 	//仅限于编辑模式下
 	virtual IEThing * AddChild(int locationX, int locationY, unsigned char tinyLocationX, unsigned char tinyLocationY);
 	virtual void RemoveChild();
 	IEThing * LoadChild(unsigned m_thingID, int locationX, int locationY, unsigned char tinyLocationX, unsigned char tinyLocationY);
-	IEThing * ChooseThing(int locationX, int locationY, unsigned char tinyLocationX, unsigned char tinyLocationY);
+
+
+
+	IEThing * ChooseThing(int locationX, int locationY, unsigned char tinyLocationX, unsigned char tinyLocationY);			//选择一个child
+	//virtual void AddChild(int locationX, int locationY, unsigned char tinyLocationX, unsigned char tinyLocationY);		//添加一个新的child
+	//virtual void LoadChilds(IEThingSerialization * blocksInfo, int chunkLocationX, int chunkLocationY);					//读取地图文件中的数据
+
+	void SetReadyThing(unsigned int thingID);															//设定准备的thing ID
+	virtual void MouseMove(float x, float y);															//鼠标的移动
+	virtual void MouseCancel();																			//鼠标的右键取消
+	virtual void MouseClick();																			//有ready物下的一次点击
+	virtual void MouseBrush();																			//鼠标刷子
 
 	virtual void RollbackControll();
 	virtual void RollbackAllControlls();
 
-	void SetReadyThing(unsigned int thingID);
-	void MouseSuspension(float positionX, float positionY);
-	void MouseLButtonTouch();
-	void MouseRButtonTouch();
+
+
+
 
 	//读取模式下
 	void LoadChild(int blockX, int blockY, IEThingBlockFormat * alters);
@@ -81,16 +91,13 @@ private:
 
 private:
 	IEAdorningInfo * m_thingsInfo;
-	IEThingAlter * m_thingAlter;
+	IEThingAlter * m_alter;
 
 	unsigned int m_readyThingID;
 	unsigned int m_choosenThingOrder;
 
-	IESprite * m_suspensionThing;
-
 	//IEGrid m_mouseLocation;
 	IEGrid m_mouseTinyLocation;
-
 	bool m_regularization;			//添加新的thing时是否考虑归整化
 
 	friend class IEMap;

@@ -12,7 +12,7 @@ IEAtom::~IEAtom()
 {
 	//Die();
 
-	__IE_LUA_RELEASE__(m_luaScript);
+	__IE_LUA_RELEASE__(m_script);
 }
 
 void IEAtom::Initialization()
@@ -63,7 +63,14 @@ const char * IEAtom::GetTextureGroupName()
 
 lua_State * IEAtom::GetLuaScript()
 {
-	return m_luaScript;
+	return m_script;
+}
+
+void IEAtom::ChangeState(unsigned stateIndex)
+{
+	IEXml * state = m_xml->FindChild("state",stateIndex);
+
+
 }
 
 IE_END

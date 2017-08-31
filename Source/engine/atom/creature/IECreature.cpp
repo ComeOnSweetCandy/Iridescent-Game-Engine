@@ -23,7 +23,7 @@ IE_BEGIN
 
 IECreature::IECreature()
 {
-	m_luaScript = NULL;
+	m_script = NULL;
 	m_unit = NULL;
 	m_actionMachine = NULL;
 
@@ -134,7 +134,7 @@ void IECreature::InitUnit(unsigned int creatureID, int creatureOrder)
 
 	//需要从save中读取的信息 目前总是自行假设
 	m_unit->_Alive = true;
-
+	
 	//需要通过计算的数据
 	m_unit->_MaxHealth = m_info->_BaseHealth + m_unit->_Level * m_info->_GrowHealth;
 	m_unit->_CurHealth = m_unit->_MaxHealth;

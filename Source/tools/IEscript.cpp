@@ -7,12 +7,12 @@ IE_BEGIN
 
 IEScript::IEScript()
 {
-	m_luaScript = NULL;
+	m_script = NULL;
 }
 
 IEScript::~IEScript()
 {
-	__IE_LUA_RELEASE__(m_luaScript);
+	__IE_LUA_RELEASE__(m_script);
 }
 
 void IEScript::Initialization(const char * scriptName)
@@ -37,12 +37,12 @@ IEScript * IEScript::Create(const char * scriptName)
 
 void IEScript::SetLuaScript(lua_State * luaScript)
 {
-	m_luaScript = luaScript;
+	m_script = luaScript;
 }
 
 lua_State * IEScript::GetLuaScript()
 {
-	return m_luaScript;
+	return m_script;
 }
 
 IE_END

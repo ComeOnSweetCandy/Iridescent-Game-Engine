@@ -67,7 +67,7 @@ bool AllocateLuaFunction(lua_State * luaScript, const char * functionName)
 {
 	if (lua_getglobal(luaScript, functionName))
 	{
-		//SetLuaUserdataElement(m_luaScript, "self", "IEThing.IEThing", this);
+		//SetLuaUserdataElement(m_script, "self", "IEThing.IEThing", this);
 
 		return true;
 	}

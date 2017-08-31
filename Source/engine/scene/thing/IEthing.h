@@ -1,7 +1,7 @@
 /***********************************
-* name     : IEthing.h
+* name     : IEThing.h
 * creater  : cosc
-* info     : adorning tiny grid thing
+* info     : base thing
 * date     : 2017/3/19
 * version  : 1.0
 * remark   : none

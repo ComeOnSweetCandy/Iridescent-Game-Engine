@@ -27,7 +27,7 @@ public:
 	lua_State * GetLuaScript();
 
 private:
-	lua_State * m_luaScript;
+	lua_State * m_script;
 };
 
 IE_END

@@ -408,15 +408,6 @@
     <ClCompile Include="Source\engine\scene\prop\IEpropLayer.cpp">
       <Filter>IridescentEngine\engine\scene\prop</Filter>
     </ClCompile>
-    <ClCompile Include="Source\engine\scene\thing\IEthing.cpp">
-      <Filter>IridescentEngine\engine\scene\thing</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\engine\scene\thing\items\IEfire.cpp">
-      <Filter>IridescentEngine\engine\scene\thing\items</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\engine\scene\thing\items\IEinteractionThing.cpp">
-      <Filter>IridescentEngine\engine\scene\thing\items</Filter>
-    </ClCompile>
     <ClCompile Include="Source\core\particle\IEray.cpp">
       <Filter>IridescentEngine\core\particle</Filter>
     </ClCompile>
@@ -441,17 +432,8 @@
     <ClCompile Include="Source\engine\trigger\IEbesiegeTrigger.cpp">
       <Filter>IridescentEngine\engine\trigger</Filter>
     </ClCompile>
-    <ClCompile Include="Source\engine\scene\thing\items\IEbesiegeThing.cpp">
-      <Filter>IridescentEngine\engine\scene\thing\items</Filter>
-    </ClCompile>
     <ClCompile Include="Source\engine\script\IEluaSprite.cpp">
       <Filter>IridescentEngine\engine\script</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\engine\scene\thing\IEthingArea.cpp">
-      <Filter>IridescentEngine\engine\scene\thing</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\engine\scene\thing\IEthingChunk.cpp">
-      <Filter>IridescentEngine\engine\scene\thing</Filter>
     </ClCompile>
     <ClCompile Include="Source\global\IEsituation.cpp">
       <Filter>IridescentEngine\global</Filter>
@@ -467,9 +449,6 @@
     </ClCompile>
     <ClCompile Include="Source\engine\atom\creature\goal\IEGoalTarget.cpp">
       <Filter>IridescentEngine\engine\atom\creature\goal</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\engine\scene\thing\IEJoint.cpp">
-      <Filter>IridescentEngine\engine\scene\thing</Filter>
     </ClCompile>
     <ClCompile Include="Source\tools\IETexturePacker.cpp">
       <Filter>IridescentEngine\tools</Filter>
@@ -570,8 +549,32 @@
     <ClCompile Include="Source\engine\scene\terrain\IETerrainList.cpp">
       <Filter>IridescentEngine\engine\scene\terrain</Filter>
     </ClCompile>
-    <ClCompile Include="Source\engine\scene\thing\IEThingList.cpp">
+    <ClCompile Include="Source\engine\scene\thing\store\IEinteractionThing.cpp">
+      <Filter>IridescentEngine\engine\scene\thing\items</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\engine\scene\thing\store\IEbesiegeThing.cpp">
+      <Filter>IridescentEngine\engine\scene\thing\items</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\engine\scene\thing\items\IEDoor.cpp">
+      <Filter>IridescentEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\engine\scene\thing\items\IEFire.cpp">
+      <Filter>IridescentEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\engine\scene\thing\items\IEJoint.cpp">
       <Filter>IridescentEngine\engine\scene\thing</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\engine\scene\thing\IEThing.cpp">
+      <Filter>IridescentEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\engine\scene\thing\IEThingArea.cpp">
+      <Filter>IridescentEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\engine\scene\thing\IEThingChunk.cpp">
+      <Filter>IridescentEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\engine\scene\thing\IEThingList.cpp">
+      <Filter>IridescentEngine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -851,15 +854,6 @@
     <ClInclude Include="Source\engine\scene\prop\IEpropLayer.h">
       <Filter>IridescentEngine\engine\scene\prop</Filter>
     </ClInclude>
-    <ClInclude Include="Source\engine\scene\thing\IEthing.h">
-      <Filter>IridescentEngine\engine\scene\thing</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\engine\scene\thing\items\IEfire.h">
-      <Filter>IridescentEngine\engine\scene\thing\items</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\engine\scene\thing\items\IEinteractionThing.h">
-      <Filter>IridescentEngine\engine\scene\thing\items</Filter>
-    </ClInclude>
     <ClInclude Include="Source\core\particle\IEray.h">
       <Filter>IridescentEngine\core\particle</Filter>
     </ClInclude>
@@ -884,20 +878,11 @@
     <ClInclude Include="Source\engine\trigger\IEbesiegeTrigger.h">
       <Filter>IridescentEngine\engine\trigger</Filter>
     </ClInclude>
-    <ClInclude Include="Source\engine\scene\thing\items\IEbesiegeThing.h">
-      <Filter>IridescentEngine\engine\scene\thing\items</Filter>
-    </ClInclude>
     <ClInclude Include="Source\tools\IEcrc.h">
       <Filter>IridescentEngine\tools</Filter>
     </ClInclude>
     <ClInclude Include="Source\engine\script\IEluaSprite.h">
       <Filter>IridescentEngine\engine\script</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\engine\scene\thing\IEthingArea.h">
-      <Filter>IridescentEngine\engine\scene\thing</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\engine\scene\thing\IEthingChunk.h">
-      <Filter>IridescentEngine\engine\scene\thing</Filter>
     </ClInclude>
     <ClInclude Include="Source\global\IEsituation.h">
       <Filter>IridescentEngine\global</Filter>
@@ -913,9 +898,6 @@
     </ClInclude>
     <ClInclude Include="Source\engine\atom\creature\goal\IEGoalTarget.h">
       <Filter>IridescentEngine\engine\atom\creature\goal</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\engine\scene\thing\IEJoint.h">
-      <Filter>IridescentEngine\engine\scene\thing</Filter>
     </ClInclude>
     <ClInclude Include="Source\tools\IETexturePacker.h">
       <Filter>IridescentEngine\tools</Filter>
@@ -1016,8 +998,32 @@
     <ClInclude Include="Source\engine\scene\terrain\IETerrainList.h">
       <Filter>IridescentEngine\engine\scene\terrain</Filter>
     </ClInclude>
-    <ClInclude Include="Source\engine\scene\thing\IEThingList.h">
+    <ClInclude Include="Source\engine\scene\thing\store\IEinteractionThing.h">
+      <Filter>IridescentEngine\engine\scene\thing\items</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\engine\scene\thing\store\IEbesiegeThing.h">
+      <Filter>IridescentEngine\engine\scene\thing\items</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\engine\scene\thing\items\IEDoor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\engine\scene\thing\items\IEFire.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\engine\scene\thing\items\IEJoint.h">
       <Filter>IridescentEngine\engine\scene\thing</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\engine\scene\thing\IEThing.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\engine\scene\thing\IEThingArea.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\engine\scene\thing\IEThingChunk.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\engine\scene\thing\IEThingList.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,7 +1,7 @@
 #define __IE_DLL_EXPORTS__
 #include "IEJoint.h"
 
-#include "IEThingList.h"
+#include "../IEThingList.h"
 
 IE_BEGIN
 

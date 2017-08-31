@@ -1,5 +1,5 @@
 #define __IE_DLL_EXPORTS__
-#include "IEthingArea.h"
+#include "IEThingArea.h"
 
 #include "../path/IEPathArea.h"
 
@@ -30,10 +30,10 @@ void IEThingArea::Initialization(IEMap * map, int halfViewBlocks, int blockSize)
 	m_thingsInfo = IEAdorningsInfoManager::Share()->GetAdorningsInfoList();
 
 
-	//m_suspensionThing = IESprite::Create("bucket/body.png");
-	//m_suspensionThing->SetTranslate(1.0f, 1.0f);
-	//m_suspensionThing->SetDisplay(false);
-	//IENode::AddChild(m_suspensionThing);
+	//m_suspension = IESprite::Create("bucket/body.png");
+	//m_suspension->SetTranslate(1.0f, 1.0f);
+	//m_suspension->SetDisplay(false);
+	//IENode::AddChild(m_suspension);
 }
 
 IEThingArea * IEThingArea::Create(IEMap * map, int halfViewBlocks, int blockSize)
@@ -102,16 +102,16 @@ IEThing * IEThingArea::AddChild(int locationX, int locationY, unsigned char tiny
 	}
 
 	//加入修改缓存
-	m_thingAlter = new IEThingAlter();
-	m_thingAlter->_X = locationX;
-	m_thingAlter->_Y = locationY;
-	m_thingAlter->_TinyX = tinyLocationX;
-	m_thingAlter->_TinyY = tinyLocationY;
-	m_thingAlter->_ThingID = m_readyThingID;
-	m_thingAlter->_Order = m_curOrder++;
-	m_thingAlter->_ExtraOrder = 0;
-	m_thingAlter->_OperaType = __IE_THING_ALTER_OPERA_ADD__;
-	m_alters->Push(m_thingAlter);
+	m_alter = new IEThingAlter();
+	m_alter->_X = locationX;
+	m_alter->_Y = locationY;
+	m_alter->_TinyX = tinyLocationX;
+	m_alter->_TinyY = tinyLocationY;
+	m_alter->_ThingID = m_readyThingID;
+	m_alter->_Order = m_curOrder++;
+	m_alter->_ExtraOrder = 0;
+	m_alter->_OperaType = __IE_THING_ALTER_OPERA_ADD__;
+	m_alters->Push(m_alter);
 
 	//IEThing * thing = CreateThing(m_readyThingID);
 	IEThing * thing = IEThing::Create(m_readyThingID);
@@ -163,16 +163,16 @@ void IEThingArea::RemoveChild()
 
 	if (thing)
 	{
-		m_thingAlter = new IEThingAlter();
-		m_thingAlter->_X = locations[0];
-		m_thingAlter->_Y = locations[1];
-		m_thingAlter->_TinyX = locations[2];
-		m_thingAlter->_TinyY = locations[3];
-		m_thingAlter->_ThingID = 0;
-		m_thingAlter->_ExtraOrder = thingID;
-		m_thingAlter->_OperaType = __IE_THING_ALTER_OPERA_DEL__;
-		m_thingAlter->_ExtraOrder = thing->GetRelatedCreatedOrder();
-		m_alters->Pop(m_thingAlter);
+		m_alter = new IEThingAlter();
+		m_alter->_X = locations[0];
+		m_alter->_Y = locations[1];
+		m_alter->_TinyX = locations[2];
+		m_alter->_TinyY = locations[3];
+		m_alter->_ThingID = 0;
+		m_alter->_ExtraOrder = thingID;
+		m_alter->_OperaType = __IE_THING_ALTER_OPERA_DEL__;
+		m_alter->_ExtraOrder = thing->GetRelatedCreatedOrder();
+		m_alters->Pop(m_alter);
 
 		RemoveThing(locations[0], locations[1], locations[2], locations[3]);
 
@@ -258,16 +258,16 @@ void IEThingArea::SetReadyThing(unsigned int thingID)
 	if (m_readyThingID)
 	{
 		IEString s = IEString(m_thingsInfo[thingID]._ThingName) + "/body.png";
-		m_suspensionThing->ChangeTexture(s.GetString());
-		m_suspensionThing->SetDisplay(true);
+		m_suspension->ChangeTexture(s.GetString());
+		m_suspension->SetDisplay(true);
 	}
 	else
 	{
-		m_suspensionThing->SetDisplay(false);
+		m_suspension->SetDisplay(false);
 	}
 }
 
-void IEThingArea::MouseSuspension(float positionX, float positionY)
+void IEThingArea::MouseMove(float x, float y)
 {
 	//首先计算鼠标所指向的格子和小格子
 	IEGrid mouseLocation = IEGrid(IEMouse::Share()->_MouseLocationX, IEMouse::Share()->_MouseLocationY);
@@ -279,7 +279,7 @@ void IEThingArea::MouseSuspension(float positionX, float positionY)
 	}
 	else
 	{
-		m_mouseTinyLocation = IEVector(positionX - (float)mouseLocation.m_x, positionY - (float)mouseLocation.m_y) / 0.25f;
+		m_mouseTinyLocation = IEVector(x - (float)mouseLocation.m_x, y - (float)mouseLocation.m_y) / 0.25f;
 	}
 
 	if (m_mouseTinyLocation.m_x == 4)
@@ -300,13 +300,13 @@ void IEThingArea::MouseSuspension(float positionX, float positionY)
 
 		if (result)
 		{
-			m_suspensionThing->SetBackColor(0.0f, 1.0f, 0.0f, 1.0f);
+			m_suspension->SetBackColor(0.0f, 1.0f, 0.0f, 1.0f);
 		}
 		else
 		{
-			m_suspensionThing->SetBackColor(1.0f, 0.0f, 0.0f, 0.7f);
+			m_suspension->SetBackColor(1.0f, 0.0f, 0.0f, 0.7f);
 		}
-		m_suspensionThing->SetTranslate(m_mouseTinyLocation.m_x + m_mouseTinyLocation.m_x * 0.25f, m_mouseTinyLocation.m_y + m_mouseTinyLocation.m_y * 0.25f);
+		m_suspension->SetTranslate(m_mouseTinyLocation.m_x + m_mouseTinyLocation.m_x * 0.25f, m_mouseTinyLocation.m_y + m_mouseTinyLocation.m_y * 0.25f);
 	}
 	else
 	{
@@ -315,7 +315,15 @@ void IEThingArea::MouseSuspension(float positionX, float positionY)
 	}
 }
 
-void IEThingArea::MouseLButtonTouch()
+void IEThingArea::MouseCancel()
+{
+	m_readyThingID = 0;
+	m_choosenThingOrder = 0;
+
+	m_suspension->SetDisplay(false);
+}
+
+void IEThingArea::MouseClick()
 {
 	//if (m_readyThingID)
 	//{
@@ -328,12 +336,9 @@ void IEThingArea::MouseLButtonTouch()
 	//}
 }
 
-void IEThingArea::MouseRButtonTouch()
+void IEThingArea::MouseBrush()
 {
-	m_readyThingID = 0;
-	m_choosenThingOrder = 0;
 
-	m_suspensionThing->SetDisplay(false);
 }
 
 void IEThingArea::LoadChunk(int blockX, int blockY)
@@ -378,7 +383,7 @@ IEThing * IEThingArea::CreateThing(unsigned thingID)
 			{ "IEPhysicPolygon", luaopen_physicPolygon },
 			{ "IEPhysicNode", luaopen_physicNode },
 			{ "IEThing", luaopen_thing },
-			{ "IEThingCreator", luaopen_thingCreator },
+			//{ "IEThingCreator", luaopen_thingCreator },
 			{ NULL, NULL }
 		};
 
@@ -390,7 +395,7 @@ IEThing * IEThingArea::CreateThing(unsigned thingID)
 
 		if (luaL_dofile(luaScript, scriptName) != 0)
 		{
-			__IE_WARNING__("IEAttack : can not find m_luaScript file.\n");
+			__IE_WARNING__("IEAttack : can not find m_script file.\n");
 		}
 
 		adorningsInfo[thingID]._LuaScript = luaScript;
@@ -443,7 +448,7 @@ void IEThingArea::Visit()
 {
 	IEArea::Visit();
 
-	//m_suspensionThing->Visit();
+	//m_suspension->Visit();
 }
 
 bool IEThingArea::AllowChild(int locationX, int locationY, unsigned char tinyLocationX, unsigned char tinyLocationY)

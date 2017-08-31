@@ -46,8 +46,8 @@ public:
 	static IETerrainArea * Create(IEMap * map, int visibleRadius, int sideLength);
 
 public:
-	virtual void RandomTerrain();
 	virtual void AddChild(int blockLocationX, int blockLocationY);											//添加一个新的child
+	virtual void ChooseChild(int blockLocationX, int blockLocationY);										//选择一个child
 	virtual void LoadChilds(IETerrainSerialization * blocksInfo, int chunkLocationX, int chunkLocationY);	//读取地图文件中的数据
 
 	virtual void SetReadyTerrain(unsigned int terrainID, IETerrainMode terrainMode);					//设定准备的terrain

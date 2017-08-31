@@ -24,7 +24,7 @@ IEThing::IEThing()
 
 IEThing::~IEThing()
 {
-	m_luaScript = NULL;
+	m_script = NULL;
 }
 
 void IEThing::Initialization(unsigned int thingID)
@@ -51,12 +51,12 @@ void IEThing::Reload(unsigned int thingID)
 void IEThing::LoadScript()
 {
 	IEAdorningInfo * adorningsInfo = IEAdorningsInfoManager::Share()->GetAdorningsInfoList();
-	m_luaScript = adorningsInfo[m_thingID]._LuaScript;
+	m_script = adorningsInfo[m_thingID]._LuaScript;
 
-	if (!m_luaScript)
+	if (!m_script)
 	{
-		m_luaScript = luaL_newstate();
-		luaL_openlibs(m_luaScript);
+		m_script = luaL_newstate();
+		luaL_openlibs(m_script);
 
 		char scriptName[64];
 		sprintf(scriptName, "%s%s%s", "../Debug/data/script/thing/", adorningsInfo[m_thingID]._ThingName, ".lua");
@@ -73,24 +73,24 @@ void IEThing::LoadScript()
 
 		for (luaL_Reg * lua_reg = lua_reg_libs; lua_reg->func; ++lua_reg)
 		{
-			luaL_requiref(m_luaScript, lua_reg->name, lua_reg->func, 1);
-			lua_pop(m_luaScript, 1);
+			luaL_requiref(m_script, lua_reg->name, lua_reg->func, 1);
+			lua_pop(m_script, 1);
 		}
 
-		if (luaL_dofile(m_luaScript, scriptName) != 0)
+		if (luaL_dofile(m_script, scriptName) != 0)
 		{
-			__IE_WARNING__("IEAttack : can not find m_luaScript file.\n");
+			__IE_WARNING__("IEAttack : can not find m_script file.\n");
 		}
 
-		adorningsInfo[m_thingID]._LuaScript = m_luaScript;
+		adorningsInfo[m_thingID]._LuaScript = m_script;
 	}
 
 	//读取一些脚本变量
-	m_maxState = GetLuaIntElement(m_luaScript, "maxState");
+	m_maxState = GetLuaIntElement(m_script, "maxState");
 
 	if (AllocateLuaFunction("Init"))
 	{
-		lua_call(m_luaScript, 0, 0);
+		lua_call(m_script, 0, 0);
 	}
 }
 
@@ -128,15 +128,15 @@ unsigned int IEThing::GetThingID()
 
 bool IEThing::AllocateLuaFunction(const char * functionName)
 {
-	if (lua_getglobal(m_luaScript, functionName))
+	if (lua_getglobal(m_script, functionName))
 	{
-		SetLuaUserdataElement(m_luaScript, "self", "IEThing.IEThing", this);
+		SetLuaUserdataElement(m_script, "self", "IEThing.IEThing", this);
 
 		return true;
 	}
 	else
 	{
-		lua_pop(m_luaScript, -1);
+		lua_pop(m_script, -1);
 
 		return false;
 	}
@@ -157,9 +157,17 @@ void IEThing::SwitchState()
 
 	if (AllocateLuaFunction("ChangeState"))
 	{
-		lua_pushnumber(m_luaScript, m_curState);
-		lua_call(m_luaScript, 1, 0);
+		lua_pushnumber(m_script, m_curState);
+		lua_call(m_script, 1, 0);
 	}
+
+
+	//两者应当互不影响
+	ChangeState(1);
+	ChangeGroup("normal");
+
+
+
 }
 
 void IEThing::ChangeThingID(unsigned thingID)
