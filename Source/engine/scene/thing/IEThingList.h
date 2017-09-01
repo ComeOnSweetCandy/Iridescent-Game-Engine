@@ -15,8 +15,6 @@
 
 IE_BEGIN
 
-#pragma pack(push)
-#pragma pack(1)
 typedef struct
 {
 	unsigned int _ThingID;
@@ -25,53 +23,55 @@ typedef struct
 	unsigned short _Mask;				//16位 用来标记4*4的方格
 }IEAdorningOccupyInfo;
 
-typedef struct _ieThingInfo
+typedef struct _ieThingEntry
 {
-	_ieThingInfo()
+	_ieThingEntry()
 	{
 		_ThingID = 0;
-		_LuaScript = NULL;
+		_LUA = NULL;
 		_XML = NULL;
 	};
-	~_ieThingInfo()
+	~_ieThingEntry()
 	{ 
-		__IE_LUA_RELEASE__(_LuaScript);
+		__IE_LUA_RELEASE__(_LUA);
 		__IE_RELEASE_DIF__(_XML);
 	};
 
+	//每个thing具有唯一的ID 以及显示thing的名字
 	unsigned int _ThingID;
-	char _ThingName[256];
+	char _ThingName[64];
 
+	//在网格系统中所占据的网格数据
 	unsigned short _OccupyCount;
 	IEAdorningOccupyInfo * _OccupyInfo;
 
-	lua_State * _LuaScript;
+	//脚本和XML
+	lua_State * _LUA;
 	IEXml * _XML;
 }IEThingEntry;
-#pragma pack(pop)
 
-class IEAdorningsInfoManager
+class IEThingList
 {
 public:
-	IEAdorningsInfoManager();
-	virtual ~IEAdorningsInfoManager();
+	IEThingList();
+	virtual ~IEThingList();
 	virtual void Initialization();
 	virtual void Release();
-	static IEAdorningsInfoManager * Share();
+	static IEThingList * Share();
 
 public:
-	void LoadAdorningsInfo();
-	void SaveAdorningsInfo();
+	IEThingEntry * GetEntrys();
+	unsigned int GetEntrysCount();
 
-	//添加一个新的
-	void AddAdorningInfo();
-	void DeleteAdorningInfo();
+	void AddEntry(const char * thingName);
+	void DelEntry(const char * thingName);
+	void DelEntry(unsigned int tingID);
 
-	IEThingEntry * GetAdorningsInfoList();
-	unsigned int GetAdorningsInfoCount();
+	void LoadList();
+	void SaveList();
 
 private:
-	static IEAdorningsInfoManager * m_staticAdorningsManager;
+	static IEThingList * m_stateList;
 
 	IEThingEntry * m_entrys;
 	unsigned int m_entrysCount;

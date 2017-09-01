@@ -132,7 +132,23 @@ void IEMouse::ReckonMousePosition()
 	_MouseLocationY = (int)revisePositionY;
 
 	//计算小格子
+	float tinyOffsetX = _MousePositionX - _MouseLocationX;
+	float tinyOffsetY = _MousePositionY - _MouseLocationY;
 
+	_MouseTinyLocationX = (int)(tinyOffsetX / 0.25f);
+	_MouseTinyLocationY = (int)(tinyOffsetY / 0.25f);
+
+#ifdef __IE_DEBUG__
+
+	//DEBUG模式下会检测得出的值
+	if (_MouseTinyLocationX > 4 || _MouseTinyLocationY > 4)
+	{
+		__IE_ERROR__("IEMouse : _MouseTinyLocationX or _MouseTinyLocationY great than 4.\n");
+	}
+#endif
+
+	_MouseTinyLocationX = _MouseTinyLocationX == 4 ? 0 : _MouseTinyLocationX;
+	_MouseTinyLocationY = _MouseTinyLocationY == 4 ? 0 : _MouseTinyLocationY;
 }
 
 BOOL IEMouse::IsButtonDown(int button)

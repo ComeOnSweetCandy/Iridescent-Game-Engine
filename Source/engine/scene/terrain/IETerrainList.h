@@ -15,24 +15,24 @@
 
 IE_BEGIN
 
-typedef struct _ieTerrainInfo
+typedef struct _ieTerrainEntry
 {
-	_ieTerrainInfo()
+	_ieTerrainEntry()
 	{ 
 		_TerrainID = 0; 
-		_LuaScript = NULL; 
+		_LUA = NULL; 
 		_XML = NULL;
 	};
-	~_ieTerrainInfo()
+	~_ieTerrainEntry()
 	{ 
-		__IE_LUA_RELEASE__(_LuaScript); 
+		__IE_LUA_RELEASE__(_LUA); 
 		__IE_RELEASE_DIF__(_XML); 
 	};
 
 	unsigned int _TerrainID;
 	char _TerrainName[64];
 
-	lua_State * _LuaScript;
+	lua_State * _LUA;
 	IEXml * _XML;
 }IETerrainEntry;
 
@@ -57,7 +57,7 @@ public:
 	void SaveList();
 
 private:
-	static IETerrainList * m_staticTerrainsManager;
+	static IETerrainList * m_staticList;
 
 	IETerrainEntry * m_entrys;
 	unsigned int m_entrysCount;

@@ -28,7 +28,7 @@ protected:
 	virtual bool Excute() = 0;
 	virtual bool End() = 0;
 
-	void LoadScript();
+	void LoadLUA();
 
 private:
 	IESkillType m_skillType;

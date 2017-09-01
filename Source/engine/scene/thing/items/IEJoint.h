@@ -19,16 +19,12 @@ class __IE_DLL__ IEJoint :public IEThing
 public:
 	IEJoint();
 	virtual ~IEJoint();
-	virtual void Initialization(unsigned int thingID);
-	static IEJoint * Create(unsigned int thingID);
-
-public:
-	//设定周围的thing
-	void SetRound(unsigned char roundIndex ,unsigned int thingID);
-	void RereadSelf();
+	virtual void Initialization(unsigned int thingID, unsigned int thingOrder);
+	static IEJoint * Create(unsigned int thingID, unsigned int thingOrder);
 
 protected:
-	virtual void DrawNode(){};
+	void CheckRound();
+	void RereadSelf();
 
 private:
 	//初始化头顶的sprite

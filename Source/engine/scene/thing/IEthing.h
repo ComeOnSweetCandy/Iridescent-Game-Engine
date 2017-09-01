@@ -1,7 +1,7 @@
 /***********************************
 * name     : IEThing.h
 * creater  : cosc
-* info     : base thing
+* info     : base ting
 * date     : 2017/3/19
 * version  : 1.0
 * remark   : none
@@ -21,48 +21,36 @@ class __IE_DLL__ IEThing :public IEBlock
 public:
 	IEThing();
 	virtual ~IEThing();
-	virtual void Initialization(unsigned int thingID);
-	static IEThing * Create(unsigned int thingID);
+	virtual void Initialization(unsigned int thingID, unsigned int thingOrder);
+	static IEThing * Create(unsigned int thingID, unsigned int thingOrder);
 
 public:
-	void Reload(unsigned int thingID);
-
-	void SetTinyGridPosition(int x, int y);
-	IEGrid GetTinyGridPosition();
-	void SetThingID(unsigned int adorningID);
+	void SetThingID(unsigned int thingID);
 	unsigned int GetThingID();
-	bool CheckTinyMask(unsigned short tinyMask, int number);
-
-	virtual bool AllocateLuaFunction(const char * functionName);
-	void SwitchState();
-
-	void ChangeThingID(unsigned thingID);
-
-	void SetRelatedCreatedOrder(unsigned int relatedCreatedOrder);
-	unsigned int GetRelatedCreatedOrder();
-
-	void SetThingLocations(int blockLocationX, int blockLocationY, int tinyLocationX, int tinyLocationY);
-	int * GetThingLocations();
-
+	void SetOrder(unsigned int order);
+	unsigned int GetOrder();
+	void SetRelatedOrder(unsigned int relatedCreatedOrder);
+	unsigned int GetRelatedOrder();
 	void SetExpress(bool express);
 	bool GetExpress();
+	void SetLocations(int blockLocationX, int blockLocationY, int tinyLocationX, int tinyLocationY);	//让thing记录其自身的的位置参数
+	int * GetLocations();																				//获取thing的位置参数
 
-protected:
-	virtual void DrawNode();
+	void SwitchStateTo(unsigned int stateIndex);
 
 private:
-	void LoadScript();
+	void LoadXML();			//从XML中读取个人信息
+	void LoadLUA();			//加载脚本文件
 
 protected:
-	unsigned int m_thingID;
-	unsigned int m_relatedCreatedOrder;
-	bool m_express;
+	unsigned int m_thingID;					//thing的ID
+	unsigned int m_order;					//该thing的序号
+	unsigned int m_relatedOrder;			//关联的物体的序号
+	bool m_express;							//它所占格子位置是否已经完全表达
+	int m_locations[4];						//记录该thing的位置和tiny精确位置
 
-	IEGrid m_tinyGridPosition;
-	int m_locations[4];
-
-	unsigned char m_maxState;
-	unsigned char m_curState;;
+	unsigned char m_maxState;				//最大的状态值
+	unsigned char m_curState;				//当前的状态值
 };
 
 IE_END

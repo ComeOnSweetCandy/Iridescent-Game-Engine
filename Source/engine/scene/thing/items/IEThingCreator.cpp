@@ -1,0 +1,41 @@
+#define __IE_DLL_EXPORTS__
+#include "IEThingCreator.h"
+
+#include "../IEThingList.h"
+#include "IEJoint.h"
+
+//#include "../../script/IEluaPhysicPolygon.h"
+//#include "../../script/IEluaPhysicNode.h"
+//#include "../../script/IEluaThing.h"
+
+IE_BEGIN
+
+IEThingEntry * entrys = IEThingList::Share()->GetEntrys();
+
+IEThing * CreateThing(unsigned int thingID, unsigned int thingOrder)
+{
+	IEThing * newThing = CreateThingByType(thingID, thingOrder);
+
+	return newThing;
+}
+
+IEThing * CreateThingByType(unsigned int thingID, unsigned int thingOrder)
+{
+	unsigned int thingType = entrys[thingID]._XML->FindChild("property")->FindChild("thingType")->ValueInt();
+
+	if (thingType == 0)
+	{
+		//最普通类型的thing
+		return IEThing::Create(thingID, thingOrder);
+	}
+	else if (thingType == 1)
+	{
+		return IEJoint::Create(thingID, thingOrder);
+	}
+	else
+	{
+		__IE_ERROR__("IEThingCreator : Function CreateThingByType error.\n");
+	}
+}
+
+IE_END

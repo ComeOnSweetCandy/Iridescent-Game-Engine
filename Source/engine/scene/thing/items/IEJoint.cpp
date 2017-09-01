@@ -2,6 +2,9 @@
 #include "IEJoint.h"
 
 #include "../IEThingList.h"
+#include "../IEthingArea.h"
+
+#include "../../../../interface/cmd/IEapplication.h"
 
 IE_BEGIN
 
@@ -23,25 +26,39 @@ IEJoint::~IEJoint()
 
 }
 
-void IEJoint::Initialization(unsigned int thingID)
+void IEJoint::Initialization(unsigned int thingID, unsigned int thingOrder)
 {
-	IEThing::Initialization(thingID);
+	IEThing::Initialization(thingID, thingOrder);
+
+	IEJoint::CheckRound();
 }
 
-IEJoint * IEJoint::Create(unsigned int thingID)
+IEJoint * IEJoint::Create(unsigned int thingID, unsigned int thingOrder)
 {
 	return NULL;
 }
 
-void IEJoint::SetRound(unsigned char roundIndex, unsigned int thingID)
+void IEJoint::CheckRound()
 {
-	if (m_thingID == thingID)
-	{
-		//如果两者的thingID相同 才会继续下一步的步骤
-		unsigned char index = (roundIndex + 2) % 4;
+	//对四周进行检测
+	static IEThingArea * area = IEApplication::Share()->GetCurrentActiveScene()->GetBindedMap()->GetThing();
 
-		m_round[index] = true;
+	IEThing * grids[4];
+	grids[0] = area->GetThing(m_locations[0], m_locations[1] - 1, m_locations[2], m_locations[3]);
+	grids[1] = area->GetThing(m_locations[0] + 1, m_locations[1], m_locations[2], m_locations[3]);
+	grids[2] = area->GetThing(m_locations[0], m_locations[1] + 1, m_locations[2], m_locations[3]);
+	grids[3] = area->GetThing(m_locations[0] - 1, m_locations[1], m_locations[2], m_locations[3]);
+
+	for (unsigned char index = 0; index < 4; index++)
+	{
+		m_round[index] = false;
+		if (grids[index])
+		{
+			m_round[index] = true;
+		}
 	}
+
+	RereadSelf();
 }
 
 void IEJoint::RereadSelf()
@@ -147,17 +164,17 @@ void IEJoint::RereadSelf()
 
 	//一旦调整完毕 joint将会以正确的方式显示出来
 	
-
+	//SwitchStateTo(1);
 
 }
 
 void IEJoint::BuildTopSprite(unsigned int thingID)
 {
-	IEThingEntry * infos = IEAdorningsInfoManager::Share()->GetAdorningsInfoList();
-	unsigned int count = IEAdorningsInfoManager::Share()->GetAdorningsInfoCount();
+	IEThingEntry * entrys = IEThingList::Share()->GetEntrys();
+	unsigned int count = IEThingList::Share()->GetEntrysCount();
 
-	IEString backName = IEString(infos[thingID]._ThingName) + "_back";
-	IEString borderName = IEString(infos[thingID]._ThingName) + "_border";
+	IEString backName = IEString(entrys[thingID]._ThingName) + "_back";
+	IEString borderName = IEString(entrys[thingID]._ThingName) + "_border";
 
 	m_topBackground = IESprite::Create(backName.GetString());
 
@@ -165,9 +182,6 @@ void IEJoint::BuildTopSprite(unsigned int thingID)
 	{
 		m_topBorder[index] = IESprite::Create(borderName.GetString());
 	}
-	
-	
-
 }
 
 IE_END

@@ -30,8 +30,10 @@ IEThingChunk * IEThingChunk::Create(int sideLength)
 
 void IEThingChunk::AddChild(IEThing * block, int explicitLocationX, int explicitLocationY, int tinyLocationX, int tinyLocationY)
 {
-	m_thingsMatrix[explicitLocationX][explicitLocationY][tinyLocationY * 4 + tinyLocationX] = block;
 	IENode::AddChild(block);
+
+	m_thingsMatrix[explicitLocationX][explicitLocationY][tinyLocationY * 4 + tinyLocationX] = block;
+	block->SetTranslate(explicitLocationX + tinyLocationX * 0.25f, explicitLocationY + tinyLocationY * 0.25f);
 }
 
 void IEThingChunk::StanceChild(IEThing * block, int explicitLocationX, int explicitLocationY, int tinyLocationX, int tinyLocationY)

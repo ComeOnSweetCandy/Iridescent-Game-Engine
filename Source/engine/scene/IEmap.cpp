@@ -143,8 +143,8 @@ void IEMap::InitAreaFile(IEString &fileName)
 void IEMap::SaveMap()
 {
 	SaveTerrain();
+	SaveThing();
 	//SaveMarble();
-	//SaveThing();
 }
 
 void IEMap::LoadMap()
@@ -198,6 +198,7 @@ void IEMap::InputHandle()
 			}
 			else if (IEMouse::Share()->IsButtonTouch(0))
 			{
+				//鼠标左键一次单独的点击
 				m_activeArea->MouseClick();
 			}
 			else if (IEMouse::Share()->IsButtonTouch(1))

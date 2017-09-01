@@ -29,7 +29,7 @@ IEResourcesManager::~IEResourcesManager()
 	IECreaturesInfoManager::Share()->Release();				//人物信息资源
 	IEPropsInfoManager::Share()->Release();					//道具信息资源
 	IETerrainList::Share()->Release();				//地形信息资源
-	IEAdorningsInfoManager::Share()->Release();				//装饰信息资源
+	IEThingList::Share()->Release();				//装饰信息资源
 	IECamera::Share()->Release();							//相机释放
 
 	//系统资源
@@ -50,7 +50,7 @@ void IEResourcesManager::Initialization()
 
 	IECreaturesInfoManager::Share();
 	IETerrainList::Share();
-	IEAdorningsInfoManager::Share();
+	IEThingList::Share();
 
 	IEConsole::Share()->Initialization();
 }

@@ -11,15 +11,13 @@ IE_BEGIN
 
 IEThing::IEThing()
 {
-	m_tinyGridPosition = IEGrid(0, 0);
-	m_unitPixels = 32;
 	m_thingID = 0;
+	m_order = 0;
+	m_relatedOrder = 0;
 	m_express = true;
 
-	m_maxState = 0;
+	m_maxState = 1;
 	m_curState = 0;
-
-	m_relatedCreatedOrder = 0;
 }
 
 IEThing::~IEThing()
@@ -27,31 +25,146 @@ IEThing::~IEThing()
 	m_script = NULL;
 }
 
-void IEThing::Initialization(unsigned int thingID)
+void IEThing::Initialization(unsigned int thingID, unsigned int thingOrder)
 {
-	IESprite::Initialization(NULL);
 	IENode::SetDrawMode(false);
+	IEThing::SetThingID(thingID);
+	IEThing::SetOrder(thingOrder);
 
-	SetThingID(thingID);
-	LoadScript();
+	IEThing::SwitchStateTo(0);
+	IEThing::SetRelatedOrder(0);
+
+	IEThing::LoadXML();
+	IEThing::LoadLUA();
 }
 
-IEThing * IEThing::Create(unsigned int thingID)
+IEThing * IEThing::Create(unsigned int thingID, unsigned int thingOrder)
 {
 	IEThing * sprite = new IEThing();
-	sprite->Initialization(thingID);
+	sprite->Initialization(thingID, thingOrder);
 	return sprite;
 }
 
-void IEThing::Reload(unsigned int thingID)
+void IEThing::SetThingID(unsigned int adorningID)
 {
-	SetThingID(thingID);
+	m_thingID = adorningID;
 }
 
-void IEThing::LoadScript()
+unsigned int IEThing::GetThingID()
 {
-	IEThingEntry * adorningsInfo = IEAdorningsInfoManager::Share()->GetAdorningsInfoList();
-	m_script = adorningsInfo[m_thingID]._LuaScript;
+	return m_thingID;
+}
+
+void IEThing::SetOrder(unsigned int order)
+{
+	m_order = order;
+}
+
+unsigned int IEThing::GetOrder()
+{
+	return m_order;
+}
+
+void IEThing::SetRelatedOrder(unsigned int relatedCreatedOrder)
+{
+	m_relatedOrder = relatedCreatedOrder;
+}
+
+unsigned int IEThing::GetRelatedOrder()
+{
+	return m_relatedOrder;
+}
+
+void IEThing::SetLocations(int blockLocationX, int blockLocationY, int tinyLocationX, int tinyLocationY)
+{
+	m_locations[0] = blockLocationX;
+	m_locations[1] = blockLocationY;
+	m_locations[2] = tinyLocationX;
+	m_locations[3] = tinyLocationY;
+}
+
+int * IEThing::GetLocations()
+{
+	return m_locations;
+}
+
+void IEThing::SetExpress(bool express)
+{
+	m_express = express;
+}
+
+bool IEThing::GetExpress()
+{
+	return m_express;
+}
+
+void IEThing::SwitchStateTo(unsigned int stateIndex)
+{
+	//需要调整的为两项 物理信息 和 贴图信息
+	m_curState = stateIndex;
+
+	IEThingEntry * entrys = IEThingList::Share()->GetEntrys();
+	IEXml * _xml = entrys[m_thingID]._XML;
+	IEXml * _stateXML = _xml->FindChild("state", m_curState);
+
+	//首先调整物理信息
+	IEPhysicNode * physicNode = IEPhysicNode::Create(_stateXML->FindChild("physic"));
+	BindPhysicNode(physicNode);
+
+	//其次调整贴图信息
+	IEPackerTexture * texture = IEPackerTexture::Create(_stateXML->FindChild("texture"));
+	ChangeTexture(texture);
+
+	//下面是以往旧的脚本信息
+	//if (!m_maxState)
+	//{
+	//	return;
+	//}
+
+	//m_curState = m_curState + 1;
+	//if (m_curState >= m_maxState)
+	//{
+	//	m_curState = 0;
+	//}
+
+	//if (AllocateLuaFunction(m_script, "ChangeState"))
+	//{
+	//	lua_pushnumber(m_script, m_curState);
+	//	lua_call(m_script, 1, 0);
+	//}
+
+	////两者应当互不影响
+	//ChangeState(1);
+	//ChangeGroup("normal");
+}
+
+void IEThing::LoadXML()
+{
+	if (m_thingID == 0)
+	{
+		BindPhysicNode(NULL);
+		return;
+	}
+
+	//获取当前状态下的XML
+	IEThingEntry * entrys = IEThingList::Share()->GetEntrys();
+	IEXml * _xml = entrys[m_thingID]._XML;
+	IEXml * _stateXML = _xml->FindChild("state", m_curState);
+
+	//设定该thing的物理状态
+	IEPhysicNode * physicNode = IEPhysicNode::Create(_stateXML->FindChild("physic"));
+	BindPhysicNode(physicNode);
+
+	//读取该thing的贴图
+	IEPackerTexture * texture = IEPackerTexture::Create(_stateXML->FindChild("texture"));
+	ChangeTexture(texture);
+	ChangeGroup("normal");
+}
+
+void IEThing::LoadLUA()
+{
+	IEThingEntry * entrys = IEThingList::Share()->GetEntrys();
+	m_script = entrys[m_thingID]._LUA;
 
 	if (!m_script)
 	{
@@ -59,7 +172,7 @@ void IEThing::LoadScript()
 		luaL_openlibs(m_script);
 
 		char scriptName[64];
-		sprintf(scriptName, "%s%s%s", "../Debug/data/script/thing/", adorningsInfo[m_thingID]._ThingName, ".lua");
+		sprintf(scriptName, "%s%s%s", "../Debug/data/script/thing/", entrys[m_thingID]._ThingName, ".lua");
 
 		luaL_Reg lua_reg_libs[] =
 		{
@@ -82,130 +195,19 @@ void IEThing::LoadScript()
 			__IE_WARNING__("IEAttack : can not find m_script file.\n");
 		}
 
-		adorningsInfo[m_thingID]._LuaScript = m_script;
+		entrys[m_thingID]._LUA = m_script;
 	}
 
 	//读取一些脚本变量
-	m_maxState = GetLuaIntElement(m_script, "maxState");
+	//m_maxState = GetLuaIntElement(m_script, "maxState");
 
-	if (AllocateLuaFunction("Init"))
+	if (AllocateLuaFunction(m_script, "Init"))
 	{
 		lua_call(m_script, 0, 0);
+		//lua_pushnumber(luaScript, thingID);
+		//IEThing * newThing = *((IEThing **)lua_touserdata(luaScript, -1));
+		//return newThing;
 	}
-}
-
-bool IEThing::CheckTinyMask(unsigned short tinyMask, int number)
-{
-	int result = tinyMask << (16 - number) >> (16 - number);
-	bool res = result == 0 ? false : true;
-	return res;
-}
-
-void IEThing::DrawNode()
-{
-	IESprite::DrawNode();
-}
-
-void IEThing::SetTinyGridPosition(int x, int y)
-{
-	m_tinyGridPosition = IEGrid(x, y);
-}
-
-IEGrid IEThing::GetTinyGridPosition()
-{
-	return m_tinyGridPosition;
-}
-
-void IEThing::SetThingID(unsigned int adorningID)
-{
-	m_thingID = adorningID;
-}
-
-unsigned int IEThing::GetThingID()
-{
-	return m_thingID;
-}
-
-bool IEThing::AllocateLuaFunction(const char * functionName)
-{
-	if (lua_getglobal(m_script, functionName))
-	{
-		SetLuaUserdataElement(m_script, "self", "IEThing.IEThing", this);
-
-		return true;
-	}
-	else
-	{
-		lua_pop(m_script, -1);
-
-		return false;
-	}
-}
-
-void IEThing::SwitchState()
-{
-	if (!m_maxState)
-	{
-		return;
-	}
-
-	m_curState = m_curState + 1;
-	if (m_curState >= m_maxState)
-	{
-		m_curState = 0;
-	}
-
-	if (AllocateLuaFunction("ChangeState"))
-	{
-		lua_pushnumber(m_script, m_curState);
-		lua_call(m_script, 1, 0);
-	}
-
-
-	//两者应当互不影响
-	ChangeState(1);
-	ChangeGroup("normal");
-
-
-
-}
-
-void IEThing::ChangeThingID(unsigned thingID)
-{
-
-}
-
-void IEThing::SetRelatedCreatedOrder(unsigned int relatedCreatedOrder)
-{
-	m_relatedCreatedOrder = relatedCreatedOrder;
-}
-
-unsigned int IEThing::GetRelatedCreatedOrder()
-{
-	return m_relatedCreatedOrder;
-}
-
-void IEThing::SetThingLocations(int blockLocationX, int blockLocationY, int tinyLocationX, int tinyLocationY)
-{
-	m_locations[0] = blockLocationX;
-	m_locations[1] = blockLocationY;
-	m_locations[2] = tinyLocationX;
-	m_locations[3] = tinyLocationY;
-}
-
-int * IEThing::GetThingLocations()
-{
-	return m_locations;
-}
-
-void IEThing::SetExpress(bool express)
-{
-	m_express = express;
-}
-
-bool IEThing::GetExpress()
-{
-	return m_express;
 }
 
 IE_END

@@ -79,7 +79,7 @@ protected:
 
 private:
 	void LoadXML();			//从XML中读取个人信息
-	void LoadScript();		//加载脚本文件
+	void LoadLUA();			//加载脚本文件
 
 private:
 	int m_blockPositionX;

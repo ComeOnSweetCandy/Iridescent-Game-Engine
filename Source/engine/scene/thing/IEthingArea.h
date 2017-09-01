@@ -44,15 +44,12 @@ public:
 
 public:
 	//仅限于编辑模式下
-	virtual IEThing * AddChild(int locationX, int locationY, unsigned char tinyLocationX, unsigned char tinyLocationY);
-	virtual void RemoveChild();
-	IEThing * LoadChild(unsigned m_thingID, int locationX, int locationY, unsigned char tinyLocationX, unsigned char tinyLocationY);
-
-
-
-	IEThing * ChooseThing(int locationX, int locationY, unsigned char tinyLocationX, unsigned char tinyLocationY);			//选择一个child
-	//virtual void AddChild(int locationX, int locationY, unsigned char tinyLocationX, unsigned char tinyLocationY);		//添加一个新的child
-	//virtual void LoadChilds(IEThingSerialization * blocksInfo, int chunkLocationX, int chunkLocationY);					//读取地图文件中的数据
+	virtual IEThing * AddChild(int locationX, int locationY, unsigned char tinyLocationX, unsigned char tinyLocationY);					//添加一个新的thing
+	virtual IEThing * ChooseChild(int locationX, int locationY, unsigned char tinyLocationX, unsigned char tinyLocationY);				//选择一个已经存在的thing
+	IEThing * GetThing(int locationX, int locationY, unsigned char tinyLocationX, unsigned char tinyLocationY);							//选取一个位置，得到其thing
+	IEThing * LoadChild(unsigned m_thingID, int locationX, int locationY, unsigned char tinyLocationX, unsigned char tinyLocationY);	//读取地图中的things
+	void LoadChilds(int blockX, int blockY, IEThingBlockFormat * alters);																//读取地图中的things
+	virtual void RemoveChild(int locationX, int locationY, unsigned char tinyLocationX, unsigned char tinyLocationY);					//移除一个thing
 
 	void SetReadyThing(unsigned int thingID);															//设定准备的thing ID
 	virtual void MouseMove(float x, float y);															//鼠标的移动
@@ -60,44 +57,30 @@ public:
 	virtual void MouseClick();																			//有ready物下的一次点击
 	virtual void MouseBrush();																			//鼠标刷子
 
-	virtual void RollbackControll();
-	virtual void RollbackAllControlls();
+	virtual void RollbackControll();																	//回滚一次操作
+	virtual void RollbackAllControlls();																//回滚所有的操作
 
 
-
-
-
-	//读取模式下
-	void LoadChild(int blockX, int blockY, IEThingBlockFormat * alters);
-
-	//公用接口
-	IEThing * FindThingByOrder(unsigned int thingOrder);
+protected:
+	virtual IEChunk * CreateChunk();
+	virtual void LoadChunk(int blockX, int blockY);
 
 private:
-	void AddThing(IEThing * thing, int locationX, int locationY, unsigned char tinyLocationX, unsigned char tinyLocationY){};
-	void HoldThing(IEThing * thing, int locationX, int locationY, unsigned char tinyLocationX, unsigned char tinyLocationY){};
+	void AddThing(IEThing * thing, int locationX, int locationY, unsigned char tinyLocationX, unsigned char tinyLocationY);				//将thing添加到当前场景中，相应的chunk中
+	void HoldThing(IEThing * thing, int locationX, int locationY, unsigned char tinyLocationX, unsigned char tinyLocationY){};			
 	void EraseThing(int locationX, int locationY, unsigned char tinyLocationX, unsigned char tinyLocationY){};
 	void RemoveThing(int locationX, int locationY, unsigned char tinyLocationX, unsigned char tinyLocationY){};
 
-	virtual IEChunk * CreateChunk();
-
-	virtual void Visit();
-
-	IEThing * CreateThing(unsigned thingID);
-
-	virtual void LoadChunk(int blockX, int blockY);
-
 	bool AllowChild(int locationX, int locationY, unsigned char tinyLocationX, unsigned char tinyLocationY);		//是否允许当前的子类插入
+	IEThing * FindThingByOrder(unsigned int thingOrder);															//通过thingOrder找到thing
 
 private:
-	IEThingEntry * m_thingsInfo;
+	IEThingEntry * m_entrys;
 	IEThingAlter * m_alter;
 
 	unsigned int m_readyThingID;
 	unsigned int m_choosenThingOrder;
 
-	//IEGrid m_mouseLocation;
-	IEGrid m_mouseTinyLocation;
 	bool m_regularization;			//添加新的thing时是否考虑归整化
 
 	friend class IEMap;

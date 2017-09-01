@@ -6,14 +6,14 @@
 
 IE_BEGIN
 
-IEAdorningsInfoManager * IEAdorningsInfoManager::m_staticAdorningsManager = NULL;
+IEThingList * IEThingList::m_stateList = NULL;
 
-IEAdorningsInfoManager::IEAdorningsInfoManager()
+IEThingList::IEThingList()
 {
 	m_entrysCount = 0;
 }
 
-IEAdorningsInfoManager::~IEAdorningsInfoManager()
+IEThingList::~IEThingList()
 {
 	if (m_entrys)
 	{
@@ -25,62 +25,111 @@ IEAdorningsInfoManager::~IEAdorningsInfoManager()
 			}
 			m_entrys[index]._OccupyInfo = NULL;
 		}
+
 		delete[] m_entrys;
 		m_entrys = NULL;
 	}
 }
 
-void IEAdorningsInfoManager::Initialization()
+void IEThingList::Initialization()
 {
-	LoadAdorningsInfo();
+	IEThingList::LoadList();
 }
 
-void IEAdorningsInfoManager::Release()
+void IEThingList::Release()
 {
 	delete this;
 }
 
-IEAdorningsInfoManager * IEAdorningsInfoManager::Share()
+IEThingList * IEThingList::Share()
 {
-	if (m_staticAdorningsManager == NULL)
+	if (m_stateList == NULL)
 	{
-		m_staticAdorningsManager = new IEAdorningsInfoManager();
-		m_staticAdorningsManager->Initialization();
+		m_stateList = new IEThingList();
+		m_stateList->Initialization();
 	}
-	return m_staticAdorningsManager;
+	return m_stateList;
 }
 
-void IEAdorningsInfoManager::LoadAdorningsInfo()
+IEThingEntry * IEThingList::GetEntrys()
 {
-	//IEString * baseDir = (IEString *)SETTING["basedir"];
-	//IEString fileDir = *baseDir + "adorning";
+	return m_entrys;
+}
 
-	//FILE * filePoint = fopen(fileDir.GetString(), "rb");
-	//fread(&m_entrysCount, sizeof(unsigned int), 1, filePoint);
-	//if (m_entrysCount == 0)
-	//{
-	//	return;
-	//}
+unsigned int IEThingList::GetEntrysCount()
+{
+	return m_entrysCount;
+}
 
-	//m_entrys = new IEThingEntry[m_entrysCount];
+void IEThingList::AddEntry(const char * thingName)
+{
+	//首先检测是否已经有了该资源文件
+	for (unsigned int index = 1; index < m_entrysCount; index++)
+	{
+		if (strcmp(m_entrys[index]._ThingName, thingName) == 0)
+		{
+			return;
+		}
+	}
 
-	//for (unsigned int index = 0; index < m_entrysCount; index++)
-	//{
-	//	fread(&m_entrys[index], sizeof(IEThingEntry) - sizeof(int) * 2, 1, filePoint);
-	//	m_entrys[index]._OccupyInfo = new IEAdorningOccupyInfo[m_entrys[index]._OccupyCount];
-	//	m_entrys[index]._LuaScript = NULL;
-	//	m_entrys[index]._XML = IEXml::Create(fileDir.GetString());
+	//对于新加入的资源文件，自动给予一个新的id
+	for (unsigned int index = 1; index < m_entrysCount; index++)
+	{
+		if (m_entrys[index]._ThingID == 0)
+		{
+			m_entrys[index]._ThingID = index;
+			strcpy(m_entrys[index]._ThingName, thingName);
 
-	//	printf("%d  %s\n", index, m_entrys[index]._ThingName);
+			return;
+		}
+	}
 
-	//	if (m_entrys[index]._OccupyCount)
-	//	{
-	//		fread(m_entrys[index]._OccupyInfo, sizeof(IEAdorningOccupyInfo), m_entrys[index]._OccupyCount, filePoint);
-	//	}
-	//}
+	//说明没有空间了 扩充空间
+	unsigned int emptyIndex = m_entrysCount;
+	m_entrysCount = m_entrysCount * 2;
 
-	//fclose(filePoint);
+	IEThingEntry * newEntrys = new IEThingEntry[m_entrysCount];
+	memcpy(newEntrys, m_entrys, sizeof(IEThingEntry)* emptyIndex);
+	delete[] m_entrys;
+	m_entrys = newEntrys;
 
+	m_entrys[emptyIndex]._ThingID = emptyIndex;
+	strcpy(m_entrys[emptyIndex]._ThingName, thingName);
+
+	//最后保存修改
+	SaveList();
+}
+
+void IEThingList::DelEntry(const char * thingName)
+{
+	//首先检测是否有了该资源文件
+	for (unsigned int index = 1; index < m_entrysCount; index++)
+	{
+		if (strcmp(m_entrys[index]._ThingName, thingName) == 0)
+		{
+			m_entrys[index]._ThingID = 0;
+		}
+	}
+
+	SaveList();
+}
+
+void IEThingList::DelEntry(unsigned int tingID)
+{
+	//首先检测是否有了该资源文件
+	for (unsigned int index = 1; index < m_entrysCount; index++)
+	{
+		if (m_entrys[index]._ThingID == tingID)
+		{
+			m_entrys[index]._ThingID = 0;
+		}
+	}
+
+	SaveList();
+}
+
+void IEThingList::LoadList()
+{
 	IEString fileDir = pOBJECT_TO_cSTRING(SETTING["thingInfoFile"]);
 	__IE_NEW_UNEXIST_FILE__(fileDir.GetString());
 
@@ -105,7 +154,7 @@ void IEAdorningsInfoManager::LoadAdorningsInfo()
 		{
 			fileDir = IEString(info._ThingName) << ".xml";
 
-			info._LuaScript = NULL;
+			info._LUA = NULL;
 			info._XML = IEXml::Create(fileDir.GetString());
 
 			//伪造参数
@@ -115,14 +164,14 @@ void IEAdorningsInfoManager::LoadAdorningsInfo()
 			memcpy(&(m_entrys[info._ThingID]), &info, sizeof(IEThingEntry));
 		}
 
-		info._LuaScript = NULL;
+		info._LUA = NULL;
 		info._XML = NULL;
 	}
 
 	fclose(fp);
 }
 
-void IEAdorningsInfoManager::SaveAdorningsInfo()
+void IEThingList::SaveList()
 {
 	FILE * filePoint = fopen("../Debug/data/adorning", "wb");
 	fwrite(&m_entrysCount, sizeof(unsigned int), 1, filePoint);
@@ -136,16 +185,6 @@ void IEAdorningsInfoManager::SaveAdorningsInfo()
 		}
 	}
 	fclose(filePoint);
-}
-
-IEThingEntry * IEAdorningsInfoManager::GetAdorningsInfoList()
-{
-	return m_entrys;
-}
-
-unsigned int IEAdorningsInfoManager::GetAdorningsInfoCount()
-{
-	return m_entrysCount;
 }
 
 IE_END

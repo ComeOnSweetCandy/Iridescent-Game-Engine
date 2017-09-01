@@ -44,7 +44,7 @@ typedef struct ieCreatureInfo
 	float _View;
 	unsigned _CreatureID;
 	char _CreatureName[64];
-	lua_State * _LuaScript;
+	lua_State * _LUA;
 	IEXml * _XML;
 
 	unsigned int _BaseHealth;

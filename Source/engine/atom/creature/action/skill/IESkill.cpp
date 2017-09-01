@@ -28,7 +28,7 @@ IESkill * IESkill::Create()
 	return NULL;
 }
 
-void IESkill::LoadScript()
+void IESkill::LoadLUA()
 {
 
 }

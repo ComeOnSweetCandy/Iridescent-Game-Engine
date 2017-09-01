@@ -45,7 +45,7 @@ void IETerrain::Load(unsigned int terrainID, unsigned int Order)
 	IETerrain::SetOrder(Order);
 
 	IETerrain::LoadXML();
-	IETerrain::LoadScript();
+	IETerrain::LoadLUA();
 }
 
 void IETerrain::Reload(unsigned int terrainID, unsigned int Order)
@@ -54,7 +54,7 @@ void IETerrain::Reload(unsigned int terrainID, unsigned int Order)
 	IETerrain::SetOrder(Order);
 
 	IETerrain::LoadXML();
-	IETerrain::LoadScript();
+	IETerrain::LoadLUA();
 
 	//判定border的显示与否
 	ChangeBorderDisplay();
@@ -131,7 +131,7 @@ void IETerrain::determinant(IETerrainSerialization * serialization)
 	SetOrder(serialization->_Order);
 
 	IETerrain::LoadXML();
-	IETerrain::LoadScript();
+	IETerrain::LoadLUA();
 
 	__IE_RELEASE_DIF__(m_piece);
 	__IE_RELEASE_DIF__(m_bevel);
@@ -344,7 +344,7 @@ void IETerrain::LoadXML()
 	ChangeTexture(texture);
 }
 
-void IETerrain::LoadScript()
+void IETerrain::LoadLUA()
 {
 	if (m_terrainID == 0)
 	{
@@ -352,7 +352,7 @@ void IETerrain::LoadScript()
 	}
 
 	IETerrainEntry * terrainsInfo = IETerrainList::Share()->GetEntrys();
-	lua_State * luaScript = terrainsInfo[m_terrainID]._LuaScript;
+	lua_State * luaScript = terrainsInfo[m_terrainID]._LUA;
 
 	if (!luaScript)
 	{
@@ -379,7 +379,7 @@ void IETerrain::LoadScript()
 			__IE_WARNING__("IETerrain : can not find luaScript file.\n");
 		}
 
-		terrainsInfo[m_terrainID]._LuaScript = luaScript;
+		terrainsInfo[m_terrainID]._LUA = luaScript;
 	}
 }
 

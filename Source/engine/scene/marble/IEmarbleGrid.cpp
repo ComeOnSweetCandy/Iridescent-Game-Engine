@@ -29,7 +29,7 @@ void IEMarbleGrid::Initialization(unsigned int marbleID)
 	IESprite::Initialization(NULL);
 
 	SetMarbleID(marbleID);
-	LoadScript();
+	LoadLUA();
 }
 
 IEMarbleGrid * IEMarbleGrid::Create(unsigned int marbleID)
@@ -44,7 +44,7 @@ void IEMarbleGrid::Reload(unsigned int marbleID)
 
 }
 
-void IEMarbleGrid::LoadScript()
+void IEMarbleGrid::LoadLUA()
 {
 	IEMarbleInfo * terrainsInfo = IEMarblesInfoManager::Share()->GetMarblesInfoList();
 	IEString scriptName = pOBJECT_TO_cSTRING(SETTING["ScriptDir"]) + "marble/" + terrainsInfo[m_marbleID]._MarbleName + ".lua";

@@ -28,11 +28,11 @@ enum __IE_DLL__ IEPhysicCollisionState
 
 enum __IE_DLL__ IEPhysicNodeType
 {
-	__physic_none_node__,
-	__physic_active_node__,
-	__physic_static_node__,
-	__physic_air_node__,
-	__physic_mine_air_node__,
+	__physic_none_node__,				//
+	__physic_active_node__,				//活动的物理节点
+	__physic_static_node__,				//静止不动的物理节点
+	__physic_air_node__,				//
+	__physic_mine_air_node__,			//
 };
 
 class __IE_DLL__ IEPhysicNode :public IEObject

@@ -48,7 +48,7 @@ public:
 
 protected:
 	virtual void DrawNode();
-	virtual void LoadScript();
+	virtual void LoadLUA();
 
 	void DrawBorder();
 	void DrawCorner();

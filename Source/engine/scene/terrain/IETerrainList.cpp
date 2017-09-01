@@ -7,7 +7,7 @@
 
 IE_BEGIN
 
-IETerrainList * IETerrainList::m_staticTerrainsManager = NULL;
+IETerrainList * IETerrainList::m_staticList = NULL;
 
 IETerrainList::IETerrainList()
 {
@@ -20,6 +20,7 @@ IETerrainList::~IETerrainList()
 	if (m_entrys)
 	{
 		delete[] m_entrys;
+		m_entrys = NULL;
 	}
 }
 
@@ -35,79 +36,12 @@ void IETerrainList::Release()
 
 IETerrainList * IETerrainList::Share()
 {
-	if (m_staticTerrainsManager == NULL)
+	if (m_staticList == NULL)
 	{
-		m_staticTerrainsManager = new IETerrainList();
-		m_staticTerrainsManager->Initialization();
+		m_staticList = new IETerrainList();
+		m_staticList->Initialization();
 	}
-	return m_staticTerrainsManager;
-}
-
-void IETerrainList::LoadList()
-{
-	IEString fileDir = pOBJECT_TO_cSTRING(SETTING["terrainInfoFile"]);
-	__IE_NEW_UNEXIST_FILE__(fileDir.GetString());
-
-	FILE * fp = fopen(fileDir.GetString(), "r");
-	if (!fp)
-	{
-		__IE_ERROR__("IETerrainList : can not read terrain file.\n");
-		return;
-	}
-
-	fscanf(fp, "%ud", &m_entrysCount);
-	m_entrysCount = m_entrysCount > 0 ? m_entrysCount : 1;
-	m_entrys = new IETerrainEntry[m_entrysCount];
-
-	unsigned int index = 0;
-	IETerrainEntry info;
-	while (!feof(fp))
-	{
-		fscanf(fp, "%d %s", &info._TerrainID, info._TerrainName);
-
-		if (info._TerrainID)
-		{
-			fileDir = IEString(info._TerrainName) << ".xml";
-
-			info._LuaScript = NULL;
-			info._XML = IEXml::Create(fileDir.GetString());
-
-			memcpy(&(m_entrys[info._TerrainID]), &info, sizeof(IETerrainEntry));
-		}
-
-		info._LuaScript = NULL;
-		info._XML = NULL;
-	}
-	
-	fclose(fp);
-}
-
-void IETerrainList::SaveList()
-{
-	IEString fileDir = pOBJECT_TO_cSTRING(SETTING["terrainInfoFile"]);
-	FILE * fp = fopen(fileDir.GetString(), "w");
-
-	if (!fp)
-	{
-		__IE_ERROR__("IETerrainList : can not read terrain file.\n");
-		return;
-	}
-
-	fprintf(fp, "%d", m_entrysCount);
-
-	for (unsigned int index = 0; index < m_entrysCount; index++)
-	{
-		if (m_entrys[index]._TerrainID)
-		{
-			fprintf(fp, "\n%d %s", m_entrys[index]._TerrainID, m_entrys[index]._TerrainName);
-		}
-		else
-		{
-			fprintf(fp, "\n0 null");
-		}
-	}
-
-	fclose(fp);
+	return m_staticList;
 }
 
 IETerrainEntry * IETerrainList::GetEntrys()
@@ -185,6 +119,74 @@ void IETerrainList::DelEntry(unsigned int terrainID)
 	}
 
 	SaveList();
+}
+
+void IETerrainList::LoadList()
+{
+	IEString fileDir = pOBJECT_TO_cSTRING(SETTING["terrainInfoFile"]);
+	__IE_NEW_UNEXIST_FILE__(fileDir.GetString());
+
+	FILE * fp = fopen(fileDir.GetString(), "r");
+	if (!fp)
+	{
+		__IE_ERROR__("IETerrainList : can not read terrain file.\n");
+		return;
+	}
+
+	fscanf(fp, "%ud", &m_entrysCount);
+	m_entrysCount = m_entrysCount > 0 ? m_entrysCount : 1;
+	m_entrys = new IETerrainEntry[m_entrysCount];
+
+	unsigned int index = 0;
+	IETerrainEntry info;
+	while (!feof(fp))
+	{
+		fscanf(fp, "%d %s", &info._TerrainID, info._TerrainName);
+
+		if (info._TerrainID)
+		{
+			fileDir = IEString(info._TerrainName) << ".xml";
+
+			info._LUA = NULL;
+			info._XML = IEXml::Create(fileDir.GetString());
+
+			memcpy(&(m_entrys[info._TerrainID]), &info, sizeof(IETerrainEntry));
+		}
+
+		//½Å±¾ºÍXML²Ù×÷
+		info._LUA = NULL;
+		info._XML = NULL;
+	}
+	
+	fclose(fp);
+}
+
+void IETerrainList::SaveList()
+{
+	IEString fileDir = pOBJECT_TO_cSTRING(SETTING["terrainInfoFile"]);
+	FILE * fp = fopen(fileDir.GetString(), "w");
+
+	if (!fp)
+	{
+		__IE_ERROR__("IETerrainList : can not read terrain file.\n");
+		return;
+	}
+
+	fprintf(fp, "%d", m_entrysCount);
+
+	for (unsigned int index = 0; index < m_entrysCount; index++)
+	{
+		if (m_entrys[index]._TerrainID)
+		{
+			fprintf(fp, "\n%d %s", m_entrys[index]._TerrainID, m_entrys[index]._TerrainName);
+		}
+		else
+		{
+			fprintf(fp, "\n0 null");
+		}
+	}
+
+	fclose(fp);
 }
 
 IE_END

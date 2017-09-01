@@ -15,7 +15,7 @@ IECreaturesInfoManager::~IECreaturesInfoManager()
 	for (unsigned int index = 0; index < m_creaturesInfoCount; index++)
 	{
 		__IE_RELEASE_DIF__(m_creaturesInfoList[index]._XML);
-		__IE_LUA_RELEASE__(m_creaturesInfoList[index]._LuaScript);
+		__IE_LUA_RELEASE__(m_creaturesInfoList[index]._LUA);
 	}
 	if (m_creaturesInfoList)
 	{
@@ -71,7 +71,7 @@ void IECreaturesInfoManager::LoadCreaturesInfo()
 		{
 			fileDir = IEString(m_creaturesInfoList[index]._CreatureName) << ".xml";
 
-			m_creaturesInfoList[index]._LuaScript = NULL;
+			m_creaturesInfoList[index]._LUA = NULL;
 			m_creaturesInfoList[index]._XML = IEXml::Create(fileDir.GetString());
 
 			//Ìî³äÊý¾Ý
@@ -90,7 +90,7 @@ void IECreaturesInfoManager::LoadCreaturesInfo()
 		}
 		else
 		{
-			m_creaturesInfoList[index]._LuaScript = NULL;
+			m_creaturesInfoList[index]._LUA = NULL;
 			m_creaturesInfoList[index]._XML = NULL;
 		}
 

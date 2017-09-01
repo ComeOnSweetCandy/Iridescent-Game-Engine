@@ -157,7 +157,7 @@ void IECreature::InitUnit(unsigned int creatureID, int creatureOrder)
 	BindPhysicNode(physicNode);
 
 	//脚本
-	lua_State * luaScript = m_info->_LuaScript;
+	lua_State * luaScript = m_info->_LUA;
 	if (!luaScript)
 	{
 		luaScript = luaL_newstate();
@@ -184,7 +184,7 @@ void IECreature::InitUnit(unsigned int creatureID, int creatureOrder)
 			__IE_WARNING__("IECreature : can not find luaScript file.\n");
 		}
 
-		m_info->_LuaScript = luaScript;
+		m_info->_LUA = luaScript;
 	}
 }
 
@@ -244,10 +244,10 @@ void IECreature::User()
 
 void IECreature::Await()
 {
-	if (AllocateLuaFunction(m_info->_LuaScript, "Await"))
+	if (AllocateLuaFunction(m_info->_LUA, "Await"))
 	{
-		SetLuaUserdataElement(m_info->_LuaScript, "self", "IECreature.IECreature", this);
-		lua_call(m_info->_LuaScript, 0, 0);
+		SetLuaUserdataElement(m_info->_LUA, "self", "IECreature.IECreature", this);
+		lua_call(m_info->_LUA, 0, 0);
 	}
 	else
 	{
@@ -259,10 +259,10 @@ void IECreature::Await()
 void IECreature::Warning(IECreature * creature)
 {
 	//由script来决定如何处理warning状态
-	if (AllocateLuaFunction(m_info->_LuaScript, "Warning"))
+	if (AllocateLuaFunction(m_info->_LUA, "Warning"))
 	{
-		SetLuaUserdataElement(m_info->_LuaScript, "self", "IECreature.IECreature", this);
-		lua_call(m_info->_LuaScript, 0, 0);
+		SetLuaUserdataElement(m_info->_LUA, "self", "IECreature.IECreature", this);
+		lua_call(m_info->_LUA, 0, 0);
 	}
 	else
 	{
@@ -279,10 +279,10 @@ void IECreature::BeAttacked()
 void IECreature::BeInterrupt()
 {
 	//由script来决定如何处理interrupt状态
-	if (AllocateLuaFunction(m_info->_LuaScript, "Interrupt"))
+	if (AllocateLuaFunction(m_info->_LUA, "Interrupt"))
 	{
-		SetLuaUserdataElement(m_info->_LuaScript, "self", "IECreature.IECreature", this);
-		lua_call(m_info->_LuaScript, 0, 0);
+		SetLuaUserdataElement(m_info->_LUA, "self", "IECreature.IECreature", this);
+		lua_call(m_info->_LUA, 0, 0);
 	}
 	else
 	{

@@ -114,6 +114,11 @@ void IETerrainArea::LoadChilds(IETerrainSerialization * blocksInfo, int chunkLoc
 	}
 }
 
+void IETerrainArea::RemoveChild(int locationX, int locationY)
+{
+	//...
+}
+
 IEChunk * IETerrainArea::CreateChunk()
 {
 	return IETerrainChunk::Create(m_chunkLength);
@@ -284,16 +289,16 @@ void IETerrainArea::MouseCancel()
 void IETerrainArea::MouseClick()
 {
 	//首先查看当前的模式
-	if (m_readyTerrainID == 0)
+	if (m_readyTerrainID)
+	{
+		AddChild(IEMouse::Share()->_MouseLocationX, IEMouse::Share()->_MouseLocationY);
+	}
+	else
 	{
 		//选择模式 对当前位置进行选择
 		m_choosen = GetBlock(IEMouse::Share()->_MouseLocationX, IEMouse::Share()->_MouseLocationY);
 
 		//会在一片地区显示choosen的所有的信息 编辑器下会显示
-	}
-	else
-	{
-		AddChild(IEMouse::Share()->_MouseLocationX, IEMouse::Share()->_MouseLocationY);
 	}
 }
 
