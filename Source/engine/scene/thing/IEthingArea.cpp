@@ -59,14 +59,16 @@ IEThing * IEThingArea::AddChild(int locationX, int locationY, unsigned char tiny
 	m_alters->Push(m_alter);
 
 	//创建一个新的thing
-	IEThing * thing = IEThing::Create(m_alter->_ThingID, m_alter->_Order);
-	//IEThing * thing = CreateThing(m_alter->_ThingID, m_alter->_Order);
+	//IEThing * thing = IEThing::Create(m_alter->_ThingID, m_alter->_Order);
+	IEThing * thing = CreateThing(m_alter->_ThingID, m_alter->_Order);
+	AddThing(thing, locationX, locationY, tinyLocationX, tinyLocationY);
+	//某些后续计算
+	thing->CalLasts();
 
 	//把物理信息喂入路径网格系统
-	m_map->BuildPath(thing->GetPhysicNode());
+	//m_map->BuildPath(thing->GetPhysicNode());
 
-	//放入当前场景中 
-	AddThing(thing, locationX, locationY, tinyLocationX, tinyLocationY);
+	//放入当前场景中
 
 	for (int index = 0; index < m_entrys[m_readyThingID]._OccupyCount; index++)
 	{
@@ -136,7 +138,7 @@ IEThing * IEThingArea::LoadChild(unsigned m_thingID, int locationX, int location
 	}
 
 	//... 这里的order的值是伪造的
-	IEThing * thing = IEThing::Create(m_thingID, 1);
+	IEThing * thing = IEThing::Create(0, m_thingID, 1);
 	thing->ChangeTexture((IEString(m_entrys[m_thingID]._ThingName) + "/body.png").GetString());
 	m_map->BuildPath(thing->GetPhysicNode());
 
@@ -271,9 +273,9 @@ void IEThingArea::SetReadyThing(unsigned int thingID)
 
 	if (m_readyThingID != 0)
 	{
-		IEPackerTexture * texture = IEPackerTexture::Create(m_entrys[thingID]._XML->FindChild("state", 0)->FindChild("texture"));
+		IEPackerTexture * texture = IEPackerTexture::Create(m_entrys[thingID]._XML->FindChild("texture"));
 		m_suspension->ChangeTexture(texture);
-		m_suspension->ChangeGroup("fork");
+		m_suspension->ChangeGroup("body");
 		m_suspension->SetDisplay(true);
 	}
 	else
@@ -330,7 +332,14 @@ void IEThingArea::MouseClick()
 {
 	if (m_readyThingID)
 	{
-		AddChild(IEMouse::Share()->_MouseLocationX, IEMouse::Share()->_MouseLocationY, IEMouse::Share()->_MouseTinyLocationX, IEMouse::Share()->_MouseTinyLocationY);
+		if (m_regularization)
+		{
+			AddChild(IEMouse::Share()->_MouseLocationX, IEMouse::Share()->_MouseLocationY, 0, 0);
+		}
+		else
+		{
+			AddChild(IEMouse::Share()->_MouseLocationX, IEMouse::Share()->_MouseLocationY, IEMouse::Share()->_MouseTinyLocationX, IEMouse::Share()->_MouseTinyLocationY);
+		}
 	}
 	else
 	{

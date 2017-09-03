@@ -67,7 +67,7 @@ protected:
 
 private:
 	void AddThing(IEThing * thing, int locationX, int locationY, unsigned char tinyLocationX, unsigned char tinyLocationY);				//将thing添加到当前场景中，相应的chunk中
-	void HoldThing(IEThing * thing, int locationX, int locationY, unsigned char tinyLocationX, unsigned char tinyLocationY){};			
+	void HoldThing(IEThing * thing, int locationX, int locationY, unsigned char tinyLocationX, unsigned char tinyLocationY);			
 	void EraseThing(int locationX, int locationY, unsigned char tinyLocationX, unsigned char tinyLocationY){};
 	void RemoveThing(int locationX, int locationY, unsigned char tinyLocationX, unsigned char tinyLocationY){};
 

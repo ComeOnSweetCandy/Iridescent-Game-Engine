@@ -17,7 +17,7 @@ IEFire::~IEFire()
 
 void IEFire::Initialization(unsigned int thingID, float distance)
 {
-	IEThing::Initialization(thingID);
+	IEThing::Initialization(0, thingID, 1);
 	IESprite::ChangeTexture("fire/body.png");
 
 	IEShader * shader = IEShader::Create("fire.glsl");

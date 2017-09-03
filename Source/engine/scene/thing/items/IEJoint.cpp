@@ -26,19 +26,24 @@ IEJoint::~IEJoint()
 
 }
 
-void IEJoint::Initialization(unsigned int thingID, unsigned int thingOrder)
+void IEJoint::Initialization(unsigned int thingType, unsigned int thingID, unsigned int thingOrder)
 {
-	IEThing::Initialization(thingID, thingOrder);
-
-	IEJoint::CheckRound();
+	IEThing::Initialization(thingType, thingID, thingOrder);
 }
 
-IEJoint * IEJoint::Create(unsigned int thingID, unsigned int thingOrder)
+IEJoint * IEJoint::Create(unsigned int thingType, unsigned int thingID, unsigned int thingOrder)
 {
-	return NULL;
+	IEJoint * thing = new IEJoint();
+	thing->Initialization(thingType, thingID, thingOrder);
+	return thing;
 }
 
-void IEJoint::CheckRound()
+void IEJoint::CalLasts()
+{
+	CheckAround();
+}
+
+void IEJoint::CheckAround()
 {
 	//对四周进行检测
 	static IEThingArea * area = IEApplication::Share()->GetCurrentActiveScene()->GetBindedMap()->GetThing();
@@ -52,9 +57,12 @@ void IEJoint::CheckRound()
 	for (unsigned char index = 0; index < 4; index++)
 	{
 		m_round[index] = false;
-		if (grids[index])
+
+		if (grids[index] && grids[index]->GetThingType() == m_thingType)
 		{
 			m_round[index] = true;
+			((IEJoint *)grids[index])->m_round[(index + 2) % 4] = true;
+			((IEJoint *)grids[index])->RereadSelf();
 		}
 	}
 
@@ -78,17 +86,18 @@ void IEJoint::RereadSelf()
 	if (aroundCount == 0)
 	{
 		//四面八方都没有一个thing
-		ChangeGroup("normal", 1);
+		ChangeGroup("body", 1);
+
+		m_direction2 = 0;		//方向数
 	}
 	else if (aroundCount == 1)
 	{
 		//四面八方只有一个thing
-		int direction = 0;
 		for (unsigned int index = 0; index < 4; index++)
 		{
 			if (m_round[index] == true)
 			{
-				direction = index;
+				m_direction2 = index;
 				break;
 			}
 		}
@@ -98,7 +107,6 @@ void IEJoint::RereadSelf()
 	else if (aroundCount == 2)
 	{
 		//为一条横 或者为一个折角
-		int direction;
 		int direction1 = -1;
 		int direction2 = -1;
 		for (unsigned int index = 0; index < 4; index++)
@@ -123,48 +131,47 @@ void IEJoint::RereadSelf()
 		if (direction1 + 1 == direction2)
 		{
 			//说明相邻
-			direction = direction1;
+			m_direction2 = direction1;
 			ChangeGroup("corner", 1);	//注意这里要调整方向
 		}
 		else if (direction1 == 0 && direction2 == 3)
 		{
 			//也说明相邻
-			direction = direction2;
+			m_direction2 = direction2;
 			ChangeGroup("corner", 1);	//注意这里要调整方向
 		}
 		else
 		{
 			//说明为一条直线
-			direction = direction1;
+			m_direction2 = direction1;
 			ChangeGroup("line", 1);	//注意这里要调整方向
 		}
 	}
 	else if (aroundCount == 3)
 	{
 		//四面八方有三个thing 找出不是thing的那一个面即可
-		int direction = 0;
 		for (unsigned int index = 0; index < 4; index++)
 		{
 			if (m_round[index] == false)
 			{
-				direction = index;
+				m_direction2 = index;
 				break;
 			}
 		}
 
-		direction = (direction + 2) % 4;
+		m_direction2 = (m_direction2 + 2) % 4;
 		ChangeGroup("fork", 1);	//注意这里要调整方向
 	}
 	else if (aroundCount == 4)
 	{
 		ChangeGroup("cross", 1);	//注意这里要调整方向
+
+		m_direction2 = 0;
 	}
 
-	m_direction;
-
 	//一旦调整完毕 joint将会以正确的方式显示出来
-	
-	//SwitchStateTo(1);
+
+
 
 }
 

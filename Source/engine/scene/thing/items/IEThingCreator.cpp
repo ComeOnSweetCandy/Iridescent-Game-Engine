@@ -26,15 +26,16 @@ IEThing * CreateThingByType(unsigned int thingID, unsigned int thingOrder)
 	if (thingType == 0)
 	{
 		//最普通类型的thing
-		return IEThing::Create(thingID, thingOrder);
+		return IEThing::Create(thingType, thingID, thingOrder);
 	}
 	else if (thingType == 1)
 	{
-		return IEJoint::Create(thingID, thingOrder);
+		return IEJoint::Create(thingType, thingID, thingOrder);
 	}
 	else
 	{
-		__IE_ERROR__("IEThingCreator : Function CreateThingByType error.\n");
+		return NULL;
+		__IE_WARNING__("IEThingCreator : Function CreateThingByType error.\n");
 	}
 }
 

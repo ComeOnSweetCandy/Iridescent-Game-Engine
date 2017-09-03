@@ -23,7 +23,7 @@ IEInteractionThing::~IEInteractionThing()
 
 void IEInteractionThing::Initialization(unsigned int thingID)
 {
-	IEThing::Initialization(thingID);
+	IEThing::Initialization(0, thingID,1);
 
 	BindInteractionTrigger();
 	PormptInitialization();
@@ -48,7 +48,7 @@ void IEInteractionThing::PormptInitialization()
 void IEInteractionThing::BindRelatedThing(IEThing * thing)
 {
 	m_relatedThing = thing;
-	m_relatedCreatedOrder = thing->GetOrder();
+	m_order = thing->GetOrder();
 }
 
 void IEInteractionThing::InteractiveNode(IENode * strikeNode)
@@ -61,22 +61,22 @@ void IEInteractionThing::InteractiveNode(IENode * strikeNode)
 		//对于绑定的元素进行状态切换
 		if (this == m_relatedThing)
 		{
-			this->SwitchState();
+			this->SwitchStateTo(1);
 		}
 		else
 		{
-			this->SwitchState();
+			this->SwitchStateTo(1);
 
 			if (m_relatedThing)
 			{
-				m_relatedThing->SwitchState();
+				m_relatedThing->SwitchStateTo(1);
 			}
-			else if (m_relatedCreatedOrder)
+			else if (m_order)
 			{
 				//find it
 
-				m_relatedThing = IEApplication::Share()->GetCurrentActiveScene()->GetBindedMap()->GetThing()->FindThingByOrder(m_relatedCreatedOrder);
-				m_relatedThing->SwitchState();
+				//m_relatedThing = IEApplication::Share()->GetCurrentActiveScene()->GetBindedMap()->GetThing()->FindThingByOrder(m_relatedCreatedOrder);
+				m_relatedThing->SwitchStateTo(1);
 			}
 		}
 	}

@@ -752,7 +752,8 @@ void IEMap::LoadThingChunk(int blockX, int blockY)
 			fread(m_thingBlocksList, sizeof(IEThingBlockFormat), m_unitChunkBlockCount, m_thingFile);
 			thingChunkIndex = thingChunkIndex->_Next;
 
-			m_curThing->LoadChild(blockX, blockY, m_thingBlocksList);
+			printf("things load »¹Ã»×ö");
+			//m_curThing->LoadChild(blockX, blockY, m_thingBlocksList);
 		}
 	}
 }

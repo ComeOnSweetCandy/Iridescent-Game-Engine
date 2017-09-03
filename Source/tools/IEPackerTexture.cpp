@@ -30,6 +30,7 @@ IEPackerTexture::~IEPackerTexture()
 			}
 			delete[]m_textureGroups[index]._Same;
 			delete[]m_textureGroups[index]._Name;
+			delete[]m_textureGroups[index]._Assort;
 		}
 		delete[]m_textureGroups;
 	}
@@ -117,6 +118,11 @@ void IEPackerTexture::GetTexture(IETextureUnitState * unitState)
 	unitState->_EndY = ((float)unitState->_Y + (float)unitState->_Height) / ((float)m_textureHeight);
 }
 
+void IEPackerTexture::ChangeAssort(IETextureUnitState * textureUnitState, const char * assortName)
+{
+
+}
+
 void IEPackerTexture::ChangeGroup(IETextureUnitState * textureUnitState, const char * groupName, unsigned char sameIndex)
 {
 	//先进行检测是否为重复修改group 
@@ -190,6 +196,12 @@ const char * IEPackerTexture::LoadXML(IEXml * xml)
 		m_textureGroups[index]._Name = new char[nameLength + 1];
 		strcpy(m_textureGroups[index]._Name, name);
 
+		//拷贝组别
+		const char * assort = xmls[index]->FindChild("assort")->ValueString();
+		int assortLength = strlen(assort);
+		m_textureGroups[index]._Assort = new char[assortLength + 1];
+		strcpy(m_textureGroups[index]._Assort, assort);
+
 		//获取同名的数目
 		m_textureGroups[index]._SameCount = xmls[index]->FindChild("sameCount")->ValueInt();
 		m_textureGroups[index]._Same = new IETextureSame[m_textureGroups[index]._SameCount];
@@ -217,6 +229,9 @@ void IEPackerTexture::ForgeryXML(const char * textureName)
 
 	m_textureGroups[0]._Name = new char[4];
 	strcpy(m_textureGroups[0]._Name, "def");
+
+	m_textureGroups[0]._Assort = new char[7];
+	strcpy(m_textureGroups[0]._Assort, "normal");
 
 	m_textureGroups[0]._SameCount = 1;
 	m_textureGroups[0]._Same = new IETextureSame[1];

@@ -18,7 +18,7 @@ IEBesiegeThing::~IEBesiegeThing()
 
 void IEBesiegeThing::Initialization(unsigned int thingID)
 {
-	IEThing::Initialization(thingID);
+	IEThing::Initialization(0, thingID, 1);
 
 	BindInteractionTrigger();
 }
@@ -45,7 +45,7 @@ void IEBesiegeThing::InteractiveNode(IENode * strikeNode)
 	lua_call(m_script, 0, 0);
 
 	//对于绑定的元素进行状态切换
-	m_relatedThing->SwitchState();
+	m_relatedThing->SwitchStateTo(1);
 }
 
 void IEBesiegeThing::DrawNode()

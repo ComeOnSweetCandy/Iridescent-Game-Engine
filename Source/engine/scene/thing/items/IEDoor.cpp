@@ -16,7 +16,7 @@ IEDoor::~IEDoor()
 
 void IEDoor::Initialization(unsigned int thingID)
 {
-	IEThing::Initialization(thingID);
+	IEThing::Initialization(0, thingID, 1);
 
 	//...
 	m_XML;

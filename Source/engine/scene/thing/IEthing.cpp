@@ -25,24 +25,37 @@ IEThing::~IEThing()
 	m_script = NULL;
 }
 
-void IEThing::Initialization(unsigned int thingID, unsigned int thingOrder)
+void IEThing::Initialization(unsigned int thingType, unsigned int thingID, unsigned int thingOrder)
 {
+	IEBlock::Initialization();
 	IENode::SetDrawMode(false);
+
+	IEThing::SetThingType(thingType);
 	IEThing::SetThingID(thingID);
 	IEThing::SetOrder(thingOrder);
 
-	IEThing::SwitchStateTo(0);
+	//IEThing::SwitchStateTo(0);
 	IEThing::SetRelatedOrder(0);
 
 	IEThing::LoadXML();
 	IEThing::LoadLUA();
 }
 
-IEThing * IEThing::Create(unsigned int thingID, unsigned int thingOrder)
+IEThing * IEThing::Create(unsigned int thingType, unsigned int thingID, unsigned int thingOrder)
 {
 	IEThing * sprite = new IEThing();
-	sprite->Initialization(thingID, thingOrder);
+	sprite->Initialization(thingType, thingID, thingOrder);
 	return sprite;
+}
+
+void IEThing::SetThingType(unsigned int thingType)
+{
+	m_thingType = thingType;
+}
+
+unsigned int IEThing::GetThingType()
+{
+	return m_thingType;
 }
 
 void IEThing::SetThingID(unsigned int adorningID)
@@ -105,14 +118,14 @@ void IEThing::SwitchStateTo(unsigned int stateIndex)
 
 	IEThingEntry * entrys = IEThingList::Share()->GetEntrys();
 	IEXml * _xml = entrys[m_thingID]._XML;
-	IEXml * _stateXML = _xml->FindChild("state", m_curState);
+	IEXml * _stateXML = _xml->FindChild("property")->FindChild("state", m_curState);
 
 	//首先调整物理信息
 	IEPhysicNode * physicNode = IEPhysicNode::Create(_stateXML->FindChild("physic"));
 	BindPhysicNode(physicNode);
 
 	//其次调整贴图信息
-	IEPackerTexture * texture = IEPackerTexture::Create(_stateXML->FindChild("texture"));
+	IEPackerTexture * texture = IEPackerTexture::Create(_xml->FindChild("texture"));
 	ChangeTexture(texture);
 
 	//下面是以往旧的脚本信息
@@ -138,6 +151,11 @@ void IEThing::SwitchStateTo(unsigned int stateIndex)
 	//ChangeGroup("normal");
 }
 
+void IEThing::CalLasts()
+{
+	//
+}
+
 void IEThing::LoadXML()
 {
 	if (m_thingID == 0)
@@ -149,16 +167,16 @@ void IEThing::LoadXML()
 	//获取当前状态下的XML
 	IEThingEntry * entrys = IEThingList::Share()->GetEntrys();
 	IEXml * _xml = entrys[m_thingID]._XML;
-	IEXml * _stateXML = _xml->FindChild("state", m_curState);
+	IEXml * _stateXML = _xml->FindChild("property")->FindChild("state", m_curState);
 
 	//设定该thing的物理状态
 	IEPhysicNode * physicNode = IEPhysicNode::Create(_stateXML->FindChild("physic"));
 	BindPhysicNode(physicNode);
 
 	//读取该thing的贴图
-	IEPackerTexture * texture = IEPackerTexture::Create(_stateXML->FindChild("texture"));
+	IEPackerTexture * texture = IEPackerTexture::Create(_xml->FindChild("texture"));
 	ChangeTexture(texture);
-	ChangeGroup("normal");
+	ChangeGroup("body");
 }
 
 void IEThing::LoadLUA()

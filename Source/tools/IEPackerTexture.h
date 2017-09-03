@@ -35,6 +35,7 @@ struct IETextureSame
 struct IETextureGroup
 {
 	char * _Name;
+	char * _Assort;
 	unsigned char _SameCount;
 	IETextureSame * _Same;
 };
@@ -71,6 +72,7 @@ public:
 public:
 	void GetTexture(IETextureUnitState * unitState);
 	void ChangeGroup(IETextureUnitState * textureUnitState, const char * groupName, unsigned char sameIndex);					//修改当前激活的贴图组 因为可能存在同名的group组 所以后面加上一个index 参数为0 代表随机一个index
+	void ChangeAssort(IETextureUnitState * textureUnitState, const char * assortName);
 
 private:
 	const char * LoadXML(IEXml * xml);							//读取xml

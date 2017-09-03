@@ -21,10 +21,12 @@ class __IE_DLL__ IEThing :public IEBlock
 public:
 	IEThing();
 	virtual ~IEThing();
-	virtual void Initialization(unsigned int thingID, unsigned int thingOrder);
-	static IEThing * Create(unsigned int thingID, unsigned int thingOrder);
+	virtual void Initialization(unsigned int thingType, unsigned int thingID, unsigned int thingOrder);
+	static IEThing * Create(unsigned int thingType, unsigned int thingID, unsigned int thingOrder);
 
 public:
+	void SetThingType(unsigned int thingType);
+	unsigned int GetThingType();
 	void SetThingID(unsigned int thingID);
 	unsigned int GetThingID();
 	void SetOrder(unsigned int order);
@@ -36,13 +38,15 @@ public:
 	void SetLocations(int blockLocationX, int blockLocationY, int tinyLocationX, int tinyLocationY);	//让thing记录其自身的的位置参数
 	int * GetLocations();																				//获取thing的位置参数
 
-	void SwitchStateTo(unsigned int stateIndex);
+	virtual void SwitchStateTo(unsigned int stateIndex);												//转换一种状态
+	virtual void CalLasts();																			//进行一些结尾的计算
 
 private:
 	void LoadXML();			//从XML中读取个人信息
 	void LoadLUA();			//加载脚本文件
 
 protected:
+	unsigned int m_thingType;				//thing的类型
 	unsigned int m_thingID;					//thing的ID
 	unsigned int m_order;					//该thing的序号
 	unsigned int m_relatedOrder;			//关联的物体的序号

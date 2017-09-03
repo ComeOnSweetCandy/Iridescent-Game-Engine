@@ -19,11 +19,14 @@ class __IE_DLL__ IEJoint :public IEThing
 public:
 	IEJoint();
 	virtual ~IEJoint();
-	virtual void Initialization(unsigned int thingID, unsigned int thingOrder);
-	static IEJoint * Create(unsigned int thingID, unsigned int thingOrder);
+	virtual void Initialization(unsigned int thingType, unsigned int thingID, unsigned int thingOrder);
+	static IEJoint * Create(unsigned int thingType, unsigned int thingID, unsigned int thingOrder);
+
+public:
+	virtual void CalLasts();
 
 protected:
-	void CheckRound();
+	void CheckAround();							//根据四周元素测算的同时，四周元素自身也进行计算。
 	void RereadSelf();
 
 private:
