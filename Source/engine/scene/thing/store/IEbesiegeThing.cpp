@@ -41,11 +41,11 @@ void IEBesiegeThing::InteractiveNode(IENode * strikeNode)
 	IECreature * strike = (IECreature *)strikeNode;
 
 	//执行施放函数
-	lua_getglobal(m_script, "Interaction");
-	lua_call(m_script, 0, 0);
+	lua_getglobal(m_LUA, "Interaction");
+	lua_call(m_LUA, 0, 0);
 
 	//对于绑定的元素进行状态切换
-	m_relatedThing->SwitchStateTo(1);
+	//m_relatedThing->SwitchStateTo(1);
 }
 
 void IEBesiegeThing::DrawNode()

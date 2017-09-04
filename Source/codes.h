@@ -74,33 +74,32 @@
 //IEPlayer * player = IEPlayer::Create(0);
 //scene->AddChild(player);
 
-//IEImage * images[10];
-//for (int i = 0; i < 10; i++)
-//{
-//	images[i] = IEImage::Create();
-//}
-//images[0]->LoadImageData("../Debug/data/texture/other/fire/body_0.png");
-//images[1]->LoadImageData("../Debug/data/texture/other/fire/body_1.png");
-//images[2]->LoadImageData("../Debug/data/texture/other/fire/body_2.png");
-//images[3]->LoadImageData("../Debug/data/texture/other/fire/body_3.png");
-//images[4]->LoadImageData("../Debug/data/texture/other/fire/body_0.png");
-//images[5]->LoadImageData("../Debug/data/texture/other/fire/body_1.png");
-//images[6]->LoadImageData("../Debug/data/texture/other/fire/body_2.png");
-//images[7]->LoadImageData("../Debug/data/texture/other/fire/body_3.png");
-//images[8]->LoadImageData("../Debug/data/texture/other/fire/icon_0.png");
-//images[9]->LoadImageData("../Debug/data/texture/other/fire/picked_0.png");
+//IETexturePacker * packer = IETexturePacker::Create("testWall");
 //
-//IETexturePacker * packer = IETexturePacker::Create("torch");
-//packer->AddImage(images[0], "body", 0.2f, 0);
-//packer->AddImage(images[1], "body", 0.5f, 0);
-//packer->AddImage(images[2], "body", 0.7f, 0);
-//packer->AddImage(images[3], "body", 1.0f, 0);
-//packer->AddImage(images[4], "body", 0.2f, 1);
-//packer->AddImage(images[5], "body", 0.5f, 1);
-//packer->AddImage(images[6], "body", 0.7f, 1);
-//packer->AddImage(images[7], "body", 1.0f, 1);
-//packer->AddImage(images[8], "icon", 2.0f, 0);
-//packer->AddImage(images[9], "picked", 2.0f, 0);
+//packer->AddImage("../Debug/data/texture/wall/body.png", "body", "normal", 0.0f, 0);
+//
+//packer->AddImage("../Debug/data/texture/wall/end_0.png", "end_0", "normal", 0.0f, 0);
+//packer->AddImage("../Debug/data/texture/wall/end_1.png", "end_1", "normal", 0.0f, 0);
+//packer->AddImage("../Debug/data/texture/wall/end_2.png", "end_2", "normal", 0.0f, 0);
+//packer->AddImage("../Debug/data/texture/wall/end_3.png", "end_3", "normal", 0.0f, 0);
+//
+//packer->AddImage("../Debug/data/texture/wall/line_0.png", "line_0", "normal", 0.0f, 0);
+//packer->AddImage("../Debug/data/texture/wall/line_1.png", "line_1", "normal", 0.0f, 0);
+//packer->AddImage("../Debug/data/texture/wall/line_2.png", "line_2", "normal", 0.0f, 0);
+//packer->AddImage("../Debug/data/texture/wall/line_3.png", "line_3", "normal", 0.0f, 0);
+//
+//packer->AddImage("../Debug/data/texture/wall/corner_0.png", "corner_0", "normal", 0.0f, 0);
+//packer->AddImage("../Debug/data/texture/wall/corner_1.png", "corner_1", "normal", 0.0f, 0);
+//packer->AddImage("../Debug/data/texture/wall/corner_2.png", "corner_2", "normal", 0.0f, 0);
+//packer->AddImage("../Debug/data/texture/wall/corner_3.png", "corner_3", "normal", 0.0f, 0);
+//
+//packer->AddImage("../Debug/data/texture/wall/fork_0.png", "fork_0", "normal", 0.0f, 0);
+//packer->AddImage("../Debug/data/texture/wall/fork_1.png", "fork_1", "normal", 0.0f, 0);
+//packer->AddImage("../Debug/data/texture/wall/fork_2.png", "fork_2", "normal", 0.0f, 0);
+//packer->AddImage("../Debug/data/texture/wall/fork_3.png", "fork_3", "normal", 0.0f, 0);
+//
+//packer->AddImage("../Debug/data/texture/wall/cross.png", "cross", "normal", 0.0f, 0);
+//
 //packer->SaveTexture();
 //packer->ReleaseDisreference();
 

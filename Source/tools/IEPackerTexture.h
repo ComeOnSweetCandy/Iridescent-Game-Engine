@@ -42,7 +42,14 @@ struct IETextureGroup
 
 struct IETextureUnitState
 {
+	IETextureUnitState()
+	{
+		_TextureID = 0;
+		strcpy(_AssortName, "normal");
+	}
+
 	GLuint _TextureID;
+	char _AssortName[64];			//当前要求的贴图组分组名
 	unsigned char _GroupIndex;
 	unsigned char _SameIndex;
 	unsigned char _FrapIndex;
@@ -71,8 +78,7 @@ public:
 
 public:
 	void GetTexture(IETextureUnitState * unitState);
-	void ChangeGroup(IETextureUnitState * textureUnitState, const char * groupName, unsigned char sameIndex);					//修改当前激活的贴图组 因为可能存在同名的group组 所以后面加上一个index 参数为0 代表随机一个index
-	void ChangeAssort(IETextureUnitState * textureUnitState, const char * assortName);
+	void ChangeGroup(IETextureUnitState * textureUnitState, const char * groupName, unsigned char sameIndex);					//特殊形式下的修改贴图组 因为要考虑到组别问题 修改当前激活的贴图组 因为可能存在同名的group组 所以后面加上一个index 参数为0 代表随机一个index
 
 private:
 	const char * LoadXML(IEXml * xml);							//读取xml

@@ -49,8 +49,8 @@ void IEMarbleGrid::LoadLUA()
 	IEMarbleInfo * terrainsInfo = IEMarblesInfoManager::Share()->GetMarblesInfoList();
 	IEString scriptName = pOBJECT_TO_cSTRING(SETTING["ScriptDir"]) + "marble/" + terrainsInfo[m_marbleID]._MarbleName + ".lua";
 
-	m_script = luaL_newstate();
-	luaL_openlibs(m_script);
+	m_LUA = luaL_newstate();
+	luaL_openlibs(m_LUA);
 
 	luaL_Reg lua_reg_libs[] =
 	{
@@ -63,20 +63,20 @@ void IEMarbleGrid::LoadLUA()
 
 	for (luaL_Reg * lua_reg = lua_reg_libs; lua_reg->func; ++lua_reg)
 	{
-		luaL_requiref(m_script, lua_reg->name, lua_reg->func, 1);
-		lua_pop(m_script, 1);
+		luaL_requiref(m_LUA, lua_reg->name, lua_reg->func, 1);
+		lua_pop(m_LUA, 1);
 	}
 
-	if (luaL_dofile(m_script, scriptName.GetString()) != 0)
+	if (luaL_dofile(m_LUA, scriptName.GetString()) != 0)
 	{
-		__IE_WARNING__("IEAttack : can not find m_script file.\n");
+		__IE_WARNING__("IEAttack : can not find m_LUA file.\n");
 	}
 
-	lua_getglobal(m_script, "CreateSoilPhysicNode");
-	lua_call(m_script, 0, 0);
+	lua_getglobal(m_LUA, "CreateSoilPhysicNode");
+	lua_call(m_LUA, 0, 0);
 
 	//绑定物理节点
-	IEPhysicNode * physicNode = (IEPhysicNode *)GetLuaUserdataElement(m_script, "terrainPhysicNode");
+	IEPhysicNode * physicNode = (IEPhysicNode *)GetLuaUserdataElement(m_LUA, "terrainPhysicNode");
 	if (physicNode)
 	{
 		BindPhysicNode(physicNode);

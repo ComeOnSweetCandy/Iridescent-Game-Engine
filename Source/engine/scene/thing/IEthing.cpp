@@ -22,7 +22,7 @@ IEThing::IEThing()
 
 IEThing::~IEThing()
 {
-	m_script = NULL;
+	m_LUA = NULL;
 }
 
 void IEThing::Initialization(unsigned int thingType, unsigned int thingID, unsigned int thingOrder)
@@ -111,22 +111,16 @@ bool IEThing::GetExpress()
 	return m_express;
 }
 
-void IEThing::SwitchStateTo(unsigned int stateIndex)
+void IEThing::SwitchStateTo(const char * stateName)
 {
 	//需要调整的为两项 物理信息 和 贴图信息
-	m_curState = stateIndex;
-
 	IEThingEntry * entrys = IEThingList::Share()->GetEntrys();
 	IEXml * _xml = entrys[m_thingID]._XML;
-	IEXml * _stateXML = _xml->FindChild("property")->FindChild("state", m_curState);
+	IEXml * _stateXML = _xml->FindChild("property")->FindChildWithParameter("state", "stateName", stateName);
 
 	//首先调整物理信息
 	IEPhysicNode * physicNode = IEPhysicNode::Create(_stateXML->FindChild("physic"));
 	BindPhysicNode(physicNode);
-
-	//其次调整贴图信息
-	IEPackerTexture * texture = IEPackerTexture::Create(_xml->FindChild("texture"));
-	ChangeTexture(texture);
 
 	//下面是以往旧的脚本信息
 	//if (!m_maxState)
@@ -140,10 +134,10 @@ void IEThing::SwitchStateTo(unsigned int stateIndex)
 	//	m_curState = 0;
 	//}
 
-	//if (AllocateLuaFunction(m_script, "ChangeState"))
+	//if (AllocateLuaFunction(m_LUA, "ChangeState"))
 	//{
-	//	lua_pushnumber(m_script, m_curState);
-	//	lua_call(m_script, 1, 0);
+	//	lua_pushnumber(m_LUA, m_curState);
+	//	lua_call(m_LUA, 1, 0);
 	//}
 
 	////两者应当互不影响
@@ -151,7 +145,7 @@ void IEThing::SwitchStateTo(unsigned int stateIndex)
 	//ChangeGroup("normal");
 }
 
-void IEThing::CalLasts()
+void IEThing::CallFinal()
 {
 	//
 }
@@ -164,30 +158,30 @@ void IEThing::LoadXML()
 		return;
 	}
 
-	//获取当前状态下的XML
+	//需要调整的为两项 物理信息 和 贴图信息
 	IEThingEntry * entrys = IEThingList::Share()->GetEntrys();
 	IEXml * _xml = entrys[m_thingID]._XML;
-	IEXml * _stateXML = _xml->FindChild("property")->FindChild("state", m_curState);
+	const char * _stateName = _xml->FindChild("property")->FindChild("defaultState")->ValueString();
+	IEXml * _stateXML = _xml->FindChild("property")->FindChildWithParameter("state", "stateName", _stateName);
 
-	//设定该thing的物理状态
+	//首先调整物理信息
 	IEPhysicNode * physicNode = IEPhysicNode::Create(_stateXML->FindChild("physic"));
 	BindPhysicNode(physicNode);
 
-	//读取该thing的贴图
+	//其次调整贴图信息
 	IEPackerTexture * texture = IEPackerTexture::Create(_xml->FindChild("texture"));
 	ChangeTexture(texture);
-	ChangeGroup("body");
 }
 
 void IEThing::LoadLUA()
 {
 	IEThingEntry * entrys = IEThingList::Share()->GetEntrys();
-	m_script = entrys[m_thingID]._LUA;
+	m_LUA = entrys[m_thingID]._LUA;
 
-	if (!m_script)
+	if (!m_LUA)
 	{
-		m_script = luaL_newstate();
-		luaL_openlibs(m_script);
+		m_LUA = luaL_newstate();
+		luaL_openlibs(m_LUA);
 
 		char scriptName[64];
 		sprintf(scriptName, "%s%s%s", "../Debug/data/script/thing/", entrys[m_thingID]._ThingName, ".lua");
@@ -204,24 +198,24 @@ void IEThing::LoadLUA()
 
 		for (luaL_Reg * lua_reg = lua_reg_libs; lua_reg->func; ++lua_reg)
 		{
-			luaL_requiref(m_script, lua_reg->name, lua_reg->func, 1);
-			lua_pop(m_script, 1);
+			luaL_requiref(m_LUA, lua_reg->name, lua_reg->func, 1);
+			lua_pop(m_LUA, 1);
 		}
 
-		if (luaL_dofile(m_script, scriptName) != 0)
+		if (luaL_dofile(m_LUA, scriptName) != 0)
 		{
-			__IE_WARNING__("IEAttack : can not find m_script file.\n");
+			__IE_WARNING__("IEAttack : can not find m_LUA file.\n");
 		}
 
-		entrys[m_thingID]._LUA = m_script;
+		entrys[m_thingID]._LUA = m_LUA;
 	}
 
 	//读取一些脚本变量
-	//m_maxState = GetLuaIntElement(m_script, "maxState");
+	//m_maxState = GetLuaIntElement(m_LUA, "maxState");
 
-	if (AllocateLuaFunction(m_script, "Init"))
+	if (AllocateLuaFunction(m_LUA, "Init"))
 	{
-		lua_call(m_script, 0, 0);
+		lua_call(m_LUA, 0, 0);
 		//lua_pushnumber(luaScript, thingID);
 		//IEThing * newThing = *((IEThing **)lua_touserdata(luaScript, -1));
 		//return newThing;

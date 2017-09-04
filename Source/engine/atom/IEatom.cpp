@@ -12,7 +12,7 @@ IEAtom::~IEAtom()
 {
 	//Die();
 
-	__IE_LUA_RELEASE__(m_script);
+	__IE_LUA_RELEASE__(m_LUA);
 }
 
 void IEAtom::Initialization()
@@ -51,26 +51,21 @@ void IEAtom::Die()
 
 }
 
-void IEAtom::SetTextureGroupName(const char * textureGroupName)
-{
-	m_textureGroupName = textureGroupName;
-}
-
-const char * IEAtom::GetTextureGroupName()
-{
-	return m_textureGroupName.GetString();
-}
-
 lua_State * IEAtom::GetLuaScript()
 {
-	return m_script;
+	return m_LUA;
 }
 
-void IEAtom::ChangeState(unsigned stateIndex)
+void IEAtom::ChangeState(const char * stateName)
 {
-	IEXml * state = m_XML->FindChild("state",stateIndex);
+	IEXml * state = m_XML->FindChild("state");
 
+	ChangeAssort(stateName);
+}
 
+void IEAtom::ChangeGroup(const char * groupName, unsigned int sameIndex)
+{
+	ChangeGroup(groupName, sameIndex);
 }
 
 IE_END

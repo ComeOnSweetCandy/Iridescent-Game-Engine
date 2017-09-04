@@ -17,9 +17,10 @@ IE_BEGIN
 
 enum __IE_DLL__ IEClockType
 {
-	__clock_time_type__,
-	__clock_strike_times_type__,
-	__clock_type_count__
+	__clock_none_type__,			//没有计时器
+	__clock_time_type__,			//时间计时器
+	__clock_strike_times_type__,	//撞击次数计数器
+	__clock_type_count__			//计时器类型计数
 };
 
 class __IE_DLL__ IEClock

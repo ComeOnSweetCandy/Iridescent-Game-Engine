@@ -33,10 +33,12 @@ IETexturePacker::~IETexturePacker()
 			nextSameGroup = nextSameGroup->_Next;
 
 			delete[]deletedSameGroup->_GroupName;
+			delete[]deletedSameGroup->_AssortName;
 			delete deletedSameGroup;
 		}
 
 		delete[]deletedGroup->_GroupName;
+		delete[]deletedGroup->_AssortName;
 		delete deletedGroup;
 	}
 }
@@ -60,7 +62,23 @@ IETexturePacker * IETexturePacker::Create(const char * textureName)
 	return texturePacker;
 }
 
-void IETexturePacker::AddImage(IEImage * image, const char * groupName, float endTime, unsigned char sameIndex)
+void IETexturePacker::AddImage(char * imageName, const char * groupName, const char * assortName, float endTime, unsigned char sameIndex)
+{
+	IEImage * image = IEImage::Create();
+	image->LoadImageData(imageName);
+
+	//防止为空
+	if (assortName == NULL || assortName[0] == '\0')
+	{
+		DealImage(image, groupName, "normal", endTime, sameIndex);
+	}
+	else
+	{
+		DealImage(image, groupName, assortName, endTime, sameIndex);
+	}
+}
+
+void IETexturePacker::DealImage(IEImage * image, const char * groupName, const char * assortName, float endTime, unsigned char sameIndex)
 {
 	IEPackedImage * element = new IEPackedImage();
 
@@ -82,7 +100,7 @@ void IETexturePacker::AddImage(IEImage * image, const char * groupName, float en
 	IEPackedGroup * lastSameGroup = NULL;
 	while (group)
 	{
-		if (strcmp(group->_GroupName, groupName) == 0)
+		if (strcmp(group->_GroupName, groupName) == 0 && strcmp(group->_AssortName,assortName) == 0)
 		{
 			//遍历same
 			IEPackedGroup * sameGroup = group;
@@ -116,8 +134,6 @@ __G0_LOOP__:
 	//如果没有找到
 	if (result == false)
 	{
-		int strLen = strlen(groupName) + 1;
-
 		IEPackedGroup * newGroup = new IEPackedGroup();
 		newGroup->_FrapsCount = 0;
 
@@ -143,8 +159,13 @@ __G0_LOOP__:
 			}
 		}
 
-		newGroup->_GroupName = new char[strLen];
+		int strLenGroup = strlen(groupName) + 1;
+		int strLenAssort = strlen(assortName) + 1;
+
+		newGroup->_GroupName = new char[strLenGroup];
 		strcpy(newGroup->_GroupName, groupName);
+		newGroup->_AssortName = new char[strLenAssort];
+		strcpy(newGroup->_AssortName, assortName);
 		newGroup->_Next = NULL;
 		newGroup->_Same = NULL;
 
@@ -194,8 +215,11 @@ void IETexturePacker::SaveTexture()
 		//写入xml文件
 		WriteToXml(p, "<group>");
 		//写入名字
-		IEString groupIndex = IEString("<name>") + group->_GroupName + "</name>";
-		WriteToXml(p, groupIndex.GetString());
+		IEString groupName = IEString("<name>") + group->_GroupName + "</name>";
+		WriteToXml(p, groupName.GetString());
+		//写入组别
+		IEString assortName = IEString("<assort>") + group->_AssortName + "</assort>";
+		WriteToXml(p, assortName.GetString());
 		//写入same count
 		IEString sameCount = IEString("<sameCount>") + group->_SameCount + "</sameCount>";
 		WriteToXml(p, sameCount.GetString());

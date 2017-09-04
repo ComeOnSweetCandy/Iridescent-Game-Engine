@@ -35,7 +35,7 @@
 //	unsigned int m_skillID;
 //	unsigned char m_skillLevel;
 //
-//	lua_State * m_script;
+//	lua_State * m_LUA;
 //};
 //
 //IE_END

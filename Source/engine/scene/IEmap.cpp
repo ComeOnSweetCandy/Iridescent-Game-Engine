@@ -151,7 +151,7 @@ void IEMap::LoadMap()
 {
 	m_curTerrain->LoadChunks();
 	//m_curMarble->LoadChunks();
-	m_curThing->LoadChunks();
+	//m_curThing->LoadChunks();
 	m_curPath->LoadChunks();
 }
 

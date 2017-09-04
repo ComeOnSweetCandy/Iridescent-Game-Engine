@@ -52,6 +52,7 @@ public:
 	const char * ValueString();
 	IEXml * FindChild(const char * key);
 	IEXml * FindChild(const char * key, unsigned int index);
+	IEXml * FindChildWithParameter(const char * key, const char * paramterKey, const char * paramterValue);			//找到一个child并且找对相对应的属性和值
 	IEContainer * FindChilds(const char * key);
 
 protected:

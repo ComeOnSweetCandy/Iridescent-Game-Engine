@@ -30,6 +30,7 @@ protected:
 	virtual void ReckonSize();
 
 public:
+	virtual void ChangeAssort(const char * assortName);								//更换贴图组别名
 	virtual void ChangeGroup(const char * groupName, unsigned int sameIndex = 1);	//更换贴图组 默认使用第一个texture group
 
 	void ChangeTexture(const char * textureName);									//直接更换贴图

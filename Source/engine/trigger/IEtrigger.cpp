@@ -1,6 +1,7 @@
 #define __IE_DLL_EXPORTS__
 #include "IEtrigger.h"
 
+#include "../atom/IEatom.h"
 #include "../atom/IEprop.h"
 #include "clock/IEfrapClock.h"
 #include "clock/IEstrikeClock.h"
@@ -63,6 +64,9 @@ IETriggerType IETrigger::GetTriggerType()
 
 void IETrigger::Collision(IEPhysicNode * physicNode)
 {
+	//这里随便测试一下
+	(m_attachAtom->*m_callback)(physicNode);
+
 	IENode * collisionNode = physicNode->GetBindedNode();
 	if (m_allowStrikeRepeat)
 	{
@@ -97,6 +101,14 @@ void IETrigger::SetClockEnd()
 bool IETrigger::GetClockEnd()
 {
 	return m_clock->IsEnd();
+}
+
+void IETrigger::AddTrigger(IETrggerStrike function, IEAtom * self)
+{
+	BindNode(self);
+
+	m_attachAtom = self;
+	m_callback = function;
 }
 
 IEClock * IETrigger::BuildClock(IEClockType clockType, int param)

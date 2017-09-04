@@ -13,6 +13,7 @@
 #include "../../core/element/IEsprite.h"
 #include "../../physic/IEphysicNode.h"
 #include "creature/action/IEActionMachine.h"
+#include "../trigger/IEtrigger.h"
 
 IE_BEGIN
 
@@ -32,17 +33,19 @@ protected:
 	virtual void Die();					//die时的处理
 
 public:
-	virtual void ChangeState(unsigned stateIndex);
-
-	void SetTextureGroupName(const char * name);
-	const char * GetTextureGroupName();
+	virtual void ChangeState(const char * stateName);									//改变事物当前的状态
+	virtual void ChangeGroup(const char * groupName, unsigned int sameIndex = 1);		//重载更改贴图组事件
 
 	lua_State * GetLuaScript();
 
+	void AddTrigger(IETrigger * trigger);		//添加一个触发器
+	void DelTrigger(IETriggerType type);		//删除一个触发器
+
 protected:
-	IEString m_textureGroupName;
-	lua_State * m_script;
-	IEXml * m_XML;
+	unsigned m_triggersCount;			//触发器计数
+	IETrigger * m_triggers;				//保存有所有类型的触发器
+	lua_State * m_LUA;					//脚本文件
+	IEXml * m_XML;						//资源信息文件
 
 	//显示当前的状态编号及最大状态值
 	unsigned int m_curStateIndex;

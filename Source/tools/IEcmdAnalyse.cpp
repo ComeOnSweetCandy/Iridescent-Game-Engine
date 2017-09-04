@@ -5,6 +5,7 @@
 
 #include "../interface/cmd/IEapplication.h"
 #include "../engine/scene/terrain/IETerrainArea.h"
+#include "../engine/scene/thing/IEthingArea.h"
 
 IE_BEGIN
 
@@ -142,7 +143,7 @@ bool IECmdAnalyse::SetCommand()
 
 		return true;
 	}
-	else if (field == "ready_terrain")
+	else if (field == "terrain")
 	{
 		if (m_commandSectionCount <= 2)return false;
 		if (m_commandSectionCount <= 3)return false;
@@ -154,6 +155,18 @@ bool IECmdAnalyse::SetCommand()
 		int terrainMode = strTerrainMode.transToInt();
 
 		IEApplication::Share()->GetCurrentActiveScene()->GetBindedMap()->GetTerrain()->SetReadyTerrain(terrainID, (IETerrainMode)terrainMode);
+
+		return true;
+	}
+	else if (field == "thing")
+	{
+		if (m_commandSectionCount <= 2)return false;
+
+		IEString strThingID = *(m_commandArrays[2]);
+
+		int thingID = strThingID.transToInt();
+
+		IEApplication::Share()->GetCurrentActiveScene()->GetBindedMap()->GetThing()->SetReadyThing(thingID);
 
 		return true;
 	}

@@ -38,7 +38,7 @@ IEJoint * IEJoint::Create(unsigned int thingType, unsigned int thingID, unsigned
 	return thing;
 }
 
-void IEJoint::CalLasts()
+void IEJoint::CallFinal()
 {
 	CheckAround();
 }
@@ -83,12 +83,15 @@ void IEJoint::RereadSelf()
 
 	//考虑到方向的问题。单个thing的方向应该是可以更改的。normal不存在方向问题
 	//这里是特殊thing，意味可以和旁边的同类joint或者thing连接在一起，从而改变状态
+	char finalGroupName[256];
+
 	if (aroundCount == 0)
 	{
 		//四面八方都没有一个thing
-		ChangeGroup("body", 1);
+		//ChangeGroup("body", 1);
 
 		m_direction2 = 0;		//方向数
+		sprintf(finalGroupName, "body");
 	}
 	else if (aroundCount == 1)
 	{
@@ -102,7 +105,8 @@ void IEJoint::RereadSelf()
 			}
 		}
 
-		ChangeGroup("end", 1);	//注意这里要调整方向
+		//ChangeGroup("end", 1);	//注意这里要调整方向
+		sprintf(finalGroupName, "end_%d", m_direction2);
 	}
 	else if (aroundCount == 2)
 	{
@@ -132,19 +136,22 @@ void IEJoint::RereadSelf()
 		{
 			//说明相邻
 			m_direction2 = direction1;
-			ChangeGroup("corner", 1);	//注意这里要调整方向
+			sprintf(finalGroupName, "corner_%d", m_direction2);
+			//ChangeGroup("corner", 1);	//注意这里要调整方向
 		}
 		else if (direction1 == 0 && direction2 == 3)
 		{
 			//也说明相邻
 			m_direction2 = direction2;
-			ChangeGroup("corner", 1);	//注意这里要调整方向
+			sprintf(finalGroupName, "corner_%d", m_direction2);
+			//ChangeGroup("corner", 1);	//注意这里要调整方向
 		}
 		else
 		{
 			//说明为一条直线
-			m_direction2 = direction1;
-			ChangeGroup("line", 1);	//注意这里要调整方向
+			m_direction2 = (direction1 + 1) % 4;
+			sprintf(finalGroupName, "line_%d", m_direction2);
+			//ChangeGroup("line", 1);	//注意这里要调整方向
 		}
 	}
 	else if (aroundCount == 3)
@@ -160,19 +167,19 @@ void IEJoint::RereadSelf()
 		}
 
 		m_direction2 = (m_direction2 + 2) % 4;
-		ChangeGroup("fork", 1);	//注意这里要调整方向
+		sprintf(finalGroupName, "fork_%d", m_direction2);
+		//ChangeGroup("fork", 1);	//注意这里要调整方向
 	}
 	else if (aroundCount == 4)
 	{
-		ChangeGroup("cross", 1);	//注意这里要调整方向
+		//ChangeGroup("cross", 1);	//注意这里要调整方向
 
 		m_direction2 = 0;
+		sprintf(finalGroupName, "cross");
 	}
 
 	//一旦调整完毕 joint将会以正确的方式显示出来
-
-
-
+	ChangeGroup(finalGroupName, 1);
 }
 
 void IEJoint::BuildTopSprite(unsigned int thingID)

@@ -104,6 +104,11 @@ do\
 {\
 	printf("%s\n", __content__); \
 }while (0)
+#define __IE_EDIT_DIALOG__(__content__)\
+do\
+{\
+	printf("EDIT WARNING : %s\n", __content__); \
+}while (0)
 #define __IE_ERROR__(__error__)\
 do\
 {\

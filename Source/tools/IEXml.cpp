@@ -99,6 +99,24 @@ IEXml * IEXml::FindChild(const char * key, unsigned int index)
 	return NULL;
 }
 
+IEXml * IEXml::FindChildWithParameter(const char * key, const char * paramterKey, const char * paramterValue)
+{
+	IEXmlStack * endElement = (IEXmlStack *)m_value;
+	while (endElement)
+	{
+		if (endElement->_XML->m_key == key)
+		{
+			if (strcmp(endElement->_XML->FindChild(paramterKey)->ValueString(), paramterValue) == 0)
+			{
+				return endElement->_XML;
+			}
+		}
+		endElement = endElement->_Next;
+	}
+
+	return NULL;
+}
+
 int IEXml::ValueInt()
 {
 	IEString * valueString = (IEString *)m_value;

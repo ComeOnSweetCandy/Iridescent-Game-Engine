@@ -28,6 +28,8 @@ typedef struct _ieThingEntry
 	_ieThingEntry()
 	{
 		_ThingID = 0;
+		_OccupyCount = 0;
+		_OccupyInfo = NULL;
 		_LUA = NULL;
 		_XML = NULL;
 	};

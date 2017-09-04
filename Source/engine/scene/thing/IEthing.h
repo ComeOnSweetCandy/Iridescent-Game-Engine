@@ -38,8 +38,8 @@ public:
 	void SetLocations(int blockLocationX, int blockLocationY, int tinyLocationX, int tinyLocationY);	//让thing记录其自身的的位置参数
 	int * GetLocations();																				//获取thing的位置参数
 
-	virtual void SwitchStateTo(unsigned int stateIndex);												//转换一种状态
-	virtual void CalLasts();																			//进行一些结尾的计算
+	virtual void SwitchStateTo(const char * stateName);													//转换一种状态
+	virtual void CallFinal();																			//当获取完了所有的信息后 进行一些结尾的计算
 
 private:
 	void LoadXML();			//从XML中读取个人信息

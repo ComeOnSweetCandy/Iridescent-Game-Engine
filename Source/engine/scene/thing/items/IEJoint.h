@@ -23,7 +23,7 @@ public:
 	static IEJoint * Create(unsigned int thingType, unsigned int thingID, unsigned int thingOrder);
 
 public:
-	virtual void CalLasts();
+	virtual void CallFinal();
 
 protected:
 	void CheckAround();							//根据四周元素测算的同时，四周元素自身也进行计算。

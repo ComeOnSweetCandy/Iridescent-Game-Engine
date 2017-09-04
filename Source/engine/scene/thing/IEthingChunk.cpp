@@ -10,7 +10,18 @@ IEThingChunk::IEThingChunk()
 
 IEThingChunk::~IEThingChunk()
 {
-
+	for (int mx = 0; mx < m_chunkLength; mx++)
+	{
+		for (int my = 0; my < m_chunkLength; my++)
+		{
+			delete[]m_thingsMatrix[mx][my];
+		}
+	}
+	for (int index = 0; index < m_chunkLength; index++)
+	{
+		delete[]m_thingsMatrix[index];
+	}
+	delete[]m_thingsMatrix;
 }
 
 void IEThingChunk::Initialization(int sideLength)

@@ -61,22 +61,22 @@ void IEInteractionThing::InteractiveNode(IENode * strikeNode)
 		//对于绑定的元素进行状态切换
 		if (this == m_relatedThing)
 		{
-			this->SwitchStateTo(1);
+			//this->SwitchStateTo(1);
 		}
 		else
 		{
-			this->SwitchStateTo(1);
+			//this->SwitchStateTo(1);
 
 			if (m_relatedThing)
 			{
-				m_relatedThing->SwitchStateTo(1);
+				//m_relatedThing->SwitchStateTo(1);
 			}
 			else if (m_order)
 			{
 				//find it
 
 				//m_relatedThing = IEApplication::Share()->GetCurrentActiveScene()->GetBindedMap()->GetThing()->FindThingByOrder(m_relatedCreatedOrder);
-				m_relatedThing->SwitchStateTo(1);
+				//m_relatedThing->SwitchStateTo(1);
 			}
 		}
 	}

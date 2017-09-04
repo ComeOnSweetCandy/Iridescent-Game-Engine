@@ -3,6 +3,7 @@
 
 #include "../IEThingList.h"
 #include "IEJoint.h"
+#include "IEDoor.h"
 
 //#include "../../script/IEluaPhysicPolygon.h"
 //#include "../../script/IEluaPhysicNode.h"
@@ -31,6 +32,10 @@ IEThing * CreateThingByType(unsigned int thingID, unsigned int thingOrder)
 	else if (thingType == 1)
 	{
 		return IEJoint::Create(thingType, thingID, thingOrder);
+	}
+	else if (thingType == 2)
+	{
+		return IEDoor::Create(thingType, thingID, thingOrder);
 	}
 	else
 	{

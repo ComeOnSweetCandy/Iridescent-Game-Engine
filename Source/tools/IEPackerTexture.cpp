@@ -118,19 +118,13 @@ void IEPackerTexture::GetTexture(IETextureUnitState * unitState)
 	unitState->_EndY = ((float)unitState->_Y + (float)unitState->_Height) / ((float)m_textureHeight);
 }
 
-void IEPackerTexture::ChangeAssort(IETextureUnitState * textureUnitState, const char * assortName)
-{
-
-}
-
 void IEPackerTexture::ChangeGroup(IETextureUnitState * textureUnitState, const char * groupName, unsigned char sameIndex)
 {
-	//先进行检测是否为重复修改group 
+	//先进行检测是否为重复修改group 且为同一个assort
 	//但是首先得确定 之前一个groupIndex为空 也就是textureID是否为零
 	if (textureUnitState->_TextureID != 0)
 	{
-		int res = strcmp(m_textureGroups[textureUnitState->_GroupIndex]._Name, groupName);
-		if (res == 0)
+		if (strcmp(m_textureGroups[textureUnitState->_GroupIndex]._Name, groupName) == 0 && strcmp(m_textureGroups[textureUnitState->_GroupIndex]._Name, textureUnitState->_AssortName) == 0)
 		{
 			if (sameIndex - 1 == textureUnitState->_SameIndex)
 			{
@@ -141,8 +135,7 @@ void IEPackerTexture::ChangeGroup(IETextureUnitState * textureUnitState, const c
 
 	for (unsigned char index = 0; index < m_groupCount; index++)
 	{
-		int res = strcmp(m_textureGroups[index]._Name, groupName);
-		if (res == 0)
+		if (strcmp(m_textureGroups[index]._Name, groupName) == 0 && strcmp(m_textureGroups[index]._Assort, textureUnitState->_AssortName) == 0)
 		{
 			if (sameIndex>m_textureGroups[index]._SameCount)
 			{

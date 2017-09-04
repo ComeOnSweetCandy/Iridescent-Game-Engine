@@ -17,6 +17,7 @@ IE_BEGIN
 typedef struct __iePackedGroup
 {
 	char * _GroupName;
+	char * _AssortName;
 	unsigned short _GroupIndex;
 	unsigned short _SameIndex;
 	unsigned short _SameCount;
@@ -60,8 +61,10 @@ public:
 	static IETexturePacker * Create(const char * textureName);
 
 public:
-	void AddImage(IEImage * image, const char * groupName, float endTime = 0.0f, unsigned char sameIndex = 0);		//放入image的数据时，也填充group
-	void SaveTexture();											//生成新的贴图并且存储于本地 同时生成plist文件
+	void AddImage(char * imageName, const char * groupName, const char * assortName, float endTime = 0.0f, unsigned char sameIndex = 0);		//增加一个排序名
+	void DealImage(IEImage * image, const char * groupName, const char * assortName, float endTime = 0.0f, unsigned char sameIndex = 0);
+	//void AddImage(IEImage * image, const char * groupName, float endTime = 0.0f, unsigned char sameIndex = 0);								//放入image的数据时，也填充group
+	void SaveTexture();																															//生成新的贴图并且存储于本地 同时生成plist文件
 
 private:
 	IEContainer * Recombine();									//生成贴图组的存放的各种数据信息

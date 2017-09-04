@@ -23,7 +23,7 @@ IE_BEGIN
 
 IECreature::IECreature()
 {
-	m_script = NULL;
+	m_LUA = NULL;
 	m_unit = NULL;
 	m_actionMachine = NULL;
 
