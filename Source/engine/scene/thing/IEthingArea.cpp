@@ -273,7 +273,7 @@ void IEThingArea::SetReadyThing(unsigned int thingID)
 	{
 		IEPackerTexture * texture = IEPackerTexture::Create(m_entrys[thingID]._XML->FindChild("texture"));
 		m_suspension->ChangeTexture(texture);
-		m_suspension->ChangeGroup("body");
+		m_suspension->ChangeGroup("default");
 		m_suspension->SetDisplay(true);
 	}
 	else

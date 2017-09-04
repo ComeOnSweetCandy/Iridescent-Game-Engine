@@ -58,14 +58,14 @@ lua_State * IEAtom::GetLuaScript()
 
 void IEAtom::ChangeState(const char * stateName)
 {
-	IEXml * state = m_XML->FindChild("state");
+	//IEXml * state = m_XML->FindChild("state");
 
 	ChangeAssort(stateName);
 }
 
 void IEAtom::ChangeGroup(const char * groupName, unsigned int sameIndex)
 {
-	ChangeGroup(groupName, sameIndex);
+	IESprite::ChangeGroup(groupName, sameIndex);
 }
 
 IE_END

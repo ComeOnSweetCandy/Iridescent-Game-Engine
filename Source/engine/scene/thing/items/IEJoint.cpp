@@ -179,6 +179,7 @@ void IEJoint::RereadSelf()
 	}
 
 	//一旦调整完毕 joint将会以正确的方式显示出来
+	ChangeState("normal");
 	ChangeGroup(finalGroupName, 1);
 }
 

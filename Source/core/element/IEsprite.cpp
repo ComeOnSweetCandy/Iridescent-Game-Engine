@@ -126,8 +126,11 @@ void IESprite::ChangeAssort(const char * assortName)
 		//拷贝一份 分类组名
 		strcpy(m_textureUnit->_AssortName, assortName);
 
-		//重新获取新的贴图组
-		m_texture->ChangeGroup(m_textureUnit, m_texture->m_textureGroups[m_textureUnit->_GroupIndex]._Name, m_textureUnit->_SameIndex);
+		if (m_textureUnit->_TextureID != 0)
+		{
+			//重新获取新的贴图组
+			m_texture->ChangeGroup(m_textureUnit, m_texture->m_textureGroups[m_textureUnit->_GroupIndex]._Name, m_textureUnit->_SameIndex);
+		}
 	}
 }
 

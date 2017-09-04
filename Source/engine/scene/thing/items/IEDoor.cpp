@@ -29,9 +29,9 @@ void IEDoor::Initialization(unsigned int thingType, unsigned int thingID, unsign
 
 IEDoor * IEDoor::Create(unsigned int thingType, unsigned int thingID, unsigned int thingOrder)
 {
-	IEDoor * light = new IEDoor();
-	light->Initialization(thingType, thingID, thingOrder);
-	return light;
+	IEDoor * thing = new IEDoor();
+	thing->Initialization(thingType, thingID, thingOrder);
+	return thing;
 }
 
 void IEDoor::Live()
@@ -86,7 +86,7 @@ void IEDoor::CheckAround()
 	{
 		around[index] = false;
 
-		if (grids[index] && grids[index]->GetThingType() == m_thingType)
+		if (grids[index] && grids[index]->GetThingType() == 1)
 		{
 			around[index] = true;
 		}
@@ -108,6 +108,9 @@ void IEDoor::CheckAround()
 	{
 		__IE_EDIT_DIALOG__("you can't add a door to such a place.\n");
 	}
+
+	ChangeState("close");
+	ChangeGroup(finalGroupName, 1);
 }
 
 void IEDoor::TriggerStrike(IEPhysicNode * physicNode)

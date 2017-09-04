@@ -40,6 +40,7 @@ public:
 
 	virtual void SwitchStateTo(const char * stateName);													//转换一种状态
 	virtual void CallFinal();																			//当获取完了所有的信息后 进行一些结尾的计算
+	virtual void CheckAround(bool active);																//对周围进行检查 active代表 是自发性检查 还是周围元素驱使下的检查 主要防止递归调用
 
 private:
 	void LoadXML();			//从XML中读取个人信息
