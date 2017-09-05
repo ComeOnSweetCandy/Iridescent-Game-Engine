@@ -177,11 +177,11 @@ void IEPhysicNode::DrawPhysicNode()
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
-	float a = 0.3f;
+	float a = 1.3f;
 	switch (m_collisionState)
 	{
 	case IridescentEngine::__collision_safe__:
-		glColor4f(0.0f, 5.0f, 0.0f, a);
+		glColor4f(0.0f, 1.0f, 0.0f, a);
 		break;
 	case IridescentEngine::__collision_warning__:
 		glColor4f(1.0f, 1.0f, 0.0f, a);

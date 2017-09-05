@@ -99,9 +99,6 @@ void IESprite::ChangeTexture(const char * textureName)
 
 	m_texture = IEPackerTexture::Create(textureName);
 	m_texture->Retain();
-	//ChangeGroup("default");
-
-	ReckonSize();
 }
 
 void IESprite::ChangeTexture(IEPackerTexture * packerTexture)
@@ -115,8 +112,6 @@ void IESprite::ChangeTexture(IEPackerTexture * packerTexture)
 
 	m_texture = packerTexture;
 	m_texture->Retain();
-
-	ReckonSize();
 }
 
 void IESprite::ChangeAssort(const char * assortName)
@@ -140,6 +135,9 @@ void IESprite::ChangeGroup(const char * groupName, unsigned int sameIndex)
 	{
 		//获取新的贴图组
 		m_texture->ChangeGroup(m_textureUnit, groupName, sameIndex);
+
+		//重新计算一些东西
+		ReckonSize();
 	}
 }
 

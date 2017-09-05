@@ -41,11 +41,13 @@ void IEInductionDoor::Live()
 		//跟上一次状态不一样 那么
 		if (m_switch == true)
 		{
-			ChangeState("open");
+			//ChangeState("open");
+			m_physicNode->SetPhysicNodeType(__physic_air_node__);
 		}
 		else if (m_switch == false)
 		{
-			ChangeState("close");
+			//ChangeState("close");
+			m_physicNode->SetPhysicNodeType(__physic_static_node__);
 		}
 	}
 
@@ -91,8 +93,10 @@ void IEInductionDoor::BindTriggers()
 	//设定触发器
 	IEPhysicCircleInfo * in = new IEPhysicCircleInfo();
 	in->m_physicEdgeType = __edge_circle__;
-	in->m_radius = 2.0f;
+	in->m_radius = 1.0f;
 	in->m_vertexsCount = 16;
+	in->m_offsetPosition[0] = 0.5f;
+	in->m_offsetPosition[1] = 0.5f;
 
 	IEPhysicCircle * edge = IEPhysicCircle::Create(in);
 	m_triggers = IEWarnTrigger::Create(edge, __physic_air_node__, true, true);				//建立一个永久有效的warn触发器

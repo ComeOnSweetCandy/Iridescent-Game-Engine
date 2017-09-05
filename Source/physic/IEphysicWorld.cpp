@@ -9,7 +9,7 @@ IE_BEGIN
 IEPhysicWorld::IEPhysicWorld()
 {
 	m_physicNodeArrays = NULL;
-	m_displayPhysicNode = false;
+	m_displayPhysicNode = true;
 }
 
 IEPhysicWorld::~IEPhysicWorld()

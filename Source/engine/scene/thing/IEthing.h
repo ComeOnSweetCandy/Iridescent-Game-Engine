@@ -38,7 +38,7 @@ public:
 	void SetLocations(int blockLocationX, int blockLocationY, int tinyLocationX, int tinyLocationY);	//让thing记录其自身的的位置参数
 	int * GetLocations();																				//获取thing的位置参数
 
-	virtual void SwitchStateTo(const char * stateName);													//转换一种状态
+	virtual void ChangeState(const char * stateName);													//转换一种状态
 	virtual void CheckAround(bool active);																//对周围进行检查 active代表 是自发性检查 还是周围元素驱使下的检查 主要防止递归调用
 
 private:

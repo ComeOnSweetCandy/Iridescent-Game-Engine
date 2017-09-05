@@ -111,7 +111,7 @@ bool IEThing::GetExpress()
 	return m_express;
 }
 
-void IEThing::SwitchStateTo(const char * stateName)
+void IEThing::ChangeState(const char * stateName)
 {
 	//需要调整的为两项 物理信息 和 贴图信息
 	IEThingEntry * entrys = IEThingList::Share()->GetEntrys();
@@ -120,7 +120,11 @@ void IEThing::SwitchStateTo(const char * stateName)
 
 	//首先调整物理信息
 	IEPhysicNode * physicNode = IEPhysicNode::Create(_stateXML->FindChild("physic"));
+	physicNode->SetPhysicPosition(m_physicNode->GetPhysicPosition()[0], m_physicNode->GetPhysicPosition()[1]);
 	BindPhysicNode(physicNode);
+
+	//调整贴图组
+	ChangeAssort(stateName);
 
 	//下面是以往旧的脚本信息
 	//if (!m_maxState)
