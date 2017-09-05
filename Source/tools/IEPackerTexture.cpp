@@ -101,8 +101,26 @@ void IEPackerTexture::GetTexture(IETextureUnitState * unitState)
 
 		if (frapIndex >= m_textureGroups[groupIndex]._Same[sameIndex]._FrapsCount)
 		{
-			frapIndex = 0;
-			unitState->_CurTime = 0.0f;
+			//这里先做检测 检测是否有播放限制
+			if (unitState->_PlayLimit == true)
+			{
+				if (unitState->_PlayTimes == 0)
+				{
+					//应当结束了 重置textureID为0 重置限制 且调用回调函数
+					unitState->_TextureID = 0;
+					unitState->ResetLimit();
+					((unitState->_Sprite)->*(unitState->_Function))();
+				}
+				else
+				{
+					unitState->_PlayTimes--;
+				}
+			}
+			else
+			{
+				frapIndex = 0;
+				unitState->_CurTime = 0.0f;
+			}
 		}
 	}
 
@@ -164,6 +182,18 @@ void IEPackerTexture::ChangeGroup(IETextureUnitState * textureUnitState, const c
 
 	//如果没有找到
 	textureUnitState->_TextureID = 0;
+}
+
+void IEPackerTexture::ChangeGroup(IETextureUnitState * textureUnitState, const char * groupName, unsigned char sameIndex, unsigned int playTimes, IESprite * sprite, IEFunctionTexturePlayEnded playEndedFunction)
+{
+	//先将信息灌入
+	textureUnitState->_PlayLimit = true;
+	textureUnitState->_PlayTimes = playTimes;
+	textureUnitState->_Sprite = sprite;
+	textureUnitState->_Function = playEndedFunction;
+
+	//调用正常状态下的函数
+	ChangeGroup(textureUnitState, groupName, sameIndex);
 }
 
 const char * IEPackerTexture::LoadXML(IEXml * xml)

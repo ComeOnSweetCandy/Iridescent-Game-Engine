@@ -145,11 +145,6 @@ void IEThing::SwitchStateTo(const char * stateName)
 	//ChangeGroup("normal");
 }
 
-void IEThing::CallFinal()
-{
-	__IE_WARNING__("IEThing : CallFinal. need to rewrite.\n");
-}
-
 void IEThing::CheckAround(bool active)
 {
 	__IE_WARNING__("IEThing : CheckAround. need to rewrite.\n");

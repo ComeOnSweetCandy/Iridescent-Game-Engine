@@ -29,6 +29,7 @@ public:
 public:
 	virtual void Run();
 	void AddTrigger(IETrigger * trigger);
+	void DelTrigger(IETrigger * trigger);
 
 private:
 	IEContainer * m_triggers;

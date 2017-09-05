@@ -1,40 +1,38 @@
 #define __IE_DLL_EXPORTS__
-#include "IEDoor.h"
+#include "IEInductionDoor.h"
 
-#include "../IEThingList.h"
 #include "../IEthingArea.h"
 
 #include "../../../../interface/cmd/IEapplication.h"
 
-#include "../../../trigger/IEtrigger.h"
 #include "../../../../physic/physicEdge/IEphysicCircle.h"
-#include "../../../trigger/IEinteractionTrigger.h"
+#include "../../../trigger/IEWarnTrigger.h"
 
 IE_BEGIN
 
-IEDoor::IEDoor()
+IEInductionDoor::IEInductionDoor()
 {
 	m_switch = false;
 }
 
-IEDoor::~IEDoor()
+IEInductionDoor::~IEInductionDoor()
 {
 
 }
 
-void IEDoor::Initialization(unsigned int thingType, unsigned int thingID, unsigned int thingOrder)
+void IEInductionDoor::Initialization(unsigned int thingType, unsigned int thingID, unsigned int thingOrder)
 {
 	IEThing::Initialization(thingType, thingID, thingOrder);
 }
 
-IEDoor * IEDoor::Create(unsigned int thingType, unsigned int thingID, unsigned int thingOrder)
+IEInductionDoor * IEInductionDoor::Create(unsigned int thingType, unsigned int thingID, unsigned int thingOrder)
 {
-	IEDoor * thing = new IEDoor();
+	IEInductionDoor * thing = new IEInductionDoor();
 	thing->Initialization(thingType, thingID, thingOrder);
 	return thing;
 }
 
-void IEDoor::Live()
+void IEInductionDoor::Live()
 {
 	static bool lastSwitch = false;
 
@@ -51,31 +49,17 @@ void IEDoor::Live()
 		}
 	}
 
+	//这里应该设定一个 执行一次动画后 回调一个函数
+
 	lastSwitch = m_switch;
 	m_switch = false;
 }
 
-void IEDoor::CallFinal()
-{
-	CheckAround();
-
-	//设定触发器
-	IEPhysicCircleInfo * in = new IEPhysicCircleInfo();
-	in->m_physicEdgeType = __edge_circle__;
-	in->m_radius = 1.5f;
-	in->m_vertexsCount = 32;
-
-	IEPhysicCircle * attackPhysicEdge = IEPhysicCircle::Create(in);
-	m_triggers = IEInteractionTrigger::Create(attackPhysicEdge, __physic_air_node__, __clock_strike_times_type__, 0);
-	m_triggers->AddTrigger(IETrggerStrike(&IEDoor::TriggerStrike), this);
-}
-
-void IEDoor::CheckAround()
+void IEInductionDoor::CheckAround(bool active)
 {
 	//对四周进行检测
 	static IEThingArea * area = IEApplication::Share()->GetCurrentActiveScene()->GetBindedMap()->GetThing();
 
-	bool around[4];
 	IEThing * grids[4];
 	grids[0] = area->GetThing(m_locations[0], m_locations[1] - 1, m_locations[2], m_locations[3]);
 	grids[1] = area->GetThing(m_locations[0] + 1, m_locations[1], m_locations[2], m_locations[3]);
@@ -84,39 +68,59 @@ void IEDoor::CheckAround()
 
 	for (unsigned char index = 0; index < 4; index++)
 	{
-		around[index] = false;
+		m_round[index] = false;
 
 		if (grids[index] && grids[index]->GetThingType() == 1)
 		{
-			around[index] = true;
+			m_round[index] = true;
 		}
 	}
 
+	BindTriggers();
+	RereadSelf();
+}
+
+void IEInductionDoor::TriggerStrike(IEPhysicNode * physicNode)
+{
+	//说明被触发了 这个时候转换状态
+	m_switch = true;
+}
+
+void IEInductionDoor::BindTriggers()
+{
+	//设定触发器
+	IEPhysicCircleInfo * in = new IEPhysicCircleInfo();
+	in->m_physicEdgeType = __edge_circle__;
+	in->m_radius = 2.0f;
+	in->m_vertexsCount = 16;
+
+	IEPhysicCircle * edge = IEPhysicCircle::Create(in);
+	m_triggers = IEWarnTrigger::Create(edge, __physic_air_node__, true, true);				//建立一个永久有效的warn触发器
+	m_triggers->ActivateTrigger(this, IETrggerStrike(&IEInductionDoor::TriggerStrike));		//激活触发器
+}
+
+void IEInductionDoor::RereadSelf()
+{
 	//如果对边 为true
 	//必须考虑门的方向 只有hr vr两种方向
 	char finalGroupName[256];
 
-	if (around[0] == true && around[2] == true && around[1] == false && around[3] == false)
+	if (m_round[0] == true && m_round[2] == true && m_round[1] == false && m_round[3] == false)
 	{
 		sprintf(finalGroupName, "line_%d", 1);
 	}
-	else if (around[0] == false && around[2] == false && around[1] == true && around[3] == true)
+	else if (m_round[0] == false && m_round[2] == false && m_round[1] == true && m_round[3] == true)
 	{
 		sprintf(finalGroupName, "line_%d", 0);
 	}
 	else
 	{
+		sprintf(finalGroupName, "line_%d", 0);
 		__IE_EDIT_DIALOG__("you can't add a door to such a place.\n");
 	}
 
 	ChangeState("close");
 	ChangeGroup(finalGroupName, 1);
-}
-
-void IEDoor::TriggerStrike(IEPhysicNode * physicNode)
-{
-	//说明被触发了 这个时候转换状态
-	m_switch = true;
 }
 
 IE_END

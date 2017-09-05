@@ -19,8 +19,8 @@ class __IE_DLL__ IEInteractionTrigger :public IETrigger
 public:
 	IEInteractionTrigger();
 	virtual ~IEInteractionTrigger();
-	virtual void Initialization(IEPhysicEdge * physicEdge, IEPhysicNodeType physicNodeType, IEClockType clockType, int param);
-	static IEInteractionTrigger * Create(IEPhysicEdge * physicEdge, IEPhysicNodeType physicNodeType, IEClockType clockType, int param);
+	virtual void Initialization(IEPhysicEdge * physicEdge, IEPhysicNodeType physicNodeType, bool allowStrikeRepeat, bool allowStrikeRepeatByOne);
+	static IEInteractionTrigger * Create(IEPhysicEdge * physicEdge, IEPhysicNodeType physicNodeType, bool allowStrikeRepeat, bool allowStrikeRepeatByOne);
 
 protected:
 	virtual void Collision(IEPhysicNode * physicNode);

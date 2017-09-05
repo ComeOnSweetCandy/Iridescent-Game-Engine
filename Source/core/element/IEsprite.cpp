@@ -143,6 +143,15 @@ void IESprite::ChangeGroup(const char * groupName, unsigned int sameIndex)
 	}
 }
 
+void IESprite::ChangeGroup(const char * groupName, unsigned int sameIndex, unsigned int playTimes, IESprite * sprite, IEFunctionTexturePlayEnded playEndedFunction)
+{
+	if (m_texture)
+	{
+		//获取新的贴图组
+		m_texture->ChangeGroup(m_textureUnit, groupName, sameIndex, playTimes, sprite, playEndedFunction);
+	}
+}
+
 IETextureUnitState * IESprite::GetTextureUnitState()
 {
 	return m_textureUnit;

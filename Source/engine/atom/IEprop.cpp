@@ -78,7 +78,7 @@ void IEProp::ClearTriggers()
 	{
 		if (m_triggers[index])
 		{
-			m_triggers[index]->SetClockEnd();
+			//m_triggers[index]->SetClockEnd();
 			m_triggers[index]->BindNode(NULL);
 			m_triggers[index] = NULL;
 		}

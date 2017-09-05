@@ -10,7 +10,7 @@
 //#ifndef __IE_FOLLOW__
 //#define __IE_FOLLOW__
 //
-//#include "../../IEatom.h"
+//#include "../../IEAtom.h"
 //#include "IEaction.h"
 //
 //IE_BEGIN

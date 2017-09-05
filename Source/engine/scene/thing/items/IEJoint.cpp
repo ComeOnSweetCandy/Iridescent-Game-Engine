@@ -38,12 +38,7 @@ IEJoint * IEJoint::Create(unsigned int thingType, unsigned int thingID, unsigned
 	return thing;
 }
 
-void IEJoint::CallFinal()
-{
-	CheckAround();
-}
-
-void IEJoint::CheckAround()
+void IEJoint::CheckAround(bool active)
 {
 	//对四周进行检测
 	static IEThingArea * area = IEApplication::Share()->GetCurrentActiveScene()->GetBindedMap()->GetThing();
@@ -61,8 +56,16 @@ void IEJoint::CheckAround()
 		if (grids[index] && grids[index]->GetThingType() == m_thingType)
 		{
 			m_round[index] = true;
-			((IEJoint *)grids[index])->m_round[(index + 2) % 4] = true;
-			((IEJoint *)grids[index])->RereadSelf();
+
+			if (active)
+			{
+				((IEJoint *)grids[index])->m_round[(index + 2) % 4] = true;
+				grids[index]->CheckAround(false);
+			}
+			else
+			{
+				//do nothing
+			}
 		}
 	}
 

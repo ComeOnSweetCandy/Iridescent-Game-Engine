@@ -20,8 +20,8 @@ class __IE_DLL__ IECollisionTrigger :public IETrigger
 public:
 	IECollisionTrigger();
 	virtual ~IECollisionTrigger();
-	virtual void Initialization(IEPhysicEdge * physicEdge, IEPhysicNodeType physicNodeType, IEClockType clockType, int param);
-	static IECollisionTrigger * Create(IEPhysicEdge * physicEdge, IEPhysicNodeType physicNodeType, IEClockType clockType, int param);
+	virtual void Initialization(IEPhysicEdge * physicEdge, IEPhysicNodeType physicNodeType, bool allowStrikeRepeat, bool allowStrikeRepeatByOne);
+	static IECollisionTrigger * Create(IEPhysicEdge * physicEdge, IEPhysicNodeType physicNodeType, bool allowStrikeRepeat, bool allowStrikeRepeatByOne);
 
 public:
 	virtual void Collision(IEPhysicNode * physicNode);

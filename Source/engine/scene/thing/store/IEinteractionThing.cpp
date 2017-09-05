@@ -104,7 +104,7 @@ void IEInteractionThing::BindInteractionTrigger()
 	in->m_vertexsCount = 32;
 
 	IEPhysicCircle * attackPhysicEdge = IEPhysicCircle::Create(in);
-	m_trigger = IEInteractionTrigger::Create(attackPhysicEdge, __physic_air_node__, __clock_strike_times_type__, 0);
+	m_trigger = IEInteractionTrigger::Create(attackPhysicEdge, __physic_air_node__, true, true);
 
 	m_trigger->BindNode(this);
 }

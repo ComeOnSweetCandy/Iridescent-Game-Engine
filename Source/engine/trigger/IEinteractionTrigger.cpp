@@ -13,17 +13,15 @@ IEInteractionTrigger::~IEInteractionTrigger()
 
 }
 
-void IEInteractionTrigger::Initialization(IEPhysicEdge * physicEdge, IEPhysicNodeType physicNodeType, IEClockType clockType, int param)
+void IEInteractionTrigger::Initialization(IEPhysicEdge * physicEdge, IEPhysicNodeType physicNodeType, bool allowStrikeRepeat, bool allowStrikeRepeatByOne)
 {
-	IETrigger::Initialization(physicEdge, physicNodeType, clockType, param);
-
-	SetAllowStrikeRepeat(true);
+	IETrigger::Initialization(physicEdge, physicNodeType, allowStrikeRepeat, allowStrikeRepeatByOne);
 }
 
-IEInteractionTrigger * IEInteractionTrigger::Create(IEPhysicEdge * physicEdge, IEPhysicNodeType physicNodeType, IEClockType clockType, int param)
+IEInteractionTrigger * IEInteractionTrigger::Create(IEPhysicEdge * physicEdge, IEPhysicNodeType physicNodeType, bool allowStrikeRepeat, bool allowStrikeRepeatByOne)
 {
 	IEInteractionTrigger * trigger = new IEInteractionTrigger();
-	trigger->Initialization(physicEdge, physicNodeType, clockType, param);
+	trigger->Initialization(physicEdge, physicNodeType, allowStrikeRepeat, allowStrikeRepeatByOne);
 	return trigger;
 }
 

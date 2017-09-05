@@ -23,15 +23,11 @@ public:
 	static IEJoint * Create(unsigned int thingType, unsigned int thingID, unsigned int thingOrder);
 
 public:
-	virtual void CallFinal();
-
-protected:
-	void CheckAround();							//根据四周元素测算的同时，四周元素自身也进行计算。
-	void RereadSelf();
+	virtual void CheckAround(bool active);		//重载 是否为自发性 根据四周元素测算的同时，四周元素自身也进行计算。
 
 private:
-	//初始化头顶的sprite
-	void BuildTopSprite(unsigned int thingID);
+	void RereadSelf();								//重新改变自身状态
+	void BuildTopSprite(unsigned int thingID);		//初始化头顶的sprite
 
 private:
 	unsigned char m_topHeight;		//绘制的高度问题

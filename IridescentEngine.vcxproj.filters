@@ -426,9 +426,6 @@
     <ClCompile Include="Source\engine\atom\creature\IEplayer.cpp">
       <Filter>IridescentEngine</Filter>
     </ClCompile>
-    <ClCompile Include="Source\engine\atom\IEatom.cpp">
-      <Filter>IridescentEngine</Filter>
-    </ClCompile>
     <ClCompile Include="Source\engine\atom\IEprop.cpp">
       <Filter>IridescentEngine</Filter>
     </ClCompile>
@@ -516,9 +513,6 @@
     <ClCompile Include="Source\engine\scene\thing\IEThingList.cpp">
       <Filter>IridescentEngine</Filter>
     </ClCompile>
-    <ClCompile Include="Source\engine\scene\thing\items\IEDoor.cpp">
-      <Filter>IridescentEngine</Filter>
-    </ClCompile>
     <ClCompile Include="Source\engine\scene\thing\items\IEFire.cpp">
       <Filter>IridescentEngine</Filter>
     </ClCompile>
@@ -561,25 +555,10 @@
     <ClCompile Include="Source\engine\script\IEluaThing.cpp">
       <Filter>IridescentEngine</Filter>
     </ClCompile>
-    <ClCompile Include="Source\engine\trigger\clock\IEclock.cpp">
-      <Filter>IridescentEngine</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\engine\trigger\clock\IEfrapClock.cpp">
-      <Filter>IridescentEngine</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\engine\trigger\clock\IEstrikeClock.cpp">
-      <Filter>IridescentEngine</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\engine\trigger\IEbesiegeTrigger.cpp">
-      <Filter>IridescentEngine</Filter>
-    </ClCompile>
     <ClCompile Include="Source\engine\trigger\IEcollisionTrigger.cpp">
       <Filter>IridescentEngine</Filter>
     </ClCompile>
     <ClCompile Include="Source\engine\trigger\IEinteractionTrigger.cpp">
-      <Filter>IridescentEngine</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\engine\trigger\IEtrigger.cpp">
       <Filter>IridescentEngine</Filter>
     </ClCompile>
     <ClCompile Include="Source\engine\trigger\IEtriggerManager.cpp">
@@ -598,6 +577,30 @@
       <Filter>IridescentEngine</Filter>
     </ClCompile>
     <ClCompile Include="Source\engine\scene\thing\IEThing.cpp">
+      <Filter>IridescentEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\engine\scene\thing\items\IEInductionDoor.cpp">
+      <Filter>IridescentEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\engine\atom\IEAtom.cpp">
+      <Filter>IridescentEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\engine\trigger\IEWarnTrigger.cpp">
+      <Filter>IridescentEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\engine\trigger\IETrigger.cpp">
+      <Filter>IridescentEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\engine\clock\IEClock.cpp">
+      <Filter>IridescentEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\engine\clock\IEClockCreator.cpp">
+      <Filter>IridescentEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\engine\clock\IECountClock.cpp">
+      <Filter>IridescentEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\engine\clock\IETimeClock.cpp">
       <Filter>IridescentEngine</Filter>
     </ClCompile>
   </ItemGroup>
@@ -899,9 +902,6 @@
     <ClInclude Include="Source\engine\atom\creature\IEPlayer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\engine\atom\IEatom.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\engine\atom\IEprop.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -992,9 +992,6 @@
     <ClInclude Include="Source\engine\scene\thing\IEThingList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\engine\scene\thing\items\IEDoor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\engine\scene\thing\items\IEFire.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1037,25 +1034,10 @@
     <ClInclude Include="Source\engine\script\IEluaThing.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\engine\trigger\clock\IEclock.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\engine\trigger\clock\IEfrapClock.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\engine\trigger\clock\IEstrikeClock.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\engine\trigger\IEbesiegeTrigger.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\engine\trigger\IEcollisionTrigger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\engine\trigger\IEinteractionTrigger.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\engine\trigger\IEtrigger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\engine\trigger\IEtriggerManager.h">
@@ -1071,6 +1053,30 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\engine\scene\thing\items\IEThingCreator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\engine\scene\thing\items\IEInductionDoor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\engine\atom\IEAtom.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\engine\trigger\IEWarnTrigger.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\engine\trigger\IETrigger.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\engine\clock\IEClock.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\engine\clock\IEClockCreator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\engine\clock\IECountClock.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\engine\clock\IETimeClock.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

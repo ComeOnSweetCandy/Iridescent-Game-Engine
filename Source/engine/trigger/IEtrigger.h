@@ -10,19 +10,14 @@
 #ifndef __IE_TRIGGER__
 #define __IE_TRIGGER__
 
-#include "../../global/IEstdafx.h"
 #include "../../physic/IEphysicNode.h"
-#include "clock/IEclock.h"
 
 IE_BEGIN
 
-class IEProp;
-class IEFrapClock;
-class IEStrikeClock;
-class IEContainer;
+class IEContainer; 
 class IEAtom;
 
-typedef void(IEAtom::*IETrggerStrike)(IEPhysicNode * physicNode);
+typedef void(IEAtom::*IETrggerStrike)(IEPhysicNode * physicNode);			//触发器触发了的情况
 
 enum IETriggerType
 {
@@ -37,32 +32,30 @@ class __IE_DLL__ IETrigger:public IEPhysicNode
 public:
 	IETrigger();
 	virtual ~IETrigger();
-	virtual void Initialization(IEPhysicEdge * physicEdge, IEPhysicNodeType physicNodeType, IEClockType clockType, int param);
-	static IETrigger * Create(IEPhysicEdge * physicEdge, IEPhysicNodeType physicNodeType, IEClockType clockType, int param);
+	virtual void Initialization(IEPhysicEdge * physicEdge, IEPhysicNodeType physicNodeType, bool allowStrikeRepeat, bool allowStrikeRepeatByOne);
+	static IETrigger * Create(IEPhysicEdge * physicEdge, IEPhysicNodeType physicNodeType, bool allowStrikeRepeat, bool allowStrikeRepeatByOne);
 
 public:
-	IETriggerType GetTriggerType();
-	void SetAllowStrikeRepeat(bool allowStrikeRepeat);
-	virtual void ClockTick();
-	virtual bool GetClockEnd();
-	virtual void SetClockEnd();
+	IETriggerType GetTriggerType();									//获取触发器类型
+	void SetAllowStrikeRepeat(bool allowStrikeRepeat);				//设定是否允许重复触发
+	void SetAllowStrikeRepeatByOne(bool allowStrikeRepeatByOne);	//设定是否允许被同一个物体重复触发
 
-	void AddTrigger(IETrggerStrike function, IEAtom * self);
+	void ActivateTrigger(IEAtom * self, IETrggerStrike function);		//设定一个新的trigger 并且绑定至物理世界
 
 protected:
-	virtual bool RunTrigger();
-	virtual void Collision(IEPhysicNode * physicNode);
-
-	IEClock * BuildClock(IEClockType clockType, int param);
+	virtual void RunTrigger();										//运行trigger
+	virtual void Collision(IEPhysicNode * physicNode);				//重载碰撞
+	virtual void TriggerStrike(IEPhysicNode * physicNode);			//最终判定触发器触发
 
 protected:
-	IETriggerType m_triggerType;		   //触发器的类型
-	IEClock * m_clock;                     //依附的计时器
-	bool m_allowStrikeRepeat;			   //是否允许节点重复触发
-	IEContainer * m_strikeNodes;           //已经启动过触发器的节点
+	IETriggerType m_triggerType;			//触发器的类型
+	IEAtom * m_attachAtom;					//触发器依附的atom
+	IETrggerStrike m_function;				//触发器触发后的反馈
 
-	IEAtom * m_attachAtom;
-	IETrggerStrike m_callback;
+	bool m_allowStrikeRepeat;				//是否允许节点重复触发
+	bool m_allowStrikeRepeatByOne;			//是否允许节点被同一个物体重复触发
+
+	IEContainer * m_strikeNodes;			//已经启动过触发器的节点
 
 	friend class IETriggerManager;
 };

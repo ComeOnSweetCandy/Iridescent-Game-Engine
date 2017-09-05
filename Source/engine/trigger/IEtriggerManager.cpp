@@ -38,24 +38,18 @@ void IETriggerManager::Run()
 
 	for (int index = 0; index < triggersCount; index++)
 	{
-		IETrigger * trigger = triggers[index];
-		bool isEnd = trigger->GetClockEnd();
-		if (isEnd)
-		{
-			trigger->ClockTick();
-			m_triggers->Delete(index);
-		}
-		else
-		{
-			trigger->RunTrigger();
-		}
+		triggers[index]->RunTrigger();
 	}
- 	m_triggers->CleanSpace();
 }
 
 void IETriggerManager::AddTrigger(IETrigger * trigger)
 {
 	m_triggers->Push(trigger);
+}
+
+void IETriggerManager::DelTrigger(IETrigger * trigger)
+{
+	m_triggers->PopWithClean(trigger);
 }
 
 IE_END

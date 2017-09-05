@@ -13,15 +13,15 @@ IECollisionTrigger::~IECollisionTrigger()
 
 }
 
-void IECollisionTrigger::Initialization(IEPhysicEdge * physicEdge, IEPhysicNodeType physicNodeType, IEClockType clockType, int param)
+void IECollisionTrigger::Initialization(IEPhysicEdge * physicEdge, IEPhysicNodeType physicNodeType, bool allowStrikeRepeat, bool allowStrikeRepeatByOne)
 {
-	IETrigger::Initialization(physicEdge, physicNodeType, clockType, param);
+	IETrigger::Initialization(physicEdge, physicNodeType, allowStrikeRepeat, allowStrikeRepeatByOne);
 }
 
-IECollisionTrigger * IECollisionTrigger::Create(IEPhysicEdge * physicEdge, IEPhysicNodeType physicNodeType, IEClockType clockType, int param)
+IECollisionTrigger * IECollisionTrigger::Create(IEPhysicEdge * physicEdge, IEPhysicNodeType physicNodeType, bool allowStrikeRepeat, bool allowStrikeRepeatByOne)
 {
 	IECollisionTrigger * trigger = new IECollisionTrigger();
-	trigger->Initialization(physicEdge, physicNodeType, clockType, param);
+	trigger->Initialization(physicEdge, physicNodeType, allowStrikeRepeat, allowStrikeRepeatByOne);
 	return trigger;
 }
 
