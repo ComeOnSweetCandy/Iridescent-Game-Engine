@@ -29,9 +29,9 @@ IETrigger::~IETrigger()
 	IEApplication::Share()->GetCurrentActiveScene()->GetTriggerManager()->DelTrigger(this);
 }
 
-void IETrigger::Initialization(IEPhysicEdge * physicEdge, IEPhysicNodeType physicNodeType, bool allowStrikeRepeat, bool allowStrikeRepeatByOne)
+void IETrigger::Initialization(IEXml * physicXML, bool allowStrikeRepeat, bool allowStrikeRepeatByOne)
 {
-	IEPhysicNode::Initialization(physicEdge, physicNodeType);
+	IEPhysicNode::Initialization(physicXML);
 	
 	IETrigger::SetAllowStrikeRepeat(allowStrikeRepeat);
 	IETrigger::SetAllowStrikeRepeatByOne(allowStrikeRepeatByOne);
@@ -40,10 +40,10 @@ void IETrigger::Initialization(IEPhysicEdge * physicEdge, IEPhysicNodeType physi
 	IEApplication::Share()->GetCurrentActiveScene()->GetTriggerManager()->AddTrigger(this);
 }
 
-IETrigger * IETrigger::Create(IEPhysicEdge * physicEdge, IEPhysicNodeType physicNodeType, bool allowStrikeRepeat, bool allowStrikeRepeatByOne)
+IETrigger * IETrigger::Create(IEXml * physicXML, bool allowStrikeRepeat, bool allowStrikeRepeatByOne)
 {
 	IETrigger * trigger = new IETrigger();
-	trigger->Initialization(physicEdge, physicNodeType, allowStrikeRepeat, allowStrikeRepeatByOne);
+	trigger->Initialization(physicXML, allowStrikeRepeat, allowStrikeRepeatByOne);
 	return trigger;
 }
 

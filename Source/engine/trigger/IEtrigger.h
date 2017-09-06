@@ -32,8 +32,8 @@ class __IE_DLL__ IETrigger:public IEPhysicNode
 public:
 	IETrigger();
 	virtual ~IETrigger();
-	virtual void Initialization(IEPhysicEdge * physicEdge, IEPhysicNodeType physicNodeType, bool allowStrikeRepeat, bool allowStrikeRepeatByOne);
-	static IETrigger * Create(IEPhysicEdge * physicEdge, IEPhysicNodeType physicNodeType, bool allowStrikeRepeat, bool allowStrikeRepeatByOne);
+	virtual void Initialization(IEXml * physicXML, bool allowStrikeRepeat, bool allowStrikeRepeatByOne);
+	static IETrigger * Create(IEXml * physicXML, bool allowStrikeRepeat, bool allowStrikeRepeatByOne);
 
 public:
 	IETriggerType GetTriggerType();									//获取触发器类型

@@ -284,8 +284,7 @@ bool IEPathFinder::CheckVolumn(IEGrid curGrid, IEGrid curTunnel)
 {
 	m_list = IEArray::CreateAndRetain();
 
-	IEPhysicCircleInfo * circleInfo = (IEPhysicCircleInfo *)(m_roadPhysicNode->GetPhysicEdge()->GetPhysicEdgeInfo());
-	float circleRadius = circleInfo->m_radius;
+	float circleRadius = ((IEPhysicCircle *)m_roadPhysicNode)->GetRadius();
 	IEVector center = curGrid + curTunnel * (1.0f / PATH_PRECISION);
 	
 	IEBaseType<int[4]> * param = new IEBaseType<int[4]>();

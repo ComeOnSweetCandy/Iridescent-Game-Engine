@@ -5,38 +5,35 @@ IE_BEGIN
 
 IEPhysicEdge::IEPhysicEdge()
 {
-	m_physicEdgeInfo = NULL;
+	m_edgeType = __edge_typeCount__;
 }
 
 IEPhysicEdge::~IEPhysicEdge()
 {
-	delete m_physicEdgeInfo;
+	
 }
 
-void IEPhysicEdge::Initialization(IEPhysicEdgeInfo * physicEdgeInfo)
+void IEPhysicEdge::Initialization(IEEdgeType edgeType, float barycenterX, float barycenterY)
 {
-	m_physicEdgeInfo = physicEdgeInfo;
+	edgeType = edgeType;
+	m_barycenter.m_x = barycenterX;
+	m_barycenter.m_y = barycenterY;
 }
 
-IEPhysicEdge * IEPhysicEdge::Create(IEPhysicEdgeInfo * physicEdgeInfo)
+IEPhysicEdge * IEPhysicEdge::Create(IEEdgeType edgeType, float barycenterX, float barycenterY)
 {
 	__IE_WARNING__("IEPhysicEdgeInfo : error in function Create.\n");
 	return NULL;
 }
 
-void IEPhysicEdge::SetPhysicEdgeInfo(IEPhysicEdgeInfo * physicEdgeInfo)
+IEEdgeType IEPhysicEdge::GetEdgeType()
 {
-	m_physicEdgeInfo = physicEdgeInfo;
+	return m_edgeType;
 }
 
-IEPhysicEdgeInfo * IEPhysicEdge::GetPhysicEdgeInfo()
+IEVector& IEPhysicEdge::GetBarycenter()
 {
-	return m_physicEdgeInfo;
-}
-
-IEPhysicEdgeType IEPhysicEdge::GetEdgeType()
-{ 
-	return m_physicEdgeInfo->m_physicEdgeType; 
+	return m_barycenter;
 }
 
 IE_END

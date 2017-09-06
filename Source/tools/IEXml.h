@@ -47,13 +47,14 @@ public:
 	void ReadXML(const char * fileName);
 	void SaveXML(const char * fileName);
 
-	int ValueInt();
-	float ValueFloat();
-	const char * ValueString();
-	IEXml * FindChild(const char * key);
-	IEXml * FindChild(const char * key, unsigned int index);
+	IEString * Value();														//如果是字符串形式 直接获取value
+	int ValueInt();															//转换value为int
+	float ValueFloat();														//转换value为float
+	const char * ValueString();												//转换value为字符串
+	IEXml * FindChild(const char * key);									//找到子节点
+	IEXml * FindChild(const char * key, unsigned int index);				//找到对应的index的子节点
+	IEContainer * FindChilds(const char * key);								//找到所有相同的子节点
 	IEXml * FindChildWithParameter(const char * key, const char * paramterKey, const char * paramterValue);			//找到一个child并且找对相对应的属性和值
-	IEContainer * FindChilds(const char * key);
 
 protected:
 	void AddChild(IEXml * xml);

@@ -87,13 +87,12 @@ void IEPhysicWorld::Run()
 					ProcessOverlap(physicNode1, physicNode2, N * -t);
 				}
 
-				bool res = physicNode1->m_opera && physicNode2->m_mask;
-				if (res)
+				//这里进行判断 是谁撞的谁
+				if (physicNode1->m_opera & physicNode2->m_mask)
 				{
 					physicNode1->Collision(physicNode2);
 				}
-				res = physicNode2->m_opera && physicNode1->m_mask;
-				if (res)
+				else
 				{
 					physicNode2->Collision(physicNode1);
 				}

@@ -174,23 +174,24 @@ void IEPathArea::ReckonPhysicNodeDot(IEPhysicNode * physicNode, IEGrid curGrid, 
 
 bool IEPathArea::ReckonDotInPhysicNode(IEPhysicNode * physicNode, IEVector position)
 {
-	IEPhysicPolygon * polygon = (IEPhysicPolygon *)(physicNode->GetPhysicEdge());
-	IEPhysicPolygonInfo * polygonInfo = (IEPhysicPolygonInfo *)(polygon->GetPhysicEdgeInfo());
+	//IEPhysicPolygon * polygon = (IEPhysicPolygon *)(physicNode->GetPhysicEdge());
+	//IEPhysicPolygonInfo * polygonInfo = (IEPhysicPolygonInfo *)(polygon->GetPhysicEdgeInfo());
 
-	IEVector bPosition = position;
-	IEVector aPosition = physicNode->GetPhysicPosition();
+	//IEVector bPosition = position;
+	//IEVector aPosition = physicNode->GetPhysicPosition();
 
-	IEVector N = IEVector(0.0f, 0.0f);
-	float t = 1.0f;
-	IEPhysicEdgeCollision::PD_Collide(polygonInfo->m_vertexs, polygonInfo->m_vertexsCount, bPosition - aPosition, IEVector(0.0f, 0.0f), N, t);
-	if (t <= 0.0f)
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
+	//IEVector N = IEVector(0.0f, 0.0f);
+	//float t = 1.0f;
+	//IEPhysicEdgeCollision::PD_Collide(polygonInfo->m_vertexs, polygonInfo->m_vertexsNum, bPosition - aPosition, IEVector(0.0f, 0.0f), N, t);
+	//if (t <= 0.0f)
+	//{
+	//	return true;
+	//}
+	//else
+	//{
+	//	return false;
+	//}
+	return false;
 }
 
 IE_END

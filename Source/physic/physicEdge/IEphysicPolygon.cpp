@@ -1,55 +1,57 @@
 #define __IE_DLL_EXPORTS__
 #include "IEphysicPolygon.h"
 
+#include "../../type/IEstring.h"
+#include "../../core/container/IEcontianer.h"
+
 IE_BEGIN
 
 IEPhysicPolygon::IEPhysicPolygon()
 {
-
+	m_edgeType = __edge_polygon__;
 }
 
 IEPhysicPolygon::~IEPhysicPolygon()
 {
-
+	delete[]m_vertexs;
 }
 
-void IEPhysicPolygon::Initialization(IEPhysicEdgeInfo * physicEdgeInfo)
+void IEPhysicPolygon::Initialization(IEEdgeType edgeType, float barycenterX, float barycenterY, IEString  * infos)
 {
-	m_physicEdgeInfo = physicEdgeInfo;
+	IEPhysicEdge::Initialization(edgeType, barycenterX, barycenterY);
+	
+	IEPhysicPolygon::SetVertexs(infos);
 }
 
-IEPhysicPolygon * IEPhysicPolygon::Create(IEPhysicEdgeInfo * physicEdgeInfo)
+IEPhysicPolygon * IEPhysicPolygon::Create(IEEdgeType edgeType, float barycenterX, float barycenterY, IEString * infos)
 {
 	IEPhysicPolygon * physicEdge = new IEPhysicPolygon();
-	physicEdge->Initialization(physicEdgeInfo);
+	physicEdge->Initialization(edgeType, barycenterX, barycenterY, infos);
 	return physicEdge;
 }
 
 void IEPhysicPolygon::DrawPhysicEdge()
 {
-	IEVector * vertexs = ((IEPhysicPolygonInfo *)m_physicEdgeInfo)->m_vertexs;
-	int vertexsCount = ((IEPhysicPolygonInfo *)m_physicEdgeInfo)->m_vertexsCount;
-
 	glBegin(GL_TRIANGLE_FAN);
-	for (int index = 0; index < vertexsCount; index++)
+	for (unsigned int index = 0; index < m_vertexsNum; index++)
 	{
-		glVertex2f(vertexs[index].m_x, vertexs[index].m_y);
+		glVertex2f(m_vertexs[index][0], m_vertexs[index][1]);
 	}
 	glEnd();
 }
 
-IEVector IEPhysicPolygon::GetBarycenter()
+void IEPhysicPolygon::SetVertexs(IEString * infos)
 {
-	IEVector * vertexs = ((IEPhysicPolygonInfo *)m_physicEdgeInfo)->m_vertexs;
-	int vertexsCount = ((IEPhysicPolygonInfo *)m_physicEdgeInfo)->m_vertexsCount;
-	IEVector center = IEVector(0.0f, 0.0f);
+	IEContainer * container = infos->SplitBy(',');
+	IEString ** arrays = (IEString **)(container->GetContainer());
+	m_vertexsNum = container->Count() / 2;
+	m_vertexs = new IEVector[m_vertexsNum];
 
-	for (int index = 0; index < vertexsCount; index++)
+	for (unsigned int index = 0; index < m_vertexsNum; index++)
 	{
-		center = center + vertexs[index];
+		m_vertexs[index].m_x = arrays[index * 2]->transToFloat();
+		m_vertexs[index].m_y = arrays[index * 2 + 1]->transToFloat();
 	}
-	center = center / vertexsCount;
-	return center;
 }
 
 IE_END

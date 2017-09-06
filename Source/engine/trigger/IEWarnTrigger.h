@@ -19,8 +19,8 @@ class __IE_DLL__ IEWarnTrigger :public IETrigger
 public:
 	IEWarnTrigger();
 	virtual ~IEWarnTrigger();
-	virtual void Initialization(IEPhysicEdge * physicEdge, IEPhysicNodeType physicNodeType, bool allowStrikeRepeat, bool allowStrikeRepeatByOne);
-	static IEWarnTrigger * Create(IEPhysicEdge * physicEdge, IEPhysicNodeType physicNodeType, bool allowStrikeRepeat, bool allowStrikeRepeatByOne);
+	virtual void Initialization(IEXml * physicXML, bool allowStrikeRepeat, bool allowStrikeRepeatByOne);
+	static IEWarnTrigger * Create(IEXml * physicXML, bool allowStrikeRepeat, bool allowStrikeRepeatByOne);
 
 public:
 	virtual void Collision(IEPhysicNode * physicNode);

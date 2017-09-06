@@ -30,11 +30,11 @@ void IEPhysicNode::Initialization(IEPhysicEdge * physicEdge, IEPhysicNodeType ph
 
 void IEPhysicNode::Initialization(IEXml * physicXML)
 {
-	//读取物理节点的类型
-	IEPhysicNodeType physicType = (IEPhysicNodeType)(physicXML->FindChild("type")->ValueInt());
-
-	//读取物理刚体的类型
-	IEPhysicEdgeType edgeType = (IEPhysicEdgeType)(physicXML->FindChild("edge")->ValueInt());
+	IEPhysicNodeType physicType = (IEPhysicNodeType)(physicXML->FindChild("type")->ValueInt());		//读取物理节点的类型
+	IEEdgeType edgeType = (IEEdgeType)(physicXML->FindChild("edge")->ValueInt());					//读取物理刚体的类型
+	float barycenterOffsetX = physicXML->FindChild("barycenterX")->ValueFloat();					//读取中心点偏移
+	float barycenterOffsetY = physicXML->FindChild("barycenterY")->ValueFloat();					//读取中心点偏移
+	IEString * infos = physicXML->FindChild("info")->Value();										//获取信息
 
 	//读取物理边缘的信息
 	const char * edgeInfo = physicXML->FindChild("info")->ValueString();
@@ -43,14 +43,11 @@ void IEPhysicNode::Initialization(IEXml * physicXML)
 	IEPhysicEdge * physicEdge;
 	if (edgeType == __edge_circle__)
 	{
-		physicEdge = IEPhysicCircle::Create(edgeInfo);
-		float barycenterOffsetX = physicXML->FindChild("offsetX")->ValueFloat();
-		float barycenterOffsetY = physicXML->FindChild("offsetY")->ValueFloat();
-		((IEPhysicCircle *)physicEdge)->SetOffsetPosition(barycenterOffsetX, barycenterOffsetY);
+		physicEdge = IEPhysicCircle::Create(edgeType, barycenterOffsetX, barycenterOffsetY, infos);
 	}
 	else if (edgeType == __edge_polygon__)
 	{
-		physicEdge = NULL;
+		physicEdge = IEPhysicPolygon::Create(edgeType, barycenterOffsetX, barycenterOffsetY, infos);
 	}
 	else
 	{
@@ -177,7 +174,7 @@ void IEPhysicNode::DrawPhysicNode()
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
-	float a = 1.3f;
+	float a = 1.0f;
 	switch (m_collisionState)
 	{
 	case IridescentEngine::__collision_safe__:
@@ -264,17 +261,17 @@ void IEPhysicNode::SetPhysicNodeType(IEPhysicNodeType physicNodeType)
 {
 	m_physicNodeType = physicNodeType;
 
-#define PHYSIC_NODE_NONE_MASK				0x0
-#define PHYSIC_NODE_ACTIVE_MASK				0x1
-#define PHYSIC_NODE_STATIC_MASK				0x2
-#define PHYSIC_NODE_AIR_MASK				0x4
-#define PHYSIC_NODE_MINE_AIR_MASK			0x8
+#define PHYSIC_NODE_NONE_MASK				0x0							//00000000 00000000 00000000 00000000
+#define PHYSIC_NODE_ACTIVE_MASK				0x1							//00000000 00000000 00000000 00000001
+#define PHYSIC_NODE_STATIC_MASK				0x2							//00000000 00000000 00000000 00000010
+#define PHYSIC_NODE_AIR_MASK				0x4							//00000000 00000000 00000000 00000100
+#define PHYSIC_NODE_MINE_AIR_MASK			0x8							//00000000 00000000 00000000 00001000
 
-#define PHYSIC_NODE_NONE_OPERA				0x0
-#define PHYSIC_NODE_ACTIVE_OPERA			0x2
-#define PHYSIC_NODE_STATIC_OPERA			0x0
-#define PHYSIC_NODE_AIR_OPERA				0x1
-#define PHYSIC_NODE_MINE_AIR_OPERA						
+#define PHYSIC_NODE_NONE_OPERA				0x0							//00000000 00000000 00000000 00000000
+#define PHYSIC_NODE_ACTIVE_OPERA			0x2							//00000000 00000000 00000000 00000010
+#define PHYSIC_NODE_STATIC_OPERA			0x0							//00000000 00000000 00000000 00000000
+#define PHYSIC_NODE_AIR_OPERA				0x1							//00000000 00000000 00000000 00000001
+#define PHYSIC_NODE_MINE_AIR_OPERA			0x0							//00000000 00000000 00000000 00000000
 
 	//进行掩码与操作数的判定
 	switch (physicNodeType)

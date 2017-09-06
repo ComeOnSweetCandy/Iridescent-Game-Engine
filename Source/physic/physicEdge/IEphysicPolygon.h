@@ -11,34 +11,29 @@
 #define __IE_PHYSIC_POLYGON__
 
 #include "IEphysicEdge.h"
+#include "../../type/IEstring.h"
 
 IE_BEGIN
-
-struct IEPhysicPolygonInfo :IEPhysicEdgeInfo
-{
-	IEPhysicPolygonInfo()
-	{
-
-	};
-	virtual ~IEPhysicPolygonInfo()
-	{
-		delete[]m_vertexs;
-	};
-	IEVector * m_vertexs;
-	int m_vertexsCount;
-};
 
 class __IE_DLL__ IEPhysicPolygon :public IEPhysicEdge
 {
 public:
 	IEPhysicPolygon();
 	virtual ~IEPhysicPolygon();
-	virtual void Initialization(IEPhysicEdgeInfo * physicEdgeInfo);
-	static IEPhysicPolygon * Create(IEPhysicEdgeInfo * physicEdgeInfo);
+	virtual void Initialization(IEEdgeType edgeType, float barycenterX, float barycenterY, IEString * infos);
+	static IEPhysicPolygon * Create(IEEdgeType edgeType, float barycenterX, float barycenterY, IEString * infos);
 
 public:
 	virtual void DrawPhysicEdge();
-	IEVector GetBarycenter();
+
+private:
+	void SetVertexs(IEString * infos);
+
+private:
+	IEVector * m_vertexs;				//存储所有的点的位置
+	unsigned int m_vertexsNum;			//一共有多少个边角
+
+	friend class IEPhysicEdgeCollision;
 };
 
 IE_END

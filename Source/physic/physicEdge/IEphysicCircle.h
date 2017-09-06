@@ -11,35 +11,32 @@
 #define __IE_PHYSIC_CIRCLE__
 
 #include "IEphysicEdge.h"
+#include "../../type/IEstring.h"
 
 IE_BEGIN
-
-struct IEPhysicCircleInfo :IEPhysicEdgeInfo
-{
-	float m_radius;
-	int m_vertexsCount;
-	float m_offsetPosition[2];		//用于描述一个偏移值
-};
 
 class __IE_DLL__ IEPhysicCircle :public IEPhysicEdge
 {
 public:
 	IEPhysicCircle();
 	virtual ~IEPhysicCircle();
-	virtual void Initialization(IEPhysicEdgeInfo * physicEdgeInfo);
-	virtual void Initialization(const char * physicEdgeInfo);
-	static IEPhysicCircle * Create(const char * physicEdgeInfo);
-	static IEPhysicCircle * Create(IEPhysicEdgeInfo * physicEdgeInfo);
+	virtual void Initialization(IEEdgeType edgeType, float barycenterX, float barycenterY, IEString * infos);
+	static IEPhysicCircle * Create(IEEdgeType edgeType, float barycenterX, float barycenterY, IEString * infos);
 
 public:
 	virtual void DrawPhysicEdge();
-	virtual IEVector GetBarycenter();
 
 	void SetRadius(float radius);
 	float GetRadius();
 
-	void SetOffsetPosition(float &offsetX, float &offsetY);
-	float * GetOffsetPosition();
+private:
+	void SetRadius(IEString * infos);
+
+private:
+	float m_radius;					//半径
+	int m_vertexsNum;				//涉及到绘制精度问题 除了绘制以外没有太大实际用处
+
+	friend class IEPhysicEdgeCollision;
 };
 
 IE_END

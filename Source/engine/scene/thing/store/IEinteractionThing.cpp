@@ -98,15 +98,15 @@ void IEInteractionThing::EndVisit()
 
 void IEInteractionThing::BindInteractionTrigger()
 {
-	IEPhysicCircleInfo * in = new IEPhysicCircleInfo();
-	in->m_physicEdgeType = __edge_circle__;
-	in->m_radius = 1.5f;
-	in->m_vertexsCount = 32;
+	//IEPhysicCircleInfo * in = new IEPhysicCircleInfo();
+	//in->m_physicEdgeType = __edge_circle__;
+	//in->m_radius = 1.5f;
+	//in->m_vertexsNum = 32;
 
-	IEPhysicCircle * attackPhysicEdge = IEPhysicCircle::Create(in);
-	m_trigger = IEInteractionTrigger::Create(attackPhysicEdge, __physic_air_node__, true, true);
+	//IEPhysicCircle * attackPhysicEdge = IEPhysicCircle::Create(in);
+	//m_trigger = IEInteractionTrigger::Create(attackPhysicEdge, __physic_air_node__, true, true);
 
-	m_trigger->BindNode(this);
+	//m_trigger->BindNode(this);
 }
 
 void IEInteractionThing::SetPosition(const float &x, const float &y)

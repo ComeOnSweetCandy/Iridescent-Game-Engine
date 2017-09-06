@@ -90,16 +90,12 @@ void IEInductionDoor::TriggerStrike(IEPhysicNode * physicNode)
 
 void IEInductionDoor::BindTriggers()
 {
-	//设定触发器
-	IEPhysicCircleInfo * in = new IEPhysicCircleInfo();
-	in->m_physicEdgeType = __edge_circle__;
-	in->m_radius = 1.0f;
-	in->m_vertexsCount = 16;
-	in->m_offsetPosition[0] = 0.5f;
-	in->m_offsetPosition[1] = 0.5f;
+	//读取触发器信息
+	IEThingEntry * entrys = IEThingList::Share()->GetEntrys();
+	IEXml * _xml = entrys[m_thingID]._XML;
+	IEXml * physicXML = _xml->FindChild("property")->FindChild("trigger")->FindChild("physic");
 
-	IEPhysicCircle * edge = IEPhysicCircle::Create(in);
-	m_triggers = IEWarnTrigger::Create(edge, __physic_air_node__, true, true);				//建立一个永久有效的warn触发器
+	m_triggers = IEWarnTrigger::Create(physicXML, true, true);								//建立一个永久有效的warn触发器
 	m_triggers->ActivateTrigger(this, IETrggerStrike(&IEInductionDoor::TriggerStrike));		//激活触发器
 }
 

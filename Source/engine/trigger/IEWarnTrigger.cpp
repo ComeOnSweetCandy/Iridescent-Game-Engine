@@ -13,15 +13,15 @@ IEWarnTrigger::~IEWarnTrigger()
 
 }
 
-void IEWarnTrigger::Initialization(IEPhysicEdge * physicEdge, IEPhysicNodeType physicNodeType, bool allowStrikeRepeat, bool allowStrikeRepeatByOne)
+void IEWarnTrigger::Initialization(IEXml * physicXML, bool allowStrikeRepeat, bool allowStrikeRepeatByOne)
 {
-	IETrigger::Initialization(physicEdge, physicNodeType, allowStrikeRepeat, allowStrikeRepeatByOne);
+	IETrigger::Initialization(physicXML, allowStrikeRepeat, allowStrikeRepeatByOne);
 }
 
-IEWarnTrigger * IEWarnTrigger::Create(IEPhysicEdge * physicEdge, IEPhysicNodeType physicNodeType, bool allowStrikeRepeat, bool allowStrikeRepeatByOne)
+IEWarnTrigger * IEWarnTrigger::Create(IEXml * physicXML, bool allowStrikeRepeat, bool allowStrikeRepeatByOne)
 {
 	IEWarnTrigger * trigger = new IEWarnTrigger();
-	trigger->Initialization(physicEdge, physicNodeType, allowStrikeRepeat, allowStrikeRepeatByOne);
+	trigger->Initialization(physicXML, allowStrikeRepeat, allowStrikeRepeatByOne);
 	return trigger;
 }
 

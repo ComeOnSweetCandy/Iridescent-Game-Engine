@@ -48,17 +48,17 @@ void IEPickedProp::InteractiveNode(IENode * strikeNode)
 
 void CreatePickedProp(int propIndex, int propCount, float x, float y)
 {
-	IEPhysicCircleInfo * in = new IEPhysicCircleInfo();
-	in->m_physicEdgeType = __edge_circle__;
-	in->m_radius = 0.5f;
-	in->m_vertexsCount = 32;
+	//IEPhysicCircleInfo * in = new IEPhysicCircleInfo();
+	//in->m_physicEdgeType = __edge_circle__;
+	//in->m_radius = 0.5f;
+	//in->m_vertexsNum = 32;
 
-	IEPhysicCircle * attackPhysicEdge = IEPhysicCircle::Create(in);
-	IECollisionTrigger * collisionTrigger = IECollisionTrigger::Create(attackPhysicEdge, __physic_air_node__, true, true);
-	IEPickedProp * pickedProp = IEPickedProp::Create(collisionTrigger, propIndex, propCount);
+	//IEPhysicCircle * attackPhysicEdge = IEPhysicCircle::Create(in);
+	//IECollisionTrigger * collisionTrigger = IECollisionTrigger::Create(attackPhysicEdge, __physic_air_node__, true, true);
+	//IEPickedProp * pickedProp = IEPickedProp::Create(collisionTrigger, propIndex, propCount);
 
-	pickedProp->SetTranslate(x, y);
-	collisionTrigger->SetPhysicPosition(x, y);
+	//pickedProp->SetTranslate(x, y);
+	//collisionTrigger->SetPhysicPosition(x, y);
 }
 
 IE_END

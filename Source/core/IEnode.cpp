@@ -212,8 +212,6 @@ void IENode::BindPhysicNode(IEPhysicNode * physicNode)
 	{
 		if (m_physicNode != NULL)
 		{
-			__IE_WARNING__("IENode : warning . m_physicNode deserve not equal null.\n");
-
 			m_physicNode->BindNode(NULL);
 			SetPhysicNode(NULL);
 		}

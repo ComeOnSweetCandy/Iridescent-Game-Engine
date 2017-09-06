@@ -6,22 +6,22 @@ IE_BEGIN
 
 int lua_physicCircle_create(lua_State* luaSript)
 {
-	luaL_checktype(luaSript, 1, LUA_TNUMBER);
-	luaL_checktype(luaSript, 2, LUA_TNUMBER);
+	//luaL_checktype(luaSript, 1, LUA_TNUMBER);
+	//luaL_checktype(luaSript, 2, LUA_TNUMBER);
 
-	float physicCircleRadius = (float)lua_tonumber(luaSript, 1);
-	int physicCircleVertexsCount = (int)lua_tointeger(luaSript, 2);
+	//float physicCircleRadius = (float)lua_tonumber(luaSript, 1);
+	//int physicCircleVertexsCount = (int)lua_tointeger(luaSript, 2);
 
-	IEPhysicCircleInfo * circleInfo = new IEPhysicCircleInfo();
-	circleInfo->m_physicEdgeType = __edge_circle__;
-	circleInfo->m_radius = physicCircleRadius;
-	circleInfo->m_vertexsCount = physicCircleVertexsCount;
+	//IEPhysicCircleInfo * circleInfo = new IEPhysicCircleInfo();
+	//circleInfo->m_physicEdgeType = __edge_circle__;
+	//circleInfo->m_radius = physicCircleRadius;
+	//circleInfo->m_vertexsNum = physicCircleVertexsCount;
 
-	IEPhysicCircle ** physicCircle = (IEPhysicCircle**)lua_newuserdata(luaSript, sizeof(IEPhysicCircle*));
-	*physicCircle = IEPhysicCircle::Create(circleInfo);
+	//IEPhysicCircle ** physicCircle = (IEPhysicCircle**)lua_newuserdata(luaSript, sizeof(IEPhysicCircle*));
+	//*physicCircle = IEPhysicCircle::Create(circleInfo);
 
-	luaL_getmetatable(luaSript, "IEPhysicCircle.IEPhysicCircle");
-	lua_setmetatable(luaSript, -2);
+	//luaL_getmetatable(luaSript, "IEPhysicCircle.IEPhysicCircle");
+	//lua_setmetatable(luaSript, -2);
 
 	return 1;
 }

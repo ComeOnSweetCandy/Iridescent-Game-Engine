@@ -117,6 +117,11 @@ IEXml * IEXml::FindChildWithParameter(const char * key, const char * paramterKey
 	return NULL;
 }
 
+IEString * IEXml::Value()
+{
+	return (IEString *)m_value;
+}
+
 int IEXml::ValueInt()
 {
 	IEString * valueString = (IEString *)m_value;

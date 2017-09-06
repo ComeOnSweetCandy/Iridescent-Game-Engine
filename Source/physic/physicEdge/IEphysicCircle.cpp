@@ -1,14 +1,14 @@
 #define __IE_DLL_EXPORTS__
 #include "IEphysicCircle.h"
 
-#include "../../core/container/IEcontianer.h"
 #include "../../type/IEstring.h"
 
 IE_BEGIN
 
 IEPhysicCircle::IEPhysicCircle()
 {
-
+	m_edgeType = __edge_circle__;
+	m_vertexsNum = 32;
 }
 
 IEPhysicCircle::~IEPhysicCircle()
@@ -16,77 +16,47 @@ IEPhysicCircle::~IEPhysicCircle()
 
 }
 
-void IEPhysicCircle::Initialization(IEPhysicEdgeInfo * physicEdgeInfo)
+void IEPhysicCircle::Initialization(IEEdgeType edgeType, float barycenterX, float barycenterY, IEString * infos)
 {
-	IEPhysicEdge::Initialization(physicEdgeInfo);
+	IEPhysicEdge::Initialization(edgeType, barycenterX, barycenterY);
+
+	IEPhysicCircle::SetRadius(infos);
 }
 
-void IEPhysicCircle::Initialization(const char * physicEdgeInfo)
-{
-	IEString stringRadius = physicEdgeInfo;
-
-	IEPhysicCircleInfo * circleEdgeInfo = new IEPhysicCircleInfo();
-	circleEdgeInfo->m_physicEdgeType = __edge_circle__;
-	circleEdgeInfo->m_radius = stringRadius.transToFloat();
-	circleEdgeInfo->m_vertexsCount = 32;
-
-	m_physicEdgeInfo = circleEdgeInfo;
-}
-
-IEPhysicCircle * IEPhysicCircle::Create(IEPhysicEdgeInfo * physicEdgeInfo)
+IEPhysicCircle * IEPhysicCircle::Create(IEEdgeType edgeType, float barycenterX, float barycenterY, IEString * infos)
 {
 	IEPhysicCircle * object = new IEPhysicCircle();
-	object->Initialization(physicEdgeInfo);
-	return object;
-}
-
-IEPhysicCircle * IEPhysicCircle::Create(const char * physicEdgeInfo)
-{
-	IEPhysicCircle * object = new IEPhysicCircle();
-	object->Initialization(physicEdgeInfo);
+	object->Initialization(edgeType, barycenterX, barycenterY, infos);
 	return object;
 }
 
 void IEPhysicCircle::DrawPhysicEdge()
 {
-	int vertexsCount = ((IEPhysicCircleInfo *)m_physicEdgeInfo)->m_vertexsCount;
-	float radius = ((IEPhysicCircleInfo *)m_physicEdgeInfo)->m_radius;
-
-	glTranslatef(((IEPhysicCircleInfo *)m_physicEdgeInfo)->m_offsetPosition[0], ((IEPhysicCircleInfo *)m_physicEdgeInfo)->m_offsetPosition[1], 0.0f);
+	glTranslatef(m_barycenter[0], m_barycenter[1], 0.0f);
 	glBegin(GL_TRIANGLE_FAN);
-	for (int index = 0; index < vertexsCount; index++)
+	for (int index = 0; index < m_vertexsNum; index++)
 	{
-		float tri = 2 * IEPI / vertexsCount * index;
-		glVertex2f(cos(tri)*radius, sin(tri)*radius);
+		float tri = 2 * IEPI / m_vertexsNum * index;
+		glVertex2f(cos(tri)*m_radius, sin(tri)*m_radius);
 	}
 	glEnd();
 }
 
 void IEPhysicCircle::SetRadius(float radius)
 {
-	((IEPhysicCircleInfo *)m_physicEdgeInfo)->m_radius = radius;
+	m_radius = radius;
 }
 
 float IEPhysicCircle::GetRadius()
 {
-	float radius = ((IEPhysicCircleInfo *)m_physicEdgeInfo)->m_radius;
-	return radius;
+	return m_radius;
 }
 
-void IEPhysicCircle::SetOffsetPosition(float &offsetX, float &offsetY)
+void IEPhysicCircle::SetRadius(IEString * infos)
 {
-	((IEPhysicCircleInfo *)m_physicEdgeInfo)->m_offsetPosition[0] = offsetX;
-	((IEPhysicCircleInfo *)m_physicEdgeInfo)->m_offsetPosition[1] = offsetY;
-}
-
-float * IEPhysicCircle::GetOffsetPosition()
-{
-	return ((IEPhysicCircleInfo *)m_physicEdgeInfo)->m_offsetPosition;
-}
-
-IEVector IEPhysicCircle::GetBarycenter()
-{
-	return IEVector(0.0f, 0.0f);
+	//将信息转换为float值
+	float radius = infos->transToFloat();
+	SetRadius(radius);
 }
 
 IE_END
