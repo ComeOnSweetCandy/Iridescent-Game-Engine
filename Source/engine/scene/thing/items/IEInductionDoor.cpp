@@ -12,6 +12,7 @@ IE_BEGIN
 
 IEInductionDoor::IEInductionDoor()
 {
+	m_lastSwitch = false;
 	m_switch = false;
 }
 
@@ -34,26 +35,23 @@ IEInductionDoor * IEInductionDoor::Create(unsigned int thingType, unsigned int t
 
 void IEInductionDoor::Live()
 {
-	static bool lastSwitch = false;
-
-	if (m_switch != lastSwitch)
+	if (m_switch != m_lastSwitch)
 	{
 		//跟上一次状态不一样 那么
 		if (m_switch == true)
 		{
-			//ChangeState("open");
-			m_physicNode->SetPhysicNodeType(__physic_air_node__);
+			ChangeState("open");
+			//m_physicNode->SetPhysicNodeType(__physic_air_node__);
 		}
 		else if (m_switch == false)
 		{
-			//ChangeState("close");
-			m_physicNode->SetPhysicNodeType(__physic_static_node__);
+			ChangeState("close");
+			//m_physicNode->SetPhysicNodeType(__physic_static_node__);
 		}
 	}
 
 	//这里应该设定一个 执行一次动画后 回调一个函数
-
-	lastSwitch = m_switch;
+	m_lastSwitch = m_switch;
 	m_switch = false;
 }
 
@@ -95,8 +93,9 @@ void IEInductionDoor::BindTriggers()
 	IEXml * _xml = entrys[m_thingID]._XML;
 	IEXml * physicXML = _xml->FindChild("property")->FindChild("trigger")->FindChild("physic");
 
-	m_triggers = IEWarnTrigger::Create(physicXML, true, true);								//建立一个永久有效的warn触发器
-	m_triggers->ActivateTrigger(this, IETrggerStrike(&IEInductionDoor::TriggerStrike));		//激活触发器
+	m_triggers = IEWarnTrigger::Create(physicXML, true, true);														//建立一个永久有效的warn触发器
+	m_triggers->ActivateTrigger(this, IETrggerStrike(&IEInductionDoor::TriggerStrike));								//激活触发器
+	m_triggers->SetPhysicPosition(m_physicNode->GetPhysicPosition().m_x, m_physicNode->GetPhysicPosition().m_y);	//设定位置
 }
 
 void IEInductionDoor::RereadSelf()

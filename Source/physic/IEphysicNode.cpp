@@ -24,38 +24,13 @@ IEPhysicNode::~IEPhysicNode()
 
 void IEPhysicNode::Initialization(IEPhysicEdge * physicEdge, IEPhysicNodeType physicNodeType)
 {
-	SetPhysicEdge(physicEdge);
-	SetPhysicNodeType(physicNodeType);
+	IEPhysicNode::SetPhysicEdge(physicEdge);
+	IEPhysicNode::SetPhysicNodeType(physicNodeType);
 }
 
 void IEPhysicNode::Initialization(IEXml * physicXML)
 {
-	IEPhysicNodeType physicType = (IEPhysicNodeType)(physicXML->FindChild("type")->ValueInt());		//读取物理节点的类型
-	IEEdgeType edgeType = (IEEdgeType)(physicXML->FindChild("edge")->ValueInt());					//读取物理刚体的类型
-	float barycenterOffsetX = physicXML->FindChild("barycenterX")->ValueFloat();					//读取中心点偏移
-	float barycenterOffsetY = physicXML->FindChild("barycenterY")->ValueFloat();					//读取中心点偏移
-	IEString * infos = physicXML->FindChild("info")->Value();										//获取信息
-
-	//读取物理边缘的信息
-	const char * edgeInfo = physicXML->FindChild("info")->ValueString();
-
-	//建立edge
-	IEPhysicEdge * physicEdge;
-	if (edgeType == __edge_circle__)
-	{
-		physicEdge = IEPhysicCircle::Create(edgeType, barycenterOffsetX, barycenterOffsetY, infos);
-	}
-	else if (edgeType == __edge_polygon__)
-	{
-		physicEdge = IEPhysicPolygon::Create(edgeType, barycenterOffsetX, barycenterOffsetY, infos);
-	}
-	else
-	{
-		physicEdge = NULL;
-		__IE_ERROR__("IEPhysicNode : error. wrong physic edge type.\n");
-	}
-
-	Initialization(physicEdge, physicType);
+	IEPhysicNode::SetPhysicProperty(physicXML);
 }
 
 IEPhysicNode * IEPhysicNode::Create(IEPhysicEdge * physicEdge, IEPhysicNodeType physicType)
@@ -216,6 +191,37 @@ void IEPhysicNode::Update()
 
 	m_displacement = 0.0f;
 	m_collisionState = __collision_safe__;
+}
+
+void IEPhysicNode::SetPhysicProperty(IEXml * physicXML)
+{
+	IEPhysicNodeType physicType = (IEPhysicNodeType)(physicXML->FindChild("type")->ValueInt());		//读取物理节点的类型
+	IEEdgeType edgeType = (IEEdgeType)(physicXML->FindChild("edge")->ValueInt());					//读取物理刚体的类型
+	float barycenterOffsetX = physicXML->FindChild("barycenterX")->ValueFloat();					//读取中心点偏移
+	float barycenterOffsetY = physicXML->FindChild("barycenterY")->ValueFloat();					//读取中心点偏移
+	IEString * infos = physicXML->FindChild("info")->Value();										//获取信息
+
+	//读取物理边缘的信息
+	const char * edgeInfo = physicXML->FindChild("info")->ValueString();
+
+	//建立edge
+	IEPhysicEdge * physicEdge;
+	if (edgeType == __edge_circle__)
+	{
+		physicEdge = IEPhysicCircle::Create(edgeType, barycenterOffsetX, barycenterOffsetY, infos);
+	}
+	else if (edgeType == __edge_polygon__)
+	{
+		physicEdge = IEPhysicPolygon::Create(edgeType, barycenterOffsetX, barycenterOffsetY, infos);
+	}
+	else
+	{
+		physicEdge = NULL;
+		__IE_ERROR__("IEPhysicNode : error. wrong physic edge type.\n");
+	}
+
+	SetPhysicEdge(physicEdge);
+	SetPhysicNodeType(physicType);
 }
 
 void IEPhysicNode::SetForward(float x, float y)

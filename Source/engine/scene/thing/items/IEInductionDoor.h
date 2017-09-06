@@ -34,7 +34,8 @@ private:
 	void TriggerStrike(IEPhysicNode * physicNode);				//门被触发时候的函数
 
 private:
-	bool m_switch;
+	bool m_switch;												//当前开关状态
+	bool m_lastSwitch;											//上一次开关状态
 	bool m_round[4];											//四周的占点
 };
 

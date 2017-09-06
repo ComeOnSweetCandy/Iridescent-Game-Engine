@@ -44,12 +44,12 @@ void IEBlock::SetTranslate(float x, float y)
 		}
 
 		//如果是圆形的物理轮廓 那么需要置中
-		if (m_physicNode->GetPhysicEdge()->GetEdgeType() == __edge_circle__)
-		{
-			const float * size = GetSize();
-			physicPosition[0] += size[0];
-			physicPosition[1] += size[1];
-		}
+		//if (m_physicNode->GetPhysicEdge()->GetEdgeType() == __edge_circle__)
+		//{
+			//const float * size = GetSize();
+			//physicPosition[0] += size[0];
+			//physicPosition[1] += size[1];
+		//}
 
 		//设定绑定的physicNode的位置
 		m_physicNode->SetPhysicPosition(physicPosition[0], physicPosition[1]);

@@ -2,7 +2,7 @@
 * name     : IEinteractionTrigger.h
 * creater  : cosc
 * info     : trigger interaction
-* date   : 2017/2/26
+* date     : 2017/2/26
 * version  : 1.0
 * remark   : none
 ************************************/

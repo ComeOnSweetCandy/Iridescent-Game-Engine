@@ -119,34 +119,16 @@ void IEThing::ChangeState(const char * stateName)
 	IEXml * _stateXML = _xml->FindChild("property")->FindChildWithParameter("state", "stateName", stateName);
 
 	//首先调整物理信息
-	IEPhysicNode * physicNode = IEPhysicNode::Create(_stateXML->FindChild("physic"));
-	physicNode->SetPhysicPosition(m_physicNode->GetPhysicPosition()[0], m_physicNode->GetPhysicPosition()[1]);
-	BindPhysicNode(physicNode);
+	GetPhysicNode()->SetPhysicProperty(_stateXML->FindChild("physic"));
+
+	//IEPhysicNode * physicNode = IEPhysicNode::Create(_stateXML->FindChild("physic"));
+	//physicNode->SetPhysicPosition(m_physicNode->GetPhysicPosition()[0], m_physicNode->GetPhysicPosition()[1]);
+	//BindPhysicNode(physicNode);
+	//设定位置
+	//physicNode->SetPhysicPosition(m_translate[0], m_translate[1]);	//设定位置
 
 	//调整贴图组
 	ChangeAssort(stateName);
-
-	//下面是以往旧的脚本信息
-	//if (!m_maxState)
-	//{
-	//	return;
-	//}
-
-	//m_curState = m_curState + 1;
-	//if (m_curState >= m_maxState)
-	//{
-	//	m_curState = 0;
-	//}
-
-	//if (AllocateLuaFunction(m_LUA, "ChangeState"))
-	//{
-	//	lua_pushnumber(m_LUA, m_curState);
-	//	lua_call(m_LUA, 1, 0);
-	//}
-
-	////两者应当互不影响
-	//ChangeState(1);
-	//ChangeGroup("normal");
 }
 
 void IEThing::CheckAround(bool active)

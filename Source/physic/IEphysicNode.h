@@ -58,6 +58,8 @@ public:
 	void UnbindNode();
 	IENode * GetBindedNode();
 
+	void SetPhysicProperty(IEXml * physicXML);								//更改physic的属性
+
 	void SetPhysicNodeType(IEPhysicNodeType physicNodeType);				//设定物理节点的类型
 	IEPhysicNodeType GetPhysicNodeType();
 
