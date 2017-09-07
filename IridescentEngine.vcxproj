@@ -105,8 +105,7 @@
     <ClCompile Include="Source\engine\scene\thing\items\IEFire.cpp" />
     <ClCompile Include="Source\engine\scene\thing\items\IEJoint.cpp" />
     <ClCompile Include="Source\engine\scene\thing\items\IEThingCreator.cpp" />
-    <ClCompile Include="Source\engine\scene\thing\store\IEbesiegeThing.cpp" />
-    <ClCompile Include="Source\engine\scene\thing\store\IEinteractionThing.cpp" />
+    <ClCompile Include="Source\engine\scene\thing\items\IEInteraction.cpp" />
     <ClCompile Include="Source\engine\script\IEluaCollisionTrigger.cpp" />
     <ClCompile Include="Source\engine\script\IEluaCreature.cpp" />
     <ClCompile Include="Source\engine\script\IEluaDamageProp.cpp" />
@@ -259,8 +258,7 @@
     <ClInclude Include="Source\engine\scene\thing\items\IEFire.h" />
     <ClInclude Include="Source\engine\scene\thing\items\IEJoint.h" />
     <ClInclude Include="Source\engine\scene\thing\items\IEThingCreator.h" />
-    <ClInclude Include="Source\engine\scene\thing\store\IEbesiegeThing.h" />
-    <ClInclude Include="Source\engine\scene\thing\store\IEinteractionThing.h" />
+    <ClInclude Include="Source\engine\scene\thing\items\IEInteraction.h" />
     <ClInclude Include="Source\engine\script\IEluaCollisionTrigger.h" />
     <ClInclude Include="Source\engine\script\IEluaCreature.h" />
     <ClInclude Include="Source\engine\script\IEluaDamageProp.h" />

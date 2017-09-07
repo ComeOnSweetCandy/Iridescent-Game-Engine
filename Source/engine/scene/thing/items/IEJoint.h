@@ -23,7 +23,7 @@ public:
 	static IEJoint * Create(unsigned int thingType, unsigned int thingID, unsigned int thingOrder);
 
 public:
-	virtual void CheckAround(bool active);		//重载 是否为自发性 根据四周元素测算的同时，四周元素自身也进行计算。
+	virtual void CheckAround(bool active);			//重载 是否为自发性 根据四周元素测算的同时，四周元素自身也进行计算。
 
 private:
 	void RereadSelf();								//重新改变自身状态

@@ -89,7 +89,7 @@
 
 //thing
 #include "engine/scene/thing/items/IEfire.h"
-//#include "engine/scene/thing/items/IEinteractionThing.h"
+//#include "engine/scene/thing/items/IEInteraction.h"
 
 //particle
 #include "core/particle/IEray.h"

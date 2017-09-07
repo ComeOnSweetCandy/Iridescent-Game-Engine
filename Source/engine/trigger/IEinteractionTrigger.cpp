@@ -17,7 +17,7 @@ IEInteractionTrigger::~IEInteractionTrigger()
 
 void IEInteractionTrigger::Initialization(IEXml * physicXML, bool allowStrikeRepeat, bool allowStrikeRepeatByOne)
 {
-	//IETrigger::Initialization(physicEdge, physicNodeType, allowStrikeRepeat, allowStrikeRepeatByOne);
+	IETrigger::Initialization(physicXML, allowStrikeRepeat, allowStrikeRepeatByOne);
 }
 
 IEInteractionTrigger * IEInteractionTrigger::Create(IEXml * physicXML, bool allowStrikeRepeat, bool allowStrikeRepeatByOne)

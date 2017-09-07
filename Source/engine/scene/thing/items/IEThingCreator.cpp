@@ -4,10 +4,7 @@
 #include "../IEThingList.h"
 #include "IEJoint.h"
 #include "IEInductionDoor.h"
-
-//#include "../../script/IEluaPhysicPolygon.h"
-//#include "../../script/IEluaPhysicNode.h"
-//#include "../../script/IEluaThing.h"
+#include "IEInteraction.h"
 
 IE_BEGIN
 
@@ -36,6 +33,10 @@ IEThing * CreateThingByType(unsigned int thingID, unsigned int thingOrder)
 	else if (thingType == 2)
 	{
 		return IEInductionDoor::Create(thingType, thingID, thingOrder);
+	}
+	else if (thingType == 3)
+	{
+		return IEInteraction::Create(thingType, thingID, thingOrder);
 	}
 	else
 	{
