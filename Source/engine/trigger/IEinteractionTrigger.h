@@ -19,14 +19,11 @@ class __IE_DLL__ IEInteractionTrigger :public IETrigger
 public:
 	IEInteractionTrigger();
 	virtual ~IEInteractionTrigger();
-	virtual void Initialization(IEPhysicEdge * physicEdge, IEPhysicNodeType physicNodeType, bool allowStrikeRepeat, bool allowStrikeRepeatByOne);
-	static IEInteractionTrigger * Create(IEPhysicEdge * physicEdge, IEPhysicNodeType physicNodeType, bool allowStrikeRepeat, bool allowStrikeRepeatByOne);
+	virtual void Initialization(IEXml * physicXML, bool allowStrikeRepeat, bool allowStrikeRepeatByOne);
+	static IEInteractionTrigger * Create(IEXml * physicXML, bool allowStrikeRepeat, bool allowStrikeRepeatByOne);
 
 protected:
 	virtual void Collision(IEPhysicNode * physicNode);
-
-public:
-	IETrigger * m_trigger;
 };
 
 IE_END
