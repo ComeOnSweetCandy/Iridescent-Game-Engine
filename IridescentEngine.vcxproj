@@ -103,10 +103,11 @@
     <ClCompile Include="Source\engine\scene\thing\IEThingDirection.cpp" />
     <ClCompile Include="Source\engine\scene\thing\IEThingLine.cpp" />
     <ClCompile Include="Source\engine\scene\thing\IEThingList.cpp" />
-    <ClCompile Include="Source\engine\scene\thing\items\IEThingInduction.cpp" />
+    <ClCompile Include="Source\engine\scene\thing\items\IEDoorInducation.cpp" />
     <ClCompile Include="Source\engine\scene\thing\IEThingJoint.cpp" />
     <ClCompile Include="Source\engine\scene\thing\IEThingCreator.cpp" />
-    <ClCompile Include="Source\engine\scene\thing\items\IEThingInteraction.cpp" />
+    <ClCompile Include="Source\engine\scene\thing\items\IEDoorInteraction.cpp" />
+    <ClCompile Include="Source\engine\scene\thing\items\IETorch.cpp" />
     <ClCompile Include="Source\engine\script\IEluaCollisionTrigger.cpp" />
     <ClCompile Include="Source\engine\script\IEluaCreature.cpp" />
     <ClCompile Include="Source\engine\script\IEluaDamageProp.cpp" />
@@ -256,10 +257,11 @@
     <ClInclude Include="Source\engine\scene\thing\IEThingDirection.h" />
     <ClInclude Include="Source\engine\scene\thing\IEThingLine.h" />
     <ClInclude Include="Source\engine\scene\thing\IEThingList.h" />
-    <ClInclude Include="Source\engine\scene\thing\items\IEThingInduction.h" />
+    <ClInclude Include="Source\engine\scene\thing\items\IEDoorInducation.h" />
     <ClInclude Include="Source\engine\scene\thing\IEThingJoint.h" />
     <ClInclude Include="Source\engine\scene\thing\IEThingCreator.h" />
-    <ClInclude Include="Source\engine\scene\thing\items\IEThingInteraction.h" />
+    <ClInclude Include="Source\engine\scene\thing\items\IEDoorInteraction.h" />
+    <ClInclude Include="Source\engine\scene\thing\items\IETorch.h" />
     <ClInclude Include="Source\engine\script\IEluaCollisionTrigger.h" />
     <ClInclude Include="Source\engine\script\IEluaCreature.h" />
     <ClInclude Include="Source\engine\script\IEluaDamageProp.h" />

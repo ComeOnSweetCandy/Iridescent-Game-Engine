@@ -582,12 +582,6 @@
     <ClCompile Include="Source\engine\trigger\IETriggerCollision.cpp">
       <Filter>IridescentEngine</Filter>
     </ClCompile>
-    <ClCompile Include="Source\engine\scene\thing\items\IEThingInduction.cpp">
-      <Filter>IridescentEngine</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\engine\scene\thing\items\IEThingInteraction.cpp">
-      <Filter>IridescentEngine</Filter>
-    </ClCompile>
     <ClCompile Include="Source\engine\scene\thing\IEThingDirection.cpp">
       <Filter>IridescentEngine</Filter>
     </ClCompile>
@@ -598,6 +592,15 @@
       <Filter>IridescentEngine</Filter>
     </ClCompile>
     <ClCompile Include="Source\engine\scene\thing\IEThingLine.cpp">
+      <Filter>IridescentEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\engine\scene\thing\items\IEDoorInducation.cpp">
+      <Filter>IridescentEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\engine\scene\thing\items\IEDoorInteraction.cpp">
+      <Filter>IridescentEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\engine\scene\thing\items\IETorch.cpp">
       <Filter>IridescentEngine</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1055,12 +1058,6 @@
     <ClInclude Include="Source\engine\trigger\IETriggerCollision.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\engine\scene\thing\items\IEThingInduction.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\engine\scene\thing\items\IEThingInteraction.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\engine\scene\thing\IEThingDirection.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1071,6 +1068,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\engine\scene\thing\IEThingLine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\engine\scene\thing\items\IEDoorInducation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\engine\scene\thing\items\IEDoorInteraction.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\engine\scene\thing\items\IETorch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
