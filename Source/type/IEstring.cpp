@@ -748,7 +748,7 @@ float IEString::transToFloat()
 
 float * IEString::transToFloats()
 {
-
+	return NULL;
 }
 
 float IEString::transFromPercentToFloat()

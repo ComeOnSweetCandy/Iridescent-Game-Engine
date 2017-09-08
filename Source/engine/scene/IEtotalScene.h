@@ -11,7 +11,6 @@
 #define __IE_TOTAL_SCENE__
 
 #include "../../core/IEscene.h"
-#include "../trigger/IEtriggerManager.h"
 #include "../../physic/IEphysicWorld.h"
 #include "prop/IEpropLayer.h"
 #include "IEDrawScene.h"

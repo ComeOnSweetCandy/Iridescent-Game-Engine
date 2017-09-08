@@ -1,7 +1,7 @@
 #define __IE_DLL_EXPORTS__
 #include "IEThingArea.h"
 
-#include "items/IEThingCreator.h"
+#include "IEThingCreator.h"
 
 #include "../path/IEPathArea.h"
 #include "../../../control/IEmouse.h"

@@ -26,7 +26,7 @@ IETrigger::~IETrigger()
 	}
 
 	//清理掉触发器管理器内的自身
-	IEApplication::Share()->GetCurrentActiveScene()->GetTriggerManager()->DelTrigger(this);
+	//IEApplication::Share()->GetCurrentActiveScene()->GetTriggerManager()->DelTrigger(this);
 }
 
 void IETrigger::Initialization(IEXml * physicXML, bool allowStrikeRepeat, bool allowStrikeRepeatByOne)
@@ -37,7 +37,7 @@ void IETrigger::Initialization(IEXml * physicXML, bool allowStrikeRepeat, bool a
 	IETrigger::SetAllowStrikeRepeatByOne(allowStrikeRepeatByOne);
 
 	//将自身添加进触发器管理器内
-	IEApplication::Share()->GetCurrentActiveScene()->GetTriggerManager()->AddTrigger(this);
+	//IEApplication::Share()->GetCurrentActiveScene()->GetTriggerManager()->AddTrigger(this);
 }
 
 IETrigger * IETrigger::Create(IEXml * physicXML, bool allowStrikeRepeat, bool allowStrikeRepeatByOne)

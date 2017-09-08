@@ -3,7 +3,7 @@
 #include "../creature/IEplayer.h"
 
 #include "../../../physic/physicEdge/IEphysicCircle.h"
-#include "../../trigger/IEcollisionTrigger.h"
+//#include "../../trigger/IEcollisionTrigger.h"
 
 IE_BEGIN
 

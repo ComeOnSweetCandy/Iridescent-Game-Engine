@@ -12,7 +12,6 @@ IETotalScene::IETotalScene()
 
 IETotalScene::~IETotalScene()
 {
-	__IE_RELEASE_DIF__(m_triggerManager);
 	__IE_RELEASE_DIF__(m_physicWorld);
 }
 
@@ -20,7 +19,7 @@ void IETotalScene::Initialization(char * sceneName)
 {
 	IEScene::Initialization();
 
-	m_triggerManager = IETriggerManager::Create();
+	//m_triggerManager = IETriggerManager::Create();
 	m_physicWorld = IEPhysicWorld::Create();
 	m_creaturesLayer = IELayer::Create();
 	m_propLayer = IELayer::Create();
@@ -46,7 +45,7 @@ void IETotalScene::Run()
 	Visit();
 
 	m_physicWorld->Run();
-	m_triggerManager->Run();
+	//m_triggerManager->Run();
 	m_drawScene->Run();
 
 	//带所有的元素渲染完毕 这个时候 根据IEPlayer的方位定位camera最精准
