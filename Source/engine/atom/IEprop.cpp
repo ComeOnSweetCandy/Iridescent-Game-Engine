@@ -110,7 +110,7 @@ void IEProp::InitLuaScript()
 		{ "base", luaopen_base },
 		{ "IEPhysicCircle", luaopen_physicCircle },
 		{ "IEPhysicNode", luaopen_physicNode },
-		{ "IECollisionTrigger", luaopen_collisionTrigger },
+		{ "IETriggerCollision", luaopen_collisionTrigger },
 		{ "IEDamageProp", luaopen_damageProp },
 		{ "IECreature", luaopen_creature },
 		{ "IENode", luaopen_node },

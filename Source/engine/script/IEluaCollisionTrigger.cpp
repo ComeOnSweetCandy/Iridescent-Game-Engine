@@ -14,10 +14,10 @@ int lua_collisionTrigger_create(lua_State* luaSript)
 	//IEClockType clockType = (IEClockType)lua_tointeger(luaSript, 3);
 	//int clockParam = (int)lua_tointeger(luaSript, 4);
 
-	//IECollisionTrigger ** collisionTrigger = (IECollisionTrigger**)lua_newuserdata(luaSript, sizeof(IECollisionTrigger*));
-	//*collisionTrigger = IECollisionTrigger::Create(physicEdge, physicNodeType, clockType, clockParam);
+	//IETriggerCollision ** collisionTrigger = (IETriggerCollision**)lua_newuserdata(luaSript, sizeof(IETriggerCollision*));
+	//*collisionTrigger = IETriggerCollision::Create(physicEdge, physicNodeType, clockType, clockParam);
 
-	//luaL_getmetatable(luaSript, "IECollisionTrigger.IECollisionTrigger");
+	//luaL_getmetatable(luaSript, "IETriggerCollision.IETriggerCollision");
 	//lua_setmetatable(luaSript, -2);
 
 	//return 1;
@@ -26,7 +26,7 @@ int lua_collisionTrigger_create(lua_State* luaSript)
 
 int luaopen_collisionTrigger(lua_State *luaSript)
 {
-	luaL_newmetatable(luaSript, "IECollisionTrigger.IECollisionTrigger");
+	luaL_newmetatable(luaSript, "IETriggerCollision.IETriggerCollision");
 	lua_pushvalue(luaSript, -1);
 	lua_setfield(luaSript, -2, "__index");
 	luaL_setfuncs(luaSript, lua_reg_collisionTrigger_funcs_m, 0);

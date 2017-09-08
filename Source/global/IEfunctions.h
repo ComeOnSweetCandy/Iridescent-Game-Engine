@@ -43,37 +43,36 @@ extern "C" void __IE_DLL__ __ie_new_unexist_file__(const char * fileName);
 /************
 * Release
 *************/
+#define __IE_INIT_ARRAY__(__array__,__count__,__value__)\
+for (int __array__##index = 0; __array__##index < __count__; __array__##index++){\
+	__array__[__array__##index] = __value__; \
+}
 #define __IE_DELETE__(__p__)\
-if (__p__)\
-{\
+if (__p__){\
 	delete __p__; \
 	__p__ = NULL; \
 }
 
 #define __IE_DELETES__(__p__)\
-if (__p__)\
-{\
+if (__p__){\
 	delete[] __p__; \
 	__p__ = NULL; \
 }
 
 #define __IE_RELEASE__(__p__)\
-if (__p__)\
-{\
+if (__p__){\
 	__p__->Release(); \
 	__p__ = NULL; \
 }
 
 #define __IE_RELEASE_DIF__(__p__)\
-if (__p__)\
-{\
+if (__p__){\
 	__p__->ReleaseDisreference(); \
 	__p__ = NULL; \
 }
 
 #define __IE_RELEASES_DIF__(__p__,__c__)\
-for (int index = 0; index < __c__; index++)\
-{\
+for (int index = 0; index < __c__; index++){\
 	if (__p__[index])\
 	{\
 	__p__[index]->ReleaseDisreference(); \
@@ -82,15 +81,13 @@ for (int index = 0; index < __c__; index++)\
 }
 
 #define __IE_LUA_RELEASE__(__p__)\
-if (__p__)\
-{\
+if (__p__){\
 	lua_close(__p__); \
 	__p__ = NULL; \
 }
 
 #define __IE_FCLOSE__(__p__)\
-if (__p__)\
-{\
+if (__p__){\
 	fclose(__p__); \
 	__p__ = NULL; \
 }
@@ -100,18 +97,15 @@ if (__p__)\
 *************/
 #ifdef  __IE_DEBUG__
 #define __IE_WARNING__(__content__)\
-do\
-{\
+do{\
 	printf("%s\n", __content__); \
 }while (0)
 #define __IE_EDIT_DIALOG__(__content__)\
-do\
-{\
+do{\
 	printf("EDIT WARNING : %s\n", __content__); \
 }while (0)
 #define __IE_ERROR__(__error__)\
-do\
-{\
+do{\
 	printf("%s\n", __error__); \
 	throw __error__; \
 }while (0)

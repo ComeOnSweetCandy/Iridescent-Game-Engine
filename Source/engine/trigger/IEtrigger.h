@@ -40,7 +40,7 @@ public:
 	void SetAllowStrikeRepeat(bool allowStrikeRepeat);				//设定是否允许重复触发
 	void SetAllowStrikeRepeatByOne(bool allowStrikeRepeatByOne);	//设定是否允许被同一个物体重复触发
 
-	void ActivateTrigger(IEAtom * self, IETrggerStrike function);		//设定一个新的trigger 并且绑定至物理世界
+	void ActivateTrigger(IEAtom * self, IETrggerStrike function);		//设定一个新的trigger 绑定到一个atom上 并且绑定至物理世界
 
 protected:
 	virtual void RunTrigger();										//运行trigger

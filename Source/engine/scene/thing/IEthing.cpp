@@ -121,19 +121,14 @@ void IEThing::ChangeState(const char * stateName)
 	//首先调整物理信息
 	GetPhysicNode()->SetPhysicProperty(_stateXML->FindChild("physic"));
 
-	//IEPhysicNode * physicNode = IEPhysicNode::Create(_stateXML->FindChild("physic"));
-	//physicNode->SetPhysicPosition(m_physicNode->GetPhysicPosition()[0], m_physicNode->GetPhysicPosition()[1]);
-	//BindPhysicNode(physicNode);
-	//设定位置
-	//physicNode->SetPhysicPosition(m_translate[0], m_translate[1]);	//设定位置
-
 	//调整贴图组
 	ChangeAssort(stateName);
 }
 
-void IEThing::CheckAround(bool active)
+void IEThing::CheckThing(bool active)
 {
-	__IE_WARNING__("IEThing : CheckAround. need to rewrite.\n");
+	//默认状态下
+	RereadSelf();
 }
 
 void IEThing::LoadXML()
@@ -144,18 +139,19 @@ void IEThing::LoadXML()
 		return;
 	}
 
-	//需要调整的为两项 物理信息 和 贴图信息
+	//需要调整的为两项 物理信息 和 贴图信息 这里都是获取xml信息
 	IEThingEntry * entrys = IEThingList::Share()->GetEntrys();
-	IEXml * _xml = entrys[m_thingID]._XML;
-	const char * _stateName = _xml->FindChild("property")->FindChild("defaultState")->ValueString();
-	IEXml * _stateXML = _xml->FindChild("property")->FindChildWithParameter("state", "stateName", _stateName);
+	m_XML = entrys[m_thingID]._XML;
+	const char * _stateName = m_XML->FindChild("property")->FindChild("defaultState")->ValueString();
+	IEXml * _stateXML = m_XML->FindChild("property")->FindChildWithParameter("state", "stateName", _stateName);
 
 	//首先调整物理信息
 	IEPhysicNode * physicNode = IEPhysicNode::Create(_stateXML->FindChild("physic"));
 	BindPhysicNode(physicNode);
 
-	//其次调整贴图信息
-	IEPackerTexture * texture = IEPackerTexture::Create(_xml->FindChild("texture"));
+	//其次 调整默认贴图状态 调整贴图信息
+	IEPackerTexture * texture = IEPackerTexture::Create(m_XML->FindChild("texture"));
+	ChangeAssort(_stateName);
 	ChangeTexture(texture);
 }
 
@@ -206,6 +202,16 @@ void IEThing::LoadLUA()
 		//IEThing * newThing = *((IEThing **)lua_touserdata(luaScript, -1));
 		//return newThing;
 	}
+}
+
+void IEThing::RereadSelf()
+{
+	//根据自身的方向值 来改变贴图
+	char finalGroupName[256];
+	sprintf(finalGroupName, "normal");
+
+	//更改为正确的状态
+	ChangeGroup(finalGroupName, 1);
 }
 
 IE_END

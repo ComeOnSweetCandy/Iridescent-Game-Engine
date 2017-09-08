@@ -1,39 +1,36 @@
 #define __IE_DLL_EXPORTS__
-#include "IEfire.h"
+#include "IETorch.h"
 
 IE_BEGIN
 
 
-IEFire::IEFire()
+IETorch::IETorch()
 {
 	m_intension = 3.0f;
 	m_distance = 5.0f;
 }
 
-IEFire::~IEFire()
+IETorch::~IETorch()
 {
 
 }
 
-void IEFire::Initialization(unsigned int thingID, float distance)
+void IETorch::Initialization(unsigned int thingType, unsigned int thingID, unsigned int thingOrder)
 {
-	IEThing::Initialization(0, thingID, 1);
-	IESprite::ChangeTexture("fire/body.png");
+	IEThing::Initialization(thingType, thingID, thingOrder);
 
-	IEShader * shader = IEShader::Create("fire.glsl");
-	IENode::AttachShader(shader);
 
-	SetLightDistance(distance);
+	SetProperty();
 }
 
-IEFire * IEFire::Create(unsigned int thingID, float distance)
+IETorch * IETorch::Create(unsigned int thingType, unsigned int thingID, unsigned int thingOrder)
 {
-	IEFire * light = new IEFire();
-	light->Initialization(thingID, distance);
-	return light;
+	IETorch * thing = new IETorch();
+	thing->Initialization(thingType, thingID, thingOrder);
+	return thing;
 }
 
-void IEFire::Update()
+void IETorch::Update()
 {
 	//呼吸效果
 	static float maxMulti = 1.1f;
@@ -60,13 +57,13 @@ void IEFire::Update()
 	}
 }
 
-void IEFire::DrawNode()
+void IETorch::DrawNode()
 {
 	DrawLight();
 	DrawFire();
 }
 
-void IEFire::DrawLight()
+void IETorch::DrawLight()
 {
 	glPushMatrix();
 	glTranslatef(-m_distance + m_size[0] / 2, -m_distance + m_size[1] / 2, 0.0f);
@@ -99,7 +96,7 @@ void IEFire::DrawLight()
 	glPopMatrix();
 }
 
-void IEFire::DrawFire()
+void IETorch::DrawFire()
 {
 	//RunTexture();
 
@@ -125,19 +122,20 @@ void IEFire::DrawFire()
 	glBindTexture(GL_TEXTURE_2D, NULL);
 }
 
-void IEFire::SetLightColor(float r, float g, float b, float a)
+void IETorch::SetProperty()
 {
-	m_lightColor = IEColor(r, g, b, a);
-}
+	//读取shader 然后加载
+	IEShader * shader = IEShader::Create(m_XML->FindChild("script")->ValueString());
+	IENode::AttachShader(shader);
 
-void IEFire::SetLightDistance(float distance)
-{
-	m_distance = distance;
-}
+	//读取各项属性
+	m_distance = m_XML->FindChild("property")->FindChild("distance")->ValueFloat();
+	m_baseLight = m_XML->FindChild("property")->FindChild("baseLight")->ValueFloat();
+	m_intension = m_XML->FindChild("property")->FindChild("intension")->ValueFloat();
 
-void IEFire::SetLightIntension(float intension)
-{
-	m_intension = intension;
+	IEString * colorString = m_XML->FindChild("property")->FindChild("intension")->Value();
+
+
 }
 
 IE_END

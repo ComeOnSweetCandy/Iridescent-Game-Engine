@@ -7,7 +7,8 @@ IESprite::IESprite()
 {
 	m_shader = NULL;
 	m_texture = NULL;
-	m_textureUnit = NULL;
+
+	m_textureUnit = new IETextureUnitState();
 }
 
 IESprite::~IESprite()
@@ -21,7 +22,6 @@ void IESprite::Initialization(const char * textureName)
 {
 	IEElement::Initialization();
 
-	m_textureUnit = new IETextureUnitState();
 	IESprite::ChangeTexture(textureName);
 }
 
@@ -121,7 +121,7 @@ void IESprite::ChangeAssort(const char * assortName)
 		//拷贝一份 分类组名
 		strcpy(m_textureUnit->_AssortName, assortName);
 
-		if (m_textureUnit->_TextureID != 0)
+		if (m_texture && m_textureUnit->_TextureID != 0)
 		{
 			//重新获取新的贴图组
 			m_texture->ChangeGroup(m_textureUnit, m_texture->m_textureGroups[m_textureUnit->_GroupIndex]._Name, m_textureUnit->_SameIndex);

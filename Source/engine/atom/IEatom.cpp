@@ -56,10 +56,28 @@ lua_State * IEAtom::GetLuaScript()
 	return m_LUA;
 }
 
+void IEAtom::AddTrigger(IETrigger * trigger)
+{
+
+}
+
+void IEAtom::AddTrigger(IETrigger * trigger, const char * functionLua)
+{
+
+}
+
+void IEAtom::DelTrigger(IETriggerType type)
+{
+
+}
+
+void IEAtom::TriggerStrike(IEPhysicNode * physicNode)
+{
+
+}
+
 void IEAtom::ChangeState(const char * stateName)
 {
-	//IEXml * state = m_XML->FindChild("state");
-
 	ChangeAssort(stateName);
 }
 

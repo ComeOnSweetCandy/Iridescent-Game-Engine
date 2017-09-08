@@ -36,10 +36,12 @@ public:
 	virtual void ChangeState(const char * stateName);									//改变事物当前的状态
 	virtual void ChangeGroup(const char * groupName, unsigned int sameIndex = 1);		//重载更改贴图组事件
 
-	lua_State * GetLuaScript();
+	void AddTrigger(IETrigger * trigger);										//添加一个触发器
+	void AddTrigger(IETrigger * trigger, const char * functionLua);				//添加一个触发器
+	void DelTrigger(IETriggerType type);										//删除一个触发器
+	void TriggerStrike(IEPhysicNode * physicNode);								//触发器触发
 
-	void AddTrigger(IETrigger * trigger);		//添加一个触发器
-	void DelTrigger(IETriggerType type);		//删除一个触发器
+	lua_State * GetLuaScript();
 
 protected:
 	unsigned m_triggersCount;			//触发器计数

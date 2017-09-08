@@ -39,11 +39,13 @@ public:
 	int * GetLocations();																				//获取thing的位置参数
 
 	virtual void ChangeState(const char * stateName);													//转换一种状态
-	virtual void CheckAround(bool active);																//对周围进行检查 active代表 是自发性检查 还是周围元素驱使下的检查 主要防止递归调用
+	virtual void CheckThing(bool active);																//对周围进行检查 active代表 是自发性检查 还是周围元素驱使下的检查 主要防止递归调用
 
 private:
 	void LoadXML();			//从XML中读取个人信息
 	void LoadLUA();			//加载脚本文件
+
+	void RereadSelf();						//重新改变自身状态
 
 protected:
 	unsigned int m_thingType;				//thing的类型

@@ -49,14 +49,14 @@
 //p->SetPosition(-1.0f, 0.0f);
 //scene->AddChild(p);
 
-//IEInteraction * t1 = (IEInteraction *)(scene->GetBindedMap()->GetThing()->AddChild(3, 2, 0, 0, 0));
+//IEDoorInteraction * t1 = (IEDoorInteraction *)(scene->GetBindedMap()->GetThing()->AddChild(3, 2, 0, 0, 0));
 //IEStateThing * t2 = (IEStateThing *)(scene->GetBindedMap()->GetThing()->AddChild(4, 4, 0, 0, 0));
 //t1->BindStateThing(t2);
 
 //IERay * ray = IERay::Create("ray/body.png", 6.0f, 45.0f);
 //p->AddChild(ray);
 
-//IEInteraction * t1 = (IEInteraction *)(scene->GetBindedMap()->GetThing()->AddChild(3, 2, 0, 0, 0));
+//IEDoorInteraction * t1 = (IEDoorInteraction *)(scene->GetBindedMap()->GetThing()->AddChild(3, 2, 0, 0, 0));
 //IEStateThing * t2 = (IEStateThing *)(scene->GetBindedMap()->GetThing()->AddChild(4, 4, 0, 0, 0));
 //t1->BindStateThing(t2);
 

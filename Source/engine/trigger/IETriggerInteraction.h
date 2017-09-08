@@ -7,20 +7,20 @@
 * remark   : none
 ************************************/
 
-#ifndef __IE_INTERACTION_TRIGGER__
-#define __IE_INTERACTION_TRIGGER__
+#ifndef __IE_TRIGGER_INTERACTION__
+#define __IE_TRIGGER_INTERACTION__
 
 #include "IEtrigger.h"
 
 IE_BEGIN
 
-class __IE_DLL__ IEInteractionTrigger :public IETrigger
+class __IE_DLL__ IETriggerInteraction :public IETrigger
 {
 public:
-	IEInteractionTrigger();
-	virtual ~IEInteractionTrigger();
+	IETriggerInteraction();
+	virtual ~IETriggerInteraction();
 	virtual void Initialization(IEXml * physicXML, bool allowStrikeRepeat, bool allowStrikeRepeatByOne);
-	static IEInteractionTrigger * Create(IEXml * physicXML, bool allowStrikeRepeat, bool allowStrikeRepeatByOne);
+	static IETriggerInteraction * Create(IEXml * physicXML, bool allowStrikeRepeat, bool allowStrikeRepeatByOne);
 
 protected:
 	virtual void Collision(IEPhysicNode * physicNode);

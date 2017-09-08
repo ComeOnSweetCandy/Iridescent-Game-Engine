@@ -15,8 +15,8 @@
 
 IE_BEGIN
 
-class IECollisionTrigger;
-class IEInteractionTrigger;
+class IETriggerCollision;
+class IETriggerInteraction;
 
 enum IEPropType
 {

@@ -10,7 +10,7 @@
 #ifndef __IE_THING_CREATOR__
 #define __IE_THING_CREATOR__
 
-#include "../IEThing.h"
+#include "IEThing.h"
 
 IE_BEGIN
 

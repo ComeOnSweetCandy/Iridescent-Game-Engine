@@ -54,7 +54,7 @@ void CreatePickedProp(int propIndex, int propCount, float x, float y)
 	//in->m_vertexsNum = 32;
 
 	//IEPhysicCircle * attackPhysicEdge = IEPhysicCircle::Create(in);
-	//IECollisionTrigger * collisionTrigger = IECollisionTrigger::Create(attackPhysicEdge, __physic_air_node__, true, true);
+	//IETriggerCollision * collisionTrigger = IETriggerCollision::Create(attackPhysicEdge, __physic_air_node__, true, true);
 	//IEPickedProp * pickedProp = IEPickedProp::Create(collisionTrigger, propIndex, propCount);
 
 	//pickedProp->SetTranslate(x, y);

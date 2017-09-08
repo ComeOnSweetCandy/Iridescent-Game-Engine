@@ -92,6 +92,7 @@ public:
 	int DetectedType();													//当字符串可以转换为其它类型时候，检测类型
 	int transToInt();													//转换为整形
 	float transToFloat();												//转换为浮点型
+	float * transToFloats();											//转换为无数个浮点数
 	float transFromPercentToFloat();									//百分比转换为浮点型
 
 private:

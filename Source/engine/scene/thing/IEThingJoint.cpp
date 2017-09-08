@@ -1,44 +1,36 @@
 #define __IE_DLL_EXPORTS__
-#include "IEJoint.h"
+#include "IEThingJoint.h"
 
-#include "../IEThingList.h"
-#include "../IEthingArea.h"
+#include "IEThingList.h"
+#include "IEthingArea.h"
 
-#include "../../../../interface/cmd/IEapplication.h"
+#include "../../../interface/cmd/IEapplication.h"
 
 IE_BEGIN
 
-#define __IE_INIT_ARRAY__(__array__,__count__,__value__)\
-	for (int __array__##index = 0; __array__##index < __count__; __array__##index++){\
-		__array__[__array__##index]=__value__;\
-	}
-
-IEJoint::IEJoint()
+IEThingJoint::IEThingJoint()
 {
 	__IE_INIT_ARRAY__(m_round, 4, false);
-	__IE_INIT_ARRAY__(m_topBorder, 4, NULL);
-
-	m_topBackground = NULL;
 }
 
-IEJoint::~IEJoint()
+IEThingJoint::~IEThingJoint()
 {
 
 }
 
-void IEJoint::Initialization(unsigned int thingType, unsigned int thingID, unsigned int thingOrder)
+void IEThingJoint::Initialization(unsigned int thingType, unsigned int thingID, unsigned int thingOrder)
 {
 	IEThing::Initialization(thingType, thingID, thingOrder);
 }
 
-IEJoint * IEJoint::Create(unsigned int thingType, unsigned int thingID, unsigned int thingOrder)
+IEThingJoint * IEThingJoint::Create(unsigned int thingType, unsigned int thingID, unsigned int thingOrder)
 {
-	IEJoint * thing = new IEJoint();
+	IEThingJoint * thing = new IEThingJoint();
 	thing->Initialization(thingType, thingID, thingOrder);
 	return thing;
 }
 
-void IEJoint::CheckAround(bool active)
+void IEThingJoint::CheckThing(bool active)
 {
 	//对四周进行检测
 	static IEThingArea * area = IEApplication::Share()->GetCurrentActiveScene()->GetBindedMap()->GetThing();
@@ -59,8 +51,8 @@ void IEJoint::CheckAround(bool active)
 
 			if (active)
 			{
-				((IEJoint *)grids[index])->m_round[(index + 2) % 4] = true;
-				grids[index]->CheckAround(false);
+				((IEThingJoint *)grids[index])->m_round[(index + 2) % 4] = true;
+				grids[index]->CheckThing(false);
 			}
 			else
 			{
@@ -72,7 +64,7 @@ void IEJoint::CheckAround(bool active)
 	RereadSelf();
 }
 
-void IEJoint::RereadSelf()
+void IEThingJoint::RereadSelf()
 {
 	//最后当所有的都完了，那么就测算 该使用那部分的贴图 以及贴图的旋转方向了
 	unsigned int aroundCount = 0;
@@ -182,24 +174,7 @@ void IEJoint::RereadSelf()
 	}
 
 	//一旦调整完毕 joint将会以正确的方式显示出来
-	ChangeState("normal");
 	ChangeGroup(finalGroupName, 1);
-}
-
-void IEJoint::BuildTopSprite(unsigned int thingID)
-{
-	IEThingEntry * entrys = IEThingList::Share()->GetEntrys();
-	unsigned int count = IEThingList::Share()->GetEntrysCount();
-
-	IEString backName = IEString(entrys[thingID]._ThingName) + "_back";
-	IEString borderName = IEString(entrys[thingID]._ThingName) + "_border";
-
-	m_topBackground = IESprite::Create(backName.GetString());
-
-	for (unsigned char index = 0; index < 4; index++)
-	{
-		m_topBorder[index] = IESprite::Create(borderName.GetString());
-	}
 }
 
 IE_END

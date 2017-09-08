@@ -88,8 +88,8 @@
 #include "ai/IEPathFinder.h"
 
 //thing
-#include "engine/scene/thing/items/IEfire.h"
-//#include "engine/scene/thing/items/IEInteraction.h"
+#include "engine/scene/thing/items/IETorch.h"
+//#include "engine/scene/thing/items/IEDoorInteraction.h"
 
 //particle
 #include "core/particle/IEray.h"

@@ -61,7 +61,7 @@ IEThing * IEThingArea::AddChild(int locationX, int locationY, unsigned char tiny
 	//创建一个新的thing
 	IEThing * thing = CreateThing(m_alter->_ThingID, m_alter->_Order);
 	AddThing(thing, locationX, locationY, tinyLocationX, tinyLocationY);
-	thing->CheckAround(true);		//自发执行某些后续计算
+	thing->CheckThing(true);		//自发执行某些后续计算
 
 	//把物理信息喂入路径网格系统
 	//m_map->BuildPath(thing->GetPhysicNode());

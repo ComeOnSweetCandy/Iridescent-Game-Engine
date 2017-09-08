@@ -2,7 +2,7 @@
 #include "IEluaProp.h"
 
 #include "../scene/thing/IEthingArea.h"
-#include "../scene/thing/items/IEfire.h"
+#include "../scene/thing/items/IETorch.h"
 #include "../../interface/cmd/IEapplication.h"
 
 IE_BEGIN

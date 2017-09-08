@@ -746,6 +746,11 @@ float IEString::transToFloat()
 	return part1 + part2;
 }
 
+float * IEString::transToFloats()
+{
+
+}
+
 float IEString::transFromPercentToFloat()
 {
 	IEString str = m_string;
