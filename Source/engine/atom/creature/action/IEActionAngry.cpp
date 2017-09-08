@@ -29,7 +29,7 @@ IEActionAngry * IEActionAngry::Create()
 
 void IEActionAngry::Begin()
 {
-	GetCreature()->ChangeGroup("angry");
+	GetCreature()->ChangeGroup("angry", 1);
 }
 
 void IEActionAngry::Excute()

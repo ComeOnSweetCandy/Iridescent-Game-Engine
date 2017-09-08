@@ -6,8 +6,7 @@ IE_BEGIN
 
 IETorch::IETorch()
 {
-	m_intension = 3.0f;
-	m_distance = 5.0f;
+
 }
 
 IETorch::~IETorch()
@@ -18,7 +17,6 @@ IETorch::~IETorch()
 void IETorch::Initialization(unsigned int thingType, unsigned int thingID, unsigned int thingOrder)
 {
 	IEThing::Initialization(thingType, thingID, thingOrder);
-
 
 	SetProperty();
 }
@@ -59,8 +57,9 @@ void IETorch::Update()
 
 void IETorch::DrawNode()
 {
-	DrawLight();
+	IEThing::DrawNode();
 	DrawFire();
+	DrawLight();
 }
 
 void IETorch::DrawLight()
@@ -98,28 +97,28 @@ void IETorch::DrawLight()
 
 void IETorch::DrawFire()
 {
-	//RunTexture();
+	IEThing::DrawNode();
 
-	if (m_texture)
-	{
-		m_texture->GetTexture(m_textureUnit);
-		glBindTexture(GL_TEXTURE_2D, m_textureUnit->_TextureID);
-	}
+	//if (m_texture)
+	//{
+	//	m_texture->GetTexture(m_textureUnit);
+	//	glBindTexture(GL_TEXTURE_2D, m_textureUnit->_TextureID);
+	//}
 
-	glEnable(GL_BLEND);
+	//glEnable(GL_BLEND);
 
-	glColor4f(m_backColor[0], m_backColor[1], m_backColor[2], m_backColor[3]);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	//glColor4f(m_backColor[0], m_backColor[1], m_backColor[2], m_backColor[3]);
+	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	glBegin(GL_QUADS);
-	glTexCoord2f(0.0f, 0.0f); glVertex2f(0, 0);
-	glTexCoord2f(1.0f, 0.0f); glVertex2f(m_size[0], 0);
-	glTexCoord2f(1.0f, 1.0f); glVertex2f(m_size[0], m_size[1]);
-	glTexCoord2f(0.0f, 1.0f); glVertex2f(0, m_size[1]);
-	glEnd();
-	glDisable(GL_BLEND);
+	//glBegin(GL_QUADS);
+	//glTexCoord2f(0.0f, 0.0f); glVertex2f(0, 0);
+	//glTexCoord2f(1.0f, 0.0f); glVertex2f(m_size[0], 0);
+	//glTexCoord2f(1.0f, 1.0f); glVertex2f(m_size[0], m_size[1]);
+	//glTexCoord2f(0.0f, 1.0f); glVertex2f(0, m_size[1]);
+	//glEnd();
+	//glDisable(GL_BLEND);
 
-	glBindTexture(GL_TEXTURE_2D, NULL);
+	//glBindTexture(GL_TEXTURE_2D, NULL);
 }
 
 void IETorch::SetProperty()
@@ -134,7 +133,7 @@ void IETorch::SetProperty()
 	m_intension = m_XML->FindChild("property")->FindChild("intension")->ValueFloat();
 
 	IEString * colorString = m_XML->FindChild("property")->FindChild("intension")->Value();
-
+	m_lightColor = IEColor(1.0f, 0.0f, 0.0f, 1.0f);
 
 }
 

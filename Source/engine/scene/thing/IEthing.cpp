@@ -208,7 +208,7 @@ void IEThing::RereadSelf()
 {
 	//根据自身的方向值 来改变贴图
 	char finalGroupName[256];
-	sprintf(finalGroupName, "normal");
+	sprintf(finalGroupName, "core");
 
 	//更改为正确的状态
 	ChangeGroup(finalGroupName, 1);

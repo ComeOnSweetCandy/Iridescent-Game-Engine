@@ -142,7 +142,7 @@ void IEPackerTexture::ChangeGroup(IETextureUnitState * textureUnitState, const c
 	//但是首先得确定 之前一个groupIndex为空 也就是textureID是否为零
 	if (textureUnitState->_TextureID != 0)
 	{
-		if (strcmp(m_textureGroups[textureUnitState->_GroupIndex]._Name, groupName) == 0 && strcmp(m_textureGroups[textureUnitState->_GroupIndex]._Name, textureUnitState->_AssortName) == 0)
+		if (strcmp(m_textureGroups[textureUnitState->_GroupIndex]._Name, groupName) == 0 && strcmp(m_textureGroups[textureUnitState->_GroupIndex]._Assort, textureUnitState->_AssortName) == 0)
 		{
 			if (sameIndex - 1 == textureUnitState->_SameIndex)
 			{

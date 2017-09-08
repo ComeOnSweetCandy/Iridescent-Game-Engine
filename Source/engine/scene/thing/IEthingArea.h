@@ -21,6 +21,8 @@ IE_BEGIN
 #define __IE_THING_ALTER_OPERA_BIN__ 2
 #define __IE_THING_ALTER_OPERA_BED__ 3
 
+#pragma pack(push)
+#pragma pack(1)
 class IEThingAlter:public IEObject
 {
 public:
@@ -33,6 +35,7 @@ public:
 	unsigned int _ExtraOrder;
 	unsigned char _OperaType;
 };
+#pragma pack(pop)
 
 class __IE_DLL__ IEThingArea :public IEArea
 {

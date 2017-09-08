@@ -151,7 +151,7 @@ void IEMap::LoadMap()
 {
 	m_curTerrain->LoadChunks();
 	//m_curMarble->LoadChunks();
-	//m_curThing->LoadChunks();
+	m_curThing->LoadChunks();
 	m_curPath->LoadChunks();
 }
 
@@ -752,8 +752,11 @@ void IEMap::LoadThingChunk(int blockX, int blockY)
 			fread(m_thingBlocksList, sizeof(IEThingBlockFormat), m_unitChunkBlockCount, m_thingFile);
 			thingChunkIndex = thingChunkIndex->_Next;
 
-			printf("things load »¹Ã»×ö");
-			//m_curThing->LoadChild(blockX, blockY, m_thingBlocksList);
+			for (int index = 0; index < m_unitChunkBlockCount; index++)
+			{
+				IEThingBlockFormat &data = m_thingBlocksList[index];
+				m_curThing->LoadChild(data._ThingID, data._X, data._Y, data._TinyX, data._TinyY);
+			}
 		}
 	}
 }

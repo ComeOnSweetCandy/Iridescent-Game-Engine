@@ -33,7 +33,7 @@ public:
 	virtual void SetTranslate(const float &x, const float &y);
 	virtual void SetPosition(const float &x, const float &y);
 
-	virtual void ChangeGroup(const char * groupName, unsigned int sameIndex = 1);				//普通形式下的改变贴图组
+	virtual void ChangeGroup(const char * groupName, unsigned int sameIndex);				//普通形式下的改变贴图组
 
 	IECreatureInfo * GetCreatureInfo();
 	IECreatureUnit * GetCreatureUnit();

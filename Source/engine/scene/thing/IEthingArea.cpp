@@ -130,6 +130,10 @@ IEThing * IEThingArea::GetThing(int locationX, int locationY, unsigned char tiny
 
 IEThing * IEThingArea::LoadChild(unsigned m_thingID, int locationX, int locationY, unsigned char tinyLocationX, unsigned char tinyLocationY)
 {
+	printf("%d %d %d %d %d\n", m_thingID, locationX, locationY, tinyLocationX, tinyLocationY);
+
+	return NULL;
+
 	if (m_thingID == 0)
 	{
 		return NULL;
