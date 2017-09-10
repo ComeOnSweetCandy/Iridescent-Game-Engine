@@ -755,7 +755,11 @@ void IEMap::LoadThingChunk(int blockX, int blockY)
 			for (int index = 0; index < m_unitChunkBlockCount; index++)
 			{
 				IEThingBlockFormat &data = m_thingBlocksList[index];
-				m_curThing->LoadChild(data._ThingID, data._X, data._Y, data._TinyX, data._TinyY);
+				
+				continue;
+
+				m_curThing->SetReadyThing(data._ThingID);
+				m_curThing->AddChild(data._X, data._Y, data._TinyX, data._TinyY);
 			}
 		}
 	}

@@ -41,7 +41,6 @@ void IETorch::Update()
 	static int value = 1;
 	static float speed = 0.001f;
 
-	m_distance = beginDistance * curMulti;
 	m_intension = beginIntension * curMulti;
 	curMulti = curMulti + speed * value;
 
@@ -57,7 +56,6 @@ void IETorch::Update()
 
 void IETorch::DrawNode()
 {
-	IEThing::DrawNode();
 	DrawFire();
 	DrawLight();
 }
@@ -65,7 +63,7 @@ void IETorch::DrawNode()
 void IETorch::DrawLight()
 {
 	glPushMatrix();
-	glTranslatef(-m_distance + m_size[0] / 2, -m_distance + m_size[1] / 2, 0.0f);
+	glTranslatef(m_size[0] / 2, m_size[1] / 2, 0.0f);
 
 	glDisable(GL_TEXTURE);
 	if (m_shader)
@@ -77,16 +75,19 @@ void IETorch::DrawLight()
 
 		GLint intension = glGetUniformLocation(m_shader->GetShaderProgram(), "intension");
 		glUniform1f(intension, m_intension);
+
+		GLint baseLight = glGetUniformLocation(m_shader->GetShaderProgram(), "baseLight");
+		glUniform1f(baseLight, m_baseLight);
 	}
 	glEnable(GL_BLEND);
-	glBlendFunc(GL_DST_COLOR, GL_ONE);
+	glBlendFunc(GL_ONE, GL_ONE);
 
 	glColor4f(m_lightColor.m_r, m_lightColor.m_g, m_lightColor.m_b, m_lightColor.m_a);
 	glBegin(GL_QUADS);
-	glVertex2f(0, 0);
-	glVertex2f(m_distance * 2.0f, 0);
-	glVertex2f(m_distance * 2.0f, m_distance * 2.0f);
-	glVertex2f(0, m_distance * 2.0f);
+	glVertex2f(-m_distance * 2, -m_distance * 2);
+	glVertex2f(m_distance * 2, -m_distance * 2);
+	glVertex2f(m_distance * 2, m_distance * 2);
+	glVertex2f(-m_distance * 2, m_distance * 2);
 	glEnd();
 
 	glDisable(GL_BLEND);
@@ -97,28 +98,34 @@ void IETorch::DrawLight()
 
 void IETorch::DrawFire()
 {
-	IEThing::DrawNode();
-
-	//if (m_texture)
+	//if (m_shader)
 	//{
-	//	m_texture->GetTexture(m_textureUnit);
-	//	glBindTexture(GL_TEXTURE_2D, m_textureUnit->_TextureID);
+	//	glUseProgram(m_shader->GetShaderProgram());
 	//}
 
-	//glEnable(GL_BLEND);
+	static float drawX, drawY;		//最终定义绘制的方向的
+	drawX = m_drawDirection[0] ? 0 : m_size[0];
+	drawY = m_drawDirection[1] ? 0 : m_size[1];
 
-	//glColor4f(m_backColor[0], m_backColor[1], m_backColor[2], m_backColor[3]);
-	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glBindTexture(GL_TEXTURE_2D, m_textureUnit->_TextureID);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	//glBegin(GL_QUADS);
-	//glTexCoord2f(0.0f, 0.0f); glVertex2f(0, 0);
-	//glTexCoord2f(1.0f, 0.0f); glVertex2f(m_size[0], 0);
-	//glTexCoord2f(1.0f, 1.0f); glVertex2f(m_size[0], m_size[1]);
-	//glTexCoord2f(0.0f, 1.0f); glVertex2f(0, m_size[1]);
-	//glEnd();
-	//glDisable(GL_BLEND);
+	glColor4f(m_backColor[0], m_backColor[1], m_backColor[2], m_backColor[3]);
+	glBegin(GL_QUADS);
+	//glTexCoord2f(m_textureUnit->_BeginX, m_textureUnit->_BeginY); glVertex2f(0, 0);
+	//glTexCoord2f(m_textureUnit->_EndX, m_textureUnit->_BeginY); glVertex2f(m_size[0], 0);
+	//glTexCoord2f(m_textureUnit->_EndX, m_textureUnit->_EndY); glVertex2f(m_size[0], m_size[1]);
+	//glTexCoord2f(m_textureUnit->_BeginX, m_textureUnit->_EndY); glVertex2f(0, m_size[1]);
 
-	//glBindTexture(GL_TEXTURE_2D, NULL);
+	glTexCoord2f(m_textureUnit->_BeginX, m_textureUnit->_BeginY); glVertex2f(drawX, drawY);
+	glTexCoord2f(m_textureUnit->_EndX, m_textureUnit->_BeginY); glVertex2f(m_size[0] - drawX, drawY);
+	glTexCoord2f(m_textureUnit->_EndX, m_textureUnit->_EndY); glVertex2f(m_size[0] - drawX, m_size[1] - drawY);
+	glTexCoord2f(m_textureUnit->_BeginX, m_textureUnit->_EndY); glVertex2f(drawX, m_size[1] - drawY);
+	glEnd();
+
+	glDisable(GL_BLEND);
+	glBindTexture(GL_TEXTURE_2D, NULL);
 }
 
 void IETorch::SetProperty()
