@@ -5,9 +5,9 @@ IE_BEGIN
 
 IETorch::IETorch()
 {
-	float _curMulti = 1.0f;
-	int _value = 1;
-	float _speed = 0.001f;
+	_curMulti = 1.0f;
+	_value = 1;
+	_speed = 0.001f;
 }
 
 IETorch::~IETorch()
@@ -74,9 +74,9 @@ void IETorch::DrawLight()
 		glUniform1f(baseLight, m_baseLight);
 
 		//将阻隔物的顶点传送过去
-		//float vectors[20] = { 1.0f };
-		//GLint wallVectors = glGetUniformLocation(m_shader->GetShaderProgram(), "wallVectors");
-		//glUniform2fv(wallVectors, 10, vectors);
+		float vectors[20] = { 10.0f };
+		GLint wallVectors = glGetUniformLocation(m_shader->GetShaderProgram(), "wallVectors");
+		glUniform2fv(wallVectors, 10, vectors);
 	}
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_ONE, GL_ONE);
