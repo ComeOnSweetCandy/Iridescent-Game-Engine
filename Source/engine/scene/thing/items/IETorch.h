@@ -36,6 +36,11 @@ private:
 	float m_distance;				//距离
 	float m_baseLight;				//基础亮度
 	float m_intension;				//衰减值
+	float m_curIntension;			//当前衰减值
+
+	float _curMulti;
+	int _value;
+	float _speed;
 };
 
 IE_END

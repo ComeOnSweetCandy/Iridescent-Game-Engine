@@ -3,10 +3,11 @@
 
 IE_BEGIN
 
-
 IETorch::IETorch()
 {
-
+	float _curMulti = 1.0f;
+	int _value = 1;
+	float _speed = 0.001f;
 }
 
 IETorch::~IETorch()
@@ -34,23 +35,16 @@ void IETorch::Update()
 	static float maxMulti = 1.1f;
 	static float minMulti = 0.9f;
 
-	static float curMulti = 1.0f;
-	static float beginDistance = m_distance;
-	static float beginIntension = m_intension;
+	m_curIntension = m_intension * _curMulti;
+	_curMulti = _curMulti + _speed * _value;
 
-	static int value = 1;
-	static float speed = 0.001f;
-
-	m_intension = beginIntension * curMulti;
-	curMulti = curMulti + speed * value;
-
-	if (curMulti > maxMulti)
+	if (_curMulti > maxMulti)
 	{
-		value = -1;
+		_value = -1;
 	}
-	else if (curMulti < minMulti)
+	else if (_curMulti < minMulti)
 	{
-		value = 1;
+		_value = 1;
 	}
 }
 
@@ -74,10 +68,15 @@ void IETorch::DrawLight()
 		glUniform1f(radius, m_distance);
 
 		GLint intension = glGetUniformLocation(m_shader->GetShaderProgram(), "intension");
-		glUniform1f(intension, m_intension);
+		glUniform1f(intension, m_curIntension);
 
 		GLint baseLight = glGetUniformLocation(m_shader->GetShaderProgram(), "baseLight");
 		glUniform1f(baseLight, m_baseLight);
+
+		//将阻隔物的顶点传送过去
+		//float vectors[20] = { 1.0f };
+		//GLint wallVectors = glGetUniformLocation(m_shader->GetShaderProgram(), "wallVectors");
+		//glUniform2fv(wallVectors, 10, vectors);
 	}
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_ONE, GL_ONE);
@@ -141,7 +140,6 @@ void IETorch::SetProperty()
 
 	IEString * colorString = m_XML->FindChild("property")->FindChild("intension")->Value();
 	m_lightColor = IEColor(1.0f, 0.0f, 0.0f, 1.0f);
-
 }
 
 IE_END
