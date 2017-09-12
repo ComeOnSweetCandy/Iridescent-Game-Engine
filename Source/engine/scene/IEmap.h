@@ -15,6 +15,10 @@
 
 IE_BEGIN
 
+#define __MAP_EDIT_TERRAIN__	0
+#define __MAP_EDIT_THING__		1
+#define __MAP_EDIT_MARBLE__		2
+
 class IEArea;
 class IETerrainArea;
 class IEMarble;
@@ -108,6 +112,7 @@ public:
 	IETerrainArea * GetTerrain();
 	IEMarble * GetMarble();
 	IEThingArea * GetThing();
+	void SetEditArea(int __map_edit_type__);
 
 	void BuildPath(IEPhysicNode * physicNode);
 	IEArray * FindPath(IEPhysicNode * physicNode, IEVector staPosition, IEVector endPosition);

@@ -244,6 +244,22 @@ IEThingArea * IEMap::GetThing()
 	return m_curThing; 
 }
 
+void IEMap::SetEditArea(int __map_edit_type__)
+{
+	if (__map_edit_type__ == __MAP_EDIT_TERRAIN__)
+	{
+		m_activeArea = m_curTerrain;
+	}
+	else if (__map_edit_type__ == __MAP_EDIT_THING__)
+	{
+		m_activeArea = m_curThing;
+	}
+	else if (__map_edit_type__ == __MAP_EDIT_MARBLE__)
+	{
+		m_activeArea = m_curMarble;
+	}
+}
+
 void IEMap::BuildPath(IEPhysicNode * physicNode)
 {
 	m_curPath->ReckonAddPath(physicNode);

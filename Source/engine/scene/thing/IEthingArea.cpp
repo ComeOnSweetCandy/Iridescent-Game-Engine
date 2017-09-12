@@ -269,6 +269,10 @@ void IEThingArea::RemoveChild(int locationX, int locationY, unsigned char tinyLo
 
 void IEThingArea::SetReadyThing(unsigned int thingID)
 {
+	//设定当前编辑对象为thing
+	m_map->SetEditArea(__MAP_EDIT_THING__);
+
+	//设定readything
 	m_readyThingID = thingID;
 
 	if (m_readyThingID != 0)
