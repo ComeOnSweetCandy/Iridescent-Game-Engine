@@ -11,7 +11,7 @@
 #define __IE_CREATURE__
 
 #include "../IEAtom.h"
-#include "IECreatureInfo.h"
+#include "IECreatureEntry.h"
 
 #include "goal/IEGoalMachine.h"
 #include "action/IEactionMachine.h"
@@ -33,9 +33,7 @@ public:
 	virtual void SetTranslate(const float &x, const float &y);
 	virtual void SetPosition(const float &x, const float &y);
 
-	virtual void ChangeGroup(const char * groupName, unsigned int sameIndex);				//普通形式下的改变贴图组
-
-	IECreatureInfo * GetCreatureInfo();
+	IECreatureEntry * GetCreatureInfo();
 	IECreatureUnit * GetCreatureUnit();
 	IEActionMachine * GetActionMachine();
 
@@ -74,7 +72,7 @@ private:
 	void RunAction();								//运行动作
 
 protected:
-	IECreatureInfo * m_info;
+	IECreatureEntry * m_info;
 	IECreatureUnit * m_unit;
 	IEGoalMachine * m_goalMachine;
 	IEActionMachine * m_actionMachine;

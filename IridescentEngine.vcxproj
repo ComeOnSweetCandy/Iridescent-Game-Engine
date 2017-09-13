@@ -68,7 +68,7 @@
     <ClCompile Include="Source\engine\atom\creature\goal\IEGoalWatch.cpp" />
     <ClCompile Include="Source\engine\atom\creature\IECreature.cpp" />
     <ClCompile Include="Source\engine\atom\creature\IECreatureInfo.cpp" />
-    <ClCompile Include="Source\engine\atom\creature\IEcreaturesInfoManager.cpp" />
+    <ClCompile Include="Source\engine\atom\creature\IECreatureList.cpp" />
     <ClCompile Include="Source\engine\atom\creature\IEplayer.cpp" />
     <ClCompile Include="Source\engine\atom\IEAtom.cpp" />
     <ClCompile Include="Source\engine\atom\IEprop.cpp" />
@@ -223,7 +223,7 @@
     <ClInclude Include="Source\engine\atom\creature\goal\IEGoalWatch.h" />
     <ClInclude Include="Source\engine\atom\creature\IECreature.h" />
     <ClInclude Include="Source\engine\atom\creature\IECreatureInfo.h" />
-    <ClInclude Include="Source\engine\atom\creature\IECreaturesInfoManager.h" />
+    <ClInclude Include="Source\engine\atom\creature\IECreatureList.h" />
     <ClInclude Include="Source\engine\atom\creature\IEPlayer.h" />
     <ClInclude Include="Source\engine\atom\IEAtom.h" />
     <ClInclude Include="Source\engine\atom\IEprop.h" />

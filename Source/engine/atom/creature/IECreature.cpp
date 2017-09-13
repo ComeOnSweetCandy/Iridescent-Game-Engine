@@ -71,11 +71,6 @@ void IECreature::SetPosition(const float &x, const float &y)
 	}
 }
 
-void IECreature::ChangeGroup(const char * groupName, unsigned int sameIndex)
-{
-	IESprite::ChangeGroup(groupName, sameIndex);
-}
-
 void IECreature::Born()
 {
 	
@@ -99,7 +94,7 @@ void IECreature::TemporaryTextureEnd()
 	//m_actionMachine->CheckActions();
 }
 
-IECreatureInfo * IECreature::GetCreatureInfo()
+IECreatureEntry * IECreature::GetCreatureInfo()
 {
 	return m_info;
 }
@@ -117,7 +112,7 @@ IEActionMachine * IECreature::GetActionMachine()
 void IECreature::InitUnit(unsigned int creatureID, int creatureOrder)
 {
 	//获取creature的基本信息
-	m_info = &(IECreaturesInfoManager::Share()->m_creaturesInfoList[creatureID]);
+	m_info = &(IECreatureList::Share()->m_entrys[creatureID]);
 
 	//新建个体信息
 	m_unit = new IECreatureUnit();

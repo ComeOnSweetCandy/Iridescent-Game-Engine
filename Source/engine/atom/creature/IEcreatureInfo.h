@@ -1,5 +1,5 @@
 /***********************************
-* name     : IECreatureInfo.h
+* name     : IECreatureEntry.h
 * creater  : cosc
 * info     : creature info
 * date     : 2017/1/4
@@ -58,12 +58,12 @@ typedef struct ieCreatureInfo
 
 	unsigned int _BaseDamage;
 	unsigned int _GrowDamage;
-}IECreatureInfo;
+}IECreatureEntry;
 
 typedef struct ieUnitInfo
 {
 	//map一类需要读取的信息
-	IECreatureInfo * _CretureInfo;
+	IECreatureEntry * _CretureInfo;
 	unsigned int _CreatrueID;
 	unsigned int _Order;
 	unsigned int _Level;

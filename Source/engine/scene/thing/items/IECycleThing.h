@@ -31,7 +31,7 @@ protected:
 	virtual void Live();
 
 private:
-	void BindTriggers();										//绑定上触发器
+	void BindClock();											//绑定上计时器
 	void TriggerStrike(IEPhysicNode * physicNode);				//门被触发时候的函数
 
 private:

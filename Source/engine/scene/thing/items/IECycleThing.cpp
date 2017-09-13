@@ -9,7 +9,7 @@ IE_BEGIN
 
 IECycleThing::IECycleThing()
 {
-	m_switch = false;
+	
 }
 
 IECycleThing::~IECycleThing()
@@ -35,7 +35,7 @@ void IECycleThing::CheckThing(bool active)
 
 	if (active)
 	{
-		BindTriggers();
+		BindClock();
 	}
 }
 
@@ -47,30 +47,11 @@ void IECycleThing::Live()
 void IECycleThing::TriggerStrike(IEPhysicNode * physicNode)
 {
 	//说明被触发了 这个时候转换状态
-	m_switch = !m_switch;
-
-	//跟上一次状态不一样 那么
-	if (m_switch == true)
-	{
-		ChangeState("open");
-	}
-	else if (m_switch == false)
-	{
-		ChangeState("close");
-	}
 }
 
-void IECycleThing::BindTriggers()
+void IECycleThing::BindClock()
 {
-	//读取触发器信息
-	IEThingEntry * entrys = IEThingList::Share()->GetEntrys();
-	IEXml * _xml = entrys[m_thingID]._XML;
-	IEXml * triggerXML = _xml->FindChild("property")->FindChild("trigger")->FindChild("physic");
-	int triggerType = _xml->FindChild("property")->FindChild("trigger")->FindChild("triggetType")->ValueInt();
 
-	m_triggers = IETriggerInteraction::Create(triggerXML, true, true);													//建立一个永久有效的warn触发器
-	m_triggers->ActivateTrigger(this, IETrggerStrike(&IECycleThing::TriggerStrike));								//激活触发器
-	m_triggers->SetPhysicPosition(m_physicNode->GetPhysicPosition().m_x, m_physicNode->GetPhysicPosition().m_y);		//设定位置
 }
 
 IE_END

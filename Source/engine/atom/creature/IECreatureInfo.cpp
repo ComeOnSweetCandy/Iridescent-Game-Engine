@@ -1,5 +1,5 @@
 #define __IE_DLL_EXPORTS__
-#include "IECreatureInfo.h"
+#include "IECreatureEntry.h"
 
 #include "IECreature.h"
 

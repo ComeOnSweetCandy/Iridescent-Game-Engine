@@ -10,7 +10,7 @@
 #ifndef __IE_ACTION__
 #define __IE_ACTION__
 
-#include "../IECreatureInfo.h"
+#include "../IECreatureEntry.h"
 #include "../../../../core/IEnode.h"
 
 IE_BEGIN
