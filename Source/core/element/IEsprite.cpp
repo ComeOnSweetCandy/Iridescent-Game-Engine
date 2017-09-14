@@ -69,10 +69,10 @@ void IESprite::DrawNode()
 	//glTexCoord2f(m_textureUnit->_EndX, m_textureUnit->_EndY); glVertex2f(m_size[0], m_size[1]);
 	//glTexCoord2f(m_textureUnit->_BeginX, m_textureUnit->_EndY); glVertex2f(0, m_size[1]);
 
-	glTexCoord2f(m_textureUnit->_BeginX, m_textureUnit->_BeginY); glVertex2f(drawX, drawY);
-	glTexCoord2f(m_textureUnit->_EndX, m_textureUnit->_BeginY); glVertex2f(m_size[0] - drawX, drawY);
-	glTexCoord2f(m_textureUnit->_EndX, m_textureUnit->_EndY); glVertex2f(m_size[0] - drawX, m_size[1] - drawY);
-	glTexCoord2f(m_textureUnit->_BeginX, m_textureUnit->_EndY); glVertex2f(drawX, m_size[1] - drawY);
+	//glTexCoord2f(m_textureUnit->_BeginX, m_textureUnit->_BeginY); glVertex2f(drawX, drawY);
+	//glTexCoord2f(m_textureUnit->_EndX, m_textureUnit->_BeginY); glVertex2f(m_size[0] - drawX, drawY);
+	//glTexCoord2f(m_textureUnit->_EndX, m_textureUnit->_EndY); glVertex2f(m_size[0] - drawX, m_size[1] - drawY);
+	//glTexCoord2f(m_textureUnit->_BeginX, m_textureUnit->_EndY); glVertex2f(drawX, m_size[1] - drawY);
 	glEnd();
 
 	glDisable(GL_BLEND);
@@ -124,7 +124,7 @@ void IESprite::ChangeAssort(const char * assortName)
 		if (m_texture && m_textureUnit->_TextureID != 0)
 		{
 			//重新获取新的贴图组
-			m_texture->ChangeGroup(m_textureUnit, m_texture->m_textureGroups[m_textureUnit->_GroupIndex]._Name, m_textureUnit->_SameIndex);
+			m_texture->ChangeGroup(m_textureUnit, m_texture->m_textureGroups[m_textureUnit->_GroupIndex]._UnitName, m_textureUnit->_SameIndex);
 		}
 	}
 }

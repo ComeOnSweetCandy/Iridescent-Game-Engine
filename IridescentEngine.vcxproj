@@ -67,9 +67,10 @@
     <ClCompile Include="Source\engine\atom\creature\goal\IEGoalUser.cpp" />
     <ClCompile Include="Source\engine\atom\creature\goal\IEGoalWatch.cpp" />
     <ClCompile Include="Source\engine\atom\creature\IECreature.cpp" />
-    <ClCompile Include="Source\engine\atom\creature\IECreatureInfo.cpp" />
     <ClCompile Include="Source\engine\atom\creature\IECreatureList.cpp" />
     <ClCompile Include="Source\engine\atom\creature\IEplayer.cpp" />
+    <ClCompile Include="Source\engine\atom\creature\state\IEState.cpp" />
+    <ClCompile Include="Source\engine\atom\creature\state\IEStateMachine.cpp" />
     <ClCompile Include="Source\engine\atom\IEAtom.cpp" />
     <ClCompile Include="Source\engine\atom\IEprop.cpp" />
     <ClCompile Include="Source\engine\atom\prop\IEdamageProp.cpp" />
@@ -222,9 +223,10 @@
     <ClInclude Include="Source\engine\atom\creature\goal\IEGoalUser.h" />
     <ClInclude Include="Source\engine\atom\creature\goal\IEGoalWatch.h" />
     <ClInclude Include="Source\engine\atom\creature\IECreature.h" />
-    <ClInclude Include="Source\engine\atom\creature\IECreatureInfo.h" />
     <ClInclude Include="Source\engine\atom\creature\IECreatureList.h" />
     <ClInclude Include="Source\engine\atom\creature\IEPlayer.h" />
+    <ClInclude Include="Source\engine\atom\creature\state\IEState.h" />
+    <ClInclude Include="Source\engine\atom\creature\state\IEStateMachine.h" />
     <ClInclude Include="Source\engine\atom\IEAtom.h" />
     <ClInclude Include="Source\engine\atom\IEprop.h" />
     <ClInclude Include="Source\engine\atom\prop\IEdamageProp.h" />

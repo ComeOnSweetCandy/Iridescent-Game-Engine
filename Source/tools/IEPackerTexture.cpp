@@ -29,7 +29,7 @@ IEPackerTexture::~IEPackerTexture()
 				delete[]m_textureGroups[index]._Same[index1]._Fraps;
 			}
 			delete[]m_textureGroups[index]._Same;
-			delete[]m_textureGroups[index]._Name;
+			delete[]m_textureGroups[index]._UnitName;
 			delete[]m_textureGroups[index]._Assort;
 		}
 		delete[]m_textureGroups;
@@ -142,7 +142,7 @@ void IEPackerTexture::ChangeGroup(IETextureUnitState * textureUnitState, const c
 	//但是首先得确定 之前一个groupIndex为空 也就是textureID是否为零
 	if (textureUnitState->_TextureID != 0)
 	{
-		if (strcmp(m_textureGroups[textureUnitState->_GroupIndex]._Name, groupName) == 0 && strcmp(m_textureGroups[textureUnitState->_GroupIndex]._Assort, textureUnitState->_AssortName) == 0)
+		if (strcmp(m_textureGroups[textureUnitState->_GroupIndex]._UnitName, groupName) == 0 && strcmp(m_textureGroups[textureUnitState->_GroupIndex]._Assort, textureUnitState->_AssortName) == 0)
 		{
 			if (sameIndex - 1 == textureUnitState->_SameIndex)
 			{
@@ -153,7 +153,7 @@ void IEPackerTexture::ChangeGroup(IETextureUnitState * textureUnitState, const c
 
 	for (unsigned char index = 0; index < m_groupCount; index++)
 	{
-		if (strcmp(m_textureGroups[index]._Name, groupName) == 0 && strcmp(m_textureGroups[index]._Assort, textureUnitState->_AssortName) == 0)
+		if (strcmp(m_textureGroups[index]._UnitName, groupName) == 0 && strcmp(m_textureGroups[index]._Assort, textureUnitState->_AssortName) == 0)
 		{
 			if (sameIndex>m_textureGroups[index]._SameCount)
 			{
@@ -216,8 +216,8 @@ const char * IEPackerTexture::LoadXML(IEXml * xml)
 		//拷贝名字
 		const char * name = xmls[index]->FindChild("name")->ValueString();
 		int nameLength = strlen(name);
-		m_textureGroups[index]._Name = new char[nameLength + 1];
-		strcpy(m_textureGroups[index]._Name, name);
+		m_textureGroups[index]._UnitName = new char[nameLength + 1];
+		strcpy(m_textureGroups[index]._UnitName, name);
 
 		//拷贝组别
 		const char * assort = xmls[index]->FindChild("assort")->ValueString();
@@ -250,8 +250,8 @@ void IEPackerTexture::ForgeryXML(const char * textureName)
 	m_groupCount = 1;
 	m_textureGroups = new IETextureGroup[m_groupCount];
 
-	m_textureGroups[0]._Name = new char[4];
-	strcpy(m_textureGroups[0]._Name, "def");
+	m_textureGroups[0]._UnitName = new char[4];
+	strcpy(m_textureGroups[0]._UnitName, "def");
 
 	m_textureGroups[0]._Assort = new char[7];
 	strcpy(m_textureGroups[0]._Assort, "normal");

@@ -1,6 +1,9 @@
 #define __IE_DLL_EXPORTS__
 #include "IECreatureList.h"
 
+#include "../../../type/IEstring.h"
+#include "../../../core/container/IEdictionary.h"
+
 IE_BEGIN
 
 IECreatureList * IECreatureList::m_staticList = NULL;
@@ -20,12 +23,13 @@ IECreatureList::~IECreatureList()
 	if (m_entrys)
 	{
 		delete[] m_entrys;
+		m_entrys = NULL;
 	}
 }
 
 void IECreatureList::Initialization()
 {
-	LoadCreaturesInfo();
+	IECreatureList::LoadList();
 }
 
 void IECreatureList::Release()
@@ -43,30 +47,104 @@ IECreatureList * IECreatureList::Share()
 	return m_staticList;
 }
 
+IECreatureEntry * IECreatureList::GetEntrys()
+{
+	return m_entrys;
+}
+
+unsigned int IECreatureList::GetEntrysCount()
+{
+	return m_entrysCount;
+}
+
+void IECreatureList::AddEntry(const char * thingName)
+{
+	//首先检测是否已经有了该资源文件
+	for (unsigned int index = 1; index < m_entrysCount; index++)
+	{
+		if (strcmp(m_entrys[index]._CreatureName, thingName) == 0)
+		{
+			return;
+		}
+	}
+
+	//对于新加入的资源文件，自动给予一个新的id
+	for (unsigned int index = 1; index < m_entrysCount; index++)
+	{
+		if (m_entrys[index]._CreatureID == 0)
+		{
+			m_entrys[index]._CreatureID = index;
+			strcpy(m_entrys[index]._CreatureName, thingName);
+
+			return;
+		}
+	}
+
+	//说明没有空间了 扩充空间
+	unsigned int emptyIndex = m_entrysCount;
+	m_entrysCount = m_entrysCount * 2;
+
+	IECreatureEntry * newEntrys = new IECreatureEntry[m_entrysCount];
+	memcpy(newEntrys, m_entrys, sizeof(IECreatureEntry)* emptyIndex);
+	delete[] m_entrys;
+	m_entrys = newEntrys;
+
+	m_entrys[emptyIndex]._CreatureID = emptyIndex;
+	strcpy(m_entrys[emptyIndex]._CreatureName, thingName);
+
+	//最后保存修改
+	SaveList();
+}
+
+void IECreatureList::DelEntry(const char * thingName)
+{
+	//首先检测是否有了该资源文件
+	for (unsigned int index = 1; index < m_entrysCount; index++)
+	{
+		if (strcmp(m_entrys[index]._CreatureName, thingName) == 0)
+		{
+			m_entrys[index]._CreatureID = 0;
+		}
+	}
+
+	SaveList();
+}
+
+void IECreatureList::DelEntry(unsigned int tingID)
+{
+	//首先检测是否有了该资源文件
+	for (unsigned int index = 1; index < m_entrysCount; index++)
+	{
+		if (m_entrys[index]._CreatureID == tingID)
+		{
+			m_entrys[index]._CreatureID = 0;
+		}
+	}
+
+	SaveList();
+}
+
 void IECreatureList::LoadList()
 {
 	IEString fileDir = pOBJECT_TO_cSTRING(SETTING["creatureInfoFile"]);
+	__IE_NEW_UNEXIST_FILE__(fileDir.GetString());
+
 	FILE * fp = fopen(fileDir.GetString(), "r");
-
-	char buf[1024];
-	while (fgets(buf, 1024, fp))
+	if (!fp)
 	{
-		m_entrysCount++;
-	}
-
-	if (m_entrysCount == 0)
-	{
+		__IE_ERROR__("IECreatureList : can not read terrain file.\n");
 		return;
 	}
 
-	fseek(fp, 0, SEEK_SET);
+	fscanf(fp, "%ud", &m_entrysCount);
+	m_entrysCount = m_entrysCount > 0 ? m_entrysCount : 1;
 	m_entrys = new IECreatureEntry[m_entrysCount];
 
 	unsigned int index = 0;
 	while (!feof(fp))
 	{
 		fscanf(fp, "%d %s", &(m_entrys[index]._CreatureID), m_entrys[index]._CreatureName);
-		
+
 		if (m_entrys[index]._CreatureID)
 		{
 			fileDir = IEString(m_entrys[index]._CreatureName) << ".xml";
@@ -77,7 +155,7 @@ void IECreatureList::LoadList()
 			//填充数据
 			IEXml * propertyXML = m_entrys[index]._XML->FindChild("property");
 
-			m_entrys[index]._CreatureType = (IECreatureType)(propertyXML->FindChild("type")->ValueInt());
+			m_entrys[index]._CreatureType = (IECreatureRace)(propertyXML->FindChild("race")->ValueInt());
 			m_entrys[index]._View = propertyXML->FindChild("view")->ValueFloat();
 			m_entrys[index]._BaseHealth = propertyXML->FindChild("baseHealth")->ValueInt();
 			m_entrys[index]._GrowHealth = propertyXML->FindChild("growHealth")->ValueInt();
@@ -100,12 +178,13 @@ void IECreatureList::LoadList()
 	fclose(fp);
 }
 
-void IECreatureList::SaveCreaturesInfo()
+void IECreatureList::SaveList()
 {
-	FILE * filePoint = fopen("./data/creature.txt", "wb");
+	FILE * filePoint = fopen("../Debug/data/adorning", "wb");
+	fwrite(&m_entrysCount, sizeof(unsigned int), 1, filePoint);
 	for (unsigned int index = 0; index < m_entrysCount; index++)
 	{
-		fwrite(&m_entrys[index], sizeof(IECreatureEntry), 1, filePoint);
+		fwrite(&m_entrys[index], 8, 1, filePoint);
 	}
 	fclose(filePoint);
 }

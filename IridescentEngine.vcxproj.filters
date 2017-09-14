@@ -417,9 +417,6 @@
     <ClCompile Include="Source\engine\atom\creature\IECreature.cpp">
       <Filter>IridescentEngine</Filter>
     </ClCompile>
-    <ClCompile Include="Source\engine\atom\creature\IECreatureInfo.cpp">
-      <Filter>IridescentEngine</Filter>
-    </ClCompile>
     <ClCompile Include="Source\engine\atom\creature\IEplayer.cpp">
       <Filter>IridescentEngine</Filter>
     </ClCompile>
@@ -604,6 +601,12 @@
       <Filter>IridescentEngine</Filter>
     </ClCompile>
     <ClCompile Include="Source\engine\atom\creature\IECreatureList.cpp">
+      <Filter>IridescentEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\engine\atom\creature\state\IEStateMachine.cpp">
+      <Filter>IridescentEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\engine\atom\creature\state\IEState.cpp">
       <Filter>IridescentEngine</Filter>
     </ClCompile>
   </ItemGroup>
@@ -896,9 +899,6 @@
     <ClInclude Include="Source\engine\atom\creature\IECreature.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\engine\atom\creature\IECreatureInfo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\engine\atom\creature\IEPlayer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1083,6 +1083,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\engine\atom\creature\IECreatureList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\engine\atom\creature\state\IEStateMachine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\engine\atom\creature\state\IEState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

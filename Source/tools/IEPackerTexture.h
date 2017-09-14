@@ -38,7 +38,7 @@ struct IETextureSame
 
 struct IETextureGroup
 {
-	char * _Name;
+	char * _UnitName;
 	char * _Assort;
 	unsigned char _SameCount;
 	IETextureSame * _Same;

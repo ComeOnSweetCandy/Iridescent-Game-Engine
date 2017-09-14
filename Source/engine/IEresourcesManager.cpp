@@ -2,7 +2,7 @@
 #include "IEresourcesManager.h"
 
 #include "../core/container/IEautoReleasePool.h"
-#include "atom/creature/IEcreaturesInfoManager.h"
+#include "atom/creature/IECreatureList.h"
 #include "atom/prop/IEpropsInfoManager.h"
 #include "scene/terrain/IETerrainList.h"
 #include "scene/thing/IEThingList.h"

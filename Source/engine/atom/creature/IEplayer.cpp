@@ -33,7 +33,7 @@ void IEPlayer::Initialization(int creatureID)
 	BindPlayerControl();
 
 	//直接定义为用户
-	m_unit->_Party = __creature_party_mine__;
+	_Unit->_Party = __creature_party_mine__;
 	IECreature::User();
 }
 

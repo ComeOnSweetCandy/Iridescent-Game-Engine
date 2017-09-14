@@ -6,7 +6,7 @@
 
 IE_BEGIN
 
-IEThingList * IEThingList::m_stateList = NULL;
+IEThingList * IEThingList::m_stackList = NULL;
 
 IEThingList::IEThingList()
 {
@@ -43,12 +43,12 @@ void IEThingList::Release()
 
 IEThingList * IEThingList::Share()
 {
-	if (m_stateList == NULL)
+	if (m_stackList == NULL)
 	{
-		m_stateList = new IEThingList();
-		m_stateList->Initialization();
+		m_stackList = new IEThingList();
+		m_stackList->Initialization();
 	}
-	return m_stateList;
+	return m_stackList;
 }
 
 IEThingEntry * IEThingList::GetEntrys()

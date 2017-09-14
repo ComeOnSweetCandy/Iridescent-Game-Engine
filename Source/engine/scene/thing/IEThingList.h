@@ -73,7 +73,7 @@ public:
 	void SaveList();
 
 private:
-	static IEThingList * m_stateList;
+	static IEThingList * m_stackList;
 
 	IEThingEntry * m_entrys;
 	unsigned int m_entrysCount;

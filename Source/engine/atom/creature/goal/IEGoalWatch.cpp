@@ -67,7 +67,7 @@ void IEGoalWatch::Excute()
 
 				//¼ì²âÊÇ·ñÔÚ·¶Î§ÄÚ
 				float length = IEVector(aPosition[0] - bPosition[0], aPosition[1] - bPosition[1]).Length();
-				if (length <= self->GetCreatureInfo()->_View)
+				if (length <= self->GetCreatureEntry()->_View)
 				{
 					if (m_watchSomething == false)
 					{
