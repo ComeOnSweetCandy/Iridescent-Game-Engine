@@ -124,7 +124,7 @@ void IETerrainList::DelEntry(unsigned int terrainID)
 void IETerrainList::LoadList()
 {
 	IEString fileDir = pOBJECT_TO_cSTRING(SETTING["terrainInfoFile"]);
-	__IE_NEW_UNEXIST_FILE__(fileDir.GetString());
+	IEIsexistFile(fileDir.GetString());
 
 	FILE * fp = fopen(fileDir.GetString(), "r");
 	if (!fp)

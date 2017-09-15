@@ -1,7 +1,7 @@
 /***********************************
 * name     : IEluaPhysicNode.h
 * creater  : cosc
-* info     : luaScript script physic node
+* info     : LUA script physic node
 * date     : 2017/3/22
 * version  : 1.0
 * remark   : none

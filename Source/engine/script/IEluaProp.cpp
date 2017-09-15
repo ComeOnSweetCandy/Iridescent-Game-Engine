@@ -7,44 +7,44 @@
 
 IE_BEGIN
 
-int lua_prop_create(lua_State * luaScript)
+int lua_prop_create(lua_State * LUA)
 {
 	__IE_WARNING__("IELuaProp : error.\n");
 
-	luaL_checktype(luaScript, 1, LUA_TNUMBER);
-	luaL_checktype(luaScript, 2, LUA_TUSERDATA);
+	luaL_checktype(LUA, 1, LUA_TNUMBER);
+	luaL_checktype(LUA, 2, LUA_TUSERDATA);
 
-	int propIndex = (int)lua_tointeger(luaScript, 1);
-	IETrigger * trigger = *((IETrigger **)lua_touserdata(luaScript, 2));
+	int propIndex = (int)lua_tointeger(LUA, 1);
+	IETrigger * trigger = *((IETrigger **)lua_touserdata(LUA, 2));
 
-	IEProp ** prop = (IEProp**)lua_newuserdata(luaScript, sizeof(IEProp*));
+	IEProp ** prop = (IEProp**)lua_newuserdata(LUA, sizeof(IEProp*));
 	*prop = IEProp::Create(propIndex, trigger);
 
-	luaL_getmetatable(luaScript, "IEProp.IEProp");
-	lua_setmetatable(luaScript, -2);
+	luaL_getmetatable(LUA, "IEProp.IEProp");
+	lua_setmetatable(LUA, -2);
 
 	return 1;
 }
 
-int lua_prop_bindTrigger(lua_State * luaScript)
+int lua_prop_bindTrigger(lua_State * LUA)
 {
-	luaL_checktype(luaScript, 1, LUA_TUSERDATA);
-	luaL_checktype(luaScript, 2, LUA_TUSERDATA);
+	luaL_checktype(LUA, 1, LUA_TUSERDATA);
+	luaL_checktype(LUA, 2, LUA_TUSERDATA);
 
-	IEProp * prop = *((IEProp **)lua_touserdata(luaScript, 1));
-	IETrigger * trigger = *((IETrigger**)lua_touserdata(luaScript, 2));
+	IEProp * prop = *((IEProp **)lua_touserdata(LUA, 1));
+	IETrigger * trigger = *((IETrigger**)lua_touserdata(LUA, 2));
 
 	prop->BindTrigger(trigger);
 
-	lua_settop(luaScript, 0);
+	lua_settop(LUA, 0);
 
 	return 0;
 }
 
-int lua_prop_createFire(lua_State * luaScript)
+int lua_prop_createFire(lua_State * LUA)
 {
-	luaL_checktype(luaScript, 1, LUA_TNUMBER);
-	float lightDistance = (float)lua_tonumber(luaScript, 1);
+	luaL_checktype(LUA, 1, LUA_TNUMBER);
+	float lightDistance = (float)lua_tonumber(LUA, 1);
 
 	IETotalScene * scene = IEApplication::Share()->GetCurrentActiveScene();
 	const float * position = scene->GetPlayer()->GetTranslate();
@@ -55,13 +55,13 @@ int lua_prop_createFire(lua_State * luaScript)
 	return 0;
 }
 
-int luaopen_prop(lua_State * luaScript)
+int luaopen_prop(lua_State * LUA)
 {
-	luaL_newmetatable(luaScript, "IEProp.IEProp");
-	lua_pushvalue(luaScript, -1);
-	lua_setfield(luaScript, -2, "__index");
-	luaL_setfuncs(luaScript, lua_reg_Prop_funcs_m, 0);
-	luaL_newlib(luaScript, lua_reg_Prop_funcs);
+	luaL_newmetatable(LUA, "IEProp.IEProp");
+	lua_pushvalue(LUA, -1);
+	lua_setfield(LUA, -2, "__index");
+	luaL_setfuncs(LUA, lua_reg_Prop_funcs_m, 0);
+	luaL_newlib(LUA, lua_reg_Prop_funcs);
 	return 1;
 }
 

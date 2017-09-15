@@ -25,13 +25,6 @@ public:
 	virtual void Initialization();
 	static IEAtom * Create();
 
-protected:
-	virtual void Update();				//每次刷新
-
-	virtual void Born();				//每一帧的处理
-	virtual void Live();				//live时的处理
-	virtual void Die();					//die时的处理
-
 public:
 	virtual void ChangeState(const char * stateName);									//改变事物当前的状态
 	virtual void ChangeGroup(const char * groupName, unsigned int sameIndex = 1);		//重载更改贴图组事件
@@ -42,6 +35,13 @@ public:
 	void TriggerStrike(IEPhysicNode * physicNode);								//触发器触发
 
 	lua_State * GetLuaScript();
+
+public:
+	virtual void Update();				//每次刷新
+
+	virtual void Born();				//每一帧的处理
+	virtual void Live();				//live时的处理
+	virtual void Die();					//die时的处理
 
 protected:
 	unsigned m_triggersCount;			//触发器计数

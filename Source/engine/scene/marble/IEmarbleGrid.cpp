@@ -47,7 +47,7 @@ void IEMarbleGrid::Reload(unsigned int marbleID)
 void IEMarbleGrid::LoadLUA()
 {
 	IEMarbleInfo * terrainsInfo = IEMarblesInfoManager::Share()->GetMarblesInfoList();
-	IEString scriptName = pOBJECT_TO_cSTRING(SETTING["ScriptDir"]) + "marble/" + terrainsInfo[m_marbleID]._MarbleName + ".lua";
+	IEString scriptName = pOBJECT_TO_cSTRING(SETTING["ScriptDir"]) + "marble/" + terrainsInfo[m_marbleID]._MarbleName + ".LUA";
 
 	m_LUA = luaL_newstate();
 	luaL_openlibs(m_LUA);
@@ -76,7 +76,7 @@ void IEMarbleGrid::LoadLUA()
 	lua_call(m_LUA, 0, 0);
 
 	//绑定物理节点
-	IEPhysicNode * physicNode = (IEPhysicNode *)GetLuaUserdataElement(m_LUA, "terrainPhysicNode");
+	IEPhysicNode * physicNode = (IEPhysicNode *)LUAGetUserdate(m_LUA, "terrainPhysicNode");
 	if (physicNode)
 	{
 		BindPhysicNode(physicNode);

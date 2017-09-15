@@ -59,8 +59,8 @@ void IEUsedProp::UseProp()
 
 void IEUsedProp::UsePropScript()
 {
-	SetLuaUserdataElement(m_LUA, "actionNode", "IECreature.IECreature", m_owner);
-	SetLuaUserdataElement(m_LUA, "actionPhysicNode", "IEPhysicNode.IEPhysicNode", m_owner->GetPhysicNode());
+	LUASetUserdate(m_LUA, "actionNode", "IECreature.IECreature", m_owner);
+	LUASetUserdate(m_LUA, "actionPhysicNode", "IEPhysicNode.IEPhysicNode", m_owner->GetPhysicNode());
 
 	//执行施放函数
 	lua_getglobal(m_LUA, "UserProp");

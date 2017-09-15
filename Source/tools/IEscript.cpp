@@ -35,9 +35,9 @@ IEScript * IEScript::Create(const char * scriptName)
 	}
 }
 
-void IEScript::SetLuaScript(lua_State * luaScript)
+void IEScript::SetLuaScript(lua_State * LUA)
 {
-	m_LUA = luaScript;
+	m_LUA = LUA;
 }
 
 lua_State * IEScript::GetLuaScript()

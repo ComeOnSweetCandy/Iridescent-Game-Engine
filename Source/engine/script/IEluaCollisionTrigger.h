@@ -1,7 +1,7 @@
 ///***********************************
 //* name     : IEluaCollisionTrigger.h
 //* creater  : cosc
-//* info     : luaScript script collision trigger
+//* info     : LUA script collision trigger
 //* date     : 2017/3/23
 //* version  : 1.0
 //* remark   : none

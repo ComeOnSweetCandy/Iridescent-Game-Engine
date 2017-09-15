@@ -19,8 +19,6 @@ void IEAtom::Initialization()
 {
 	IEElement::SetRegularization(true);
 	IESprite::Initialization(NULL);
-
-	Born();
 }
 
 IEAtom * IEAtom::Create()

@@ -33,7 +33,6 @@ public:
 public:
 	virtual void SetTranslate(const float &x, const float &y);		//设置当前位置
 
-public:
 	IECreatureEntry * GetCreatureEntry();
 	IECreatureUnit * GetCreatureUnit();
 
@@ -42,12 +41,13 @@ public:
 	IEStateMachine * GetStateMachine();
 
 	//给予creature的情况反馈 与指令区分开 或者意为 通知当前creature所处于的状态 通知类型的反馈
+	virtual void Born();
+	virtual void Live();
+	virtual void Die();
+
 	void User();								//当前为用户控制
 	void Await();								//无目标情况下的处理
 	void Warning(IECreature * creature);		//警戒线视野内有enemy
-
-	void BeAttacked();							//通知 被攻击
-	void BeInterrupt();							//通知 被打断
 	
 	//给予creature的指令调用的统统为action组
 	void Rest();								//action rest
@@ -57,10 +57,6 @@ public:
 	void Damaged(int damageValue);				//
 
 protected:
-	virtual void Born();
-	virtual void Live();
-	virtual void Die();
-
 	void RunGoal();									//运行目标
 	void RunAction();								//运行动作
 	void RunState();								//运行状态

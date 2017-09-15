@@ -111,7 +111,7 @@
     <ClCompile Include="Source\engine\scene\thing\items\IEDoorInteraction.cpp" />
     <ClCompile Include="Source\engine\scene\thing\items\IETorch.cpp" />
     <ClCompile Include="Source\engine\script\IEluaCollisionTrigger.cpp" />
-    <ClCompile Include="Source\engine\script\IEluaCreature.cpp" />
+    <ClCompile Include="Source\engine\script\creature\IELUACreature..cpp" />
     <ClCompile Include="Source\engine\script\IEluaDamageProp.cpp" />
     <ClCompile Include="Source\engine\script\IEluaNode.cpp" />
     <ClCompile Include="Source\engine\script\IEluaPhysicCircle.cpp" />
@@ -267,7 +267,7 @@
     <ClInclude Include="Source\engine\scene\thing\items\IEDoorInteraction.h" />
     <ClInclude Include="Source\engine\scene\thing\items\IETorch.h" />
     <ClInclude Include="Source\engine\script\IEluaCollisionTrigger.h" />
-    <ClInclude Include="Source\engine\script\IEluaCreature.h" />
+    <ClInclude Include="Source\engine\script\creature\IELUACreature.h" />
     <ClInclude Include="Source\engine\script\IEluaDamageProp.h" />
     <ClInclude Include="Source\engine\script\IEluaNode.h" />
     <ClInclude Include="Source\engine\script\IEluaPhysicCircle.h" />

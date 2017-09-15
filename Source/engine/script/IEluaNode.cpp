@@ -8,18 +8,18 @@ int lua_node_create(lua_State* luaSript)
 	return 1;
 }
 
-int lua_node_getPhysicNode(lua_State * luaScript)
+int lua_node_getPhysicNode(lua_State * LUA)
 {
-	luaL_checktype(luaScript, 1, LUA_TUSERDATA);
+	luaL_checktype(LUA, 1, LUA_TUSERDATA);
 
-	IENode * node = *((IENode**)lua_touserdata(luaScript, 1));
+	IENode * node = *((IENode**)lua_touserdata(LUA, 1));
 	IEPhysicNode * physicNode = node->GetPhysicNode();
 
-	IEPhysicNode ** physicNode_p = (IEPhysicNode**)lua_newuserdata(luaScript, sizeof(IEPhysicNode*));
+	IEPhysicNode ** physicNode_p = (IEPhysicNode**)lua_newuserdata(LUA, sizeof(IEPhysicNode*));
 	*physicNode_p = physicNode;
 
-	luaL_getmetatable(luaScript, "IEPhysicNode.IEPhysicNode");
-	lua_setmetatable(luaScript, -2);
+	luaL_getmetatable(LUA, "IEPhysicNode.IEPhysicNode");
+	lua_setmetatable(LUA, -2);
 
 	return 1;
 }

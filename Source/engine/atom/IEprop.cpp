@@ -6,7 +6,7 @@
 
 #include "../../interface/cmd/IEapplication.h"
 
-#include "../script/IEluaCreature.h"
+#include "../script/creature/IELUACreature.h"
 #include "../script/IEluaCollisionTrigger.h"
 #include "../script/IEluaPhysicCircle.h"
 #include "../script/IEluaPhysicNode.h"
@@ -93,7 +93,7 @@ void IEProp::AddSelfToPropLayer()
 void IEProp::SetLuaScript(lua_State * m_LUA)
 {
 	m_LUA = m_LUA;
-	char * propName = GetLuaStringElement(m_LUA, "propName");
+	char * propName = LUAGetString(m_LUA, "propName");
 
 	ChangeTexture(propName);
 }
@@ -101,7 +101,7 @@ void IEProp::SetLuaScript(lua_State * m_LUA)
 void IEProp::InitLuaScript()
 {
 	IEPropInfo info = IEPropsInfoManager::Share()->LoadPropInfo(m_propIndex);
-	IEString scriptName = IEString("../Debug/data/script/prop/") + info.s_name + ".lua";
+	IEString scriptName = IEString("../Debug/data/script/prop/") + info.s_name + ".LUA";
 	m_LUA = luaL_newstate();
 	luaL_openlibs(m_LUA);
 
@@ -112,7 +112,7 @@ void IEProp::InitLuaScript()
 		{ "IEPhysicNode", luaopen_physicNode },
 		//{ "IETriggerCollision", luaopen_collisionTrigger },
 		{ "IEDamageProp", luaopen_damageProp },
-		{ "IECreature", luaopen_creature },
+		{ "IECreature", LUAInitCreature },
 		{ "IENode", luaopen_node },
 		{ "IEProp", luaopen_prop },
 		{ NULL, NULL }
@@ -132,13 +132,13 @@ void IEProp::InitLuaScript()
 
 void IEProp::ChangePropTexture(char * textureTypeName)
 {
-	char * textureFile = GetLuaStringElement(m_LUA, textureTypeName);
+	char * textureFile = LUAGetString(m_LUA, textureTypeName);
 	ChangeTexture(textureFile);
 }
 
 char * IEProp::GetPropTexture(char * textureTypeName)
 {
-	char * textureFile = GetLuaStringElement(m_LUA, textureTypeName);
+	char * textureFile = LUAGetString(m_LUA, textureTypeName);
 	return textureFile;
 }
 

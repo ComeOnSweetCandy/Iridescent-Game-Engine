@@ -1,7 +1,7 @@
 #define __IE_DLL_EXPORTS__
 #include "IEfunctions.h"
 
-void __ie_new_unexist_file__(const char * fileName)
+void IEFunctionIsexistFile(const char * fileName)
 {
 	int exits = _access(fileName, 0);
 	if (exits != 0)
@@ -11,69 +11,76 @@ void __ie_new_unexist_file__(const char * fileName)
 	}
 }
 
-float GetLuaFloatElement(lua_State * luaScript, const char * name)
+void * LUAFunctionGetUserdate(lua_State * LUA, const char * paramName)
 {
-	//lua_settop(luaScript, 0);
-	lua_getglobal(luaScript, name);
-	float value = (float)lua_tonumber(luaScript, 1);
-	lua_pop(luaScript, 1);
+	lua_getglobal(LUA, paramName);
+	void * value = *(void **)lua_touserdata(LUA, 1);
+	lua_pop(LUA, 1);
+
 	return value;
 }
 
-int GetLuaIntElement(lua_State * luaScript, const char * name)
+float LUAFunctionGetNuber(lua_State * LUA, const char * name)
 {
-	//lua_settop(luaScript, 0);
-	if (lua_getglobal(luaScript, name))
-	{
-		int value = (int)lua_tonumber(luaScript, -1);
-		lua_pop(luaScript, 1);
-		return value;
-	}
+	lua_getglobal(LUA, name);
+	float value = (float)lua_tonumber(LUA, 1);
+	lua_pop(LUA, 1);
 
-	return 0;
-}
-
-char * GetLuaStringElement(lua_State * luaScript, const char * name)
-{
-	//lua_settop(luaScript, 0);
-	lua_getglobal(luaScript, name);
-	char * value = (char *)lua_tostring(luaScript, 1);
-	lua_pop(luaScript, 1);
 	return value;
 }
 
-void SetLuaUserdataElement(lua_State * luaScript, const char * paramName, const char * className, void * data)
+int LUAFunctionGetInt(lua_State * LUA, const char * name)
 {
-	void ** s = (void**)lua_newuserdata(luaScript, sizeof(void*));
+	lua_getglobal(LUA, name);
+	int value = (int)lua_tonumber(LUA, -1);
+	lua_pop(LUA, 1);
+
+	return value;
+}
+
+char * LUAFunctionGetString(lua_State * LUA, const char * name)
+{
+	lua_getglobal(LUA, name);
+	char * value = (char *)lua_tostring(LUA, 1);
+	lua_pop(LUA, 1);
+
+	return value;
+}
+
+void LUAFunctionSetUserdate(lua_State * LUA, const char * paramName, const char * className, void * data)
+{
+	void ** s = (void**)lua_newuserdata(LUA, sizeof(void*));
 	*s = (void *)data;
-	luaL_getmetatable(luaScript, className);
-	lua_setmetatable(luaScript, -2);
-	lua_setglobal(luaScript, paramName);
+	luaL_getmetatable(LUA, className);
+	lua_setmetatable(LUA, -2);
+	lua_setglobal(LUA, paramName);
 }
 
-void * GetLuaUserdataElement(lua_State * luaScript, const char * paramName)
+bool LUAFunctionAllocateFunction(lua_State * LUA, const char * functionName)
 {
-	//lua_settop(luaScript, 0);
-	if (!(lua_getglobal(luaScript, paramName)))
+	if (lua_getglobal(LUA, functionName))
 	{
-		return NULL;
+		return true;
 	}
-	void * value = *(void **)lua_touserdata(luaScript, 1);
-	lua_pop(luaScript, 1);
-	return value;
+	else
+	{
+		lua_pop(LUA, -1);
+
+		return false;
+	}
 }
 
-bool AllocateLuaFunction(lua_State * luaScript, const char * functionName)
+bool LUAFunctionExecuteFunction(lua_State * LUA, const char * functionName)
 {
-	if (lua_getglobal(luaScript, functionName))
+	if (lua_getglobal(LUA, functionName))
 	{
-		//SetLuaUserdataElement(m_LUA, "self", "IEThing.IEThing", this);
+		lua_call(LUA, 0, 0);
 
 		return true;
 	}
 	else
 	{
-		lua_pop(luaScript, -1);
+		lua_pop(LUA, -1);
 
 		return false;
 	}

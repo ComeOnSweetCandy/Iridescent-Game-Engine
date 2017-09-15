@@ -1,7 +1,7 @@
 /***********************************
 * name     : IEluaNode.h
 * creater  : cosc
-* info     : luaScript script node
+* info     : LUA script node
 * date     : 2017/3/24
 * version  : 1.0
 * remark   : none

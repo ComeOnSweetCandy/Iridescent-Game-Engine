@@ -1,7 +1,7 @@
 /***********************************
 * name     : IEluaSprite.h
 * creater  : cosc
-* info     : luaScript script node
+* info     : LUA script node
 * date     : 2017/5/23
 * version  : 1.0
 * remark   : none
@@ -15,7 +15,7 @@
 IE_BEGIN
 
 extern "C" __IE_DLL__ int lua_sprite_changeTexture(lua_State * luaSript);
-extern "C" __IE_DLL__ int lua_sprite_changeTextureOnce(lua_State * luaScript);
+extern "C" __IE_DLL__ int lua_sprite_changeTextureOnce(lua_State * LUA);
 
 static const luaL_Reg lua_reg_Sprite_funcs[] = {
 	{ "ChangeTexture", lua_sprite_changeTexture },

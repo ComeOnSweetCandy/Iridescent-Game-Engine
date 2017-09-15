@@ -1,7 +1,7 @@
 /***********************************
 * name     : IEscript.h
 * creater  : cosc
-* info     : lua script
+* info     : LUA script
 * date     : 2017/5/10
 * version  : 1.0
 * remark   : none
@@ -23,7 +23,7 @@ public:
 	static IEScript * Create(const char * scriptName);
 
 public:
-	void SetLuaScript(lua_State * luaScript);
+	void SetLuaScript(lua_State * LUA);
 	lua_State * GetLuaScript();
 
 private:

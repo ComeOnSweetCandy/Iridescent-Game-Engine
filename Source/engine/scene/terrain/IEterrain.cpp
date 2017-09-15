@@ -352,15 +352,15 @@ void IETerrain::LoadLUA()
 	}
 
 	IETerrainEntry * terrainsInfo = IETerrainList::Share()->GetEntrys();
-	lua_State * luaScript = terrainsInfo[m_terrainID]._LUA;
+	lua_State * LUA = terrainsInfo[m_terrainID]._LUA;
 
-	if (!luaScript)
+	if (!LUA)
 	{
-		luaScript = luaL_newstate();
-		luaL_openlibs(luaScript);
+		LUA = luaL_newstate();
+		luaL_openlibs(LUA);
 
 		char scriptName[64];
-		sprintf(scriptName, "%s%s%s", "../Debug/data/script/terrain/", terrainsInfo[m_terrainID]._TerrainName, ".lua");
+		sprintf(scriptName, "%s%s%s", "../Debug/data/script/terrain/", terrainsInfo[m_terrainID]._TerrainName, ".LUA");
 
 		luaL_Reg lua_reg_libs[] =
 		{
@@ -370,16 +370,16 @@ void IETerrain::LoadLUA()
 
 		for (luaL_Reg * lua_reg = lua_reg_libs; lua_reg->func; ++lua_reg)
 		{
-			luaL_requiref(luaScript, lua_reg->name, lua_reg->func, 1);
-			lua_pop(luaScript, 1);
+			luaL_requiref(LUA, lua_reg->name, lua_reg->func, 1);
+			lua_pop(LUA, 1);
 		}
 
-		if (luaL_dofile(luaScript, scriptName) != 0)
+		if (luaL_dofile(LUA, scriptName) != 0)
 		{
-			__IE_WARNING__("IETerrain : can not find luaScript file.\n");
+			__IE_WARNING__("IETerrain : can not find LUA file.\n");
 		}
 
-		terrainsInfo[m_terrainID]._LUA = luaScript;
+		terrainsInfo[m_terrainID]._LUA = LUA;
 	}
 }
 

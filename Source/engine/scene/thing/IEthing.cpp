@@ -166,7 +166,7 @@ void IEThing::LoadLUA()
 		luaL_openlibs(m_LUA);
 
 		char scriptName[64];
-		sprintf(scriptName, "%s%s%s", "../Debug/data/script/thing/", entrys[m_thingID]._ThingName, ".lua");
+		sprintf(scriptName, "%s%s%s", "../Debug/data/script/thing/", entrys[m_thingID]._ThingName, ".LUA");
 
 		luaL_Reg lua_reg_libs[] =
 		{
@@ -193,13 +193,13 @@ void IEThing::LoadLUA()
 	}
 
 	//读取一些脚本变量
-	//m_maxState = GetLuaIntElement(m_LUA, "maxState");
+	//m_maxState = LUAGetInt(m_LUA, "maxState");
 
-	if (AllocateLuaFunction(m_LUA, "Init"))
+	if (LUAFunctionAllocateFunction(m_LUA, "Init"))
 	{
 		lua_call(m_LUA, 0, 0);
-		//lua_pushnumber(luaScript, thingID);
-		//IEThing * newThing = *((IEThing **)lua_touserdata(luaScript, -1));
+		//lua_pushnumber(LUA, thingID);
+		//IEThing * newThing = *((IEThing **)lua_touserdata(LUA, -1));
 		//return newThing;
 	}
 }

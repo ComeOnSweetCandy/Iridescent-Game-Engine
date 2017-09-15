@@ -127,7 +127,7 @@ void IECreatureList::DelEntry(unsigned int tingID)
 void IECreatureList::LoadList()
 {
 	IEString fileDir = pOBJECT_TO_cSTRING(SETTING["creatureInfoFile"]);
-	__IE_NEW_UNEXIST_FILE__(fileDir.GetString());
+	IEIsexistFile(fileDir.GetString());
 
 	FILE * fp = fopen(fileDir.GetString(), "r");
 	if (!fp)

@@ -16,8 +16,9 @@
 /************
 * file controll
 *************/
-#define __IE_NEW_UNEXIST_FILE__ __ie_new_unexist_file__
-extern "C" void __IE_DLL__ __ie_new_unexist_file__(const char * fileName);
+#define IEIsexistFile IEFunctionIsexistFile
+
+extern "C" __IE_DLL__ void IEFunctionIsexistFile(const char * fileName);
 
 /************
 * number controll
@@ -128,16 +129,27 @@ do{\
 *************/
 extern "C"
 {
-#include "../../../libs/lua/src/lua.hpp"
+#include "../../../libs/LUA/src/LUA.hpp"
 }
 
-extern "C" __IE_DLL__ float GetLuaFloatElement(lua_State * luaScript, const char * name);
-extern "C" __IE_DLL__ int GetLuaIntElement(lua_State * luaScript, const char * name);
-extern "C" __IE_DLL__ char *  GetLuaStringElement(lua_State * luaScript, const char * name);
+#define LUASetUserdate			LUAFunctionSetUserdate
 
-extern "C" __IE_DLL__ void SetLuaUserdataElement(lua_State * luaScript, const char * paramName, const char * className, void * data);
-extern "C" __IE_DLL__ void * GetLuaUserdataElement(lua_State * luaScript, const char * paramName);
+#define LUAGetUserdate			LUAFunctionGetUserdate
+#define LUAGetNumber			LUAFunctionGetNuber
+#define LUAGetInt				LUAFunctionGetInt
+#define LUAGetString			LUAFunctionGetString
 
-extern "C" __IE_DLL__ bool AllocateLuaFunction(lua_State * luaScript, const char * functionName);
+#define LUAAllocateFunction		LUAFunctionAllocateFunction	
+#define LUAExecuteFunction		LUAFunctionExecuteFunction
+
+extern "C" __IE_DLL__ void		LUAFunctionSetUserdate(lua_State * LUA, const char * paramName, const char * className, void * data);
+
+extern "C" __IE_DLL__ float		LUAFunctionGetNuber(lua_State * LUA, const char * name);
+extern "C" __IE_DLL__ int		LUAFunctionGetInt(lua_State * LUA, const char * name);
+extern "C" __IE_DLL__ char *	LUAFunctionGetString(lua_State * LUA, const char * name);
+extern "C" __IE_DLL__ void *	LUAFunctionGetUserdate(lua_State * LUA, const char * paramName);
+
+extern "C" __IE_DLL__ bool		LUAFunctionAllocateFunction(lua_State * LUA, const char * functionName);
+extern "C" __IE_DLL__ bool		LUAFunctionExecuteFunction(lua_State * LUA, const char * functionName);
 
 #endif

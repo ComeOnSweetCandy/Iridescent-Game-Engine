@@ -15,8 +15,7 @@
 #include "action/IEActionAngry.h"
 #include "action/IEActionDisplacement.h"
 
-#include "../../script/IEluaNode.h"
-#include "../../script/IEluaCreature.h"
+#include "../../script/creature/IELUACreature.h"
 
 IE_BEGIN
 
@@ -67,23 +66,6 @@ void IECreature::SetTranslate(const float &x, const float &y)
 	{
 		m_physicNode->SetPhysicPosition(x, y);
 	}
-}
-
-void IECreature::Born()
-{
-	
-}
-
-void IECreature::Live()
-{
-	RunState();
-	RunGoal();
-	RunAction();
-}
-
-void IECreature::Die()
-{
-
 }
 
 IECreatureEntry * IECreature::GetCreatureEntry()
@@ -156,12 +138,11 @@ void IECreature::InitUnit(unsigned int creatureID, int creatureOrder)
 		luaL_openlibs(m_LUA);
 
 		char scriptName[64];
-		sprintf(scriptName, "%s%s%s", "../Debug/data/script/creature/", _Entry->_CreatureName, ".lua");
+		sprintf(scriptName, "%s%s%s", "../Debug/data/script/creature/", _Entry->_CreatureName, ".LUA");
 
 		luaL_Reg lua_reg_libs[] =
 		{
-			{ "IECreature", luaopen_creature },
-			{ "IENode", luaopen_node },
+			{ "IECreature", LUAInitCreature },
 			{ NULL, NULL }
 		};
 
@@ -173,18 +154,9 @@ void IECreature::InitUnit(unsigned int creatureID, int creatureOrder)
 		
 		if (luaL_dofile(m_LUA, scriptName) != 0)
 		{
-			__IE_WARNING__("IECreature : can not find luaScript file.\n");
+			__IE_WARNING__("IECreature : can not find LUA file.\n");
 		}
 		_Entry->_LUA = m_LUA;
-
-		SetLuaUserdataElement(m_LUA, "self", "IECreature.IECreature", this);
-
-
-
-		if (AllocateLuaFunction(_Entry->_LUA, "test"))
-		{
-			lua_call(_Entry->_LUA, 0, 0);
-		}
 	}
 }
 
@@ -205,6 +177,39 @@ void IECreature::InitCreatureTab()
 	//m_nameDisplay = IEText::Create("default");
 	//m_nameDisplay->SetTranslate(0.0f, 1.2f);
 	//IENode::AddChild(m_nameDisplay);
+}
+
+void IECreature::Born()
+{
+	if (LUAFunctionAllocateFunction(_Entry->_LUA, "Born"))
+	{
+		LUASetUserdate(m_LUA, "self", "IECreature.IECreature", this);
+		lua_call(_Entry->_LUA, 0, 0);
+	}
+	else
+	{
+
+	}
+}
+
+void IECreature::Live()
+{
+	RunState();
+	RunGoal();
+	RunAction();
+}
+
+void IECreature::Die()
+{
+	if (LUAFunctionAllocateFunction(_Entry->_LUA, "Die"))
+	{
+		LUASetUserdate(m_LUA, "self", "IECreature.IECreature", this);
+		lua_call(_Entry->_LUA, 0, 0);
+	}
+	else
+	{
+
+	}
 }
 
 void IECreature::Cured(int cureValue)
@@ -245,9 +250,9 @@ void IECreature::User()
 
 void IECreature::Await()
 {
-	if (AllocateLuaFunction(_Entry->_LUA, "Await"))
+	if (LUAFunctionAllocateFunction(_Entry->_LUA, "Await"))
 	{
-		SetLuaUserdataElement(_Entry->_LUA, "self", "IECreature.IECreature", this);
+		LUASetUserdate(_Entry->_LUA, "self", "IECreature.IECreature", this);
 		lua_call(_Entry->_LUA, 0, 0);
 	}
 	else
@@ -259,35 +264,15 @@ void IECreature::Await()
 
 void IECreature::Warning(IECreature * creature)
 {
-	//由script来决定如何处理warning状态
-	if (AllocateLuaFunction(_Entry->_LUA, "Warning"))
+	if (LUAFunctionAllocateFunction(_Entry->_LUA, "Warning"))
 	{
-		SetLuaUserdataElement(_Entry->_LUA, "self", "IECreature.IECreature", this);
+		LUASetUserdate(_Entry->_LUA, "self", "IECreature.IECreature", this);
 		lua_call(_Entry->_LUA, 0, 0);
 	}
 	else
 	{
 		IEGoalGo * goal = IEGoalGo::Create(creature->GetTranslate()[0], creature->GetTranslate()[1]);
 		m_goalMachine->ChangeGoal(goal);
-	}
-}
-
-void IECreature::BeAttacked()
-{
-
-}
-
-void IECreature::BeInterrupt()
-{
-	//由script来决定如何处理interrupt状态
-	if (AllocateLuaFunction(_Entry->_LUA, "Interrupt"))
-	{
-		SetLuaUserdataElement(_Entry->_LUA, "self", "IECreature.IECreature", this);
-		lua_call(_Entry->_LUA, 0, 0);
-	}
-	else
-	{
-		
 	}
 }
 

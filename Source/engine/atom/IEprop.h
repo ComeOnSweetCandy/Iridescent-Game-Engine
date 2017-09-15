@@ -41,7 +41,7 @@ public:
 	virtual void ClearTriggers();
 	virtual void InteractiveNode(IENode * strikeNode);
 
-	void SetLuaScript(lua_State * luaScript);
+	void SetLuaScript(lua_State * LUA);
 	void InitLuaScript();
 	void ChangePropTexture(char * textureTypeName);
 	char * GetPropTexture(char * textureTypeName);
