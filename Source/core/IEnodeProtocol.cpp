@@ -12,8 +12,7 @@ IENodeProtocol::IENodeProtocol()
 	m_shader = NULL;
 	m_display = true;
 
-	SetDirection(0, -1);
-	SetDrawDirection(true, true);
+	SetDirection(0);
 	SetSize(1.0f, 1.0f);
 	SetBackColor(1.0f, 1.0f, 1.0f, 1.0f);
 }
@@ -66,21 +65,9 @@ void IENodeProtocol::SetTranslate(const float &x, const float &y)
 	m_translate[1] = y;
 }
 
-void IENodeProtocol::SetDirection(const int &x, const int &y)
+void IENodeProtocol::SetDirection(const int &direction)
 {
-	m_direction[0] = x;
-	m_direction[1] = y;
-}
-
-void IENodeProtocol::SetDirection2(const int &direction)
-{
-	m_direction2 = direction;
-}
-
-void IENodeProtocol::SetDrawDirection(const bool &standardX, const bool &standardY)
-{
-	m_drawDirection[0] = standardX;
-	m_drawDirection[1] = standardY;
+	m_direction = direction;
 }
 
 void IENodeProtocol::SetSize(const float &x, const float &y)
@@ -99,7 +86,7 @@ float * IENodeProtocol::GetSize()
 	return m_size;
 }
 
-int * IENodeProtocol::GetDirection()
+int& IENodeProtocol::GetDirection()
 {
 	return m_direction;
 }

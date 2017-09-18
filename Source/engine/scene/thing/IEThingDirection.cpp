@@ -35,19 +35,19 @@ void IEThingDirection::CheckThing(bool active)
 	//根据自身的方向值 来改变贴图
 	char finalGroupName[256];
 
-	if (m_direction2 == 0)
+	if (m_direction == 0)
 	{
 		sprintf(finalGroupName, "S");
 	}
-	else if (m_direction2 == 1)
+	else if (m_direction == 2)
 	{
 		sprintf(finalGroupName, "E");
 	}
-	else if (m_direction2 == 2)
+	else if (m_direction == 4)
 	{
 		sprintf(finalGroupName, "N");
 	}
-	else if (m_direction2 == 3)
+	else if (m_direction == 6)
 	{
 		sprintf(finalGroupName, "W");
 	}

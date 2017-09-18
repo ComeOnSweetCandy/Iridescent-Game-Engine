@@ -225,21 +225,7 @@ void IECreature::Cured(int cureValue)
 
 void IECreature::Damaged(int damageValue)
 {
-	//_Unit->_CurHealth = _Unit->_CurHealth - damageValue;
-	//ArrangeInfo();
 
-	//if (_Unit->_CurHealth <= 0)
-	//{
-	//	IEDead * deadAction = IEDead::Create();
-	//	GetActionMachine()->ChangeAction(__action_dead__, deadAction);
-	//}
-	//else
-	//{
-	//	IEInjured * injuredAction = IEInjured::Create();
-	//	GetActionMachine()->ChangeAction(__action_injured__, injuredAction);
-	//}
-
-	//m_healthDisplay->SetProcess(_Unit->_CurHealth / _Unit->_MaxHealth);
 }
 
 void IECreature::User()

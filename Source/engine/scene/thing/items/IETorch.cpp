@@ -213,34 +213,21 @@ void IETorch::DrawLight()
 
 void IETorch::DrawFire()
 {
-	//if (m_shader)
-	//{
-	//	glUseProgram(m_shader->GetShaderProgram());
-	//}
+	glBindTexture(GL_TEXTURE_2D, m_textureUnit->_TextureID);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	//static float drawX, drawY;		//最终定义绘制的方向的
-	//drawX = m_drawDirection[0] ? 0 : m_size[0];
-	//drawY = m_drawDirection[1] ? 0 : m_size[1];
+	glColor4f(m_backColor[0], m_backColor[1], m_backColor[2], m_backColor[3]);
+	glBegin(GL_QUADS);
 
-	//glBindTexture(GL_TEXTURE_2D, m_textureUnit->_TextureID);
-	//glEnable(GL_BLEND);
-	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glTexCoord2f(m_textureUnit->_BeginX, m_textureUnit->_BeginY); glVertex2f(0.0f, 0.0f);
+	glTexCoord2f(m_textureUnit->_EndX, m_textureUnit->_BeginY); glVertex2f(m_size[0], 0.0f);
+	glTexCoord2f(m_textureUnit->_EndX, m_textureUnit->_EndY); glVertex2f(m_size[0], m_size[1]);
+	glTexCoord2f(m_textureUnit->_BeginX, m_textureUnit->_EndY); glVertex2f(0.0f, m_size[1]);
+	glEnd();
 
-	//glColor4f(m_backColor[0], m_backColor[1], m_backColor[2], m_backColor[3]);
-	//glBegin(GL_QUADS);
-	////glTexCoord2f(m_textureUnit->_BeginX, m_textureUnit->_BeginY); glVertex2f(0, 0);
-	////glTexCoord2f(m_textureUnit->_EndX, m_textureUnit->_BeginY); glVertex2f(m_size[0], 0);
-	////glTexCoord2f(m_textureUnit->_EndX, m_textureUnit->_EndY); glVertex2f(m_size[0], m_size[1]);
-	////glTexCoord2f(m_textureUnit->_BeginX, m_textureUnit->_EndY); glVertex2f(0, m_size[1]);
-
-	//glTexCoord2f(m_textureUnit->_BeginX, m_textureUnit->_BeginY); glVertex2f(drawX, drawY);
-	//glTexCoord2f(m_textureUnit->_EndX, m_textureUnit->_BeginY); glVertex2f(m_size[0] - drawX, drawY);
-	//glTexCoord2f(m_textureUnit->_EndX, m_textureUnit->_EndY); glVertex2f(m_size[0] - drawX, m_size[1] - drawY);
-	//glTexCoord2f(m_textureUnit->_BeginX, m_textureUnit->_EndY); glVertex2f(drawX, m_size[1] - drawY);
-	//glEnd();
-
-	//glDisable(GL_BLEND);
-	//glBindTexture(GL_TEXTURE_2D, NULL);
+	glDisable(GL_BLEND);
+	glBindTexture(GL_TEXTURE_2D, NULL);
 }
 
 void IETorch::SetProperty()

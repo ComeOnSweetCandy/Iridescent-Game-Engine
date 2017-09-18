@@ -17,16 +17,18 @@ IEDisplacement::~IEDisplacement()
 
 void IEDisplacement::Initialization(float x, float y)
 {
+	m_valueType = 0;
+
 	m_displace[0] = x;
 	m_displace[1] = y;
-	m_valueType = 0;
 }
 
 void IEDisplacement::Initialization(int x, int y)
 {
-	m_direction[0] = x;
-	m_direction[1] = y;
 	m_valueType = 1;
+
+	m_doubleDirection[0] = x;
+	m_doubleDirection[1] = y;
 }
 
 IEDisplacement * IEDisplacement::Create(int x, int y)
@@ -55,61 +57,69 @@ void IEDisplacement::Begin()
 		{
 			if (abs_x >= abs_y)
 			{
-				m_direction[0] = 1;
-				m_direction[1] = 0;
+				m_doubleDirection[0] = 1;
+				m_doubleDirection[1] = 0;
 			}
 		}
 		else
 		{
 			if (abs_x >= abs_y)
 			{
-				m_direction[0] = -1;
-				m_direction[1] = 0;
+				m_doubleDirection[0] = -1;
+				m_doubleDirection[1] = 0;
 			}
 		}
 		
 		if (m_displace[1] > 0.0f)
 		{
-			m_direction[0] = 0;
-			m_direction[1] = 1;
+			m_doubleDirection[0] = 0;
+			m_doubleDirection[1] = 1;
 		}
 		else if (m_displace[1] < 0.0f)
 		{
-			m_direction[0] = 0;
-			m_direction[1] = -1;
+			m_doubleDirection[0] = 0;
+			m_doubleDirection[1] = -1;
 		}
+
+		//需要获取单值方向
+
+
 	}
-
-	//修改贴图组
-	GetCreature()->ChangeGroup("walk", 1);
-
-	//检测是否需要修改方向
-	int * lastDirection = GetCreature()->GetDirection();
-	if (lastDirection[0] == m_direction[0] && lastDirection[1] == m_direction[1])
-	{
-		//与上一次方向相同 无需更换贴图组
-	}
-	else
-	{
-		GetCreature()->SetDrawDirection(m_direction[0] >= 0 ? true : false, true);
-
-		lastDirection[0] = m_direction[0];
-		lastDirection[1] = m_direction[1];
-	}
-
-	if (m_valueType == 1)
+	else if (m_valueType == 1)
 	{
 		//通过传递方向
 		unsigned int speed = GetCreature()->GetCreatureUnit()->_Speed;
 		float shift = (float)(speed) / 360 / 60;
 
-		m_displace[0] = lastDirection[0];
-		m_displace[1] = lastDirection[1];
+		//需要获取单值方向
+		TranslateDirection(m_doubleDirection[0], m_doubleDirection[1], m_singleDirection);
+
+		m_displace[0] = m_doubleDirection[0];
+		m_displace[1] = m_doubleDirection[1];
 
 		float _sqrt = sqrt(m_displace[0] * m_displace[0] + m_displace[1] * m_displace[1]);
 		m_displace[0] = m_displace[0] / _sqrt * shift;
 		m_displace[1] = m_displace[1] / _sqrt * shift;
 	}
+
+	//检测是否需要修改贴图方向
+	if (m_singleDirection == GetCreature()->GetDirection())
+	{
+		//与上一次方向相同 无需更换贴图组
+	}
+	else
+	{
+		//修改贴图组
+		GetCreature()->SetDirection(m_singleDirection);
+		GetCreature()->ChangeGroup("walk", 1);
+	}
+}
+
+void TranslateDirection(int x, int y, int direction)
+{
+	//需要一种方式，能让两者之间进行迅速的转换
+
+
 }
 
 void IEDisplacement::Excute()

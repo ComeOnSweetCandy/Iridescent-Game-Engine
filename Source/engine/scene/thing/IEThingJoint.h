@@ -29,7 +29,7 @@ private:
 	void RereadSelf();								//重新改变自身状态
 
 private:
-	bool m_round[4];				//周围是否有同类的thing
+	bool m_round[8];				//周围是否有同类的thing
 };
 
 IE_END
