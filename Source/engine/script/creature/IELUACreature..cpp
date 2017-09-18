@@ -8,7 +8,7 @@ int LUAFunction_AroundEnemys(lua_State * LUA)
 	luaL_checktype(LUA, 1, LUA_TUSERDATA);
 
 	IECreature * creature = *((IECreature**)lua_touserdata(LUA, 1));
-	int * faceDirection = creature->GetDirection();
+	//int * faceDirection = creature->GetDirection();
 
 	lua_newtable(LUA);//创建一个表格，放在栈顶
 	
@@ -17,7 +17,7 @@ int LUAFunction_AroundEnemys(lua_State * LUA)
 	for (int i = 0; i < NUMBER; i++)
 	{
 		IECreature * newCreature = IECreature::Create(1, 1);
-		newCreature->SetDirection(i, i);
+		//newCreature->SetDirection(i, i);
 
 		lua_pushinteger(LUA, i + 1);
 		IECreature ** pnewCreature = (IECreature **)lua_newuserdata(LUA, sizeof(IECreature *));
@@ -34,12 +34,11 @@ int LUAFunction_GetFacer(lua_State * LUA)
 	luaL_checktype(LUA, 1, LUA_TUSERDATA);
 
 	IECreature * creature = *((IECreature**)lua_touserdata(LUA, 1));
-	int * faceDirection = creature->GetDirection();
+	int faceDirection = creature->GetDirection();
 
-	lua_pushinteger(LUA, faceDirection[0]);
-	lua_pushinteger(LUA, faceDirection[1]);
+	lua_pushinteger(LUA, faceDirection);
 
-	return 2;
+	return 1;
 }
 
 int LUAInitCreature(lua_State * LUA)

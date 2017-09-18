@@ -65,7 +65,7 @@ void IEMap::Initialization(char * sceneName)
 	m_curThing = IEThingArea::Create(this, m_visibleRadius, m_chunkSideLength);
 	//m_curMarble = IEMarble::Create(this, m_visibleRadius, m_chunkSideLength);
 
-	m_activeArea = m_curThing;
+	//m_activeArea = m_curThing;
 
 	//Ѱ·�㷨
 	m_pathFinder = IEPathFinder::Create(m_curPath);

@@ -45,6 +45,40 @@ IEDisplacement * IEDisplacement::Create(float x, float y)
 	return action;
 }
 
+//需要一种方式，能让两者之间进行迅速的转换
+static int _DirectionArray[8][2] =
+{
+	{ 0, -1 },
+	{ 1, -1 },
+	{ 1, 0 },
+	{ 1, 1 },
+	{ 0, 1 },
+	{ -1, 1 },
+	{ -1, 0 },
+	{ -1, -1 },
+};
+
+void TranslateDirectionDoubleToSingle(int& x, int& y, int& direction)
+{
+	for (int index = 0; index < 8; index++)
+	{
+		if (_DirectionArray[index][0] == x && _DirectionArray[index][1] == y)
+		{
+			direction = index;
+
+			return;
+		}
+	}
+}
+
+void TranslateDirectionSingleToDouble(int& x, int& y, int& direction)
+{
+	direction = direction % 8;
+
+	x = _DirectionArray[direction][0];
+	y = _DirectionArray[direction][1];
+}
+
 void IEDisplacement::Begin()
 {
 	if (m_valueType == 0)
@@ -82,8 +116,6 @@ void IEDisplacement::Begin()
 		}
 
 		//需要获取单值方向
-
-
 	}
 	else if (m_valueType == 1)
 	{
@@ -92,7 +124,7 @@ void IEDisplacement::Begin()
 		float shift = (float)(speed) / 360 / 60;
 
 		//需要获取单值方向
-		TranslateDirection(m_doubleDirection[0], m_doubleDirection[1], m_singleDirection);
+		TranslateDirectionDoubleToSingle(m_doubleDirection[0], m_doubleDirection[1], m_singleDirection);
 
 		m_displace[0] = m_doubleDirection[0];
 		m_displace[1] = m_doubleDirection[1];
@@ -102,24 +134,8 @@ void IEDisplacement::Begin()
 		m_displace[1] = m_displace[1] / _sqrt * shift;
 	}
 
-	//检测是否需要修改贴图方向
-	if (m_singleDirection == GetCreature()->GetDirection())
-	{
-		//与上一次方向相同 无需更换贴图组
-	}
-	else
-	{
-		//修改贴图组
-		GetCreature()->SetDirection(m_singleDirection);
-		GetCreature()->ChangeGroup("walk", 1);
-	}
-}
-
-void TranslateDirection(int x, int y, int direction)
-{
-	//需要一种方式，能让两者之间进行迅速的转换
-
-
+	GetCreature()->SetDirection(m_singleDirection);
+	GetCreature()->ChangeGroup("walk", 1);
 }
 
 void IEDisplacement::Excute()
