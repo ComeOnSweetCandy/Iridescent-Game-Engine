@@ -52,6 +52,7 @@ public:
 	static float CrossProduct(IEVector &x, IEVector &y);
 	static float DotProduct(const IEVector &x, const IEVector &y);
 
+	void Reverse();			//求反向量
 	float Length() const;
 	void Normalize();
 	void Abs();

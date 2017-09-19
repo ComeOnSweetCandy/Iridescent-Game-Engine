@@ -86,6 +86,7 @@ void IEPlayer::HandlePlayerControll()
 		if (m_physicNode->GetPhysicState() == __physic_state_static__)
 		{
 			m_physicNode->SetForward(0, 20.0f);
+			m_physicNode->SetPhysicNodeState(__physic_state_air__);
 		}
 	}
 
@@ -109,6 +110,9 @@ void IEPlayer::BindPlayerControl()
 	IEKeyboard::Share()->BindKeyboardCallback(IEKeyboardCallback(&IEPlayer::PlayerPressKeyJ), this, DIK_J);
 	IEKeyboard::Share()->BindKeyboardCallback(IEKeyboardCallback(&IEPlayer::PlayerPressKeyK), this, DIK_K);
 
+	IEKeyboard::Share()->BindKeyboardCallback(IEKeyboardCallback(&IEPlayer::PlayerPressKeyW), this, DIK_W);
+	IEKeyboard::Share()->BindKeyboardCallback(IEKeyboardCallback(&IEPlayer::PlayerPressKeyS), this, DIK_S);
+
 	for (int index = 0; index < 10; index++)
 	{
 		IEKeyboard::Share()->BindKeyboardCallback(IEKeyboardCallback(&IEPlayer::PlayerPressNumberKey), this, DIK_1 + index);
@@ -123,6 +127,16 @@ void IEPlayer::PlayerPressKeyA(unsigned char key)
 void IEPlayer::PlayerPressKeyD(unsigned char key)
 {
 	m_moveDirection = m_moveDirection + IEGrid(1, 0);
+}
+
+void IEPlayer::PlayerPressKeyW(unsigned char key)
+{
+	m_moveDirection = m_moveDirection + IEGrid(0, 1);
+}
+
+void IEPlayer::PlayerPressKeyS(unsigned char key)
+{
+	m_moveDirection = m_moveDirection + IEGrid(0, -1);
 }
 
 void IEPlayer::PlayerPressKeyJ(unsigned char key)

@@ -180,6 +180,12 @@ IEVector IEVector::operator - (const IEGrid &grid) const
 	return newV;
 }
 
+void IEVector::Reverse()
+{
+	m_x = -m_x;
+	m_y = -m_y;
+}
+
 float IEVector::Length() const
 {
 	return sqrt(m_x * m_x + m_y * m_y);

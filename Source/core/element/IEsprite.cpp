@@ -61,20 +61,20 @@ void IESprite::DrawNode()
 	glColor4f(m_backColor[0], m_backColor[1], m_backColor[2], m_backColor[3]);
 	glBegin(GL_QUADS);
 
-	//if (m_drawReverse)
-	//{
-	//	glTexCoord2f(m_textureUnit->_BeginX, m_textureUnit->_BeginY); glVertex2f(0.0f, 0.0f);
-	//	glTexCoord2f(m_textureUnit->_EndX, m_textureUnit->_BeginY); glVertex2f(m_size[0], 0.0f);
-	//	glTexCoord2f(m_textureUnit->_EndX, m_textureUnit->_EndY); glVertex2f(m_size[0], m_size[1]);
-	//	glTexCoord2f(m_textureUnit->_BeginX, m_textureUnit->_EndY); glVertex2f(0.0f, m_size[1]);
-	//}
-	//else
-	//{
-	//	glTexCoord2f(m_textureUnit->_BeginX, m_textureUnit->_BeginY); glVertex2f(m_size[0], 0.0f);
-	//	glTexCoord2f(m_textureUnit->_EndX, m_textureUnit->_BeginY); glVertex2f(0.0f, 0.0f);
-	//	glTexCoord2f(m_textureUnit->_EndX, m_textureUnit->_EndY); glVertex2f(0.0f, m_size[1]); 
-	//	glTexCoord2f(m_textureUnit->_BeginX, m_textureUnit->_EndY); glVertex2f(m_size[0], m_size[1]);
-	//}
+	if (m_drawReverse)
+	{
+		glTexCoord2f(m_textureUnit->_BeginX, m_textureUnit->_BeginY); glVertex2f(0.0f, 0.0f);
+		glTexCoord2f(m_textureUnit->_EndX, m_textureUnit->_BeginY); glVertex2f(m_size[0], 0.0f);
+		glTexCoord2f(m_textureUnit->_EndX, m_textureUnit->_EndY); glVertex2f(m_size[0], m_size[1]);
+		glTexCoord2f(m_textureUnit->_BeginX, m_textureUnit->_EndY); glVertex2f(0.0f, m_size[1]);
+	}
+	else
+	{
+		glTexCoord2f(m_textureUnit->_BeginX, m_textureUnit->_BeginY); glVertex2f(m_size[0], 0.0f);
+		glTexCoord2f(m_textureUnit->_EndX, m_textureUnit->_BeginY); glVertex2f(0.0f, 0.0f);
+		glTexCoord2f(m_textureUnit->_EndX, m_textureUnit->_EndY); glVertex2f(0.0f, m_size[1]); 
+		glTexCoord2f(m_textureUnit->_BeginX, m_textureUnit->_EndY); glVertex2f(m_size[0], m_size[1]);
+	}
 
 	glEnd();
 

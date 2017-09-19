@@ -197,7 +197,7 @@ void IEPhysicNode::Update()
 	{
 		//如果发生了碰撞 检测反向力的方向 如果是向上 则抵消下坠力量
 
-		m_state = __physic_state_static__;
+		//m_state = __physic_state_static__;
 
 
 	}
@@ -238,6 +238,11 @@ void IEPhysicNode::SetPhysicProperty(IEXml * physicXML)
 
 	SetPhysicEdge(physicEdge);
 	SetPhysicNodeType(physicType);
+}
+
+void IEPhysicNode::SetPhysicNodeState(IEPhysicNodeState physicNodeState)
+{
+	m_state = physicNodeState;
 }
 
 void IEPhysicNode::SetPhysicPosition(float x, float y)

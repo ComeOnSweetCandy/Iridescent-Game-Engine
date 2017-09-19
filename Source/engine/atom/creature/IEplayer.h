@@ -29,6 +29,8 @@ public:
 	virtual void BindPlayerControl();
 	virtual void PlayerPressKeyA(unsigned char key);
 	virtual void PlayerPressKeyD(unsigned char key);
+	virtual void PlayerPressKeyW(unsigned char key);
+	virtual void PlayerPressKeyS(unsigned char key);
 	virtual void PlayerPressKeyJ(unsigned char key);
 	virtual void PlayerPressKeyK(unsigned char key);
 	virtual void PlayerPressNumberKey(unsigned char key);
