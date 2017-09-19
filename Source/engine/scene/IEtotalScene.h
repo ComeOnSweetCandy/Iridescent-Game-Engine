@@ -29,24 +29,26 @@ public:
 
 public:
 	virtual void Run();
+	virtual void DrawScene();
 	virtual void AddChild(IECreature * creature);
 	virtual void AddChild(IEPlayer * player);
 
-	IETriggerManager * GetTriggerManager();
-	IEPhysicWorld * GetPhysicWorld();
-	IELayer * GetPropLayer();
-	IEMap * GetBindedMap();
-	IEContainer * GetCreatures();
-	IEPlayer * GetPlayer();
+	IEPhysicWorld *		GetPhysicWorld();
+	IELayer *			GetPropLayer();
+	IEMap *				GetBindedMap();
+	IEContainer *		GetCreatures();
+	IEPlayer *			GetPlayer();
 
 private:
-	IETriggerManager * m_triggerManager;
+	void FollowCamera();				//ÈÃÉãÏñ»ú¸úËæ
+
+private:
 	IEPhysicWorld * m_physicWorld;
-	IELayer * m_propLayer;
+
 	IEMap * m_map;
+	IELayer * m_propLayer;
 	IELayer * m_creaturesLayer;
 	IEPlayer * m_player;
-	IEDrawScene * m_drawScene;			//ÑÓ³ÙäÖÈ¾ »ùÓÚzÖáË÷Òı°´ĞòäÖÈ¾
 };
 
 IE_END

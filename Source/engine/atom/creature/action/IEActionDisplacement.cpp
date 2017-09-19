@@ -84,38 +84,18 @@ void IEDisplacement::Begin()
 	if (m_valueType == 0)
 	{
 		//通过直接传递位移的值
-		float abs_x = __IE_ABS__(m_displace[0]);
-		float abs_y = __IE_ABS__(m_displace[1]);
+		m_doubleDirection[1] = 0;
 
-		if (m_displace[0] > 0.0f)
+		if (m_displace[0] >= 0.0f)
 		{
-			if (abs_x >= abs_y)
-			{
-				m_doubleDirection[0] = 1;
-				m_doubleDirection[1] = 0;
-			}
+			m_doubleDirection[0] = 1;
+			m_singleDirection = 2;
 		}
 		else
 		{
-			if (abs_x >= abs_y)
-			{
-				m_doubleDirection[0] = -1;
-				m_doubleDirection[1] = 0;
-			}
+			m_doubleDirection[0] = -1;
+			m_singleDirection = 6;
 		}
-		
-		if (m_displace[1] > 0.0f)
-		{
-			m_doubleDirection[0] = 0;
-			m_doubleDirection[1] = 1;
-		}
-		else if (m_displace[1] < 0.0f)
-		{
-			m_doubleDirection[0] = 0;
-			m_doubleDirection[1] = -1;
-		}
-
-		//需要获取单值方向
 	}
 	else if (m_valueType == 1)
 	{
@@ -134,6 +114,7 @@ void IEDisplacement::Begin()
 		m_displace[1] = m_displace[1] / _sqrt * shift;
 	}
 
+	GetCreature()->SetDrawReverse(m_doubleDirection[0] > 0 ? true : false);
 	GetCreature()->SetDirection(m_singleDirection);
 	GetCreature()->ChangeGroup("walk", 1);
 }

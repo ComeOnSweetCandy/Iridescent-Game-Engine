@@ -42,8 +42,9 @@ public:
 	void AttachShader(IEShader * shader);
 	void RemoveShader();
 
-	void SetDisplay(bool display);
-	void SetBackColor(float r, float g, float b, float a);
+	void SetDisplay(bool display);												//设置是否显示
+	void SetDrawReverse(bool reverse);											//设置绘制方向
+	void SetBackColor(float r, float g, float b, float a);						//设置背景颜色
 	bool& GetDisplay();
 
 protected:
@@ -61,9 +62,10 @@ protected:
 	float m_matrix[16];
 	float m_zIndex;
 
-	IEShader * m_shader;
-	bool m_display;
-	float m_backColor[4];
+	IEShader * m_shader;		//shader
+	bool m_display;				//是否显示
+	bool m_drawReverse;			//绘制反向
+	float m_backColor[4];		//背景颜色
 };
 
 IE_END

@@ -11,6 +11,7 @@ IEPhysicNode::IEPhysicNode()
 {
 	m_physicEdge = NULL;
 	m_node = NULL;
+	m_state = __physic_state_static__;
 
 	m_position = 0.0f;
 	m_forward = 0.0f;
@@ -95,7 +96,7 @@ IENode * IEPhysicNode::GetBindedNode()
 {
 	if (m_node == NULL)
 	{
-		__IE_WARNING__("IEPhysicNode : warning.\n");
+		//__IE_WARNING__("IEPhysicNode : warning.\n");
 	}
 
 	return m_node;
@@ -139,6 +140,11 @@ void IEPhysicNode::Collision(IEPhysicNode * physicNode)
 	m_node->InteractiveNode(collisionNode);
 }
 
+void IEPhysicNode::Collision(IEPhysicNode * physicNode, void * info)
+{
+
+}
+
 void IEPhysicNode::DrawPhysicNode()
 {
 	glPushMatrix();
@@ -149,7 +155,7 @@ void IEPhysicNode::DrawPhysicNode()
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
-	float a = 1.0f;
+	float a = 0.4f;
 	switch (m_collisionState)
 	{
 	case IridescentEngine::__collision_safe__:
@@ -173,9 +179,15 @@ void IEPhysicNode::DrawPhysicNode()
 
 void IEPhysicNode::Update()
 {
+	//总会增加下坠速度
+	if (m_physicNodeType == __physic_active_node__)
+	{
+		m_forward.m_y = m_forward.m_y + (-IEApplication::Share()->GetCurrentActiveScene()->GetPhysicWorld()->m_gravity) * IETime::Share()->GetLastFrapPassingTime();
+	}
+
 	if (m_collisionState == __collision_safe__)
 	{
-
+		m_state = __physic_state_air__;
 	}
 	else if (m_collisionState == __collision_warning__)
 	{
@@ -183,10 +195,14 @@ void IEPhysicNode::Update()
 	}
 	else if (m_collisionState == __collision_boom__)
 	{
+		//如果发生了碰撞 检测反向力的方向 如果是向上 则抵消下坠力量
+
+		m_state = __physic_state_static__;
+
 
 	}
 
-	m_displacement = m_displacement + m_forward * IETime::Share()->GetLastFrapPassingTime() * 0.0f;
+	m_displacement = m_displacement + m_forward * IETime::Share()->GetLastFrapPassingTime();
 	m_position = m_position + m_displacement;
 
 	m_displacement = 0.0f;
@@ -224,12 +240,6 @@ void IEPhysicNode::SetPhysicProperty(IEXml * physicXML)
 	SetPhysicNodeType(physicType);
 }
 
-void IEPhysicNode::SetForward(float x, float y)
-{
-	m_forward = IEVector(x, y);
-	m_forward.Normalize();
-}
-
 void IEPhysicNode::SetPhysicPosition(float x, float y)
 {
 	m_position = IEVector(x, y);
@@ -243,6 +253,11 @@ IEVector IEPhysicNode::GetPhysicPosition()
 void IEPhysicNode::SetDisplacement(float x, float y)
 {
 	m_displacement = IEVector(x, y);
+}
+
+void IEPhysicNode::SetForward(float x, float y)
+{
+	m_forward = IEVector(x, y);
 }
 
 IEVector IEPhysicNode::GetDisplacement()
@@ -261,6 +276,11 @@ void IEPhysicNode::FixPosition()
 IEVector IEPhysicNode::GetBarycenter()
 {
 	return GetPhysicPosition() + m_physicEdge->GetBarycenter();
+}
+
+IEPhysicNodeState IEPhysicNode::GetPhysicState()
+{
+	return m_state;
 }
 
 void IEPhysicNode::SetPhysicNodeType(IEPhysicNodeType physicNodeType)

@@ -101,13 +101,9 @@ void IECamera::Run()
 	float recalPosition_x = multiple_x * pixelLength;
 	float recalPosition_y = multiple_y * pixelLength;
 
-	glTranslatef(-recalPosition_x, -recalPosition_y, 0.0f);
-
-	//gluLookAt(recalPosition_x, recalPosition_y, 999.0f, recalPosition_x, recalPosition_y, 0.0f, 0.0f, 1.0f, 0.0f);
-
 	if (m_cameraMode == IEPlayerDriverCameraMode)
 	{
-
+		glTranslatef(-recalPosition_x, -recalPosition_y, 0.0f);
 	}
 	else if (m_cameraMode == IEGodViewCameraMode)
 	{

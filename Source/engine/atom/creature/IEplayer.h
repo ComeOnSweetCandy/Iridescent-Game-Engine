@@ -27,22 +27,22 @@ public:
 public:
 	virtual void Live();
 	virtual void BindPlayerControl();
-	virtual void PlayerPressKeyW(unsigned char key);
 	virtual void PlayerPressKeyA(unsigned char key);
-	virtual void PlayerPressKeyS(unsigned char key);
 	virtual void PlayerPressKeyD(unsigned char key);
 	virtual void PlayerPressKeyJ(unsigned char key);
+	virtual void PlayerPressKeyK(unsigned char key);
 	virtual void PlayerPressNumberKey(unsigned char key);
-	virtual void HandleKeyboard();
-	virtual void ResetEverything();
 
-	void HandlePlayerControll();			//处理所有用户的操作
+	virtual void HandlePlayerControll();			//处理所有用户的操作
+	virtual void ResetEverything();					//所有操作初始化
 
+public:
 	IEPropPack * GetPlayersPack();
 
 private:
 	IEGrid m_moveDirection;
 	bool m_attack;
+	bool m_jump;
 
 	IEAction * m_nextAction;
 	IEPropPack * m_propPack;

@@ -26,7 +26,9 @@ public:
 	static IEPhysicWorld * Create();
 	
 public:
-	void Run();
+	virtual void Run();
+	virtual void Draw();
+
 	void SetDisplayPhysicNode(bool displayPhysicNode);
 	bool GetDisplayPhysicNode();
 
@@ -38,8 +40,9 @@ private:
 	void ProcessOverlap(IEPhysicNode * a, IEPhysicNode * b, IEVector& xMTD);
 
 private:
-	IEContainer * m_physicNodeArrays;
-	bool m_displayPhysicNode;
+	IEContainer * m_physicNodeArrays;		//当前所有的物理体
+	bool m_displayPhysicNode;				//是否显示物理体边缘
+	float m_gravity;						//引力加速度
 
 	friend class IEPhysicNode;
 };

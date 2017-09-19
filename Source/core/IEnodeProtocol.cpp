@@ -11,6 +11,7 @@ IENodeProtocol::IENodeProtocol()
 
 	m_shader = NULL;
 	m_display = true;
+	m_drawReverse = true;
 
 	SetDirection(0);
 	SetSize(1.0f, 1.0f);
@@ -119,6 +120,11 @@ bool& IENodeProtocol::GetDisplay()
 void IENodeProtocol::SetDisplay(bool display)
 {
 	m_display = display;
+}
+
+void IENodeProtocol::SetDrawReverse(bool reverse)
+{
+	m_drawReverse = reverse;
 }
 
 void IENodeProtocol::SetBackColor(float r, float g, float b, float a)

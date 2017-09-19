@@ -9,7 +9,8 @@ IE_BEGIN
 IEPhysicWorld::IEPhysicWorld()
 {
 	m_physicNodeArrays = NULL;
-	m_displayPhysicNode = false;
+	m_displayPhysicNode = true;
+	m_gravity = 100.0f;
 }
 
 IEPhysicWorld::~IEPhysicWorld()
@@ -68,12 +69,21 @@ void IEPhysicWorld::Run()
 			float t = 1.0f;
 			IEPhysicCollisionState collisionState = IEPhysicEdgeCollision::EdgeCoincidence(physicNode1, physicNode2, N, t);
 
-			physicNode1->m_collisionState = collisionState > physicNode1->m_collisionState ? collisionState : physicNode1->m_collisionState;
-			physicNode2->m_collisionState = collisionState > physicNode2->m_collisionState ? collisionState : physicNode2->m_collisionState;
+
+			if (physicNode1->m_opera & physicNode2->m_mask)
+			{
+				physicNode1->m_collisionState = collisionState > physicNode1->m_collisionState ? collisionState : physicNode1->m_collisionState;
+				physicNode1->Collision(physicNode2);
+			}
+			if (physicNode2->m_opera & physicNode1->m_mask)
+			{
+				physicNode2->m_collisionState = collisionState > physicNode2->m_collisionState ? collisionState : physicNode2->m_collisionState;
+				physicNode2->Collision(physicNode1);
+			}
 
 			if (collisionState == __collision_safe__)
 			{
-
+				
 			}
 			else if (collisionState == __collision_warning__)
 			{
@@ -86,21 +96,11 @@ void IEPhysicWorld::Run()
 					//如果是active static 纠正位置
 					ProcessOverlap(physicNode1, physicNode2, N * -t);
 				}
-
-				//这里进行判断 是谁撞的谁
-				if (physicNode1->m_opera & physicNode2->m_mask)
-				{
-					physicNode1->Collision(physicNode2);
-				}
-				else
-				{
-					physicNode2->Collision(physicNode1);
-				}
 			}
 		}
 	}
 
-	//physicNode draw
+	//改变绑定的node元素的位置
 	for (int index = 0; index < physicNodesCount; index++)
 	{
 		IEPhysicNode * physicNode = (IEPhysicNode *)physicNodes[index];
@@ -110,19 +110,30 @@ void IEPhysicWorld::Run()
 		}
 	}
 
-	if (GetDisplayPhysicNode())
+	m_physicNodeArrays->CleanSpace();
+}
+
+void IEPhysicWorld::ProcessOverlap(IEPhysicNode * a, IEPhysicNode * b, IEVector& xMTD)
+{
+	if (xMTD.m_y>0.0f)
 	{
-		for (int index = 0; index < physicNodesCount; index++)
-		{
-			IEPhysicNode * physicNode = (IEPhysicNode *)physicNodes[index];
-			if (physicNode)
-			{
-				physicNode->DrawPhysicNode();
-			}
-		}
+		//检测方向
+		a->SetForward(0.0f, 0.0f);
+		b->SetForward(0.0f, 0.0f);
 	}
 
-	m_physicNodeArrays->CleanSpace();
+	if (a->m_physicNodeType == __physic_active_node__ && b->m_physicNodeType == __physic_static_node__)
+	{
+		a->m_position = a->m_position + xMTD;
+	}
+	else if (b->m_physicNodeType == __physic_active_node__ && a->m_physicNodeType == __physic_static_node__)
+	{
+		b->m_position = b->m_position + xMTD;
+	}
+	else
+	{
+		return;
+	}
 }
 
 void IEPhysicWorld::ProcessCollision(IEPhysicNode * a, IEPhysicNode * b, IEVector& N, float t)
@@ -149,19 +160,20 @@ void IEPhysicWorld::ProcessCollision(IEPhysicNode * a, IEPhysicNode * b, IEVecto
 	b->m_position = b->m_position + D * 0.0f;
 }
 
-void IEPhysicWorld::ProcessOverlap(IEPhysicNode * a, IEPhysicNode * b, IEVector& xMTD)
+void IEPhysicWorld::Draw()
 {
-	if (a->m_physicNodeType == __physic_active_node__ && b->m_physicNodeType == __physic_static_node__)
+	IEPhysicNode ** physicNodes = (IEPhysicNode **)(m_physicNodeArrays->GetContainer());
+	int physicNodesCount = m_physicNodeArrays->Count();
+	if (GetDisplayPhysicNode())
 	{
-		a->m_position = a->m_position + xMTD;
-	}
-	else if (b->m_physicNodeType == __physic_active_node__ && a->m_physicNodeType == __physic_static_node__)
-	{
-		b->m_position = b->m_position + xMTD;
-	}
-	else
-	{
-		return;
+		for (int index = 0; index < physicNodesCount; index++)
+		{
+			IEPhysicNode * physicNode = (IEPhysicNode *)physicNodes[index];
+			if (physicNode)
+			{
+				physicNode->DrawPhysicNode();
+			}
+		}
 	}
 }
 

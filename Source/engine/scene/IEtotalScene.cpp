@@ -7,7 +7,7 @@ IE_BEGIN
 
 IETotalScene::IETotalScene()
 {
-	m_triggerManager = NULL;
+
 }
 
 IETotalScene::~IETotalScene()
@@ -19,17 +19,14 @@ void IETotalScene::Initialization(char * sceneName)
 {
 	IEScene::Initialization();
 
-	//m_triggerManager = IETriggerManager::Create();
-	m_physicWorld = IEPhysicWorld::Create();
+	m_map = IEMap::Create(sceneName);
 	m_creaturesLayer = IELayer::Create();
 	m_propLayer = IELayer::Create();
-	m_drawScene = IEDrawScene::Create();
-	m_map = IEMap::Create(sceneName);
+	m_physicWorld = IEPhysicWorld::Create();
 
 	IENode::AddChild(m_map);
 	IENode::AddChild(m_creaturesLayer);
 	IENode::AddChild(m_propLayer);
-	IENode::AddChild(m_drawScene);
 }
 
 IETotalScene * IETotalScene::CreateAndRetain(char * sceneName)
@@ -42,16 +39,24 @@ IETotalScene * IETotalScene::CreateAndRetain(char * sceneName)
 
 void IETotalScene::Run()
 {
-	Visit();
+	m_physicWorld->Run();			//先计算上一帧的所有物理结果
 
-	m_physicWorld->Run();
-	//m_triggerManager->Run();
-	m_drawScene->Run();
+	DrawScene();					//绘制场景中的所有内容
+}
 
+void IETotalScene::DrawScene()
+{
+	FollowCamera();					//根据数值 设定摄像机的位置
+	m_physicWorld->Draw();			//绘制物理元素
+	this->Visit();					//访问所有的子类
+}
+
+void IETotalScene::FollowCamera()
+{
 	//带所有的元素渲染完毕 这个时候 根据IEPlayer的方位定位camera最精准
-	//const float * translate = m_player->GetTranslate();
-	//IECamera::Share()->SetCameraPosi(translate[0], translate[1]);
-	//IECamera::Share()->Run();
+	const float * translate = m_player->GetTranslate();
+	IECamera::Share()->SetCameraPosi(translate[0], translate[1]);
+	IECamera::Share()->Run();
 }
 
 void IETotalScene::AddChild(IECreature * creature)
@@ -64,11 +69,6 @@ void IETotalScene::AddChild(IEPlayer * player)
 	m_player = player;
 
 	m_creaturesLayer->AddChild(player);
-}
-
-IETriggerManager * IETotalScene::GetTriggerManager()
-{
-	return m_triggerManager;
 }
 
 IEPhysicWorld * IETotalScene::GetPhysicWorld()

@@ -26,6 +26,12 @@ enum __IE_DLL__ IEPhysicCollisionState
 	__collision_boom__
 };
 
+enum __IE_DLL__ IEPhysicNodeState
+{
+	__physic_state_static__,
+	__physic_state_air__
+};
+
 enum __IE_DLL__ IEPhysicNodeType
 {
 	__physic_none_node__,				//不参与计算
@@ -48,6 +54,7 @@ public:
 private:
 	virtual void Update();
 	virtual void Collision(IEPhysicNode * physicNode);
+	virtual void Collision(IEPhysicNode * physicNode, void * info);
 	virtual void DrawPhysicNode();
 
 public:
@@ -67,24 +74,27 @@ public:
 	IEPhysicEdge * GetPhysicEdge();
 	void ClearPhysicEdge();
 	IEVector GetBarycenter();
+	IEPhysicNodeState GetPhysicState();					//获取物理体当前的状态
 
 	void SetPhysicPosition(float x, float y);
-	IEVector GetPhysicPosition();
 	void SetDisplacement(float x, float y);
-	IEVector GetDisplacement();
-	void FixPosition();
 	void SetSpeed(float speed);
 	void SetForward(float x, float y);
 
-protected:
-	IEVector m_position;
-	IEVector m_forward;
-	IEVector m_displacement;
+	IEVector GetPhysicPosition();
+	IEVector GetDisplacement();
+	void FixPosition();
 
-	IENode * m_node;
-	IEPhysicEdge * m_physicEdge;
-	IEPhysicNodeType m_physicNodeType;
-	IEPhysicCollisionState m_collisionState;
+protected:
+	IEVector m_position;								//当前的位置
+	IEVector m_forward;									//朝某个方向的动力
+	IEVector m_displacement;							//由node设置的displacement并不计入物理体的运动 此时为static
+
+	IENode * m_node;									//绑定的node元素
+	IEPhysicEdge * m_physicEdge;						//物理体的外形类型
+	IEPhysicNodeType m_physicNodeType;					//物理体的类型
+	IEPhysicCollisionState m_collisionState;			//当前的碰撞状态
+	IEPhysicNodeState m_state;							//当前处于的状态
 
 	unsigned short m_mask;
 	unsigned short m_opera;

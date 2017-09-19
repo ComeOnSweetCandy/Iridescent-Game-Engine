@@ -56,8 +56,6 @@ protected:
 	bool m_allowStrikeRepeatByOne;			//是否允许节点被同一个物体重复触发
 
 	IEContainer * m_strikeNodes;			//已经启动过触发器的节点
-
-	friend class IETriggerManager;
 };
 
 IE_END

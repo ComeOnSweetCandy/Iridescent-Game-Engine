@@ -55,10 +55,10 @@ protected:
 	static IEApplication * m_StaticApplication;
 
 private:
-	IETotalScene * m_activeScene;
-	IEUiScene * m_uiScene;
-	IEDrawScene * m_drawScene;
-	IEResourcesManager * m_resourcesManger;
+	IETotalScene * m_activeScene;				//当前活动场景
+	IEDrawScene * m_drawScene;					//延迟渲染 基于z轴索引按序渲染
+	IEUiScene * m_uiScene;						//UI场景渲染
+	IEResourcesManager * m_resourcesManger;		//资源管理器
 };
 
 IE_END

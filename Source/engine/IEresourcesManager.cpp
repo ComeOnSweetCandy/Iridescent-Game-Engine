@@ -26,10 +26,10 @@ IEResourcesManager::~IEResourcesManager()
 	//游戏内资源文件
 	IEAutoReleasePool::Share()->Release();					//自动释放池
 	IEResourcesDictionary::Share()->Release();				//贴图着色器资源
-	IECreatureList::Share()->Release();				//人物信息资源
+	IECreatureList::Share()->Release();						//人物信息资源
 	IEPropsInfoManager::Share()->Release();					//道具信息资源
-	IETerrainList::Share()->Release();				//地形信息资源
-	IEThingList::Share()->Release();				//装饰信息资源
+	IETerrainList::Share()->Release();						//地形信息资源
+	IEThingList::Share()->Release();						//装饰信息资源
 	IECamera::Share()->Release();							//相机释放
 
 	//系统资源
