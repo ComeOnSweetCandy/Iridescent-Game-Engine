@@ -609,6 +609,9 @@
     <ClCompile Include="Source\engine\script\creature\IELUACreature..cpp">
       <Filter>IridescentEngine</Filter>
     </ClCompile>
+    <ClCompile Include="Source\engine\atom\creature\IEArmer.cpp">
+      <Filter>IridescentEngine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\core\shader\IEshader.h">
@@ -1089,6 +1092,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\engine\script\creature\IELUACreature.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\engine\atom\creature\IEArmer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

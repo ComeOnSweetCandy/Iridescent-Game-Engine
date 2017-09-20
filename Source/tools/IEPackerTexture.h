@@ -64,6 +64,7 @@ struct IETextureUnitState
 	}
 
 	GLuint _TextureID;
+	char _GroupName[64];
 	char _AssortName[64];			//当前要求的贴图组分组名
 	unsigned char _GroupIndex;
 	unsigned char _SameIndex;

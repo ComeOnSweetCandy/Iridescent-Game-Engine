@@ -155,7 +155,7 @@ void IEPhysicNode::DrawPhysicNode()
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
-	float a = 0.4f;
+	float a = 0.1f;
 	switch (m_collisionState)
 	{
 	case IridescentEngine::__collision_safe__:
@@ -198,8 +198,6 @@ void IEPhysicNode::Update()
 		//如果发生了碰撞 检测反向力的方向 如果是向上 则抵消下坠力量
 
 		//m_state = __physic_state_static__;
-
-
 	}
 
 	m_displacement = m_displacement + m_forward * IETime::Share()->GetLastFrapPassingTime();

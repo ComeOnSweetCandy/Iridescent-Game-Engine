@@ -38,7 +38,7 @@ private:
 	inline static void GetCircleInterval(float radius, const IEVector &axis, float &min, float &max);
 
 	//检测是否发生间隔横断 意即 两段在同一轴线上的极值范围 当前是否相交。如果不相交，最大规定时间内是否相交，相交的时间点为多少。最终返回的是两个极值之间的差值（投影差值）
-	inline static bool IntervalIntersect(float min0, float max0, float min1, float max1, const IEVector &axis, const IEVector &distance, const IEVector &displacement, float &taxis, float tmax);
+	inline static bool IntervalIntersect(float min0, float max0, float min1, float max1, IEVector &axis, const IEVector &distance, const IEVector &displacement, float &taxis, float tmax);
 
 	//如果当前相交 找到反弹 如果未来相交 返回时间
 	inline static bool FindMTD();

@@ -10,7 +10,7 @@ IEPhysicWorld::IEPhysicWorld()
 {
 	m_physicNodeArrays = NULL;
 	m_displayPhysicNode = true;
-	m_gravity = 0.0f;
+	m_gravity = 100.0f;
 }
 
 IEPhysicWorld::~IEPhysicWorld()
@@ -114,21 +114,18 @@ void IEPhysicWorld::Run()
 
 void IEPhysicWorld::ProcessOverlap(IEPhysicNode * a, IEPhysicNode * b, IEVector& xMTD)
 {
-	printf("%f %f\n", xMTD.m_x, xMTD.m_y);
-
 	if (a->m_physicNodeType == __physic_active_node__ && b->m_physicNodeType == __physic_static_node__)
 	{
-		a->m_position = a->m_position + xMTD;
+		a->m_position = a->m_position - xMTD;
 
 		//cos(a) = a*b/(|a| * |b|) 求夹角 如果夹角在一定范围内 则抵消forward
 		IEVector reverseForward = a->m_forward;
 		reverseForward.Reverse();
-		auto angle = acos((reverseForward * xMTD) / (reverseForward.Length() * xMTD.Length()));
+		auto angle = acos((reverseForward * -xMTD) / (reverseForward.Length() * xMTD.Length()));
 		if (angle < 0.2616)
 		{
+			a->SetForward(0.0f, 0.0f);
 			a->m_state = __physic_state_static__;
-
-			//printf("%f %f       %f %f %f\n", reverseForward.m_x, reverseForward.m_y, xMTD.m_x, xMTD.m_y, angle);
 		}
 	}
 	else if (b->m_physicNodeType == __physic_active_node__ && a->m_physicNodeType == __physic_static_node__)
@@ -141,6 +138,7 @@ void IEPhysicWorld::ProcessOverlap(IEPhysicNode * a, IEPhysicNode * b, IEVector&
 		auto angle = acos((reverseForward * xMTD) / (reverseForward.Length() * xMTD.Length()));
 		if (angle < 0.2616)
 		{
+			b->SetForward(0.0f, 0.0f);
 			b->m_state = __physic_state_static__;
 		}
 	}
@@ -148,13 +146,6 @@ void IEPhysicWorld::ProcessOverlap(IEPhysicNode * a, IEPhysicNode * b, IEVector&
 	{
 		return;
 	}
-
-	//if (xMTD.m_y>0.0f)
-	//{
-	//	//检测方向
-	//	a->SetForward(0.0f, 0.0f);
-	//	b->SetForward(0.0f, 0.0f);
-	//}
 }
 
 void IEPhysicWorld::ProcessCollision(IEPhysicNode * a, IEPhysicNode * b, IEVector& N, float t)

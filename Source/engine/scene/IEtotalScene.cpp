@@ -54,9 +54,12 @@ void IETotalScene::DrawScene()
 void IETotalScene::FollowCamera()
 {
 	//带所有的元素渲染完毕 这个时候 根据IEPlayer的方位定位camera最精准
-	const float * translate = m_player->GetTranslate();
-	IECamera::Share()->SetCameraPosi(translate[0], translate[1]);
-	IECamera::Share()->Run();
+	if (m_player)
+	{
+		const float * translate = m_player->GetTranslate();
+		IECamera::Share()->SetCameraPosi(translate[0], translate[1]);
+		IECamera::Share()->Run();
+	}
 }
 
 void IETotalScene::AddChild(IECreature * creature)

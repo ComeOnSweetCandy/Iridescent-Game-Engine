@@ -27,7 +27,7 @@ IEPlayer::~IEPlayer()
 
 void IEPlayer::Initialization(int creatureID)
 {
-	IECreature::Initialization(creatureID, 0);
+	IEArmer::Initialization(creatureID, 0);
 
 	m_propPack = IEPropPack::CreateAndRetain(this, 10);
 	BindPlayerControl();
@@ -110,8 +110,8 @@ void IEPlayer::BindPlayerControl()
 	IEKeyboard::Share()->BindKeyboardCallback(IEKeyboardCallback(&IEPlayer::PlayerPressKeyJ), this, DIK_J);
 	IEKeyboard::Share()->BindKeyboardCallback(IEKeyboardCallback(&IEPlayer::PlayerPressKeyK), this, DIK_K);
 
-	IEKeyboard::Share()->BindKeyboardCallback(IEKeyboardCallback(&IEPlayer::PlayerPressKeyW), this, DIK_W);
-	IEKeyboard::Share()->BindKeyboardCallback(IEKeyboardCallback(&IEPlayer::PlayerPressKeyS), this, DIK_S);
+	//IEKeyboard::Share()->BindKeyboardCallback(IEKeyboardCallback(&IEPlayer::PlayerPressKeyW), this, DIK_W);
+	//IEKeyboard::Share()->BindKeyboardCallback(IEKeyboardCallback(&IEPlayer::PlayerPressKeyS), this, DIK_S);
 
 	for (int index = 0; index < 10; index++)
 	{

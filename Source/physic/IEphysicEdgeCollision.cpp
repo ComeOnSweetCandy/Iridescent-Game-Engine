@@ -104,11 +104,11 @@ inline IEPhysicCollisionState IEPhysicEdgeCollision::CollisionPolygonPolygon(IEP
 		return __collision_safe__;
 	}
 
-	//这里暂且不懂什么意思
-	if (_CacheN * _distance < 0.0f)
-	{
-		_CacheN = -_CacheN;
-	}
+	//这里主要检测 相距方向和反弹方向 不过现在不需要了 在检测交叉部分的时候给出判断方向了
+	//if (_CacheN * _distance < 0.0f)
+	//{
+	//	_CacheN = -_CacheN;
+	//}
 
 	//返回已经相交 还是即将相交
 	if (_CacheT <= 0.00000f)
@@ -256,10 +256,10 @@ IEPhysicCollisionState IEPhysicEdgeCollision::CollisionPolygonCircle(IEPhysicNod
 		return __collision_safe__;
 	}
 
-	if (_CacheN * _distance < 0.0f)
-	{
-		_CacheN = -_CacheN;
-	}
+	//if (_CacheN * _distance < 0.0f)
+	//{
+	//	_CacheN = -_CacheN;
+	//}
 
 	if (_CacheT <= 0.00000f)
 	{
@@ -271,7 +271,7 @@ IEPhysicCollisionState IEPhysicEdgeCollision::CollisionPolygonCircle(IEPhysicNod
 	}
 }
 
-bool IEPhysicEdgeCollision::IntervalIntersect(float minA, float maxA, float minB, float maxB, const IEVector &axis, const IEVector &distance, const IEVector &displacement, float &taxis, float tmax)
+bool IEPhysicEdgeCollision::IntervalIntersect(float minA, float maxA, float minB, float maxB, IEVector &axis, const IEVector &distance, const IEVector &displacement, float &taxis, float tmax)
 {
 	//两者之间相差的距离 在轴线上的投影的值 加到其中一个物理体上
 	float h = distance * axis;
@@ -316,7 +316,16 @@ bool IEPhysicEdgeCollision::IntervalIntersect(float minA, float maxA, float minB
 	else
 	{
 		//从此条轴线上看来 当前是相交的 并给出两极值相交段的长度 此时taxis作为长度
-		taxis = (d0 > d1) ? d0 : d1;
+		if (d0 > d1)
+		{
+			taxis = d0;
+			axis.Reverse();
+		}
+		else
+		{
+			taxis = d1;
+		}
+
 		return true;
 	}
 }

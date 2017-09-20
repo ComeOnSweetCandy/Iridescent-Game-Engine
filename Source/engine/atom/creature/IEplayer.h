@@ -11,12 +11,13 @@
 #define __IE_PLAYER__
 
 #include "IECreature.h"
+#include "IEArmer.h"
 #include "../../../control/IEplayerNode.h"
 #include "../prop/IEpropPack.h"
 
 IE_BEGIN
 
-class __IE_DLL__ IEPlayer :public IECreature, public IEPlayerNode
+class __IE_DLL__ IEPlayer :public IEArmer, public IEPlayerNode
 {
 public:
 	IEPlayer();

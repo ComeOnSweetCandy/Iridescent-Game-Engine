@@ -98,6 +98,9 @@ void IECreature::InitUnit(unsigned int creatureID, int creatureOrder)
 	//获取creature的基本信息
 	_Entry = &(IECreatureList::Share()->m_entrys[creatureID]);
 
+	//获取XML信息表
+	m_XML = _Entry->_XML;
+
 	//新建个体信息
 	_Unit = new IECreatureUnit();
 

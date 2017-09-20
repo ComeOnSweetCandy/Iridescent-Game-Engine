@@ -1,0 +1,100 @@
+#define __IE_DLL_EXPORTS__
+#include "IEArmer.h"
+
+IE_BEGIN
+
+IEArmer::IEArmer()
+{
+
+}
+
+IEArmer::~IEArmer()
+{
+
+}
+
+void IEArmer::Initialization(unsigned int creatureID, unsigned int creatureOrder)
+{
+	IECreature::Initialization(creatureID, creatureOrder);
+
+	IEXml * xml = IEXml::Create("weapon.tex.xml");
+	IEPackerTexture * texture = IEPackerTexture::Create(xml);
+	m_wea = IESprite::Create("weapon.png");
+	m_wea->ChangeTexture(texture);
+	m_wea->ChangeGroup("default");
+}
+
+IEArmer * IEArmer::Create(unsigned int creatureID, unsigned int creatureOrder)
+{
+	IEArmer * creature = new IEArmer();
+	creature->Initialization(creatureID, creatureOrder);
+	return creature;
+}
+
+void IEArmer::Update()
+{
+	IECreature::Update();
+
+	DrawWeapon();
+}
+
+void IEArmer::DrawWeapon()
+{
+	//首先获取贴图的名称 及贴图的序号
+
+	//然后根据贴图名 获取到每帧的插入点及角度 
+	float x, y, angle;
+	bool res = GetWeaponPosition(m_textureUnit->_GroupName, m_textureUnit->_FrapIndex, x, y, angle);
+
+	//然后根据返回的值，来改变weapon的坐标
+	if (res)
+	{
+		m_wea->SetTranslate(x, y);
+		m_wea->SetRotate(angle);
+		m_wea->Visit();
+
+		static int i = 0;
+		printf("%f %f %f %d\n", x, y, angle, i++);
+	}
+}
+
+bool IEArmer::GetWeaponPosition(const char * actionName, unsigned int frapIndex, float& x, float& y, float& angle)
+{
+	IEXml * bindingXML = m_XML->FindChild("binding")->FindChild(actionName);
+
+	//首先 如果不存在 相应的绑定序列 则不显示weapon
+	if (bindingXML == NULL)
+	{
+		m_wea->SetDisplay(false);
+
+		return false;
+	}
+	else
+	{
+		m_wea->SetDirection(true);
+
+		IEString * infos = bindingXML->Value();
+		IEContainer * container = infos->SplitBy(',');
+		IEString ** arrays = (IEString **)(container->GetContainer());
+		unsigned int m_vertexsNum = container->Count() / 3;
+
+		if (m_vertexsNum > frapIndex)
+		{
+			//如果有完整的序列绑定 那么正常显示
+			x = arrays[frapIndex * 3]->transToFloat();
+			y = arrays[frapIndex * 3 + 1]->transToFloat();
+			angle = arrays[frapIndex * 3 + 2]->transToFloat();
+		}
+		else
+		{
+			//如果存在绑定序列 但是序号无法匹配 则总是匹配序列0
+			x = arrays[0]->transToFloat();
+			y = arrays[1]->transToFloat();
+			angle = arrays[2]->transToFloat();
+		}
+
+		return true;
+	}
+}
+
+IE_END

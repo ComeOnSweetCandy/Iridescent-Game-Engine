@@ -170,6 +170,7 @@ void IEPackerTexture::ChangeGroup(IETextureUnitState * textureUnitState, const c
 				sameIndex--;
 			}
 
+			strcpy(textureUnitState->_GroupName, groupName);
 			textureUnitState->_TextureID = *m_textureId;
 			textureUnitState->_GroupIndex = index;
 			textureUnitState->_SameIndex = sameIndex;

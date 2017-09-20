@@ -72,6 +72,7 @@
 //atom
 #include "engine/atom/creature/IECreature.h"
 #include "engine/atom/creature/IEplayer.h"
+#include "engine/atom/creature/IEArmer.h"
 #include "engine/atom/creature/IECreatureList.h"
 #include "engine/atom/prop/IEpropPack.h"
 
