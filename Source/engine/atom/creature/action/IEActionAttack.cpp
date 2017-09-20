@@ -39,8 +39,6 @@ void IEActionAttack::Excute()
 	//要检测是否到了关键帧，到了关键帧，就可以执行操作
 	if (1)
 	{
-		printf("attack \n");
-
 		//产生一个触发器 damage triiger
 
 		GetActionMachine()->ChangeAction(NULL);

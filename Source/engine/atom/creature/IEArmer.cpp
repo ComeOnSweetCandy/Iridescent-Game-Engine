@@ -51,10 +51,20 @@ void IEArmer::DrawWeapon()
 	{
 		m_wea->SetTranslate(x, y);
 		m_wea->SetRotate(angle);
-		m_wea->Visit();
 
-		static int i = 0;
-		printf("%f %f %f %d\n", x, y, angle, i++);
+		if (m_drawReverse)
+		{
+			m_wea->Visit();
+		}
+		else
+		{
+			glMatrixMode(GL_MODELVIEW);
+			glPushMatrix();
+			glTranslatef(m_size[0], 0.0f, 0.0f);
+			glScalef(-1.0f, 1.0f, 1.0);
+			m_wea->Visit();
+			glPopMatrix();
+		}
 	}
 }
 
@@ -66,7 +76,8 @@ bool IEArmer::GetWeaponPosition(const char * actionName, unsigned int frapIndex,
 	if (bindingXML == NULL)
 	{
 		m_wea->SetDisplay(false);
-
+		static int i = 0;
+		printf("%d\n", i++);
 		return false;
 	}
 	else
