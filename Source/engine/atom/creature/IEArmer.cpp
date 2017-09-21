@@ -76,8 +76,6 @@ bool IEArmer::GetWeaponPosition(const char * actionName, unsigned int frapIndex,
 	if (bindingXML == NULL)
 	{
 		m_wea->SetDisplay(false);
-		static int i = 0;
-		printf("%d\n", i++);
 		return false;
 	}
 	else

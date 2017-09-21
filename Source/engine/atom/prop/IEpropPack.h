@@ -10,7 +10,7 @@
 #ifndef __IE_PROP_PACK__
 #define __IE_PROP_PACK__
 
-#include "IEusedProp.h"
+#include "IEProp.h"
 
 IE_BEGIN
 
@@ -21,31 +21,29 @@ class __IE_DLL__ IEPropPack:public IEObject
 public:
 	IEPropPack();
 	virtual ~IEPropPack();
-	virtual void Initialization(IECreature * creature, int packCapacity);
-	static IEPropPack * Create(IECreature * creature, int packCapacity);
-	static IEPropPack * CreateAndRetain(IECreature * creature, int packCapacity);
+	virtual void Initialization(IECreature * creature, unsigned int packCapacity);
+	static IEPropPack * Create(IECreature * creature, unsigned int packCapacity);
 
 public:
-	//更新绑定的UI
-	virtual void UpdateUI();
+	virtual void UpdateUI();							//更新绑定的UI
 
-	void SetPackCapacity(int packCapacity);
-	void SetSlot(IESlot * shortCut);
+	void AddProp(IEProp * prop);						//放入prop
+	void DropProp(unsigned int packIndex);				//丢弃prop
+	void UseProp(unsigned int packIndex);				//使用prop
 
-	void InsertProp(IEProp * prop);
-	void DeleteProp(IEUsedProp * prop);
-	void DropProp(IEUsedProp * prop);
-	void UseProp(int packIndex);
-	bool HaveProp(int packIndex);
+private:
+	void SetSlot(IESlot * shortCut);					//???
 
-	void SetPackOwner(IECreature * creature);
-	IECreature * GetPackOwner();
+	void SetPackCapacity(unsigned int packCapacity);	//设定pack容量
+	void SetPackOwner(IECreature * creature);			//设定pack的拥有着
+
+	unsigned int GetPackCapacity();						//获取pack容量
+	IECreature * GetPackOwner();						//获取pack拥有着
 
 public:
-	int m_packOccupy;
-	int m_packCapacity;
-	IEUsedProp ** m_props;
-	IECreature * m_packOwner;
+	unsigned int m_packCapacity;						//pack最大容量
+	IEProp ** m_props;									//pack中所有的prop
+	IECreature * m_owner;								//拥有着
 
 	IESlot * m_slot;
 };

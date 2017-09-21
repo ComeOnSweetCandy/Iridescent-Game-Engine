@@ -182,6 +182,13 @@ void IECreature::InitCreatureTab()
 	//IENode::AddChild(m_nameDisplay);
 }
 
+void IECreature::Update()
+{
+	IEAtom::Update();
+
+	IECreature::Live();
+}
+
 void IECreature::Born()
 {
 	if (LUAFunctionAllocateFunction(_Entry->_LUA, "Born"))

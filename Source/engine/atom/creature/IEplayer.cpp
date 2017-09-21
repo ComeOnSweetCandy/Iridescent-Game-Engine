@@ -3,7 +3,7 @@
 
 #include "../../../core/IEcamera.h"
 
-#include "../prop/IEpickedProp.h"
+#include "../prop/IEProp.h"
 
 #include "action/IEActionDisplacement.h"
 #include "action/IEActionRest.h"
@@ -14,23 +14,21 @@ IE_BEGIN
 IEPlayer::IEPlayer()
 {
 	m_moveDirection = 0;
-	m_propPack = NULL;
+	m_propPack = IEPropPack::Create(this, 10);
 }
 
 IEPlayer::~IEPlayer()
 {
 	if (m_propPack)
 	{
-		m_propPack->Release();
+		m_propPack->ReleaseDisreference();
 	}
 }
 
 void IEPlayer::Initialization(int creatureID)
 {
 	IEArmer::Initialization(creatureID, 0);
-
-	m_propPack = IEPropPack::CreateAndRetain(this, 10);
-	BindPlayerControl();
+	IEPlayer::BindPlayerControl();
 
 	//直接定义为用户
 	_Unit->_Party = __creature_party_mine__;

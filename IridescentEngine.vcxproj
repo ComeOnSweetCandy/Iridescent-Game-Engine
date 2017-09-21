@@ -73,11 +73,10 @@
     <ClCompile Include="Source\engine\atom\creature\state\IEState.cpp" />
     <ClCompile Include="Source\engine\atom\creature\state\IEStateMachine.cpp" />
     <ClCompile Include="Source\engine\atom\IEAtom.cpp" />
-    <ClCompile Include="Source\engine\atom\IEprop.cpp" />
+    <ClCompile Include="Source\engine\atom\prop\IEProp.cpp" />
     <ClCompile Include="Source\engine\atom\prop\IEdamageProp.cpp" />
-    <ClCompile Include="Source\engine\atom\prop\IEpickedProp.cpp" />
     <ClCompile Include="Source\engine\atom\prop\IEpropPack.cpp" />
-    <ClCompile Include="Source\engine\atom\prop\IEpropsInfoManager.cpp" />
+    <ClCompile Include="Source\engine\atom\prop\IEPropList.cpp" />
     <ClCompile Include="Source\engine\atom\prop\IEusedProp.cpp" />
     <ClCompile Include="Source\engine\IEresourcesManager.cpp" />
     <ClCompile Include="Source\engine\scene\IEArea.cpp" />
@@ -230,11 +229,10 @@
     <ClInclude Include="Source\engine\atom\creature\state\IEState.h" />
     <ClInclude Include="Source\engine\atom\creature\state\IEStateMachine.h" />
     <ClInclude Include="Source\engine\atom\IEAtom.h" />
-    <ClInclude Include="Source\engine\atom\IEprop.h" />
+    <ClInclude Include="Source\engine\atom\prop\IEProp.h" />
     <ClInclude Include="Source\engine\atom\prop\IEdamageProp.h" />
-    <ClInclude Include="Source\engine\atom\prop\IEpickedProp.h" />
     <ClInclude Include="Source\engine\atom\prop\IEpropPack.h" />
-    <ClInclude Include="Source\engine\atom\prop\IEpropsInfoManager.h" />
+    <ClInclude Include="Source\engine\atom\prop\IEPropList.h" />
     <ClInclude Include="Source\engine\atom\prop\IEusedProp.h" />
     <ClInclude Include="Source\engine\IEresourcesManager.h" />
     <ClInclude Include="Source\engine\scene\IEArea.h" />

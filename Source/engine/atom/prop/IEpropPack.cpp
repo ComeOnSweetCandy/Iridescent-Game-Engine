@@ -6,7 +6,6 @@ IE_BEGIN
 
 IEPropPack::IEPropPack()
 {
-	m_packOccupy = 0;
 	m_packCapacity = 0;
 	m_props = NULL;
 }
@@ -15,67 +14,30 @@ IEPropPack::~IEPropPack()
 {
 	if (m_props)
 	{
-		for (int index = 0; index < m_packCapacity; index++)
-		{
-			if (m_props[index])
-			{
-				m_props[index]->ClockTick();
-			}
-		}
-
 		delete []m_props;
 	}
 }
 
-void IEPropPack::Initialization(IECreature * creature, int packCapacity)
+void IEPropPack::Initialization(IECreature * creature, unsigned int packCapacity)
 {
+	IEObject::Initialization();
+
 	SetPackOwner(creature);
 	SetPackCapacity(packCapacity);
 }
 
-IEPropPack * IEPropPack::Create(IECreature * creature, int packCapacity)
+IEPropPack * IEPropPack::Create(IECreature * creature, unsigned int packCapacity)
 {
 	IEPropPack * propPack = new IEPropPack();
 	propPack->Initialization(creature, packCapacity);
 	return propPack;
 }
 
-IEPropPack * IEPropPack::CreateAndRetain(IECreature * creature, int packCapacity)
+void IEPropPack::AddProp(IEProp * prop)
 {
-	IEPropPack * propPack = new IEPropPack();
-	propPack->Initialization(creature, packCapacity);
-	propPack->Retain();
-	return propPack;
-}
-
-void IEPropPack::SetPackCapacity(int packCapacity)
-{
-	m_packCapacity = packCapacity;
-
-	if (m_props)
-	{
-
-	}
-	else
-	{
-		m_props = new IEUsedProp *[m_packCapacity];
-
-		for (int index = 0; index < m_packCapacity; index++)
-		{
-			m_props[index] = NULL;
-		}
-	}
-}
-
-void IEPropPack::SetSlot(IESlot * slot)
-{
-	m_slot = slot;
-}
-
-void IEPropPack::InsertProp(IEProp * prop)
-{
-	int propIndex = prop->GetPropIndex();
+	int propID = prop->GetPropID();
 	int propCount = prop->GetPropCount();
+	unsigned int leftNumber = 0;
 
 	int emptyIndex = -1;
 	for (int index = 0; index < m_packCapacity; index++)
@@ -89,12 +51,19 @@ void IEPropPack::InsertProp(IEProp * prop)
 		}
 		else
 		{
-			if (m_props[index]->GetPropIndex() == propIndex)
+			if (m_props[index]->GetPropID() == propID)
 			{
-				m_props[index]->AddPropCount(propCount);
-
-				UpdateUI();
-				return;
+				leftNumber = m_props[index]->AddPropCount(propCount);
+				if (leftNumber != 0)
+				{
+					//没有全部放入 接着放
+				}
+				else
+				{
+					//放完了 返回
+					UpdateUI();
+					return;
+				}
 			}
 		}
 	}
@@ -123,84 +92,84 @@ void IEPropPack::InsertProp(IEProp * prop)
 	return;
 }
 
-void IEPropPack::DeleteProp(IEUsedProp * prop)
+void IEPropPack::DropProp(unsigned int packIndex)
 {
-	int propIndex = prop->GetPropIndex();
-
-	for (int index = 0; index < m_packCapacity; index++)
+	if (m_props[packIndex])
 	{
-		if (m_props[index] != NULL)
-		{
-			if (m_props[index]->GetPropIndex() == propIndex)
-			{
-				m_props[index]->ClockTick();
-				m_props[index] = NULL;
+		m_props[packIndex] = NULL;
 
-				UpdateUI();
-				return;
-			}
-		}
+		UpdateUI();
 	}
 }
 
-void IEPropPack::DropProp(IEUsedProp * prop)
+void IEPropPack::UseProp(unsigned int packIndex)
 {
-
-}
-
-void IEPropPack::UseProp(int packIndex)
-{
-	if (m_props[packIndex] != NULL)
+	if (m_props[packIndex])
 	{
 		m_props[packIndex]->UseProp();
 
 		UpdateUI();
-		return;
 	}
 }
 
 void IEPropPack::UpdateUI()
 {
-	if (!m_slot)
-	{
-		//还没有UI
-		return;
-	}
+	//if (!m_slot)
+	//{
+	//	//还没有UI
+	//	return;
+	//}
 
-	for (int index = 0; index < m_packCapacity; index++)
-	{
-		if (m_props[index] != NULL)
-		{
-			m_slot->SetButton(index, m_props[index], m_props[index]->GetPropTexture("propIcon"), true);
-		}
-		else
-		{
-			m_slot->SetButton(index, NULL, NULL, true);
-		}
-	}
+	//for (int index = 0; index < m_packCapacity; index++)
+	//{
+	//	if (m_props[index] != NULL)
+	//	{
+	//		m_slot->SetButton(index, m_props[index], m_props[index]->GetPropTexture("propIcon"), true);
+	//	}
+	//	else
+	//	{
+	//		m_slot->SetButton(index, NULL, NULL, true);
+	//	}
+	//}
 }
 
-bool IEPropPack::HaveProp(int packIndex)
+void IEPropPack::SetSlot(IESlot * slot)
 {
-	if (packIndex >= m_packCapacity)
+	m_slot = slot;
+}
+
+void IEPropPack::SetPackCapacity(unsigned int packCapacity)
+{
+	m_packCapacity = packCapacity;
+
+	if (m_props)
 	{
-		return false;
+
 	}
-	if (m_props[packIndex])
+	else
 	{
-		return true;
+		m_props = new IEProp *[m_packCapacity];
+
+		for (int index = 0; index < m_packCapacity; index++)
+		{
+			m_props[index] = NULL;
+		}
 	}
-	return false;
 }
 
 void IEPropPack::SetPackOwner(IECreature * creature)
 {
-	m_packOwner = creature;
+	m_owner = creature;
 }
 
 IECreature * IEPropPack::GetPackOwner()
 {
-	return m_packOwner;
+	return m_owner;
+}
+
+unsigned int IEPropPack::GetPackCapacity()
+{
+	return m_packCapacity;
 }
 
 IE_END

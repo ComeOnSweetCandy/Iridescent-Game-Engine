@@ -180,7 +180,8 @@ void IECreatureList::LoadList()
 
 void IECreatureList::SaveList()
 {
-	FILE * filePoint = fopen("../Debug/data/adorning", "wb");
+	IEString fileDir = pOBJECT_TO_cSTRING(SETTING["creatureInfoFile"]);
+	FILE * filePoint = fopen(fileDir.GetString(), "wb");
 	fwrite(&m_entrysCount, sizeof(unsigned int), 1, filePoint);
 	for (unsigned int index = 0; index < m_entrysCount; index++)
 	{

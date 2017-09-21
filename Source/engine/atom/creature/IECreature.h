@@ -41,6 +41,7 @@ public:
 	IEStateMachine * GetStateMachine();
 
 	//给予creature的情况反馈 与指令区分开 或者意为 通知当前creature所处于的状态 通知类型的反馈
+	virtual void Update();
 	virtual void Born();
 	virtual void Live();
 	virtual void Die();
@@ -61,7 +62,7 @@ protected:
 	void RunAction();								//运行动作
 	void RunState();								//运行状态
 
-	void ArrangeInfo();								//处理一些 防止信息数值错误的操作
+	virtual void ArrangeInfo();						//处理一些 防止信息数值错误的操作
 
 private:
 	void InitUnit(unsigned int creatureID, int creatureOrder);		//初始化自身数据

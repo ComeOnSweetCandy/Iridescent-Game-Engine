@@ -10,8 +10,6 @@ IEAtom::IEAtom()
 
 IEAtom::~IEAtom()
 {
-	//Die();
-
 	__IE_LUA_RELEASE__(m_LUA);
 }
 
@@ -26,28 +24,6 @@ IEAtom * IEAtom::Create()
 	IEAtom * atom = new IEAtom();
 	atom->Initialization();
 	return atom;
-}
-
-void IEAtom::Update()
-{
-	IENode::Update();
-
-	Live();
-}
-
-void IEAtom::Born()
-{
-
-}
-
-void IEAtom::Live()
-{
-
-}
-
-void IEAtom::Die()
-{
-
 }
 
 lua_State * IEAtom::GetLuaScript()

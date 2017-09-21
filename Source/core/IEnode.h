@@ -61,7 +61,7 @@ protected:
 	IEPhysicNode * m_physicNode;
 
 private:
-	bool m_DrawMode;
+	bool m_DrawMode;										//…Ë∂® «∑Ò—”≥Ÿ‰÷»æ
 	unsigned int m_nodeIndex;
 	static unsigned int m_StaticNodeCount;
 	static unsigned int m_StaticActiveNodeCount;
