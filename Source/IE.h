@@ -83,7 +83,7 @@
 #include "engine/trigger/IEtrigger.h"
 
 //prop
-#include "engine/atom/prop/IEpickedProp.h"
+#include "engine/atom/prop/IEProp.h"
 
 //ai
 #include "ai/IEPathFinder.h"

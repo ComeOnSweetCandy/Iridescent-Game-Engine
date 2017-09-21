@@ -12,6 +12,8 @@
 
 #include "IECreature.h"
 
+#include "../prop/IEPropEquipment.h"
+
 IE_BEGIN
 
 class __IE_DLL__ IEArmer :public IECreature
@@ -32,8 +34,7 @@ private:
 	bool GetWeaponPosition(const char * actionName, unsigned int frapIndex, float& x, float& y, float& angle);
 
 private:
-	//IEWeapon * m_weapon;
-	IESprite * m_wea;
+	IEPropEquipment * m_weapon;
 };
 
 IE_END

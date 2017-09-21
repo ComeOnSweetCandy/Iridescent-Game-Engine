@@ -1,5 +1,5 @@
 /***********************************
-* name     : IEprop.h
+* name     : IEProp.h
 * creater  : cosc
 * info     : every prop in scene
 * date     : 2017/3/27
@@ -49,8 +49,8 @@ public:
 	virtual void UseProp() = 0;							//使用prop
 	virtual void PickProp(IECreature * creature) = 0;	//拾取prop
 
-	IEPropType SetPropType(IEPropType propType);			//获取道具类型
-	IEPropState SetPropState(IEPropState propState);		//获取道具状态
+	void SetPropType(IEPropType propType);				//获取道具类型
+	void SetPropState(IEPropState propState);			//获取道具状态
 	void SetOwner(IECreature * creature);					//设定归属者
 	void SetPropID(unsigned int propID);					//设定prop的ID
 	unsigned int AddPropCount(unsigned int propCount);		//增加prop的数量 返回值为 还没有放进去的量 (能放入多少就放入多少)
@@ -67,8 +67,8 @@ public:
 protected:
 	virtual void ArrangeInfo();				//每次调用后 自身处理
 
-	virtual void DrawNodeInScene();			//绘制场景中的prop
-	virtual void DrawNodeInPack();			//绘制pack中的prop
+	virtual void DrawNodeInScene(){};			//绘制场景中的prop
+	virtual void DrawNodeInPack(){};			//绘制pack中的prop
 
 private:
 	void InitUnit();						//初始化自身

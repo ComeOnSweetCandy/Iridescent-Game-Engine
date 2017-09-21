@@ -38,6 +38,8 @@ IEProp * IEProp::Create(unsigned int propIndex, IEPropState propState)
 	//IEProp * prop = new IEProp();
 	//prop->Initialization(propIndex, propState);
 	//return prop;
+
+	return NULL;
 }
 
 void IEProp::EquipProp()
@@ -58,12 +60,12 @@ void IEProp::PickProp(IECreature * creature)
 	bag->AddProp(this);
 }
 
-IEPropType IEProp::SetPropType(IEPropType propType)
+void IEProp::SetPropType(IEPropType propType)
 {
 	m_propType = propType;
 }
 
-IEPropState IEProp::SetPropState(IEPropState propState)
+void IEProp::SetPropState(IEPropState propState)
 {
 	m_propState = propState;
 }
@@ -95,24 +97,21 @@ unsigned int IEProp::AddPropCount(unsigned int propCount)
 
 unsigned int IEProp::AddPropCount(IEProp * prop)
 {
-	if (this->GetPropID() == prop->GetPropID())
+	unsigned int propCount = prop->GetPropCount();
+
+	if (m_propCount > m_pileMax)
 	{
-		unsigned int propCount = prop->GetPropCount();
+		m_propCount = m_pileMax;
 
-		if (m_propCount > m_pileMax)
-		{
-			m_propCount = m_pileMax;
-
-			return m_propCount - m_pileMax;
-		}
-
-		//删除传递过来的prop
-		prop->DelSelf();
-
-		//处理后续
-		ArrangeInfo();
-		return 0;
+		return m_propCount - m_pileMax;
 	}
+
+	//删除传递过来的prop
+	prop->DelSelf();
+
+	//处理后续
+	ArrangeInfo();
+	return 0;
 }
 
 unsigned int IEProp::ReducePropCount(unsigned int propCount)
@@ -171,9 +170,9 @@ void IEProp::InitUnit()
 	ChangeTexture(texture);
 
 	//根据XML生成PhysicNode
-	IEXml * physicXML = _Entry->_XML->FindChild("physic");
-	IEPhysicNode * physicNode = IEPhysicNode::Create(physicXML);
-	BindPhysicNode(physicNode);
+	//IEXml * physicXML = _Entry->_XML->FindChild("physic");
+	//IEPhysicNode * physicNode = IEPhysicNode::Create(physicXML);
+	//BindPhysicNode(physicNode);
 
 	//脚本
 	if (!(m_LUA = _Entry->_LUA))
@@ -182,7 +181,7 @@ void IEProp::InitUnit()
 		luaL_openlibs(m_LUA);
 
 		char scriptName[64];
-		sprintf(scriptName, "%s%s%s", "../Debug/data/script/creature/", _Entry->_PropName, ".LUA");
+		sprintf(scriptName, "%s%s%s", "../Debug/data/script/prop/", _Entry->_PropName, ".LUA");
 
 		luaL_Reg lua_reg_libs[] =
 		{

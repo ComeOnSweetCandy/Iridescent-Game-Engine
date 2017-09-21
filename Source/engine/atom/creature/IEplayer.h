@@ -27,6 +27,7 @@ public:
 
 public:
 	virtual void Live();
+
 	virtual void BindPlayerControl();
 	virtual void PlayerPressKeyA(unsigned char key);
 	virtual void PlayerPressKeyD(unsigned char key);

@@ -3,7 +3,7 @@
 
 #include "../core/container/IEautoReleasePool.h"
 #include "atom/creature/IECreatureList.h"
-#include "atom/prop/IEpropsInfoManager.h"
+#include "atom/prop/IEPropList.h"
 #include "scene/terrain/IETerrainList.h"
 #include "scene/thing/IEThingList.h"
 
@@ -27,7 +27,7 @@ IEResourcesManager::~IEResourcesManager()
 	IEAutoReleasePool::Share()->Release();					//自动释放池
 	IEResourcesDictionary::Share()->Release();				//贴图着色器资源
 	IECreatureList::Share()->Release();						//人物信息资源
-	IEPropsInfoManager::Share()->Release();					//道具信息资源
+	IEPropList::Share()->Release();					//道具信息资源
 	IETerrainList::Share()->Release();						//地形信息资源
 	IEThingList::Share()->Release();						//装饰信息资源
 	IECamera::Share()->Release();							//相机释放

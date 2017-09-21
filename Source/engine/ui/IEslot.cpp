@@ -25,7 +25,7 @@ IESlot * IESlot::Create()
 	return ui;
 }
 
-void IESlot::SetButton(int buttonIndex, IEUsedProp * usedProp, char * textureName, bool isWorking)
+void IESlot::SetButton(int buttonIndex, IEProp * usedProp, char * textureName, bool isWorking)
 {
 	IEWidget ** buttons = (IEWidget **)w_childs->GetContainer();
 	int buttonCount = w_childs->Count();
@@ -36,9 +36,9 @@ void IESlot::SetButton(int buttonIndex, IEUsedProp * usedProp, char * textureNam
 	}
 	else
 	{
-		buttons[buttonIndex]->SetWidgetWorking(isWorking);
-		buttons[buttonIndex]->BindWidgetCallback(IEWidgetCallback(&IEUsedProp::PressCallback), usedProp);
-		buttons[buttonIndex]->ChangeTexture(textureName);
+		//buttons[buttonIndex]->SetWidgetWorking(isWorking);
+		//buttons[buttonIndex]->BindWidgetCallback(IEWidgetCallback(&IEProp::PressCallback), usedProp);
+		//buttons[buttonIndex]->ChangeTexture(textureName);
 	}
 }
 

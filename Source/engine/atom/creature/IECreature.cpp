@@ -186,7 +186,7 @@ void IECreature::Update()
 {
 	IEAtom::Update();
 
-	IECreature::Live();
+	Live();
 }
 
 void IECreature::Born()

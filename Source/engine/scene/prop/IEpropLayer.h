@@ -11,7 +11,7 @@
 #define __IE_PROP_LAYER__
 
 #include "../../../core/IElayer.h"
-#include "../../atom/IEprop.h"
+#include "../../atom/prop/IEProp.h"
 
 IE_BEGIN
 

@@ -17,11 +17,8 @@ void IEArmer::Initialization(unsigned int creatureID, unsigned int creatureOrder
 {
 	IECreature::Initialization(creatureID, creatureOrder);
 
-	IEXml * xml = IEXml::Create("weapon.tex.xml");
-	IEPackerTexture * texture = IEPackerTexture::Create(xml);
-	m_wea = IESprite::Create("weapon.png");
-	m_wea->ChangeTexture(texture);
-	m_wea->ChangeGroup("default");
+	//__prop_state_pack__
+	m_weapon = IEPropEquipment::Create(1,__prop_state_pick__);
 }
 
 IEArmer * IEArmer::Create(unsigned int creatureID, unsigned int creatureOrder)
@@ -49,12 +46,12 @@ void IEArmer::DrawWeapon()
 	//然后根据返回的值，来改变weapon的坐标
 	if (res)
 	{
-		m_wea->SetTranslate(x, y);
-		m_wea->SetRotate(angle);
+		m_weapon->SetTranslate(x, y);
+		m_weapon->SetRotate(angle);
 
 		if (m_drawReverse)
 		{
-			m_wea->Visit();
+			m_weapon->Visit();
 		}
 		else
 		{
@@ -62,7 +59,7 @@ void IEArmer::DrawWeapon()
 			glPushMatrix();
 			glTranslatef(m_size[0], 0.0f, 0.0f);
 			glScalef(-1.0f, 1.0f, 1.0);
-			m_wea->Visit();
+			//m_weapon->Visit();
 			glPopMatrix();
 		}
 	}
@@ -75,12 +72,12 @@ bool IEArmer::GetWeaponPosition(const char * actionName, unsigned int frapIndex,
 	//首先 如果不存在 相应的绑定序列 则不显示weapon
 	if (bindingXML == NULL)
 	{
-		m_wea->SetDisplay(false);
+		m_weapon->SetDisplay(false);
 		return false;
 	}
 	else
 	{
-		m_wea->SetDirection(true);
+		m_weapon->SetDirection(true);
 
 		IEString * infos = bindingXML->Value();
 		IEContainer * container = infos->SplitBy(',');

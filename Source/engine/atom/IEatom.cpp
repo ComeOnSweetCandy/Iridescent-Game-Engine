@@ -31,6 +31,11 @@ lua_State * IEAtom::GetLuaScript()
 	return m_LUA;
 }
 
+void IEAtom::ArrangeInfo()
+{
+	//do something
+}
+
 void IEAtom::AddTrigger(IETrigger * trigger)
 {
 

@@ -24,7 +24,7 @@ public:
 	static IESlot * Create();
 	
 public:
-	void SetButton(int buttonIndex, IEUsedProp * usedProp, char * textureName, bool isWorking);
+	void SetButton(int buttonIndex, IEProp * usedProp, char * textureName, bool isWorking);
 };
 
 IE_END

@@ -39,8 +39,8 @@ void IEPropPack::AddProp(IEProp * prop)
 	int propCount = prop->GetPropCount();
 	unsigned int leftNumber = 0;
 
-	int emptyIndex = -1;
-	for (int index = 0; index < m_packCapacity; index++)
+	unsigned int emptyIndex = -1;
+	for (unsigned int index = 0; index < m_packCapacity; index++)
 	{
 		if (m_props[index] == NULL)
 		{
@@ -74,18 +74,18 @@ void IEPropPack::AddProp(IEProp * prop)
 	}
 	else
 	{
-		IEPropType propType = prop->GetPropType();
-		if (propType == __prop_picked_type__)
-		{
-			IEUsedProp * usedProp = IEUsedProp::Create(propIndex, propCount);
-			m_props[emptyIndex] = usedProp;
-			m_props[emptyIndex]->SetPropPack(this);
-			m_props[emptyIndex]->SetPropOwner(m_packOwner);
-		}
-		else if (propType == __prop_used_type__)
-		{
-			m_props[emptyIndex] = (IEUsedProp *)prop;
-		}
+		//IEPropType propType = prop->GetPropType();
+		//if (propType == __prop_picked_type__)
+		//{
+		//	IEUsedProp * usedProp = IEUsedProp::Create(propIndex, propCount);
+		//	m_props[emptyIndex] = usedProp;
+		//	m_props[emptyIndex]->SetPropPack(this);
+		//	m_props[emptyIndex]->SetPropOwner(m_packOwner);
+		//}
+		//else if (propType == __prop_used_type__)
+		//{
+		//	m_props[emptyIndex] = (IEUsedProp *)prop;
+		//}
 	}
 
 	UpdateUI();
@@ -150,7 +150,7 @@ void IEPropPack::SetPackCapacity(unsigned int packCapacity)
 	{
 		m_props = new IEProp *[m_packCapacity];
 
-		for (int index = 0; index < m_packCapacity; index++)
+		for (unsigned int index = 0; index < m_packCapacity; index++)
 		{
 			m_props[index] = NULL;
 		}

@@ -2,7 +2,7 @@
 #include "IEActionAttack.h"
 
 #include "../IECreature.h"
-#include "../../IEprop.h"
+#include "../../prop/IEProp.h"
 
 IE_BEGIN
 
