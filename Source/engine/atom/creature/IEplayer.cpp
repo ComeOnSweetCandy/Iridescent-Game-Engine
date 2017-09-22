@@ -14,15 +14,11 @@ IE_BEGIN
 IEPlayer::IEPlayer()
 {
 	m_moveDirection = 0;
-	m_propPack = IEPropPack::Create(this, 10);
 }
 
 IEPlayer::~IEPlayer()
 {
-	if (m_propPack)
-	{
-		m_propPack->ReleaseDisreference();
-	}
+
 }
 
 void IEPlayer::Initialization(int creatureID)
@@ -40,11 +36,6 @@ IEPlayer * IEPlayer::Create(int creatureIndex)
 	IEPlayer * object = new IEPlayer();
 	object->Initialization(creatureIndex);
 	return object;
-}
-
-IEPropPack * IEPlayer::GetPlayersPack()
-{
-	return m_propPack;
 }
 
 void IEPlayer::Live()
@@ -87,6 +78,22 @@ void IEPlayer::HandlePlayerControll()
 			m_physicNode->SetPhysicNodeState(__physic_state_air__);
 		}
 	}
+	if (IEKeyboard::Share()->KeyTouch(DIK_1))
+	{
+		PlayerPressNumberKey(DIK_1);
+	}
+	else if (IEKeyboard::Share()->KeyTouch(DIK_2))
+	{
+		PlayerPressNumberKey(DIK_2);
+	}
+	else if (IEKeyboard::Share()->KeyTouch(DIK_3))
+	{
+		PlayerPressNumberKey(DIK_3);
+	}
+	else if (IEKeyboard::Share()->KeyTouch(DIK_4))
+	{
+		PlayerPressNumberKey(DIK_4);
+	}
 
 	if (m_nextAction)
 	{
@@ -113,7 +120,7 @@ void IEPlayer::BindPlayerControl()
 
 	for (int index = 0; index < 10; index++)
 	{
-		IEKeyboard::Share()->BindKeyboardCallback(IEKeyboardCallback(&IEPlayer::PlayerPressNumberKey), this, DIK_1 + index);
+		//IEKeyboard::Share()->BindKeyboardCallback(IEKeyboardCallback(&IEPlayer::PlayerPressNumberKey), this, DIK_1 + index);
 	}
 }
 
@@ -151,8 +158,8 @@ void IEPlayer::PlayerPressNumberKey(unsigned char key)
 {
 	int packIndex = key - DIK_1;
 
-	//IEUseProp * useProp = IEUseProp::Create(packIndex);
-	//m_actionMachine->ChangeAction(__action_useProp__, useProp);
+	//使用索引指向的物品
+	m_propPack->UseProp(packIndex);
 }
 
 IE_END

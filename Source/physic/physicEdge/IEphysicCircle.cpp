@@ -30,6 +30,20 @@ IEPhysicCircle * IEPhysicCircle::Create(IEEdgeType edgeType, float barycenterX, 
 	return object;
 }
 
+void IEPhysicCircle::Initialization(IEEdgeType edgeType, float barycenterX, float barycenterY, float radius)
+{
+	IEPhysicEdge::Initialization(edgeType, barycenterX, barycenterY);
+
+	IEPhysicCircle::SetRadius(radius);
+}
+
+IEPhysicCircle * IEPhysicCircle::Create(IEEdgeType edgeType, float barycenterX, float barycenterY, float radius)
+{
+	IEPhysicCircle * object = new IEPhysicCircle();
+	object->Initialization(edgeType, barycenterX, barycenterY, radius);
+	return object;
+}
+
 void IEPhysicCircle::DrawPhysicEdge()
 {
 	glTranslatef(m_barycenter[0], m_barycenter[1], 0.0f);

@@ -75,8 +75,9 @@
     <ClCompile Include="Source\engine\atom\IEAtom.cpp" />
     <ClCompile Include="Source\engine\atom\prop\IEProp.cpp" />
     <ClCompile Include="Source\engine\atom\prop\IEdamageProp.cpp" />
+    <ClCompile Include="Source\engine\atom\prop\IEPropConsumable.cpp" />
     <ClCompile Include="Source\engine\atom\prop\IEPropEquipment.cpp" />
-    <ClCompile Include="Source\engine\atom\prop\IEpropPack.cpp" />
+    <ClCompile Include="Source\engine\atom\prop\IEPropPack.cpp" />
     <ClCompile Include="Source\engine\atom\prop\IEPropList.cpp" />
     <ClCompile Include="Source\engine\atom\prop\IEusedProp.cpp" />
     <ClCompile Include="Source\engine\IEresourcesManager.cpp" />
@@ -232,8 +233,9 @@
     <ClInclude Include="Source\engine\atom\IEAtom.h" />
     <ClInclude Include="Source\engine\atom\prop\IEProp.h" />
     <ClInclude Include="Source\engine\atom\prop\IEdamageProp.h" />
+    <ClInclude Include="Source\engine\atom\prop\IEPropConsumable.h" />
     <ClInclude Include="Source\engine\atom\prop\IEPropEquipment.h" />
-    <ClInclude Include="Source\engine\atom\prop\IEpropPack.h" />
+    <ClInclude Include="Source\engine\atom\prop\IEPropPack.h" />
     <ClInclude Include="Source\engine\atom\prop\IEPropList.h" />
     <ClInclude Include="Source\engine\atom\prop\IEusedProp.h" />
     <ClInclude Include="Source\engine\IEresourcesManager.h" />

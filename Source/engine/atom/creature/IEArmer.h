@@ -13,6 +13,7 @@
 #include "IECreature.h"
 
 #include "../prop/IEPropEquipment.h"
+#include "../prop/IEPropPack.h"
 
 IE_BEGIN
 
@@ -28,13 +29,18 @@ public:
 	virtual void Update();
 	virtual void DrawWeapon();
 
+	IEPropPack * GetPlayersPack();
+
+	void ArmWeapon(IEPropEquipment * equipment);
+
 private:
-	void ArmWeapon();
+
 
 	bool GetWeaponPosition(const char * actionName, unsigned int frapIndex, float& x, float& y, float& angle);
 
-private:
-	IEPropEquipment * m_weapon;
+protected:
+	IEPropPack * m_propPack;		//bag
+	IEPropEquipment * m_weapon;		//equipment
 };
 
 IE_END

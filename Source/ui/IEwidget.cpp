@@ -58,6 +58,10 @@ void IEWidget::BindWidgetCallback(IEWidgetCallback callback, IENode * node)
 
 void IEWidget::WidgetCallback()
 {
+	//获取更好的一种方式 调用lua脚本的方式
+
+
+	//传统方式 绑定
 	if (w_node && w_widgetCallback)
 	{
 		(w_node->*w_widgetCallback)(this);

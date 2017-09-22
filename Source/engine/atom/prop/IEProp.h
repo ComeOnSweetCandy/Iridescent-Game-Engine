@@ -34,7 +34,7 @@ typedef enum IEPropType
 	__prop_type_max__
 };
 
-class IECreature;
+class IEArmer;
 
 class __IE_DLL__ IEProp :public IEAtom
 {
@@ -45,27 +45,27 @@ public:
 	static IEProp * Create(unsigned int propID, IEPropState propState);
 
 public:
-	virtual void EquipProp() = 0;						//装备prop
-	virtual void UseProp() = 0;							//使用prop
-	virtual void PickProp(IECreature * creature) = 0;	//拾取prop
+	virtual void UseProp() = 0;						//使用prop
+	virtual void PickProp(IEArmer * creature) = 0;	//拾取prop
 
 	void SetPropType(IEPropType propType);				//获取道具类型
 	void SetPropState(IEPropState propState);			//获取道具状态
-	void SetOwner(IECreature * creature);					//设定归属者
+	void SetOwner(IEArmer * creature);					//设定归属者
 	void SetPropID(unsigned int propID);					//设定prop的ID
 	unsigned int AddPropCount(unsigned int propCount);		//增加prop的数量 返回值为 还没有放进去的量 (能放入多少就放入多少)
 	unsigned int AddPropCount(IEProp * prop);				//加上新的prop
 	unsigned int ReducePropCount(unsigned int count);		//减少prop的数量 返回值为 还需要的prop的数量 说明数量不够 (这种情况下已经有的不会被减少)
 	void DelPropAll();										//抛弃所有的Prop
 
-	IECreature * GetOwner();				//获取归属者
+	IEArmer * GetOwner();				//获取归属者
 	IEPropType GetPropType();				//获取道具类型
 	IEPropState GetPropState();				//获取道具状态
 	int GetPropID();						//获取prop的ID
 	unsigned int GetPropCount();			//得到prop的数量
 
 protected:
-	virtual void ArrangeInfo();				//每次调用后 自身处理
+	virtual void InteractiveNode(IENode * node);//传递回碰撞的node
+	virtual void ArrangeInfo();					//每次调用后 自身处理
 
 	virtual void DrawNodeInScene(){};			//绘制场景中的prop
 	virtual void DrawNodeInPack(){};			//绘制pack中的prop
@@ -79,7 +79,7 @@ private:
 protected:
 	IEPropState m_propState;				//当前状态
 	IEPropType m_propType;					//类型
-	IECreature * m_owner;					//所有者
+	IEArmer * m_owner;					//所有者
 
 	unsigned int m_propID;					//ID
 	unsigned int m_unitID;					//unit ID

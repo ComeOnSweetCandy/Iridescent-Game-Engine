@@ -58,7 +58,7 @@ void IESprite::DrawNode()
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	glColor4f(m_backColor[0], m_backColor[1], m_backColor[2], m_backColor[3]);
+	glColor4f(m_backColor[0], m_backColor[1], m_backColor[2], 0.1f);
 	glBegin(GL_QUADS);
 
 	if (m_drawReverse)

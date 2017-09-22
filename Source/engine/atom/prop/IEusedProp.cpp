@@ -1,6 +1,6 @@
 //#define __IE_DLL_EXPORTS__
 //#include "IEusedProp.h"
-//#include "IEpropPack.h"
+//#include "IEPropPack.h"
 //
 //#include "../creature/IEplayer.h"
 //

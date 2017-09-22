@@ -69,15 +69,14 @@ void IEPhysicWorld::Run()
 			float t = 1.0f;
 			IEPhysicCollisionState collisionState = IEPhysicEdgeCollision::EdgeCoincidence(physicNode1, physicNode2, N, t);
 
+			//调整物理体状态
 			if (physicNode1->m_opera & physicNode2->m_mask)
 			{
 				physicNode1->m_collisionState = collisionState > physicNode1->m_collisionState ? collisionState : physicNode1->m_collisionState;
-				physicNode1->Collision(physicNode2);
 			}
 			if (physicNode2->m_opera & physicNode1->m_mask)
 			{
 				physicNode2->m_collisionState = collisionState > physicNode2->m_collisionState ? collisionState : physicNode2->m_collisionState;
-				physicNode2->Collision(physicNode1);
 			}
 
 			if (collisionState == __collision_safe__)
@@ -90,6 +89,17 @@ void IEPhysicWorld::Run()
 			}
 			else if (collisionState == __collision_boom__)
 			{
+				//反馈给物理体碰撞物理体
+				if (physicNode1->m_opera & physicNode2->m_mask)
+				{
+					physicNode1->Collision(physicNode2);
+				}
+				if (physicNode2->m_opera & physicNode1->m_mask)
+				{
+					physicNode2->Collision(physicNode1);
+				}
+
+				//做位置调整
 				if (t < 0.0f)
 				{
 					//如果是active static 纠正位置
@@ -114,7 +124,7 @@ void IEPhysicWorld::Run()
 
 void IEPhysicWorld::ProcessOverlap(IEPhysicNode * a, IEPhysicNode * b, IEVector& xMTD)
 {
-	if (a->m_physicNodeType == __physic_active_node__ && b->m_physicNodeType == __physic_static_node__)
+	if (b->m_physicNodeType == __physic_static_node__)
 	{
 		a->m_position = a->m_position - xMTD;
 
@@ -128,7 +138,7 @@ void IEPhysicWorld::ProcessOverlap(IEPhysicNode * a, IEPhysicNode * b, IEVector&
 			a->m_state = __physic_state_static__;
 		}
 	}
-	else if (b->m_physicNodeType == __physic_active_node__ && a->m_physicNodeType == __physic_static_node__)
+	else if (a->m_physicNodeType == __physic_static_node__)
 	{
 		b->m_position = b->m_position + xMTD;
 

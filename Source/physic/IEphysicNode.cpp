@@ -136,8 +136,11 @@ void IEPhysicNode::ClearPhysicEdge()
 
 void IEPhysicNode::Collision(IEPhysicNode * physicNode)
 {
-	IENode * collisionNode = physicNode->GetBindedNode();
-	m_node->InteractiveNode(collisionNode);
+	if (m_node)
+	{
+		IENode * collisionNode = physicNode->GetBindedNode();
+		m_node->InteractiveNode(collisionNode);
+	}
 }
 
 void IEPhysicNode::Collision(IEPhysicNode * physicNode, void * info)
@@ -180,7 +183,7 @@ void IEPhysicNode::DrawPhysicNode()
 void IEPhysicNode::Update()
 {
 	//总会增加下坠速度
-	if (m_physicNodeType == __physic_active_node__)
+	if (m_physicNodeType == __physic_active_node__ || m_physicNodeType == __physic_suspend_node__)
 	{
 		m_forward.m_y = m_forward.m_y + (-IEApplication::Share()->GetCurrentActiveScene()->GetPhysicWorld()->m_gravity) * IETime::Share()->GetLastFrapPassingTime();
 	}
@@ -270,9 +273,12 @@ IEVector IEPhysicNode::GetDisplacement()
 
 void IEPhysicNode::FixPosition()
 {
-	if (m_physicNodeType == __physic_active_node__)
+	if (m_node)
 	{
-		m_node->SetTranslate(m_position.m_x, m_position.m_y);
+		if (m_physicNodeType == __physic_active_node__ || m_physicNodeType == __physic_suspend_node__)
+		{
+			m_node->SetTranslate(m_position.m_x, m_position.m_y);
+		}
 	}
 }
 
@@ -294,13 +300,13 @@ void IEPhysicNode::SetPhysicNodeType(IEPhysicNodeType physicNodeType)
 #define PHYSIC_NODE_ACTIVE_MASK				0x1							//00000000 00000000 00000000 00000001
 #define PHYSIC_NODE_STATIC_MASK				0x2							//00000000 00000000 00000000 00000010
 #define PHYSIC_NODE_AIR_MASK				0x4							//00000000 00000000 00000000 00000100
-#define PHYSIC_NODE_MINE_AIR_MASK			0x8							//00000000 00000000 00000000 00001000
+#define PHYSIC_NODE_SUSPEND_MASK			0x8							//00000000 00000000 00000000 00001000
 
 #define PHYSIC_NODE_NONE_OPERA				0x0							//00000000 00000000 00000000 00000000
-#define PHYSIC_NODE_ACTIVE_OPERA			0x2							//00000000 00000000 00000000 00000010
-#define PHYSIC_NODE_STATIC_OPERA			0x0							//00000000 00000000 00000000 00000000
+#define PHYSIC_NODE_ACTIVE_OPERA			0x0							//00000000 00000000 00000000 00000000
+#define PHYSIC_NODE_STATIC_OPERA			0x9							//00000000 00000000 00000000 00001001
 #define PHYSIC_NODE_AIR_OPERA				0x1							//00000000 00000000 00000000 00000001
-#define PHYSIC_NODE_MINE_AIR_OPERA			0x0							//00000000 00000000 00000000 00000000
+#define PHYSIC_NODE_SUSPEND_OPERA			0x1							//00000000 00000000 00000000 00000001
 
 	//进行掩码与操作数的判定
 	switch (physicNodeType)
@@ -321,9 +327,9 @@ void IEPhysicNode::SetPhysicNodeType(IEPhysicNodeType physicNodeType)
 		m_mask = PHYSIC_NODE_AIR_MASK;
 		m_opera = PHYSIC_NODE_AIR_OPERA;
 		break;
-	case IridescentEngine::__physic_mine_air_node__:
-		m_mask = PHYSIC_NODE_AIR_MASK;
-		m_opera = PHYSIC_NODE_AIR_OPERA;
+	case IridescentEngine::__physic_suspend_node__:
+		m_mask = PHYSIC_NODE_SUSPEND_MASK;
+		m_opera = PHYSIC_NODE_SUSPEND_OPERA;
 		break;
 	default:
 		break;

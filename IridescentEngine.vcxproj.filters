@@ -423,9 +423,6 @@
     <ClCompile Include="Source\engine\atom\prop\IEdamageProp.cpp">
       <Filter>IridescentEngine</Filter>
     </ClCompile>
-    <ClCompile Include="Source\engine\atom\prop\IEpropPack.cpp">
-      <Filter>IridescentEngine</Filter>
-    </ClCompile>
     <ClCompile Include="Source\engine\atom\prop\IEusedProp.cpp">
       <Filter>IridescentEngine</Filter>
     </ClCompile>
@@ -610,6 +607,12 @@
       <Filter>IridescentEngine</Filter>
     </ClCompile>
     <ClCompile Include="Source\engine\atom\prop\IEPropEquipment.cpp">
+      <Filter>IridescentEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\engine\atom\prop\IEPropPack.cpp">
+      <Filter>IridescentEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\engine\atom\prop\IEPropConsumable.cpp">
       <Filter>IridescentEngine</Filter>
     </ClCompile>
   </ItemGroup>
@@ -908,9 +911,6 @@
     <ClInclude Include="Source\engine\atom\prop\IEdamageProp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\engine\atom\prop\IEpropPack.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\engine\atom\prop\IEusedProp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1095,6 +1095,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\engine\atom\prop\IEPropEquipment.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\engine\atom\prop\IEPropPack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\engine\atom\prop\IEPropConsumable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

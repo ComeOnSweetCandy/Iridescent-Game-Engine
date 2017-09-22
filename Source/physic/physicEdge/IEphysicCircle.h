@@ -23,6 +23,9 @@ public:
 	virtual void Initialization(IEEdgeType edgeType, float barycenterX, float barycenterY, IEString * infos);
 	static IEPhysicCircle * Create(IEEdgeType edgeType, float barycenterX, float barycenterY, IEString * infos);
 
+	virtual void Initialization(IEEdgeType edgeType, float barycenterX, float barycenterY, float radius);
+	static IEPhysicCircle * Create(IEEdgeType edgeType, float barycenterX, float barycenterY, float radius);
+
 public:
 	virtual void DrawPhysicEdge();
 

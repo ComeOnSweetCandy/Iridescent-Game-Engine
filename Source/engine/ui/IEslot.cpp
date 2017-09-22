@@ -36,9 +36,9 @@ void IESlot::SetButton(int buttonIndex, IEProp * usedProp, char * textureName, b
 	}
 	else
 	{
-		//buttons[buttonIndex]->SetWidgetWorking(isWorking);
-		//buttons[buttonIndex]->BindWidgetCallback(IEWidgetCallback(&IEProp::PressCallback), usedProp);
-		//buttons[buttonIndex]->ChangeTexture(textureName);
+		buttons[buttonIndex]->SetWidgetWorking(isWorking);
+		buttons[buttonIndex]->BindWidgetCallback(IEWidgetCallback(&IEProp::UseProp), usedProp);
+		buttons[buttonIndex]->ChangeTexture(textureName);
 	}
 }
 

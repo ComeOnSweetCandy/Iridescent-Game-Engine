@@ -68,6 +68,7 @@ private:
 };
 
 typedef void(IENode::*IEWidgetCallback)(IENode * widget);
+//typedef void(IENode::*IEWidgetCBTouch)(IENode * widget);
 typedef void(IENode::*IEKeyboardCallback)(unsigned char key);
 
 IE_END

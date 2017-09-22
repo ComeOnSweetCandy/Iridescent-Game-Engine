@@ -13,7 +13,7 @@
 #include "IECreature.h"
 #include "IEArmer.h"
 #include "../../../control/IEplayerNode.h"
-#include "../prop/IEpropPack.h"
+
 
 IE_BEGIN
 
@@ -40,16 +40,12 @@ public:
 	virtual void HandlePlayerControll();			//处理所有用户的操作
 	virtual void ResetEverything();					//所有操作初始化
 
-public:
-	IEPropPack * GetPlayersPack();
-
 private:
 	IEGrid m_moveDirection;
 	bool m_attack;
 	bool m_jump;
 
 	IEAction * m_nextAction;
-	IEPropPack * m_propPack;
 };
 
 IE_END

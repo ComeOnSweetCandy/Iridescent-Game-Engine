@@ -24,6 +24,8 @@ public:
 	static IEAtom * Create();
 
 public:
+	virtual void SetTranslate(const float &x, const float &y);							//如果有phsyicNode
+
 	virtual void ChangeState(const char * stateName);									//改变事物当前的状态
 	virtual void ChangeGroup(const char * groupName, unsigned int sameIndex = 1);		//重载更改贴图组事件
 

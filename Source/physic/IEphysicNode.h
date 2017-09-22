@@ -38,7 +38,7 @@ enum __IE_DLL__ IEPhysicNodeType
 	__physic_active_node__,				//活动的物理节点
 	__physic_static_node__,				//静止不动的物理节点
 	__physic_air_node__,				//空气型物理体
-	__physic_mine_air_node__,			//
+	__physic_suspend_node__,			//悬浮型物理节点
 };
 
 class __IE_DLL__ IEPhysicNode :public IEObject

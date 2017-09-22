@@ -10,7 +10,7 @@ IEAtom::IEAtom()
 
 IEAtom::~IEAtom()
 {
-	__IE_LUA_RELEASE__(m_LUA);
+	
 }
 
 void IEAtom::Initialization()
@@ -29,6 +29,16 @@ IEAtom * IEAtom::Create()
 lua_State * IEAtom::GetLuaScript()
 {
 	return m_LUA;
+}
+
+void IEAtom::SetTranslate(const float &x, const float &y)
+{
+	IENode::SetTranslate(x, y);
+
+	if (m_physicNode)
+	{
+		m_physicNode->SetPhysicPosition(x, y);
+	}
 }
 
 void IEAtom::ArrangeInfo()

@@ -1,5 +1,5 @@
 /***********************************
-* name     : IEPropEquipment.h
+* name     : IEPropConsumable.h
 * creater  : cosc
 * info     : every prop in scene
 * date     : 2017/3/27
@@ -7,8 +7,8 @@
 * remark   : none
 ************************************/
 
-#ifndef __IE_PROP_EQUIPMENT__
-#define __IE_PROP_EQUIPMENT__
+#ifndef __IE_PROP_CONSUMABLE__
+#define __IE_PROP_CONSUMABLE__
 
 #include "IEProp.h"
 
@@ -20,13 +20,13 @@ typedef enum IEPropEquipmentType
 	__prop_equipment_type_head__,			//装备类道具 头部
 };
 
-class __IE_DLL__ IEPropEquipment :public IEProp
+class __IE_DLL__ IEPropConsumable :public IEProp
 {
 public:
-	IEPropEquipment();
-	virtual ~IEPropEquipment();
+	IEPropConsumable();
+	virtual ~IEPropConsumable();
 	virtual void Initialization(unsigned int propID, IEPropState propState);
-	static IEPropEquipment * Create(unsigned int propID, IEPropState propState);
+	static IEPropConsumable * Create(unsigned int propID, IEPropState propState);
 
 public:
 	virtual void EquipProp();						//装备prop

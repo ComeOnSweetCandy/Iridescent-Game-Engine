@@ -31,6 +31,9 @@ IEPhysicCollisionState IEPhysicEdgeCollision::EdgeCoincidence(IEPhysicNode * a, 
 		else if (b_type == __edge_polygon__)
 		{
 			result = CollisionPolygonCircle(b, a);
+
+			//位置反向 方向也反向
+			_CacheN.Reverse();
 		}
 	}
 	else if (a_type = __edge_polygon__)

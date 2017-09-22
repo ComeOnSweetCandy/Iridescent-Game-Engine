@@ -11,7 +11,7 @@
 #define __IE_SLOT__
 
 #include "../../ui/IEwidget.h"
-#include "../atom/prop/IEpropPack.h"
+#include "../atom/prop/IEPropPack.h"
 
 IE_BEGIN
 

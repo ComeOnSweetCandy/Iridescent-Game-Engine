@@ -5,12 +5,15 @@ IE_BEGIN
 
 IEArmer::IEArmer()
 {
-
+	m_propPack = IEPropPack::Create(this, 10);
 }
 
 IEArmer::~IEArmer()
 {
-
+	if (m_propPack)
+	{
+		m_propPack->ReleaseDisreference();
+	}
 }
 
 void IEArmer::Initialization(unsigned int creatureID, unsigned int creatureOrder)
@@ -18,7 +21,7 @@ void IEArmer::Initialization(unsigned int creatureID, unsigned int creatureOrder
 	IECreature::Initialization(creatureID, creatureOrder);
 
 	//__prop_state_pack__
-	m_weapon = IEPropEquipment::Create(1,__prop_state_pick__);
+	//m_weapon = IEPropEquipment::Create(1,__prop_state_pick__);
 }
 
 IEArmer * IEArmer::Create(unsigned int creatureID, unsigned int creatureOrder)
@@ -35,34 +38,57 @@ void IEArmer::Update()
 	DrawWeapon();
 }
 
+IEPropPack * IEArmer::GetPlayersPack()
+{
+	return m_propPack;
+}
+
 void IEArmer::DrawWeapon()
 {
-	//首先获取贴图的名称 及贴图的序号
-
-	//然后根据贴图名 获取到每帧的插入点及角度 
-	float x, y, angle;
-	bool res = GetWeaponPosition(m_textureUnit->_GroupName, m_textureUnit->_FrapIndex, x, y, angle);
-
-	//然后根据返回的值，来改变weapon的坐标
-	if (res)
+	if (m_weapon)
 	{
-		m_weapon->SetTranslate(x, y);
-		m_weapon->SetRotate(angle);
+		//首先获取贴图的名称 及贴图的序号
 
-		if (m_drawReverse)
+		//然后根据贴图名 获取到每帧的插入点及角度 
+		float x, y, angle;
+		bool res = GetWeaponPosition(m_textureUnit->_GroupName, m_textureUnit->_FrapIndex, x, y, angle);
+
+		//然后根据返回的值，来改变weapon的坐标
+		if (res)
 		{
-			m_weapon->Visit();
-		}
-		else
-		{
-			glMatrixMode(GL_MODELVIEW);
-			glPushMatrix();
-			glTranslatef(m_size[0], 0.0f, 0.0f);
-			glScalef(-1.0f, 1.0f, 1.0);
-			//m_weapon->Visit();
-			glPopMatrix();
+			m_weapon->SetTranslate(x, y);
+			m_weapon->SetRotate(angle);
+
+			if (m_drawReverse)
+			{
+				m_weapon->Visit();
+			}
+			else
+			{
+				glMatrixMode(GL_MODELVIEW);
+				glPushMatrix();
+				glTranslatef(m_size[0], 0.0f, 0.0f);
+				glScalef(-1.0f, 1.0f, 1.0);
+				m_weapon->Visit();
+				glPopMatrix();
+			}
 		}
 	}
+}
+
+void IEArmer::ArmWeapon(IEPropEquipment * equipment)
+{
+	if (m_weapon)
+	{
+		//更换
+		m_propPack->ChangePropIndex(equipment, m_weapon);
+	}
+	else
+	{
+		m_propPack->ChangePropIndex(equipment, NULL);
+	}
+
+	m_weapon = equipment;
 }
 
 bool IEArmer::GetWeaponPosition(const char * actionName, unsigned int frapIndex, float& x, float& y, float& angle)

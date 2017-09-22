@@ -1,11 +1,14 @@
 #define __IE_DLL_EXPORTS__
 #include "IEPropEquipment.h"
 
+#include "../creature/IEArmer.h"
+
 IE_BEGIN
 
 IEPropEquipment::IEPropEquipment()
 {
-
+	m_pileMax = 1;
+	m_propCount = 1;
 }
 
 IEPropEquipment::~IEPropEquipment()
@@ -29,20 +32,24 @@ IEPropEquipment * IEPropEquipment::Create(unsigned int propIndex, IEPropState pr
 
 void IEPropEquipment::EquipProp()
 {
-	//装备该prop 针对不同类型的pro会产生不同的效果 由子类去处理
+	
 }
 
 void IEPropEquipment::UseProp()
 {
-	//使用该prop 针对不同类型的prop会产生不同的效果 由子类去处理
+	//equip
+	m_owner->ArmWeapon(this);
+
+	//if (LUAFunctionAllocateFunction(m_LUA, "UserProp"))
+	//{
+	//	//LUASetUserdate(m_LUA, "self", "IECreature.IECreature", this);
+	//	lua_call(m_LUA, 0, 0);
+	//}
 }
 
-void IEPropEquipment::PickProp(IECreature * creature)
+void IEPropEquipment::PickProp(IEArmer * creature)
 {
-	//拾取该prop 针对不同类型的prop会产生不同的效果 由子类去处理
-	//IEPropEquipmentPack * bag = NULL;
-
-	//bag->AddProp(this);
+	
 }
 
 void IEPropEquipment::ArrangeInfo()

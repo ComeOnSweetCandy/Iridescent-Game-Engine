@@ -1,7 +1,7 @@
 #define __IE_DLL_EXPORTS__
 #include "IEProp.h"
 
-#include "../creature/IECreature.h"
+#include "../creature/IEArmer.h"
 #include "IEPropList.h"
 
 #include "../../../interface/cmd/IEapplication.h"
@@ -21,7 +21,7 @@ IEProp::IEProp()
 
 IEProp::~IEProp()
 {
-	DelSelf();
+	RemoveFromParent();
 }
 
 void IEProp::Initialization(unsigned int propID, IEPropState propState)
@@ -42,17 +42,12 @@ IEProp * IEProp::Create(unsigned int propIndex, IEPropState propState)
 	return NULL;
 }
 
-void IEProp::EquipProp()
-{
-	//装备该prop 针对不同类型的pro会产生不同的效果 由子类去处理
-}
-
 void IEProp::UseProp()
 {
 	//使用该prop 针对不同类型的prop会产生不同的效果 由子类去处理
 }
 
-void IEProp::PickProp(IECreature * creature)
+void IEProp::PickProp(IEArmer * creature)
 {
 	//拾取该prop 针对不同类型的prop会产生不同的效果 由子类去处理
 	IEPropPack * bag = NULL;
@@ -70,7 +65,7 @@ void IEProp::SetPropState(IEPropState propState)
 	m_propState = propState;
 }
 
-void IEProp::SetOwner(IECreature * creature)
+void IEProp::SetOwner(IEArmer * creature)
 {
 	m_owner = creature;
 }
@@ -86,9 +81,10 @@ unsigned int IEProp::AddPropCount(unsigned int propCount)
 
 	if (m_propCount > m_pileMax)
 	{
+		int leftCount = m_propCount - m_pileMax;
 		m_propCount = m_pileMax;
 
-		return m_propCount - m_pileMax;
+		return leftCount;
 	}
 
 	ArrangeInfo();
@@ -134,7 +130,7 @@ int IEProp::GetPropID()
 	return m_propID;
 }
 
-IECreature * IEProp::GetOwner()
+IEArmer * IEProp::GetOwner()
 {
 	return m_owner;
 }
@@ -147,6 +143,24 @@ IEPropType IEProp::GetPropType()
 unsigned int IEProp::GetPropCount()
 {
 	return m_propCount;
+}
+
+void IEProp::InteractiveNode(IENode * node)
+{
+	if (m_propState == __prop_state_pick__)
+	{
+		//要求目标为
+		IEArmer * creature = (IEArmer *)node;
+
+		IEPropPack * bag = creature->GetPlayersPack();
+		bag->AddProp(this);
+
+		RemoveFromParent();
+	}
+	else
+	{
+
+	}
 }
 
 void IEProp::ArrangeInfo()
@@ -168,11 +182,6 @@ void IEProp::InitUnit()
 	//贴图
 	IEPackerTexture * texture = IEPackerTexture::Create(_Entry->_XML->FindChild("texture"));
 	ChangeTexture(texture);
-
-	//根据XML生成PhysicNode
-	//IEXml * physicXML = _Entry->_XML->FindChild("physic");
-	//IEPhysicNode * physicNode = IEPhysicNode::Create(physicXML);
-	//BindPhysicNode(physicNode);
 
 	//脚本
 	if (!(m_LUA = _Entry->_LUA))
@@ -214,6 +223,11 @@ void IEProp::InitUnit()
 		//场景中
 		SetUnitPiexls(32);
 		ChangeGroup("pick");
+
+		//根据XML生成PhysicNode
+		IEPhysicCircle * physicEdge = IEPhysicCircle::Create(__edge_circle__, 0.5f, 0.5f, 0.5f);
+		IEPhysicNode * physicNode = IEPhysicNode::Create(physicEdge, __physic_suspend_node__);
+		BindPhysicNode(physicNode);
 
 		//添加到场景中
 		AddSelf();
