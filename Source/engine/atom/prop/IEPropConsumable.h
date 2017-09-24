@@ -14,12 +14,6 @@
 
 IE_BEGIN
 
-typedef enum IEPropEquipmentType
-{
-	__prop_equipment_type_weapon__,			//装备类道具 武器
-	__prop_equipment_type_head__,			//装备类道具 头部
-};
-
 class __IE_DLL__ IEPropConsumable :public IEProp
 {
 public:
@@ -29,7 +23,6 @@ public:
 	static IEPropConsumable * Create(unsigned int propID, IEPropState propState);
 
 public:
-	virtual void EquipProp();						//装备prop
 	virtual void UseProp();							//使用prop
 	virtual void PickProp(IEArmer * armer);			//拾取prop
 

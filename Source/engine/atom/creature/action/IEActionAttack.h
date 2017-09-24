@@ -30,6 +30,9 @@ public:
 	virtual void End();
 
 private:
+	void ActionEnd();
+
+private:
 	bool m_haveAttacked;
 	float m_lastedTime;
 };

@@ -18,6 +18,13 @@ IE_BEGIN
 class IECreature;
 class IEActionMachine;
 
+/*
+** 哪些动作能够被哪些动作打断
+*/
+#define __ACTION_MASK__			0x1				//00000000 00000000 00000000 000000001
+
+#define __ACTION_OPER__			0x0				//00000000 00000000 00000000 000000000
+
 class __IE_DLL__ IEAction:public IEObject
 {
 public:

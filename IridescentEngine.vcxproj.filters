@@ -615,6 +615,9 @@
     <ClCompile Include="Source\engine\atom\prop\IEPropConsumable.cpp">
       <Filter>IridescentEngine</Filter>
     </ClCompile>
+    <ClCompile Include="Source\engine\atom\prop\IEPropCreator.cpp">
+      <Filter>IridescentEngine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\core\shader\IEshader.h">
@@ -1101,6 +1104,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\engine\atom\prop\IEPropConsumable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\engine\atom\prop\IEPropCreator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

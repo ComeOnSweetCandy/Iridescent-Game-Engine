@@ -28,6 +28,8 @@ public:
 	void ChangeAction(IEAction * action);
 	void Run();
 
+	bool HasAction();
+
 private:
 	IEAction * m_action;
 	IECreature * m_creature;

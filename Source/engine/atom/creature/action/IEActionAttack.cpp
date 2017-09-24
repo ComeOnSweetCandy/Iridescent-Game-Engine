@@ -32,22 +32,30 @@ IEActionAttack * IEActionAttack::Create()
 void IEActionAttack::Begin()
 {
 	GetCreature()->ChangeGroup("attack", 1);
+	//GetCreature()->ChangeGroup("attack", 1, 1, IEActionAttack::ActionEnd);
+
+	//需要一个反馈函数 来处理问题
 }
 
 void IEActionAttack::Excute()
 {
 	//要检测是否到了关键帧，到了关键帧，就可以执行操作
-	if (1)
-	{
-		//产生一个触发器 damage triiger
+	//if (1)
+	//{
+	//	//产生一个触发器 damage triiger
 
-		GetActionMachine()->ChangeAction(NULL);
-	}
+	//	GetActionMachine()->ChangeAction(NULL);
+	//}
 }
 
 void IEActionAttack::End()
 {
 
+}
+
+void IEActionAttack::ActionEnd()
+{
+	GetActionMachine()->ChangeAction(NULL);
 }
 
 IE_END

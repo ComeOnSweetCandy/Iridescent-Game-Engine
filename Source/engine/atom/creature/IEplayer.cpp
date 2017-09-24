@@ -64,7 +64,15 @@ void IEPlayer::HandlePlayerControll()
 	}
 	else
 	{
-		m_nextAction = IERest::Create();
+		if (m_actionMachine->HasAction())
+		{
+			//如果有动作
+		}
+		else
+		{
+			//如果没有动作
+			m_nextAction = IERest::Create();
+		}
 	}
 
 	if (IEKeyboard::Share()->KeyTouch(DIK_J))

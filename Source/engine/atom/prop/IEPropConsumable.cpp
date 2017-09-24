@@ -29,11 +29,6 @@ IEPropConsumable * IEPropConsumable::Create(unsigned int propIndex, IEPropState 
 	return prop;
 }
 
-void IEPropConsumable::EquipProp()
-{
-	//装备该prop 针对不同类型的pro会产生不同的效果 由子类去处理
-}
-
 void IEPropConsumable::UseProp()
 {
 	if (LUAFunctionAllocateFunction(m_LUA, "UserProp"))

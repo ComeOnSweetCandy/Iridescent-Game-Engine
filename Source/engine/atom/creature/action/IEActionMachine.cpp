@@ -49,4 +49,16 @@ void IEActionMachine::Run()
 	}
 }
 
+bool IEActionMachine::HasAction()
+{
+	if (m_action)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
 IE_END

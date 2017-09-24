@@ -13,6 +13,7 @@
 #include "IECreature.h"
 
 #include "../prop/IEPropEquipment.h"
+#include "../prop/IEPropConsumable.h"
 #include "../prop/IEPropPack.h"
 
 IE_BEGIN

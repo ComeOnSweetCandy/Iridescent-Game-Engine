@@ -27,7 +27,7 @@ typedef enum IEPropState
 
 typedef enum IEPropType
 {
-	__prop_type_weapon__,		//武器类prop
+	__prop_type_equipment__,		//武器类prop
 	__prop_type_task__,			//任务类prop
 	__prop_type_material__,		//材料类prop
 	__prop_type_consumable__,	//消耗类prop

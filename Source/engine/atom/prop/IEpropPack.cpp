@@ -2,7 +2,7 @@
 #include "IEPropPack.h"
 #include "../../ui/IEslot.h"
 
-#include "IEPropEquipment.h"
+#include "IEPropCreator.h"
 
 IE_BEGIN
 
@@ -79,8 +79,9 @@ void IEPropPack::AddProp(IEProp * prop)
 	{
 		IEPropType propType = prop->GetPropType();
 
-		IEPropEquipment * newProp = IEPropEquipment::Create(propID, __prop_state_pack__);
+		IEProp * newProp = CreateProp(propID, __prop_state_pack__);
 		m_props[emptyIndex] = newProp;
+		m_props[emptyIndex]->AddPropCount(propCount);
 		m_props[emptyIndex]->SetOwner(m_owner);
 	}
 
