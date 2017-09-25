@@ -26,12 +26,14 @@ public:
 
 public:
 	void ChangeAction(IEAction * action);
+	void ChangeActoin(IEAction * action, IECreaturePart creaturePart);
 	void Run();
 
 	bool HasAction();
 
 private:
 	IEAction * m_action;
+	IEAction * m_actions[__creature_part_max__];
 	IECreature * m_creature;
 
 	friend class IEAction;

@@ -12,8 +12,7 @@
 #include "goal/IEGoalGo.h"
 
 #include "action/IEActionRest.h"
-#include "action/IEActionAngry.h"
-#include "action/IEActionDisplacement.h"
+#include "action/IEActionWalk.h"
 
 #include "../../script/creature/IELUACreature.h"
 
@@ -222,6 +221,40 @@ void IECreature::Die()
 	}
 }
 
+void IECreature::ChangeGroup(const char * groupName, IECreaturePart partAction)
+{
+	//仅仅修改sprite元素的贴图组
+	IEAtom::ChangeGroup(groupName, 1);
+
+	//if (partGroup == __creature_part_leg__)
+	//{
+	//	m_leg->ChangeGroup(groupName, partGroup);
+	//}
+	//else
+	//{
+	//	IECreature::ChangeGroup(groupName, partGroup);
+	//}
+
+	////这里仅仅是改变人物当前的移动行为
+	////并不是改变人物的其它行为动作
+
+	//bool isWalking = true;
+	//bool isDroping = true;
+
+	//if (isWalking == true)
+	//{
+	//	m_leg->ChangeGroup("walk");
+	//}
+	//else if (isDroping == true)
+	//{
+	//	m_leg->ChangeGroup("drop");
+	//}
+	//else
+	//{
+	//	m_leg->ChangeGroup("silent");
+	//}
+}
+
 void IECreature::Cured(int cureValue)
 {
 	printf("%d",cureValue);
@@ -278,15 +311,9 @@ void IECreature::Rest()
 	m_actionMachine->ChangeAction(rest);
 }
 
-void IECreature::Angry()
-{
-	IEActionAngry * action = IEActionAngry::Create();
-	m_actionMachine->ChangeAction(action);
-}
-
 void IECreature::Displacement(float x, float y)
 {
-	IEDisplacement * action = IEDisplacement::Create(x, y);
+	IEActionWalk * action = IEActionWalk::Create(x, y);
 	m_actionMachine->ChangeAction(action);
 }
 
@@ -378,6 +405,15 @@ IEContainer * FindAllCreatures(IECreature * creature)
 	}
 	
 	return findedCreatures;
+}
+
+void IECreature::InitLeg(unsigned int creatureID, unsigned int creatureOrder)
+{
+	//默认状态下为静止状态
+	m_leg = IESprite::Create();
+	m_leg->SetTranslate(0.0f, 0.0f);
+	m_leg->ChangeTexture(m_texture);
+	m_leg->ChangeGroup("static");
 }
 
 IE_END

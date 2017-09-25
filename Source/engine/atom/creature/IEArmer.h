@@ -32,16 +32,17 @@ public:
 
 	IEPropPack * GetPlayersPack();
 
+	void ArmEquipment(IEPropEquipment * equipment);
 	void ArmWeapon(IEPropEquipment * equipment);
+	void ArmHead(IEPropEquipment * equipment);
 
 private:
-
-
 	bool GetWeaponPosition(const char * actionName, unsigned int frapIndex, float& x, float& y, float& angle);
 
 protected:
 	IEPropPack * m_propPack;		//bag
 	IEPropEquipment * m_weapon;		//equipment
+	IEPropEquipment * m_head;		//head
 };
 
 IE_END

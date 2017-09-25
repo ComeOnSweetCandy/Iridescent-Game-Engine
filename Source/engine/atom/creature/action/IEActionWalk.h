@@ -1,5 +1,5 @@
 /***********************************
-* name     : IEDisplacement.h
+* name     : IEActionWalk.h
 * creater  : cosc
 * info     : action displacement
 * date     : 2017/7/24
@@ -7,22 +7,22 @@
 * remark   : none
 ************************************/
 
-#ifndef __IE_DISPLACEMENT__
-#define __IE_DISPLACEMENT__
+#ifndef __IE_ACTION_WALK__
+#define __IE_ACTION_WALK__
 
 #include "IEAction.h"
 
 IE_BEGIN
 
-class __IE_DLL__ IEDisplacement :public IEAction
+class __IE_DLL__ IEActionWalk :public IEAction
 {
 public:
-	IEDisplacement();
-	virtual ~IEDisplacement();
+	IEActionWalk();
+	virtual ~IEActionWalk();
 	virtual void Initialization(float x, float y);
 	virtual void Initialization(int x, int y);
-	static IEDisplacement * Create(float x, float y);				//根据具体位移去设定值
-	static IEDisplacement * Create(int x, int y);					//根据方向去设定值
+	static IEActionWalk * Create(float x, float y);				//根据具体位移去设定值
+	static IEActionWalk * Create(int x, int y);					//根据方向去设定值
 
 public:
 	virtual void Begin();

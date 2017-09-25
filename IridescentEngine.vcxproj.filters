@@ -354,16 +354,7 @@
     <ClCompile Include="Source\engine\atom\creature\action\IEAction.cpp">
       <Filter>IridescentEngine</Filter>
     </ClCompile>
-    <ClCompile Include="Source\engine\atom\creature\action\IEActionAngry.cpp">
-      <Filter>IridescentEngine</Filter>
-    </ClCompile>
     <ClCompile Include="Source\engine\atom\creature\action\IEActionAttack.cpp">
-      <Filter>IridescentEngine</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\engine\atom\creature\action\IEActionDisplacement.cpp">
-      <Filter>IridescentEngine</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\engine\atom\creature\action\IEActionInjured.cpp">
       <Filter>IridescentEngine</Filter>
     </ClCompile>
     <ClCompile Include="Source\engine\atom\creature\action\IEActionMachine.cpp">
@@ -382,9 +373,6 @@
       <Filter>IridescentEngine</Filter>
     </ClCompile>
     <ClCompile Include="Source\engine\atom\creature\action\IEUseProp.cpp">
-      <Filter>IridescentEngine</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\engine\atom\creature\action\IEWalk.cpp">
       <Filter>IridescentEngine</Filter>
     </ClCompile>
     <ClCompile Include="Source\engine\atom\creature\action\skill\IESkill.cpp">
@@ -447,18 +435,6 @@
     <ClCompile Include="Source\engine\scene\IEtotalScene.cpp">
       <Filter>IridescentEngine</Filter>
     </ClCompile>
-    <ClCompile Include="Source\engine\scene\marble\IEmarble.cpp">
-      <Filter>IridescentEngine</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\engine\scene\marble\IEmarbleBlock.cpp">
-      <Filter>IridescentEngine</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\engine\scene\marble\IEmarbleGrid.cpp">
-      <Filter>IridescentEngine</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\engine\scene\marble\IEmarblesInfoManager.cpp">
-      <Filter>IridescentEngine</Filter>
-    </ClCompile>
     <ClCompile Include="Source\engine\scene\path\IEPath.cpp">
       <Filter>IridescentEngine</Filter>
     </ClCompile>
@@ -466,12 +442,6 @@
       <Filter>IridescentEngine</Filter>
     </ClCompile>
     <ClCompile Include="Source\engine\scene\path\IEPathChunk.cpp">
-      <Filter>IridescentEngine</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\engine\scene\prop\IEpropLayer.cpp">
-      <Filter>IridescentEngine</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\engine\scene\terrain\IEterrain.cpp">
       <Filter>IridescentEngine</Filter>
     </ClCompile>
     <ClCompile Include="Source\engine\scene\terrain\IETerrainArea.cpp">
@@ -616,6 +586,15 @@
       <Filter>IridescentEngine</Filter>
     </ClCompile>
     <ClCompile Include="Source\engine\atom\prop\IEPropCreator.cpp">
+      <Filter>IridescentEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\engine\scene\terrain\IETerrain.cpp">
+      <Filter>IridescentEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\engine\atom\creature\action\IEJump.cpp">
+      <Filter>IridescentEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\engine\atom\creature\action\IEActionWalk.cpp">
       <Filter>IridescentEngine</Filter>
     </ClCompile>
   </ItemGroup>
@@ -845,16 +824,7 @@
     <ClInclude Include="Source\engine\atom\creature\action\IEAction.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\engine\atom\creature\action\IEActionAngry.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\engine\atom\creature\action\IEActionAttack.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\engine\atom\creature\action\IEActionDisplacement.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\engine\atom\creature\action\IEActionInjured.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\engine\atom\creature\action\IEActionMachine.h">
@@ -873,9 +843,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\engine\atom\creature\action\IEUseProp.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\engine\atom\creature\action\IEWalk.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\engine\atom\creature\action\skill\IESkill.h">
@@ -938,18 +905,6 @@
     <ClInclude Include="Source\engine\scene\IETotalScene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\engine\scene\marble\IEmarble.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\engine\scene\marble\IEmarbleBlock.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\engine\scene\marble\IEmarbleGrid.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\engine\scene\marble\IEmarblesInfoManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\engine\scene\path\IEPath.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -957,12 +912,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\engine\scene\path\IEPathChunk.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\engine\scene\prop\IEpropLayer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\engine\scene\terrain\IEterrain.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\engine\scene\terrain\IETerrainArea.h">
@@ -1107,6 +1056,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\engine\atom\prop\IEPropCreator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\engine\scene\terrain\IEterrain.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\engine\atom\creature\action\IEJump.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\engine\atom\creature\action\IEActionWalk.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

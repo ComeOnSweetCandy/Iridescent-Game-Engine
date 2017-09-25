@@ -1,5 +1,6 @@
 #define __IE_DLL_EXPORTS__
 #include "IEactionMachine.h"
+
 #include "../IECreature.h"
 
 IE_BEGIN
@@ -39,6 +40,11 @@ void IEActionMachine::ChangeAction(IEAction * action)
 		action->SetActionMachine(this);
 		m_action->Begin();
 	}
+}
+
+void IEActionMachine::ChangeActoin(IEAction * action, IECreaturePart creaturePart)
+{
+
 }
 
 void IEActionMachine::Run()

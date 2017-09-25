@@ -5,9 +5,10 @@
 
 #include "../prop/IEProp.h"
 
-#include "action/IEActionDisplacement.h"
+#include "action/IEActionWalk.h"
 #include "action/IEActionRest.h"
 #include "action/IEActionAttack.h"
+#include "action/IEJump.h"
 
 IE_BEGIN
 
@@ -56,7 +57,7 @@ void IEPlayer::HandlePlayerControll()
 
 	if (m_moveDirection.m_x || m_moveDirection.m_y)
 	{
-		m_nextAction = IEDisplacement::Create(m_moveDirection.m_x, m_moveDirection.m_y);
+		m_nextAction = IEActionWalk::Create(m_moveDirection.m_x, m_moveDirection.m_y);
 	}
 	else if (m_attack)
 	{
@@ -78,7 +79,7 @@ void IEPlayer::HandlePlayerControll()
 	if (IEKeyboard::Share()->KeyTouch(DIK_J))
 	{
 		//如果当前处于该状态
-		//m_nextAction = IERest::Create();
+		m_nextAction = IEJump::Create();
 
 		if (m_physicNode->GetPhysicState() == __physic_state_static__)
 		{

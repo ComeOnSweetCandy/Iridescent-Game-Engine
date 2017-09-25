@@ -5,7 +5,7 @@
 #include "../../../../interface/cmd/IEapplication.h"
 #include "../../../scene/IEmap.h"
 
-//#include "../action/IEDisplacement.h"
+//#include "../action/IEActionWalk.h"
 
 IE_BEGIN
 
@@ -99,7 +99,7 @@ void IEGoalTarget::Excute()
 		leftRoad = leftRoad * speed * IETime::Share()->GetLastFrapPassingTime();
 	}
 
-	//IEDisplacement * action = IEDisplacement::Create(leftRoad.m_x, leftRoad.m_y);
+	//IEActionWalk * action = IEActionWalk::Create(leftRoad.m_x, leftRoad.m_y);
 	//actionMachine->ChangeAction(__action_displacement__, action);
 }
 

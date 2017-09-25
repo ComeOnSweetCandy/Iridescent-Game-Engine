@@ -33,6 +33,8 @@ public:
 	virtual void UseProp();							//使用prop
 	virtual void PickProp(IEArmer * armer);			//拾取prop
 
+	IEPropEquipmentType GetEquipementType();
+
 protected:
 	virtual void ArrangeInfo();				//每次调用后 自身处理
 
@@ -40,7 +42,7 @@ private:
 	void InitUnit();						//初始化自身
 
 protected:
-
+	IEPropEquipmentType m_propEquipmentType;//装备类型
 };
 
 IE_END

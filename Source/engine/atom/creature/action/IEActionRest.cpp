@@ -29,7 +29,7 @@ IERest * IERest::Create()
 
 void IERest::Begin()
 {
-	GetCreature()->ChangeGroup("rest", 1);
+	GetCreature()->ChangeGroup("rest", __creature_part_body__);
 }
 
 void IERest::Excute()

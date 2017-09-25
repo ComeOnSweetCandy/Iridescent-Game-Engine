@@ -34,6 +34,13 @@ enum __IE_DLL__ IECreatureParty
 	__creature_party_enemy__
 };
 
+enum __IE_DLL__ IECreaturePart
+{
+	__creature_part_body__,			//主体动作改变
+	__creature_part_leg__,			//腿部动作改变
+	__creature_part_max__,			//计数
+};
+
 //creature的信息列表
 typedef struct ieCreatureEntry
 {

@@ -40,6 +40,8 @@ public:
 	IEActionMachine * GetActionMachine();
 	IEStateMachine * GetStateMachine();
 
+	virtual void ChangeGroup(const char * groupName, IECreaturePart partGroup);		//改变part的动作 即改变贴图的显示
+
 	//给予creature的情况反馈 与指令区分开 或者意为 通知当前creature所处于的状态 通知类型的反馈
 	virtual void Update();
 	virtual void Born();
@@ -52,7 +54,6 @@ public:
 	
 	//给予creature的指令调用的统统为action组
 	void Rest();								//action rest
-	void Angry();								//action angry
 	void Displacement(float x, float y);		//action displacement
 	void Cured(int cureValue);					//
 	void Damaged(int damageValue);				//
@@ -81,6 +82,10 @@ protected:
 	//显示面板
 	IEText * m_nameDisplay;
 	IEProcessBar * m_healthDisplay;
+
+private:
+	IESprite * m_leg;			//部分 为腿部
+	void InitLeg(unsigned int creatureID, unsigned int creatureOrder);
 };
 
 extern "C" __IE_DLL__ bool __CreatureOpposite(IECreature * creatureA, IECreature * creatureB);

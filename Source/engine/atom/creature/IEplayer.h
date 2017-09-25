@@ -14,7 +14,6 @@
 #include "IEArmer.h"
 #include "../../../control/IEplayerNode.h"
 
-
 IE_BEGIN
 
 class __IE_DLL__ IEPlayer :public IEArmer, public IEPlayerNode

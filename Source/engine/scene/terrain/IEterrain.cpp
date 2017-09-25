@@ -333,8 +333,8 @@ void IETerrain::LoadXML()
 	IEXml * xml = terrainsInfo[m_terrainID]._XML;
 
 	//ÉêÇëÎïÀí
-	//IEPhysicNode * physicNode = IEPhysicNode::Create(xml->FindChild("physic"));
-	//BindPhysicNode(physicNode);
+	IEPhysicNode * physicNode = IEPhysicNode::Create(xml->FindChild("physic"));
+	BindPhysicNode(physicNode);
 
 	BindPhysicNode(NULL);
 

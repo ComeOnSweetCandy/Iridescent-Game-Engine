@@ -31,7 +31,7 @@ IEActionAttack * IEActionAttack::Create()
 
 void IEActionAttack::Begin()
 {
-	GetCreature()->ChangeGroup("attack", 1);
+	GetCreature()->ChangeGroup("attack", __creature_part_body__);
 	//GetCreature()->ChangeGroup("attack", 1, 1, IEActionAttack::ActionEnd);
 
 	//需要一个反馈函数 来处理问题

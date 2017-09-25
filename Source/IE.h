@@ -62,7 +62,6 @@
 //engine
 #include "engine/scene/terrain/IETerrainArea.h"
 #include "engine/scene/thing/IEthingArea.h"
-#include "engine/scene/marble/IEmarble.h"
 
 //terrain
 #include "engine/scene/IEmap.h"
@@ -75,9 +74,6 @@
 #include "engine/atom/creature/IEArmer.h"
 #include "engine/atom/creature/IECreatureList.h"
 #include "engine/atom/prop/IEPropPack.h"
-
-//action
-#include "engine/atom/creature/action/IEWalk.h"
 
 //trigger
 #include "engine/trigger/IEtrigger.h"

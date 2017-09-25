@@ -17,11 +17,9 @@ IE_BEGIN
 
 #define __MAP_EDIT_TERRAIN__	0
 #define __MAP_EDIT_THING__		1
-#define __MAP_EDIT_MARBLE__		2
 
 class IEArea;
 class IETerrainArea;
-class IEMarble;
 class IEThingArea;
 class IEPathArea;
 class IEPathFinder;
@@ -45,12 +43,6 @@ typedef struct ieThingChunkIndex
 	ieThingChunkIndex * _Next;
 }IEThingChunkIndex;
 
-//marble block的存储格式
-typedef struct ieMarbleBlockFormat
-{
-	unsigned int _MarbleID;
-}IEMarbleBlockFormat;
-
 //thing block的存储格式
 #pragma pack(push)
 #pragma pack(1)
@@ -73,7 +65,6 @@ typedef enum __ieSceneType
 	__ie_scene_none__,
 	__ie_scene_terrain__,
 	__ie_scene_thing__,
-	__ie_scene_marble__
 }IESceneType;
 
 typedef enum __ieSceneEditMode
@@ -97,20 +88,16 @@ public:
 	void SaveMap();
 
 	void SaveTerrain();
-	void SaveMarble();
 	void SaveThing();
 
 	void LoadTerrainChunkIndex();
-	void LoadMarbleChunkIndex();
 	void LoadThingChunkIndex();
 
 	void LoadTerrainChunk(int chunkLocationX, int chunkLocationY);
-	void LoadMarbleChunk(int chunkLocationX, int chunkLocationY);
 	void LoadThingChunk(int chunkLocationX, int chunkLocationY);
 
 	IEPathArea * GetPath();
 	IETerrainArea * GetTerrain();
-	IEMarble * GetMarble();
 	IEThingArea * GetThing();
 	void SetEditArea(int __map_edit_type__);
 
@@ -145,14 +132,6 @@ private:
 	FILE * m_terrainIndexFile;
 	FILE * m_terrainFile;
 
-	IEMarble * m_curMarble;
-	IEChunkIndex * m_marbleChunksIndex;
-	unsigned int m_marbleIndexCount;
-	unsigned int m_marbleOrder;
-	IEMarbleBlockFormat * m_marbleBlocksList;
-	FILE * m_marbleIndexFile;
-	FILE * m_marbleFile;
-
 	IEThingArea * m_curThing;
 	IEThingChunkIndex * m_thingChunksIndex;
 	unsigned int m_thingIndexCount;
@@ -166,7 +145,6 @@ private:
 
 	IEString m_sceneName;
 	IEString m_sceneTerrainName;
-	IEString m_sceneMarbleName;
 	IEString m_sceneThingName;
 };
 

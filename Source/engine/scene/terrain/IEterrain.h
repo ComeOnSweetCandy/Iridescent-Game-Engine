@@ -53,9 +53,9 @@ public:
 public:
 	void Load(unsigned int terrainID, unsigned int Order);
 	void Reload(unsigned int terrainID, unsigned int Order);
-	void SetBlockPostion(int x, int y);		//进行全局定位
+	void SetBlockPostion(int x, int y);										//进行全局定位
 
-	void ResetSelf();															//仅仅重置自身 只会在加载地图信息时清理旧的内容时使用
+	void ResetSelf();														//仅仅重置自身 只会在加载地图信息时清理旧的内容时使用
 	IETerrainSerialization * Serialize();									//序列化所有的信息 只会在存储地图信息时使用
 	void determinant(IETerrainSerialization * serialization);				//解析化所有的信息 只会在加载地图信息时使用
 	

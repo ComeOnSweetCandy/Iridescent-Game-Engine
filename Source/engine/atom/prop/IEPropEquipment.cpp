@@ -52,6 +52,11 @@ void IEPropEquipment::PickProp(IEArmer * creature)
 	
 }
 
+IEPropEquipmentType IEPropEquipment::GetEquipementType()
+{
+	return m_propEquipmentType;
+}
+
 void IEPropEquipment::ArrangeInfo()
 {
 	if (m_propCount == 0)
@@ -62,7 +67,8 @@ void IEPropEquipment::ArrangeInfo()
 
 void IEPropEquipment::InitUnit()
 {
-
+	//获取到装备的类型
+	m_propEquipmentType = (IEPropEquipmentType)(m_XML->FindChild("property")->FindChild("equipmentType")->ValueInt());
 }
 
 IE_END

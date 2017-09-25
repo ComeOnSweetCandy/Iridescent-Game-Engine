@@ -1,21 +1,21 @@
 #define __IE_DLL_EXPORTS__
-#include "IEActionDisplacement.h"
+#include "IEActionWalk.h"
 
 #include "../IECreature.h"
 
 IE_BEGIN
 
-IEDisplacement::IEDisplacement()
+IEActionWalk::IEActionWalk()
 {
 
 }
 
-IEDisplacement::~IEDisplacement()
+IEActionWalk::~IEActionWalk()
 {
 
 }
 
-void IEDisplacement::Initialization(float x, float y)
+void IEActionWalk::Initialization(float x, float y)
 {
 	m_valueType = 0;
 
@@ -23,7 +23,7 @@ void IEDisplacement::Initialization(float x, float y)
 	m_displace[1] = y;
 }
 
-void IEDisplacement::Initialization(int x, int y)
+void IEActionWalk::Initialization(int x, int y)
 {
 	m_valueType = 1;
 
@@ -31,16 +31,16 @@ void IEDisplacement::Initialization(int x, int y)
 	m_doubleDirection[1] = y;
 }
 
-IEDisplacement * IEDisplacement::Create(int x, int y)
+IEActionWalk * IEActionWalk::Create(int x, int y)
 {
-	IEDisplacement * action = new IEDisplacement();
+	IEActionWalk * action = new IEActionWalk();
 	action->Initialization(x, y);
 	return action;
 }
 
-IEDisplacement * IEDisplacement::Create(float x, float y)
+IEActionWalk * IEActionWalk::Create(float x, float y)
 {
-	IEDisplacement * action = new IEDisplacement();
+	IEActionWalk * action = new IEActionWalk();
 	action->Initialization(x, y);
 	return action;
 }
@@ -79,7 +79,7 @@ void TranslateDirectionSingleToDouble(int& x, int& y, int& direction)
 	y = _DirectionArray[direction][1];
 }
 
-void IEDisplacement::Begin()
+void IEActionWalk::Begin()
 {
 	if (m_valueType == 0)
 	{
@@ -116,22 +116,22 @@ void IEDisplacement::Begin()
 
 	GetCreature()->SetDrawReverse(m_doubleDirection[0] > 0 ? true : false);
 	GetCreature()->SetDirection(m_singleDirection);
-	GetCreature()->ChangeGroup("walk", 1);
+	GetCreature()->ChangeGroup("walk", __creature_part_leg__);
 }
 
-void IEDisplacement::Excute()
+void IEActionWalk::Excute()
 {
 	SetActionNodeDisplacement();
 
 	GetActionMachine()->ChangeAction(NULL);
 }
 
-void IEDisplacement::End()
+void IEActionWalk::End()
 {
-
+	//GetCreature()->ChangeGroup("stop", __creature_part_leg__);
 }
 
-void IEDisplacement::SetActionNodeDisplacement()
+void IEActionWalk::SetActionNodeDisplacement()
 {
 	GetCreature()->GetPhysicNode()->SetDisplacement(m_displace[0], m_displace[1]);
 }

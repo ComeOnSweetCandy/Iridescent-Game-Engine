@@ -12,7 +12,6 @@
 
 #include "../../core/IEscene.h"
 #include "../../physic/IEphysicWorld.h"
-#include "prop/IEpropLayer.h"
 #include "IEDrawScene.h"
 #include "IEmap.h"
 #include "../atom/creature/IEplayer.h"

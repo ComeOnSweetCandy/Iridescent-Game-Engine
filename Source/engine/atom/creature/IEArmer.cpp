@@ -76,6 +76,23 @@ void IEArmer::DrawWeapon()
 	}
 }
 
+void IEArmer::ArmEquipment(IEPropEquipment * equipment)
+{
+	IEPropEquipmentType equipmentType = equipment->GetEquipementType();
+
+	switch (equipmentType)
+	{
+	case IridescentEngine::__prop_equipment_type_weapon__:
+		ArmWeapon(equipment);
+		break;
+	case IridescentEngine::__prop_equipment_type_head__:
+		ArmHead(equipment);
+		break;
+	default:
+		break;
+	}
+}
+
 void IEArmer::ArmWeapon(IEPropEquipment * equipment)
 {
 	if (m_weapon)
@@ -89,6 +106,21 @@ void IEArmer::ArmWeapon(IEPropEquipment * equipment)
 	}
 
 	m_weapon = equipment;
+}
+
+void IEArmer::ArmHead(IEPropEquipment * equipment)
+{
+	if (m_weapon)
+	{
+		//¸ü»»
+		m_propPack->ChangePropIndex(equipment, m_weapon);
+	}
+	else
+	{
+		m_propPack->ChangePropIndex(equipment, NULL);
+	}
+
+	m_head = equipment;
 }
 
 bool IEArmer::GetWeaponPosition(const char * actionName, unsigned int frapIndex, float& x, float& y, float& angle)
