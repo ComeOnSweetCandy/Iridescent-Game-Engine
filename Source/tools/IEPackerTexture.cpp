@@ -101,6 +101,9 @@ void IEPackerTexture::GetTexture(IETextureUnitState * unitState)
 
 		if (frapIndex >= m_textureGroups[groupIndex]._Same[sameIndex]._FrapsCount)
 		{
+			//先进行减少一次播放次数
+			unitState->_PlayTimes--;
+
 			//这里先做检测 检测是否有播放限制
 			if (unitState->_PlayLimit == true)
 			{
@@ -108,12 +111,18 @@ void IEPackerTexture::GetTexture(IETextureUnitState * unitState)
 				{
 					//应当结束了 重置textureID为0 重置限制 且调用回调函数
 					unitState->_TextureID = 0;
+					
+					//先缓存到一个位置 防止 一些冲突问题
+					IEObject * object = unitState->_Object;
+					IEFunctionTexturePlayFinished function = unitState->_Function;
 					unitState->ResetLimit();
-					((unitState->_Sprite)->*(unitState->_Function))();
-				}
-				else
-				{
-					unitState->_PlayTimes--;
+
+					//最后才调用这个函数
+					((object)->*(function))();
+
+					//直接返回
+					GetTexture(unitState);
+					return;
 				}
 			}
 			else
@@ -185,12 +194,12 @@ void IEPackerTexture::ChangeGroup(IETextureUnitState * textureUnitState, const c
 	textureUnitState->_TextureID = 0;
 }
 
-void IEPackerTexture::ChangeGroup(IETextureUnitState * textureUnitState, const char * groupName, unsigned char sameIndex, unsigned int playTimes, IESprite * sprite, IEFunctionTexturePlayEnded playEndedFunction)
+void IEPackerTexture::ChangeGroup(IETextureUnitState * textureUnitState, const char * groupName, unsigned char sameIndex, unsigned int playTimes, IEObject * object, IEFunctionTexturePlayFinished playEndedFunction)
 {
 	//先将信息灌入
 	textureUnitState->_PlayLimit = true;
 	textureUnitState->_PlayTimes = playTimes;
-	textureUnitState->_Sprite = sprite;
+	textureUnitState->_Object = object;
 	textureUnitState->_Function = playEndedFunction;
 
 	//调用正常状态下的函数

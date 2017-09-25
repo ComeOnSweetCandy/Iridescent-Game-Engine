@@ -71,14 +71,4 @@ void IEAtom::ChangeState(const char * stateName)
 	ChangeAssort(stateName);
 }
 
-void IEAtom::ChangeGroup(const char * groupName, unsigned int sameIndex)
-{
-	IESprite::ChangeGroup(groupName, sameIndex);
-}
-
-void IEAtom::ChangeGroup(const char * groupName, unsigned int sameIndex, unsigned int playTimes, IEFunctionTexturePlayEnded playEndedFunction)
-{
-	IESprite::ChangeGroup(groupName, sameIndex, playTimes, this, playEndedFunction);
-}
-
 IE_END

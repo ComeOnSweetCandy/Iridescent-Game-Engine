@@ -19,7 +19,7 @@ IE_BEGIN
 
 class IESprite;
 
-typedef void (IESprite::*IEFunctionTexturePlayEnded)();			//播放完一次动画需要进行信息回调
+typedef void(IEObject::*IEFunctionTexturePlayFinished)();			//播放完一次动画需要进行信息回调
 
 struct IETextureFrap
 {
@@ -59,7 +59,7 @@ struct IETextureUnitState
 	{
 		_PlayLimit = false;
 		_PlayTimes = 0;
-		_Sprite = NULL;
+		_Object = NULL;
 		_Function = NULL;
 	}
 
@@ -81,10 +81,10 @@ struct IETextureUnitState
 	float _EndX;
 	float _EndY;
 	
-	bool _PlayLimit;						//是否开启了播放限制
-	unsigned int _PlayTimes;				//固定播放次数剩下的值
-	IESprite * _Sprite;						//绑定的精灵类
-	IEFunctionTexturePlayEnded _Function;	//回调函数
+	bool _PlayLimit;							//是否开启了播放限制
+	unsigned int _PlayTimes;					//固定播放次数剩下的值
+	IEObject * _Object;							//绑定的精灵类
+	IEFunctionTexturePlayFinished _Function;	//回调函数
 };
 
 class __IE_DLL__ IEPackerTexture:public IEObject
@@ -100,7 +100,7 @@ public:
 public:
 	void GetTexture(IETextureUnitState * unitState);
 	void ChangeGroup(IETextureUnitState * textureUnitState, const char * groupName, unsigned char sameIndex);	//特殊形式下的修改贴图组 因为要考虑到组别问题 修改当前激活的贴图组 因为可能存在同名的group组 所以后面加上一个index 参数为0 代表随机一个index
-	void ChangeGroup(IETextureUnitState * textureUnitState, const char * groupName, unsigned char sameIndex, unsigned int playTimes, IESprite * sprite, IEFunctionTexturePlayEnded playEndedFunction);	//添加一个播放次数的限制 且带回调函数
+	void ChangeGroup(IETextureUnitState * textureUnitState, const char * groupName, unsigned char sameIndex, unsigned int playTimes, IEObject * _Object, IEFunctionTexturePlayFinished playEndedFunction);	//添加一个播放次数的限制 且带回调函数
 
 private:
 	const char * LoadXML(IEXml * xml);							//读取xml

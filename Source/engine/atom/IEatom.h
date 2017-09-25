@@ -27,8 +27,6 @@ public:
 	virtual void SetTranslate(const float &x, const float &y);							//如果有phsyicNode
 
 	virtual void ChangeState(const char * stateName);									//改变事物当前的状态
-	virtual void ChangeGroup(const char * groupName, unsigned int sameIndex = 1);		//重载更改贴图组事件
-	virtual void ChangeGroup(const char * groupName, unsigned int sameIndex, unsigned int playTimes, IEFunctionTexturePlayEnded playEndedFunction);	//带次数的动作更改
 
 	void AddTrigger(IETrigger * trigger);										//添加一个触发器
 	void AddTrigger(IETrigger * trigger, const char * functionLua);				//添加一个触发器

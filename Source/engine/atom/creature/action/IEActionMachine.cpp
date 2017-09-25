@@ -31,6 +31,7 @@ void IEActionMachine::ChangeAction(IEAction * action)
 {
 	if (m_action)
 	{
+		m_action->End();
 		__IE_RELEASE_DIF__(m_action);
 	}
 	m_action = action;
