@@ -22,6 +22,7 @@ typedef enum IEPropState
 {
 	__prop_state_pick__,		//场景中的 允许拾取的prop
 	__prop_state_pack__,		//背包中的 允许使用的prop
+	__prop_state_fly__,			//场景中 飞行的prop
 	__prop_state_max__
 };
 

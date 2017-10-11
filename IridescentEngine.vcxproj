@@ -78,7 +78,6 @@
     <ClCompile Include="Source\engine\atom\prop\IEPropEquipment.cpp" />
     <ClCompile Include="Source\engine\atom\prop\IEPropPack.cpp" />
     <ClCompile Include="Source\engine\atom\prop\IEPropList.cpp" />
-    <ClCompile Include="Source\engine\atom\prop\IEusedProp.cpp" />
     <ClCompile Include="Source\engine\IEresourcesManager.cpp" />
     <ClCompile Include="Source\engine\scene\IEArea.cpp" />
     <ClCompile Include="Source\engine\scene\IEBlock.cpp" />
@@ -230,7 +229,6 @@
     <ClInclude Include="Source\engine\atom\prop\IEPropEquipment.h" />
     <ClInclude Include="Source\engine\atom\prop\IEPropPack.h" />
     <ClInclude Include="Source\engine\atom\prop\IEPropList.h" />
-    <ClInclude Include="Source\engine\atom\prop\IEusedProp.h" />
     <ClInclude Include="Source\engine\IEresourcesManager.h" />
     <ClInclude Include="Source\engine\scene\IEArea.h" />
     <ClInclude Include="Source\engine\scene\IEBlock.h" />

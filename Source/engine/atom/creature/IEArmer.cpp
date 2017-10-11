@@ -123,6 +123,11 @@ void IEArmer::ArmHead(IEPropEquipment * equipment)
 	m_head = equipment;
 }
 
+IEPropEquipment * IEArmer::GetArmedWeapon()
+{
+	return m_weapon;
+}
+
 bool IEArmer::GetWeaponPosition(const char * actionName, unsigned int frapIndex, float& x, float& y, float& angle)
 {
 	IEXml * bindingXML = m_XML->FindChild("binding")->FindChild(actionName);

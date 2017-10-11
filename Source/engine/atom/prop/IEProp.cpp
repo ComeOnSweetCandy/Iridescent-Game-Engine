@@ -157,6 +157,10 @@ void IEProp::InteractiveNode(IENode * node)
 
 		RemoveFromParent();
 	}
+	else if (m_propState == __prop_state_fly__)
+	{
+		//要求目标对立
+	}
 	else
 	{
 

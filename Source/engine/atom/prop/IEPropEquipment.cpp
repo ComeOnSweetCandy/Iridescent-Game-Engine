@@ -32,19 +32,34 @@ IEPropEquipment * IEPropEquipment::Create(unsigned int propIndex, IEPropState pr
 
 void IEPropEquipment::EquipProp()
 {
-	
+	m_owner->ArmWeapon(this);
 }
 
 void IEPropEquipment::UseProp()
 {
 	//equip
-	m_owner->ArmWeapon(this);
+	if (m_owner->GetArmedWeapon() == NULL)
+	{
+		//×°±¸
+		m_owner->ArmWeapon(this);
+	}
+	else if (m_owner->GetArmedWeapon() == this)
+	{
+		if (m_propEquipmentType == __prop_equipment_type_weapon__)
+		{
 
-	//if (LUAFunctionAllocateFunction(m_LUA, "UserProp"))
-	//{
-	//	//LUASetUserdate(m_LUA, "self", "IECreature.IECreature", this);
-	//	lua_call(m_LUA, 0, 0);
-	//}
+		}
+		//if (LUAFunctionAllocateFunction(m_LUA, "UserProp"))
+		//{
+		//	//LUASetUserdate(m_LUA, "self", "IECreature.IECreature", this);
+		//	lua_call(m_LUA, 0, 0);
+		//}
+	}
+	else
+	{
+		//ÇÐ»»
+		m_owner->ArmWeapon(this);
+	}
 }
 
 void IEPropEquipment::PickProp(IEArmer * creature)

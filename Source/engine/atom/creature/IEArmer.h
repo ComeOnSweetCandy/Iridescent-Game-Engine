@@ -32,9 +32,13 @@ public:
 
 	IEPropPack * GetPlayersPack();
 
+	//设置当前装备
 	void ArmEquipment(IEPropEquipment * equipment);
 	void ArmWeapon(IEPropEquipment * equipment);
 	void ArmHead(IEPropEquipment * equipment);
+
+	//获取当前装备
+	IEPropEquipment * GetArmedWeapon();
 
 private:
 	bool GetWeaponPosition(const char * actionName, unsigned int frapIndex, float& x, float& y, float& angle);

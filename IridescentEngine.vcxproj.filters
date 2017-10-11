@@ -411,9 +411,6 @@
     <ClCompile Include="Source\engine\atom\prop\IEdamageProp.cpp">
       <Filter>IridescentEngine</Filter>
     </ClCompile>
-    <ClCompile Include="Source\engine\atom\prop\IEusedProp.cpp">
-      <Filter>IridescentEngine</Filter>
-    </ClCompile>
     <ClCompile Include="Source\engine\IEresourcesManager.cpp">
       <Filter>IridescentEngine</Filter>
     </ClCompile>
@@ -879,9 +876,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\engine\atom\prop\IEdamageProp.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\engine\atom\prop\IEusedProp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\engine\IEresourcesManager.h">

@@ -31,10 +31,17 @@ IEActionAttack * IEActionAttack::Create()
 
 void IEActionAttack::Begin()
 {
+
+	//首先获取是什么动作
+
+	//改变动作
 	GetCreature()->ChangeGroup("attack", __creature_part_body__);
 	//GetCreature()->ChangeGroup("attack", 1, 1, IEActionAttack::ActionEnd);
 
 	//需要一个反馈函数 来处理问题
+
+	//产生一个触发器
+
 }
 
 void IEActionAttack::Excute()
