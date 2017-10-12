@@ -46,6 +46,7 @@ void IECreature::Initialization(unsigned int creatureID, unsigned int creatureOr
 	IENode::SetDrawMode(false);
 
 	InitUnit(creatureID, creatureOrder);
+	//InitLeg(creatureID, creatureOrder);
 	InitMachine();
 	InitCreatureTab();
 }
@@ -224,7 +225,20 @@ void IECreature::Die()
 void IECreature::ChangeGroup(const char * groupName, IECreaturePart partAction)
 {
 	//仅仅修改sprite元素的贴图组
-	IEAtom::ChangeGroup(groupName, 1);
+	bool isCombination = false;
+
+	if (isCombination)
+	{
+		if (partAction == __creature_part_leg__)
+		{
+			m_leg->ChangeGroup(groupName, 1);
+		}
+	}
+	else
+	{
+		IEAtom::ChangeGroup(groupName, 1);
+	}
+
 
 	//if (partGroup == __creature_part_leg__)
 	//{
@@ -253,6 +267,24 @@ void IECreature::ChangeGroup(const char * groupName, IECreaturePart partAction)
 	//{
 	//	m_leg->ChangeGroup("silent");
 	//}
+}
+
+void IECreature::ChangeGroup(const char * groupName, IECreaturePart partAction, unsigned int playTimes, IEObject * object, IEFunctionTexturePlayFinished playEndedFunction)
+{
+	//仅仅修改sprite元素的贴图组
+	bool isCombination = false;
+
+	if (isCombination)
+	{
+		if (partAction == __creature_part_leg__)
+		{
+			m_leg->ChangeGroup(groupName, 1);
+		}
+	}
+	else
+	{
+		IESprite::ChangeGroup(groupName, 1, playTimes, object, playEndedFunction);
+	}
 }
 
 void IECreature::Cured(int cureValue)

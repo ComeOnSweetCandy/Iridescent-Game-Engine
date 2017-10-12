@@ -40,7 +40,8 @@ public:
 	IEActionMachine * GetActionMachine();
 	IEStateMachine * GetStateMachine();
 
-	virtual void ChangeGroup(const char * groupName, IECreaturePart partGroup);		//改变part的动作 即改变贴图的显示
+	virtual void ChangeGroup(const char * groupName, IECreaturePart partAction);		//改变part的动作 即改变贴图的显示
+	virtual void ChangeGroup(const char * groupName, IECreaturePart partAction, unsigned int playTimes, IEObject * object, IEFunctionTexturePlayFinished playEndedFunction);
 
 	//给予creature的情况反馈 与指令区分开 或者意为 通知当前creature所处于的状态 通知类型的反馈
 	virtual void Update();

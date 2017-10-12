@@ -138,18 +138,15 @@ void IESprite::ChangeGroup(const char * groupName, unsigned int sameIndex)
 	{
 		//获取新的贴图组
 		m_texture->ChangeGroup(m_textureUnit, groupName, sameIndex);
-
-		//重新计算一些东西
-		ReckonSize();
 	}
 }
 
-void IESprite::ChangeGroup(const char * groupName, unsigned int sameIndex, unsigned int playTimes, IESprite * sprite, IEFunctionTexturePlayEnded playEndedFunction)
+void IESprite::ChangeGroup(const char * groupName, unsigned int sameIndex, unsigned int playTimes, IEObject * object, IEFunctionTexturePlayFinished playEndedFunction)
 {
 	if (m_texture)
 	{
 		//获取新的贴图组
-		m_texture->ChangeGroup(m_textureUnit, groupName, sameIndex, playTimes, sprite, playEndedFunction);
+		m_texture->ChangeGroup(m_textureUnit, groupName, sameIndex, playTimes, object, playEndedFunction);
 	}
 }
 

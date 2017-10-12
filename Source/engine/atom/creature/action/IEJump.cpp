@@ -30,11 +30,24 @@ IEJump * IEJump::Create()
 void IEJump::Begin()
 {
 	GetCreature()->ChangeGroup("jump", __creature_part_leg__);
+
+	//给予其一个向上的力
+	IEPhysicNode * physicNode = GetCreature()->GetPhysicNode();
+	if (physicNode->GetPhysicState() == __physic_state_static__)
+	{
+		physicNode->SetForward(0, 20.0f);
+		physicNode->SetPhysicNodeState(__physic_state_air__);
+	}
 }
 
 void IEJump::Excute()
 {
-
+	IEPhysicNode * physicNode = GetCreature()->GetPhysicNode();
+	if (physicNode->GetPhysicState() == __physic_state_static__)
+	{
+		//当物理体再次变回static的时候
+		GetActionMachine()->ChangeAction(NULL);
+	}
 }
 
 void IEJump::End()

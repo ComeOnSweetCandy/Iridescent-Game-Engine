@@ -59,10 +59,6 @@ void IEPlayer::HandlePlayerControll()
 	{
 		m_nextAction = IEActionWalk::Create(m_moveDirection.m_x, m_moveDirection.m_y);
 	}
-	else if (m_attack)
-	{
-		m_nextAction = IEActionAttack::Create();
-	}
 	else
 	{
 		if (m_actionMachine->HasAction())
@@ -75,18 +71,19 @@ void IEPlayer::HandlePlayerControll()
 			m_nextAction = IERest::Create();
 		}
 	}
-
+	
 	if (IEKeyboard::Share()->KeyTouch(DIK_J))
 	{
 		//如果当前处于该状态
 		m_nextAction = IEJump::Create();
-
-		if (m_physicNode->GetPhysicState() == __physic_state_static__)
-		{
-			m_physicNode->SetForward(0, 20.0f);
-			m_physicNode->SetPhysicNodeState(__physic_state_air__);
-		}
 	}
+	else if (IEKeyboard::Share()->KeyTouch(DIK_K))
+	{
+		//如果当前处于该状态
+		m_nextAction = IEActionAttack::Create();
+	}
+
+	//数字小键盘
 	if (IEKeyboard::Share()->KeyTouch(DIK_1))
 	{
 		PlayerPressNumberKey(DIK_1);

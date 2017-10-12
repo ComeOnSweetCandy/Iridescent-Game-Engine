@@ -30,9 +30,9 @@ protected:
 	virtual void ReckonSize();
 
 public:
-	virtual void ChangeAssort(const char * assortName);																							//更换贴图组别名
+	virtual void ChangeAssort(const char * assortName);																								//更换贴图组别名
 	virtual void ChangeGroup(const char * groupName, unsigned int sameIndex = 1);																	//更换贴图组 默认使用第一个texture group
-	virtual void ChangeGroup(const char * groupName, unsigned int sameIndex, unsigned int playTimes, IESprite * sprite, IEFunctionTexturePlayEnded playEndedFunction);		//更换贴图组 且执行一定次数 回调函数
+	virtual void ChangeGroup(const char * groupName, unsigned int sameIndex, unsigned int playTimes, IEObject * object, IEFunctionTexturePlayFinished playEndedFunction);		//更换贴图组 且执行一定次数 回调函数
 
 	void ChangeTexture(const char * textureName);									//直接更换贴图
 	void ChangeTexture(IEPackerTexture * packerTexture);							//直接更换贴图

@@ -31,6 +31,7 @@ IEActionAttack * IEActionAttack::Create()
 
 void IEActionAttack::Begin()
 {
+<<<<<<< HEAD
 
 	//首先获取是什么动作
 
@@ -42,6 +43,9 @@ void IEActionAttack::Begin()
 
 	//产生一个触发器
 
+=======
+	GetCreature()->ChangeGroup("attack", __creature_part_body__, 1, this, (IEFunctionTexturePlayFinished)(&IEActionAttack::ActionEnd));
+>>>>>>> 1d3f5ff8135e4975ad14428686823af32cca44ed
 }
 
 void IEActionAttack::Excute()
@@ -62,6 +66,7 @@ void IEActionAttack::End()
 
 void IEActionAttack::ActionEnd()
 {
+	GetCreature()->ChangeGroup("rest", __creature_part_body__);
 	GetActionMachine()->ChangeAction(NULL);
 }
 
